@@ -1,0 +1,536 @@
+% !TeX document-id = {9edb2af6-76b5-485f-a607-d45f08e1925c}
+\documentclass[fleqn, oneside, 12pt]{book}
+
+% !TEX program = lualatex
+% !BIB program = biber
+% !TEX encoding = UTF-8 Unicode
+
+%\usepackage[OT1]{fontenc}
+%\usepackage{fontspec}
+%\usepackage[T1]{fontenc}
+
+%\setsansfont{CMU Sans Serif}%{Arial}
+%\setmainfont{Liberation Serif}%{Times New Roman}
+%\setmonofont{CMU Typewriter Text}%{Consolas}
+\usepackage[top=1in, bottom=1in, left=1.5in, right=1in]{geometry}
+\usepackage{subfiles}
+\usepackage[nottoc,numbib,notlof]{tocbibind}
+\usepackage{listings}
+\usepackage{amsthm}
+\usepackage{thmtools}
+\usepackage{amssymb,amsmath}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{mathptmx}% http://ctan.org/pkg/mathptmx
+\usepackage{fancyhdr}
+\usepackage{setspace}
+%\usepackage[mark]{gitinfo2}
+\usepackage[hidelinks]{hyperref}
+\usepackage[backend=biber,bibstyle=numeric-comp,sorting=ydnt,natbib=true,mcite=true,maxnames=100,url=true,isbn=false,doi=false,uniquename=init,giveninits=true,hyperref=true,backref=true,date=edtf,sortcites]{biblatex}
+\usepackage{tocloft}
+\usepackage{minted}
+
+\newcommand{\listappendicesname}{List of Appendices}
+\newlistof{appendices}{apc}{\listappendicesname}
+
+%\usepackage{underscore}
+\graphicspath{ {images/} }
+
+\addbibresource{frostpaper.bib}
+
+\newtheoremstyle{definitionsty}{3pt}{3pt}{\slshape}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{definitionsty}
+\newtheorem{tdefn}{Definition}[chapter]
+\newenvironment{defn}
+{\begin{shaded}\begin{tdefn}}
+		{\end{tdefn}\end{shaded}}
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\thmtlo@chaptervspacehack
+{\addtocontents{loe}{\protect\addvspace{10\p@}}}
+{\addtocontents{loe}{\protect\thmlopatch@endchapter\protect\thmlopatch@chapter{\thechapter}}}
+{}{}
+\AtEndDocument{\addtocontents{loe}{\protect\thmlopatch@endchapter}}
+\long\def\thmlopatch@chapter#1#2\thmlopatch@endchapter{%
+	\setbox\z@=\vbox{#2}%
+	\ifdim\ht\z@>\z@
+	\hbox{\bfseries\chaptername\ #1}\nobreak
+	#2
+	\addvspace{10\p@}
+	\fi
+}
+\def\thmlopatch@endchapter{}
+
+\makeatother
+\renewcommand{\thmtformatoptarg}[1]{ -- #1}
+\renewcommand{\listtheoremname}{Nomenclature}
+
+\fancypagestyle{revision}{
+	\fancyhf{}
+	\fancyhead[L]{\nouppercase{\leftmark}}
+	\fancyhead[R]{\thepage}
+	%\fancyfoot[L]{Revision 3}
+}
+
+\pagestyle{revision}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[theorem]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{subproposition}{Proposition}[proposition]
+\newtheorem{corollary}{Corollary}[theorem]
+
+\lstloadlanguages{Haskell}
+
+\lstnewenvironment{code}
+{\lstset{}%
+	\csname lst@SetFirstLabel\endcsname}
+{\csname lst@SaveFirstLabel\endcsname}
+\lstset{
+	basicstyle={\ttfamily},
+	flexiblecolumns=false,
+	basewidth={0.5em,0.45em},
+	literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1
+	{>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
+	{\\\\}{{\char`\\\char`\\}}1
+	{->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
+	{<=}{{$\leq$}}2 {=>}{{$\Rightarrow$}}2
+	{\ .\ }{{$\circ$}}2
+	{>>}{{>>}}2 {>>=}{{>>=}}2
+	{|}{{$\mid$}}1
+}
+
+\lstnewenvironment{spec}
+{\lstset{}%
+	\csname lst@SetFirstLabel\endcsname}
+{\csname lst@SaveFirstLabel\endcsname}
+\lstset{
+	basicstyle={\ttfamily},
+	flexiblecolumns=false,
+	basewidth={0.5em,0.45em},
+	literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1
+	{>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
+	{\\\\}{{\char`\\\char`\\}}1
+	{->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
+	{<=}{{$\leq$}}2 {=>}{{$\Rightarrow$}}2
+	{\ .\ }{{$\circ$}}2
+	{>>}{{>>}}2 {>>=}{{>>=}}2
+	{|}{{$\mid$}}1
+}
+
+\newcommand{\uwinverytightsinglespacelen}{0.9}
+\newcommand{\uwintightsinglespacelen}{1.0}
+\newcommand{\uwinsinglespacelen}{1.1}
+\newcommand{\uwinonehalfspacelen}{1.5}
+\newcommand{\uwindoublespacelen}{2.0}
+\newcommand{\uwinlistofspacelen}{1.5}
+%TODO: spacing %\newcommand{\uwindefaultspacelen}{\uwindoublespacelen}
+\newcommand{\uwindefaultspacelen}{\uwinonehalfspacelen}
+
+\newcommand{\uwinverytightsinglespace}%
+{\linespread{\uwinverytightsinglespacelen}}
+\newcommand{\uwintightsinglespace}%
+{\linespread{\uwintightsinglespacelen}}
+\newcommand{\uwinsinglespace}%
+{\linespread{\uwinsinglespacelen}}
+\newcommand{\uwinonehalfspace}%
+{\linespread{\uwinonehalfspacelen}}
+\newcommand{\uwindoublespace}%
+{\linespread{\uwindoublespacelen}}
+\newcommand{\uwinlistofspace}%
+{\linespread{\uwinlistofspacelen}}
+\newcommand{\uwindefaultspace}%
+{\linespread{\uwindefaultspacelen}}
+
+\newenvironment{uwinverytightsinglespaceenv}%
+{\begin{spacing}{\uwinverytightsinglespacelen}}%
+	{\end{spacing}}
+\newenvironment{uwintightsinglespaceenv}%
+{\begin{spacing}{\uwintightsinglespacelen}}%
+	{\end{spacing}}
+\newenvironment{uwinsinglespaceenv}%
+{\begin{spacing}{\uwinsinglespacelen}}%
+	{\end{spacing}}
+\newenvironment{uwinonehalfspaceenv}%
+{\begin{spacing}{\uwinonehalfspacelen}}%
+	{\end{spacing}}
+\newenvironment{uwindoublespaceenv}%
+{\begin{spacing}{\uwindoublespacelen}}%
+	{\end{spacing}}
+\newenvironment{uwinlistofspaceenv}%
+{\begin{spacing}{\uwinlistofspacelen}}%
+	{\end{spacing}}
+\newenvironment{uwindefaultspaceenv}%
+{\begin{spacing}{\uwindefaultspacelen}}%
+	{\end{spacing}}
+
+\long\def\ignore#1{}
+
+\usepackage{fontspec}
+\setsansfont{CMU Sans Serif}%{Arial}
+\setmainfont{CMU Serif}%{Times New Roman}
+\setmonofont{CMU Typewriter Text}%{Consolas}
+
+\author{Shane Peelar}
+\newcommand{\dtitle}{Scalable, Efficient and Precise Natural Language Processing in the Semantic Web}
+\title{\dtitle}
+\date{August 2020}
+
+\begin{document}
+	
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{12pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt} 
+	
+%\renewcommand{\gitMark}{
+%	Branch: \gitBranch\,@\,\gitAbbrevHash{} 
+%	\textbullet{} 
+%	Release:\gitReln{} 
+%	(\gitAuthorDate)
+%}
+	
+\pagenumbering{roman}
+
+%---------
+
+\clearpage
+
+%TODO: change title to Scalable, Efficient and Precise Natural Language *Semantics* in the Semantic Web?
+
+\thispagestyle{empty}
+\begin{center}
+	\vspace*{0in}
+	
+	\begin{uwinsinglespaceenv}
+		\Large{\strong\dtitle}
+	\end{uwinsinglespaceenv}
+	
+	\vspace{0.25in}
+	%\vspace{\fill} %
+	\begin{uwinonehalfspaceenv}
+		by
+		
+		Shane Peelar
+	\end{uwinonehalfspaceenv}
+	\vspace{1.625in}
+	
+	%\normalsize
+	\begin{uwinonehalfspaceenv}
+	A Dissertation \\*
+	Submitted to the Faculty of Graduate Studies \\*
+	through the School of Computer Science \\*
+	in Partial Fulfillment of the Requirements for \\*
+	the Degree of Doctor of Philosophy at the \\*
+	University of Windsor \\*
+	\end{uwinonehalfspaceenv}
+	
+	\vspace{0.75in}
+	\begin{uwinonehalfspaceenv}
+	Windsor, Ontario, Canada \\
+	
+	%\vspace{0.5cm}
+	
+	2020 \\
+	%\vspace{0.5cm}
+	
+	\textcopyright \  2020 Shane Peelar
+	\end{uwinonehalfspaceenv}
+\end{center}
+
+%---------
+
+
+\clearpage
+\thispagestyle{empty}
+
+\begin{center}
+	\begin{uwinonehalfspaceenv}
+		\parbox{2.25in}{\centering\dtitle}
+	\end{uwinonehalfspaceenv}
+	
+	%\vspace{\fill} %
+	\vspace{0.35cm}
+	by {Shane Peelar}
+	%\vspace{0.7071cm}
+	
+	
+	
+	\vspace{0.5in}
+	
+	APPROVED BY:
+	
+	\vspace{0.5in}
+	
+	\noindent\rule{4in}{0.4pt}
+
+	Dr. Diana Zaiu Inkpen, External Examiner
+	
+	School of Electrical Engineering and Computer Science, University of Ottawa
+	
+	\vspace{0.5in}
+	
+	\noindent\rule{4in}{0.4pt}
+	
+	Dr. Richard J. Caron, External Reader
+	
+	Department of Mathematics and Statistics
+	
+	\vspace{0.5in}
+	
+	\noindent\rule{4in}{0.4pt}
+	
+	Dr. Pooya Moradian Zadeh, Internal Reader
+	
+	School of Computer Science
+	
+	\vspace{0.5in}
+
+	\noindent\rule{4in}{0.4pt}
+	
+	Dr. Jianguo Lu, Internal Reader
+	
+	School of Computer Science
+	
+	\vspace{0.5in}
+	
+	\noindent\rule{4in}{0.4pt}
+	
+	Dr. Richard A. Frost, Supervisor
+	
+	School of Computer Science
+	
+	\vspace{0.5in}
+
+	\noindent\rule{4in}{0.4pt}
+	
+	Dr. , Chair of Defence
+	
+	School of Computer Science
+	
+\end{center}
+
+\vspace*{\fill}
+
+\hspace*{\fill}August 17 2020
+
+%\currentpdfbookmark{Copyright}{copyrightpage}%
+%\noindent \textcopyright{} 2016, Shane Peelar
+
+%\vspace{2ex}
+
+%\noindent All Rights Reserved. Absolutely no part of this document may
+%be reproduced, stored in a retrieval system, translated, in any form
+%or by any means electronic, mechanical, facsimile, photocopying, or
+%otherwise, without the prior written permission of the copyright
+%holder.
+
+%\vspace*{\fill}
+
+%---------
+
+\clearpage
+% \phantomsection
+\chapter*{Declaration of Co-Authorship / Previous Publication\markboth{\MakeUppercase{Declaration of Co-Authorship / Previous Publication}}{}}
+\addcontentsline{toc}{chapter}{Declaration of Co-Authorship / Previous Publication}
+\begin{uwindefaultspaceenv}
+	I hereby declare that this thesis incorporates material that is result of joint research, as follows:
+	
+	Some of the material in this thesis is derived from the following research papers:
+\end{uwindefaultspaceenv}
+
+\cite{frosthafiz2008} \fullcite{frosthafiz2008}
+
+\cite{frostagboola2014} \fullcite{frostagboola2014}
+
+\cite{frost2014demonstration} \fullcite{frost2014demonstration}
+
+\begin{uwindefaultspaceenv}
+	%TODO
+	Paper \cite{frosthafiz2008} (Frost, Hafiz, and Callaghan) describes a set of functional parser combinators developed by Frost and Hafiz as part of Hafiz's doctoral thesis work, which enables language processors to be built as executable specifications of fully-general attribute grammars, including ambiguous left-recursive grammars.  The processors use a polynomial time complexity top-down parsing strategy which enables a natural specification of the grammars and the associated semantic rules.  This was previously thought to be impossible, and was stated as such in many textbooks on parsing.
+	
+	Paper \cite{frostagboola2014} (Frost, Agboola, Matthews, and Donais) describes an event based semantics developed by Dr. Frost and his research team and includes extracts from a Haskell program which demonstrated the viability of the semantics with respect to an in-program database of triples coded as part of the program.
+	
+	Paper \cite{frost2014demonstration} (Frost, Donais, Matthews, Agboola, and Stewart) describes the demonstration of the Haskell program which I wrote and which forms the basis of this thesis work.  The reason that I am not listed as an author is that the paper was submitted before I officially joined the research team.  I developed the Haskell program after the paper was submitted.  The online program was the one used by Dr. Frost in the demonstration he gave at the conference this paper was presented at.
+	
+	My contributions to the research project include:
+	
+	%TODO: shorten this to fit on one page
+	\begin{itemize}
+		\item Improving the efficiency of the programs which implement the event-based semantics
+		\item Integrating the event-based semantics with the parser combinators to build the query processor
+		\item Enhancing the existing module to access the external triplestore with efficient methods to do so, including a basic form of query fusion in the form of memoization
+		\item Demonstrating a novel method of handling the word ``by'' in prepositional phrases, and extending prepositional phrases to span multiple property names
+		\item Building a web interface to the query processor which includes both an English Natural Language Interface and also a safe Direct Query Interface for directly evaluating the combinators
+		\item Converting the parser Hafiz wrote\cite{frosthafiz2008} to natively work with monads in Haskell, as well as the original semantics\cite{frost2014demonstration} to be monad based
+		\item Maintaining the XSaiga package on {\em Hackage}\cite{XSaiga:2016}, an online repository of Haskell libraries and programs, which contains the semantics, parser, and triplestore described in this Thesis
+	\end{itemize}
+	
+	I am aware of the University of Windsor Senate Policy on Authorship and I certify that I have properly acknowledged the contribution of other researchers to my thesis, and have obtained written permission from each of the co-author(s) to include the above material(s) in my thesis. 
+	
+	I certify that, with the above qualification, this thesis, and the research to which it refers, is the product of my own work.
+	
+	I certify that I have obtained a written permission from the copyright owner(s) to include the above
+	published material(s) in my thesis. I certify that the above material describes work completed during my
+	registration as graduate student at the University of Windsor.
+	
+	I declare that, to the best of my knowledge, my thesis does not infringe upon anyone's copyright nor
+	violate any proprietary rights and that any ideas, techniques, quotations, or any other material from the work
+	of other people included in my thesis, published or otherwise, are fully acknowledged in accordance with the
+	standard referencing practices. Furthermore, to the extent that I have included copyrighted material that
+	surpasses the bounds of fair dealing within the meaning of the Canada Copyright Act, I certify that I have
+	obtained a written permission from the copyright owner(s) to include such material(s) in my thesis.
+	I declare that this is a true copy of my thesis, including any final revisions, as approved by my thesis
+	committee and the Graduate Studies office, and that this thesis has not been submitted for a higher degree to
+	any other University or Institution.
+	
+\end{uwindefaultspaceenv}
+
+%----------
+
+\clearpage
+\chapter*{Abstract\markboth{\MakeUppercase{Abstract}}{}}
+\addcontentsline{toc}{chapter}{Abstract}
+
+\begin{uwindoublespaceenv}
+The Semantic Web is an emerging component of the set of technologies that will be known as “Web 3.0” in the future.  With the large changes it brings to how information is stored and represented to users, there is a need to re-evaluate how this information can be queried.  Specifically, there is a need for Natural Language Interfaces that allow users to easily query for information on the Semantic Web.  While there has been previous work in this area, existing solutions suffer from the problem that they do not support prepositional phrases in queries (e.g, ``in 1958'' or ``with a key'').  To achieve this, we improve on an existing semantics for event-based triplestores that supports prepositional phrases and demonstrate a novel method of handling the word ``by'', treating it directly as a preposition in queries.  We then show how this new semantics can be integrated with a parser constructed as an executable attribute grammar to create a highly modular and extensible Natural Language Interface to the Semantic Web that supports prepositional phrases in queries.
+
+\end{uwindoublespaceenv}
+
+%----------
+%
+\clearpage
+\chapter*{Dedication\markboth{\MakeUppercase{Dedication}}{}}
+\addcontentsline{toc}{chapter}{Dedication}
+
+\vspace*{\fill}
+
+\begin{center}
+	{\em This Thesis is dedicated to my meme and pepe, Theresa and Alfred Bombardier}
+\end{center}
+
+\vspace*{\fill}
+
+%----------
+
+\clearpage
+\chapter*{Acknowledgements\markboth{\MakeUppercase{Acknowledgements}}{}}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+
+\begin{uwindefaultspaceenv}
+	I'd like to thank, in no particular order:
+	
+	Dr. Richard A. Frost, whom I've been working with since my first semester here at the University of Windsor, for his guidance in my work
+	and the many opportunities he has provided me over the years to participate in research.  You were the first professor I had a chance to have a conversation with when I started
+	my Undergraduate degree here in 2009, and ultimately it is our conversations during the labs of 60-100 that got me seriously interested in functional programming in the first place.
+	
+	Dr. Robert D. Kent, for believing in me and providing me with many opportunities to contribute here at the University, and generally being a very positive role model in my life.
+	It is in no small part our talks that have allowed me to refocus, get my priorities straight, and get my life back in order.
+	
+	My External and Internal Readers, Dr. Richard J. Caron and Dr. Luis G. Rueda, for being available on such short notice to participate on my Thesis Committee.
+	
+	David MacMillan, Bryan St. Amour and Paul Preney, for being great lab partners, being up for interesting conversations, and always being willing to lend an ear.
+	Thank you also Bryan and Paul for letting me use your LaTeX styles and giving my first draft a read.
+	
+	All of the secretaries in the School of Computer Science for their help during my degree.  Whether it was getting me through scheduling nightmares or helping me get things done by the deadlines, your help has been incredibly invaluable to me and I sincerely thank you for your work.
+	
+	My girlfriend, Taylor Tracey Kyryliuk, for being incredibly supportive of me both in life and in my work.
+	
+	And my friend Kyle Iaquinta for taking the time to proofread my Thesis and providing me with positive encouragement throughout my degree.
+\end{uwindefaultspaceenv}
+
+%----------
+\clearpage
+\phantomsection
+\pdfbookmark{Table of Contents}{tableofcontentspdf}
+\tableofcontents
+
+%---------
+
+\begin{uwindefaultspaceenv}
+
+%\clearpage
+%\listoftables
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Appendices}
+\listofappendices
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Nomenclature}
+\listoftheorems[ignoreall,show={definition}]
+
+
+\clearpage
+\pagenumbering{arabic}
+
+%\subfile{./TeX_files/introduction}
+%\subfile{./TeX_files/demonstration}
+%\subfile{./TeX_files/semantics}
+%\subfile{./TeX_files/combinators}
+%\subfile{./TeX_files/interface}
+%\subfile{./TeX_files/timing}
+%\subfile{./TeX_files/proof}
+%\subfile{./TeX_files/conclusions}
+%\subfile{./TeX_files/future}
+
+% bibliography, glossary and index would go here.
+
+\printbibliography[heading=bibintoc]
+
+\chapter*{Appendices}
+\addcontentsline{toc}{chapter}{Appendices}
+\markboth{Appendices}{}
+
+\section*{Appendix A - Source code}
+\addcontentsline{toc}{section}{Appendix A - Source code listing}
+\addcontentsline{apc}{appendices}{Appendix A - Source code listing}
+
+The source code for Solarman and the XSaiga parser can be obtained online via this URL:
+
+{\noindent \small \url{https://hackage.haskell.org/package/XSaiga-1.5.0.0/XSaiga-1.5.0.0.tar.gz}}
+
+\noindent The XSaiga package for Haskell is available online at this URL:
+
+{\noindent \small \url{https://hackage.haskell.org/package/XSaiga}}
+
+%\lstinputlisting[language=haskell]{../solarman/XSaiga/SolarmanTriplestore.hs}
+%\subsection*{SolarmanTriplestore.hs}
+%\inputminted[autogobble, fontsize=\tiny, breaklines=true]{haskell}{../solarman/XSaiga/SolarmanTriplestore.hs}
+%
+%\subsection*{Getts.hs}
+%\inputminted[autogobble, fontsize=\tiny, breaklines=true]{haskell}{../solarman/XSaiga/Getts.hs}
+%
+%\subsection*{TypeAg2.hs}
+%\inputminted[autogobble, fontsize=\tiny, breaklines=true]{haskell}{../solarman/XSaiga/TypeAg2.hs}
+%
+%\subsection*{AGParser2.hs}
+%\inputminted[autogobble, fontsize=\tiny, breaklines=true]{haskell}{../solarman/XSaiga/AGParser2.hs}
+%
+%\subsection*{Interactive.hs}
+%\inputminted[autogobble, fontsize=\tiny, breaklines=true]{haskell}{../solarman/XSaiga/Interactive.hs}
+%
+%\subsection*{Main.hs}
+%\inputminted[autogobble, fontsize=\tiny, breaklines=true]{haskell}{../solarman/Main.hs}
+
+%\subsection*{LocalData.hs}
+%\inputminted[autogobble, fontsize=\scriptsize, breaklines=true]{haskell}{../solarman/XSaiga/LocalData.hs}
+
+\chapter*{Vita Auctoris}
+\addcontentsline{toc}{chapter}{Vita Auctoris}
+
+Shane Peelar was born in 1990 in Windsor, Ontario.  He completed his undergraduate degree in Computer Science from the University of Windsor in 2014, graduating with Honours and specializing in Software Engineering.  He then went on to complete his Masters degree in Computer Science from the University of Windsor in 2016.
+
+\end{uwindefaultspaceenv}
+
+\end{document}
