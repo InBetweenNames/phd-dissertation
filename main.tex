@@ -9,8 +9,10 @@
 %\usepackage{fontspec}
 %\usepackage[T1]{fontenc}
 
-%\setsansfont{CMU Sans Serif}%{Arial}
-%\setmainfont{Liberation Serif}%{Times New Roman}
+%\setsansfont{CMU Sans Serif}%{Arial}
+
+%\setmainfont{Liberation Serif}%{Times New Roman}
+
 %\setmonofont{CMU Typewriter Text}%{Consolas}
 \usepackage[top=1in, bottom=1in, left=1.5in, right=1in]{geometry}
 \usepackage{subfiles}
@@ -171,8 +173,10 @@
 \long\def\ignore#1{}
 
 \usepackage{fontspec}
-\setsansfont{CMU Sans Serif}%{Arial}
-\setmainfont{CMU Serif}%{Times New Roman}
+\setsansfont{CMU Sans Serif}%{Arial}
+
+\setmainfont{CMU Serif}%{Times New Roman}
+
 \setmonofont{CMU Typewriter Text}%{Consolas}
 
 \author{Shane Peelar}
@@ -210,7 +214,7 @@
 		\Large{\strong\dtitle}
 	\end{uwinsinglespaceenv}
 	
-	\vspace{0.25in}
+	\vspace{0.125in}
 	%\vspace{\fill} %
 	\begin{uwinonehalfspaceenv}
 		by
@@ -229,7 +233,7 @@
 	University of Windsor \\*
 	\end{uwinonehalfspaceenv}
 	
-	\vspace{0.75in}
+	\vspace{0.625in}
 	\begin{uwinonehalfspaceenv}
 	Windsor, Ontario, Canada \\
 	
@@ -337,8 +341,19 @@
 % \phantomsection
 \chapter*{Declaration of Co-Authorship / Previous Publication\markboth{\MakeUppercase{Declaration of Co-Authorship / Previous Publication}}{}}
 \addcontentsline{toc}{chapter}{Declaration of Co-Authorship / Previous Publication}
+%TODO: separate into two sections
 \begin{uwindefaultspaceenv}
-	I hereby declare that this thesis incorporates material that is result of joint research, as follows:
+	\begin{enumerate}
+		\item Co-Authorship Declaration
+		
+			I hereby declare that this thesis incorporates material that is result of joint research, as follows: %TODO
+		
+		\item Declaration of Previous Publication
+	\end{enumerate}
+\end{uwindefaultspaceenv}
+
+\begin{uwindefaultspaceenv}
+
 	
 	Some of the material in this thesis is derived from the following research papers:
 \end{uwindefaultspaceenv}
@@ -397,7 +412,7 @@
 \addcontentsline{toc}{chapter}{Abstract}
 
 \begin{uwindoublespaceenv}
-The Semantic Web is an emerging component of the set of technologies that will be known as “Web 3.0” in the future.  With the large changes it brings to how information is stored and represented to users, there is a need to re-evaluate how this information can be queried.  Specifically, there is a need for Natural Language Interfaces that allow users to easily query for information on the Semantic Web.  While there has been previous work in this area, existing solutions suffer from the problem that they do not support prepositional phrases in queries (e.g, ``in 1958'' or ``with a key'').  To achieve this, we improve on an existing semantics for event-based triplestores that supports prepositional phrases and demonstrate a novel method of handling the word ``by'', treating it directly as a preposition in queries.  We then show how this new semantics can be integrated with a parser constructed as an executable attribute grammar to create a highly modular and extensible Natural Language Interface to the Semantic Web that supports prepositional phrases in queries.
+%TODO
 
 \end{uwindoublespaceenv}
 
@@ -410,7 +425,7 @@ The Semantic Web is an emerging component of the set of technologies that will b
 \vspace*{\fill}
 
 \begin{center}
-	{\em This Thesis is dedicated to my meme and pepe, Theresa and Alfred Bombardier}
+	{\em This Thesis is dedicated to my Meme and Pepe, Theresa and Alfred Bombardier}
 \end{center}
 
 \vspace*{\fill}
@@ -423,6 +438,7 @@ The Semantic Web is an emerging component of the set of technologies that will b
 
 \begin{uwindefaultspaceenv}
 	I'd like to thank, in no particular order:
+	%TODO
 	
 	Dr. Richard A. Frost, whom I've been working with since my first semester here at the University of Windsor, for his guidance in my work
 	and the many opportunities he has provided me over the years to participate in research.  You were the first professor I had a chance to have a conversation with when I started
@@ -431,16 +447,16 @@ The Semantic Web is an emerging component of the set of technologies that will b
 	Dr. Robert D. Kent, for believing in me and providing me with many opportunities to contribute here at the University, and generally being a very positive role model in my life.
 	It is in no small part our talks that have allowed me to refocus, get my priorities straight, and get my life back in order.
 	
-	My External and Internal Readers, Dr. Richard J. Caron and Dr. Luis G. Rueda, for being available on such short notice to participate on my Thesis Committee.
+	%My External and Internal Readers, Dr. Richard J. Caron and Dr. Luis G. Rueda, for being available on such short notice to participate on my Thesis Committee.
 	
-	David MacMillan, Bryan St. Amour and Paul Preney, for being great lab partners, being up for interesting conversations, and always being willing to lend an ear.
-	Thank you also Bryan and Paul for letting me use your LaTeX styles and giving my first draft a read.
+	%David MacMillan, Bryan St. Amour and Paul Preney, for being great lab partners, being up for interesting conversations, and always being willing to lend an ear.
+	%Thank you also Bryan and Paul for letting me use your LaTeX styles and giving my first draft a read.
 	
 	All of the secretaries in the School of Computer Science for their help during my degree.  Whether it was getting me through scheduling nightmares or helping me get things done by the deadlines, your help has been incredibly invaluable to me and I sincerely thank you for your work.
 	
-	My girlfriend, Taylor Tracey Kyryliuk, for being incredibly supportive of me both in life and in my work.
+	My wife, Taylor, for being incredibly supportive of me both in life and in my work.  It's crazy to think about all that's happened in the last 5 years.  I'm so grateful to have had you by my side through all of it.
 	
-	And my friend Kyle Iaquinta for taking the time to proofread my Thesis and providing me with positive encouragement throughout my degree.
+	%And my friend Kyle Iaquinta for taking the time to proofread my Thesis and providing me with positive encouragement throughout my degree.
 \end{uwindefaultspaceenv}
 
 %----------
@@ -498,6 +514,7 @@ The Semantic Web is an emerging component of the set of technologies that will b
 
 The source code for Solarman and the XSaiga parser can be obtained online via this URL:
 
+%TODO: up to date version
 {\noindent \small \url{https://hackage.haskell.org/package/XSaiga-1.5.0.0/XSaiga-1.5.0.0.tar.gz}}
 
 \noindent The XSaiga package for Haskell is available online at this URL:
@@ -529,7 +546,7 @@ The source code for Solarman and the XSaiga parser can be obtained online via th
 \chapter*{Vita Auctoris}
 \addcontentsline{toc}{chapter}{Vita Auctoris}
 
-Shane Peelar was born in 1990 in Windsor, Ontario.  He completed his undergraduate degree in Computer Science from the University of Windsor in 2014, graduating with Honours and specializing in Software Engineering.  He then went on to complete his Masters degree in Computer Science from the University of Windsor in 2016.
+Shane Peelar was born in 1990 in Windsor, Ontario.  He completed his undergraduate degree in Computer Science from the University of Windsor in 2014, graduating with Honours and specializing in Software Engineering.  He went on to complete his Masters degree in Computer Science from the University of Windsor in 2016, and is currently a candidate for the degree of Doctor of Philosophy in Computer Science.
 
 \end{uwindefaultspaceenv}
 
