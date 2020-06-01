@@ -33,6 +33,7 @@
 \usepackage[backend=biber,bibstyle=numeric-comp,sorting=ydnt,natbib=true,mcite=true,maxnames=100,url=true,isbn=false,doi=false,uniquename=init,giveninits=true,hyperref=true,backref=true,date=edtf,sortcites]{biblatex}
 \usepackage{tocloft}
 \usepackage{minted}
+\usepackage{cleveref}
 
 \newcommand{\listappendicesname}{List of Appendices}
 \newlistof{appendices}{apc}{\listappendicesname}
@@ -490,7 +491,7 @@
 \clearpage
 \pagenumbering{arabic}
 
-%\subfile{./TeX_files/introduction}
+\subfile{./TeX_files/introduction}
 %\subfile{./TeX_files/demonstration}
 %\subfile{./TeX_files/semantics}
 %\subfile{./TeX_files/combinators}
@@ -515,7 +516,7 @@
 The source code for Solarman and the XSaiga parser can be obtained online via this URL:
 
 %TODO: up to date version
-{\noindent \small \url{https://hackage.haskell.org/package/XSaiga-1.5.0.0/XSaiga-1.5.0.0.tar.gz}}
+{\noindent \small \url{https://hackage.haskell.org/package/XSaiga-1.6.0.0/XSaiga-1.6.0.0.tar.gz}}
 
 \noindent The XSaiga package for Haskell is available online at this URL:
 
@@ -542,6 +543,32 @@ The source code for Solarman and the XSaiga parser can be obtained online via th
 
 %\subsection*{LocalData.hs}
 %\inputminted[autogobble, fontsize=\scriptsize, breaklines=true]{haskell}{../solarman/XSaiga/LocalData.hs}
+
+\section*{Appendix B - List of Refereed Papers Relating to the Thesis}
+\addcontentsline{toc}{section}{Appendix B - List of Refereed Papers Relating to the Thesis}
+\addcontentsline{apc}{appendices}{Appendix B - List of Refereed Papers Relating to the Thesis}
+
+Below is a list of peer-reviewed conference papers that I have authored or co-authored, which are related to this Thesis.  Electronic versions of this papers can be found: %TODO
+
+%\cite{frosthafiz2008} \fullcite{frosthafiz2008}
+
+%\cite{frostagboola2014} \fullcite{frostagboola2014}
+
+\cite{donais2013system} \fullcite{donais2013system}
+
+\cite{peelar2017windsor} \fullcite{peelar2017windsor}
+
+\cite{peelar2018toolpath} \fullcite{peelar2018toolpath}
+
+\cite{frost2014demonstration} \fullcite{frost2014demonstration} -- Was involved but not credited
+
+Peer reviewed Journal papers:
+
+\cite{peelar2019real} \fullcite{peelar2019real}
+
+%Unrefereed papers:
+
+%TODO: MSc thesis?
 
 \chapter*{Vita Auctoris}
 \addcontentsline{toc}{chapter}{Vita Auctoris}
