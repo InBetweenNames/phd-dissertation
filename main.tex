@@ -182,8 +182,9 @@
 
 \author{Shane Peelar}
 \newcommand{\dtitle}{Scalable, Efficient and Precise Natural Language Processing in the Semantic Web}
+\newcommand{\defensedate}{September 3 2020}
 \title{\dtitle}
-\date{August 2020}
+\date{\defensedate}
 
 \begin{document}
 	
@@ -240,7 +241,7 @@
 	
 	%\vspace{0.5cm}
 	
-	2020 \\
+	\phantom{2020} \\
 	%\vspace{0.5cm}
 	
 	\textcopyright \  2020 Shane Peelar
@@ -255,12 +256,16 @@
 
 \begin{center}
 	\begin{uwinonehalfspaceenv}
-		\parbox{2.25in}{\centering\dtitle}
+		\parbox{6in}{\centering\dtitle}
 	\end{uwinonehalfspaceenv}
+	
 	
 	%\vspace{\fill} %
 	\vspace{0.35cm}
-	by {Shane Peelar}
+	\begin{uwinonehalfspaceenv}
+		by \\*
+	{Shane Peelar}
+	\end{uwinonehalfspaceenv}
 	%\vspace{0.7071cm}
 	
 	
@@ -275,13 +280,14 @@
 
 	Dr. Diana Zaiu Inkpen, External Examiner
 	
-	School of Electrical Engineering and Computer Science, University of Ottawa
+	%School of Electrical Engineering and Computer Science, 
+	University of Ottawa
 	
 	\vspace{0.5in}
 	
 	\noindent\rule{4in}{0.4pt}
 	
-	Dr. Richard J. Caron, External Reader
+	Dr. Richard J. Caron
 	
 	Department of Mathematics and Statistics
 	
@@ -289,7 +295,7 @@
 	
 	\noindent\rule{4in}{0.4pt}
 	
-	Dr. Pooya Moradian Zadeh, Internal Reader
+	Dr. Pooya Moradian Zadeh
 	
 	School of Computer Science
 	
@@ -297,7 +303,7 @@
 
 	\noindent\rule{4in}{0.4pt}
 	
-	Dr. Jianguo Lu, Internal Reader
+	Dr. Jianguo Lu
 	
 	School of Computer Science
 	
@@ -305,23 +311,17 @@
 	
 	\noindent\rule{4in}{0.4pt}
 	
-	Dr. Richard A. Frost, Supervisor
+	Dr. Richard A. Frost, Advisor
 	
 	School of Computer Science
 	
 	\vspace{0.5in}
-
-	\noindent\rule{4in}{0.4pt}
-	
-	Dr. , Chair of Defence
-	
-	School of Computer Science
 	
 \end{center}
 
 \vspace*{\fill}
 
-\hspace*{\fill}August 17 2020
+\hspace*{\fill}\defensedate
 
 %\currentpdfbookmark{Copyright}{copyrightpage}%
 %\noindent \textcopyright{} 2016, Shane Peelar
@@ -491,6 +491,9 @@
 \clearpage
 \pagenumbering{arabic}
 
+\renewcommand{\refname}{Bibliography}
+%\defbibheading{subbibintoc}[\refname]{\section*{#1}\markboth{#1}{#1}}
+
 \subfile{./TeX_files/introduction}
 %\subfile{./TeX_files/demonstration}
 %\subfile{./TeX_files/semantics}
@@ -503,7 +506,8 @@
 
 % bibliography, glossary and index would go here.
 
-\printbibliography[heading=bibintoc]
+%NOTE: this is for Traditional -- we're doing Manuscript format
+%\printbibliography[heading=bibintoc]
 
 \chapter*{Appendices}
 \addcontentsline{toc}{chapter}{Appendices}
