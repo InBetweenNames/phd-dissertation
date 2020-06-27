@@ -35,6 +35,9 @@
 \usepackage{minted}
 \usepackage{cleveref}
 
+%for ISWC2018 paper
+\usepackage{enumitem}
+
 \newcommand{\listappendicesname}{List of Appendices}
 \newlistof{appendices}{apc}{\listappendicesname}
 
@@ -179,6 +182,48 @@
 \setmainfont{CMU Serif}%{Times New Roman}
 
 \setmonofont{CMU Typewriter Text}%{Consolas}
+
+%Macros for denotations
+\newcommand{\phobos}{\mathit{phobos}}
+\newcommand{\deimos}{\mathit{deimos}}
+\newcommand{\every}{\mathit{every}}
+\newcommand{\spins}{\mathit{spins}}
+\newcommand{\spin}{\mathit{spin}}
+\newcommand{\moon}{\mathit{moon}}
+\newcommand{\moons}{\mathit{moons}}
+
+\newcommand{\meaningof}[1]{\lVert \mathit{#1} \rVert}
+\newcommand{\eventassoc}[1]{ev_{\mathrm{#1}}}
+\newcommand{\event}[1]{ev_{\mathrm{#1}}}
+\newcommand{\entityassoc}[1]{e_{#1}}
+\newcommand{\entity}[1]{e_{#1}}
+\newcommand{\wordpred}[1]{\mathit{#1\_pred}}
+\newcommand{\wordset}[1]{\mathit{#1\_set}}
+\newcommand{\True}{\mathit{True}}
+\newcommand{\False}{\mathit{False}}
+
+
+\newcommand{\discover}{\mathit{discover}}
+\newcommand{\discovered}{\mathit{discovered}}
+\newcommand{\discoveredby}{\mathit{discovered\ by}}
+\newcommand{\discoveredwith}{\mathit{discovered\ with}}
+\newcommand{\used}{\mathit{used}}
+\newcommand{\hall}{\mathit{hall}}
+
+\newcommand{\relation}[1]{\mathit{#1\_rel}}
+\newcommand{\relationn}[3]{\mathit{#1\_rel_{#2 \rightarrow #3}}}
+\newcommand{\collect}{\mathit{collect}}
+
+\newcommand{\FDBR}[1]{\mathrm{FDBR}({#1})}
+\newcommand{\Album}[1]{\mathrm{Album}({#1})}
+\newcommand{\objfdbr}[1]{\mathrm{obj\_fdbr}(\mathit{#1})}
+\newcommand{\gatherevs}[1]{\mathrm{gather}({#1})}
+\newcommand{\propfdbr}[2]{\mathrm{prop\_fdbr}(\mathit{#1, #2})}
+
+\newcommand{\evs}{\mathit{evs}}
+\newcommand{\ent}{\mathit{ent}}
+\newcommand{\ev}{\mathit{ev}}
+\newcommand{\etc}{\mathit{etc}\ldots}
 
 \author{Shane Peelar}
 \newcommand{\dtitle}{Scalable, Efficient and Precise Natural Language Processing in the Semantic Web}
@@ -495,6 +540,7 @@
 %\defbibheading{subbibintoc}[\refname]{\section*{#1}\markboth{#1}{#1}}
 
 \subfile{./TeX_files/introduction}
+\subfile{./TeX_files/extensible}
 %\subfile{./TeX_files/demonstration}
 %\subfile{./TeX_files/semantics}
 %\subfile{./TeX_files/combinators}
