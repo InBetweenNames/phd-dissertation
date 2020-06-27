@@ -1,0 +1,432 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{A New Data Structure for Processing Natural Language Database Queries}
+\begin{refsection}
+	
+This paper was published as:
+
+\fullcite{frostpeelar2019}
+
+It was featured at WEBIST 2019.  This paper was nominated for the Best Student Paper Award and we were invited to submit a full length paper to the WEBIST 2019 Springer journal.
+
+\label{chapter:webist2019conf}
+
+%INTRODUCTION:
+
+\section{Introduction}
+We begin by describing a Natural Language Query Interface (NLQI) that we have built. We hope that the interface will motivate readers to look into our modifications to MS. In \Cref{webist2019conf:access}, we explain how our NL Query  interface (NLQI) can be accessed through the Web. In Sub-section \Cref{webist2019conf:triplestore}, we describe the Semantic Web triplestore. In \Cref{webist2019conf:examples} we discuss example queries and their results: in \Cref{webist2019conf:noncompositional}, we provide  examples of what are often referred to as ``non-compositional'' features of NL  that our NLQI can handle, and in \Cref{webist2019conf:extend} we give  examples of NL structures that could be accommodated by extensions to our approach. With each of the examples we provide an informal explanation of how the answer is, or could be, computed.
+
+In \Cref{webist2019conf:album}, we describe the new FDBR data structure which is central to our approach, and which can be created from an event-based triplestore (as we do in our online NLQI), or from a relational database.
+
+Much of our semantics is based on MS. We differ in these ways:
+\begin{enumerate}
+	\item We add events to the basic ontological concepts of entities and truth values.
+	\item Each event has a number of roles associated with it. Each role has an entity as a value.
+	\item For efficiency, we use sets of entities rather than characteristic functions of those sets as is the case in MS.
+	\item We define transitive $n$-ary verbs in terms of sets of events, each with $n$ roles.
+	\item We compute FDBRs, the novel datastructure presented in this paper, from sets of events (could be computed from relations), and use them in the denotations of transitive verbs, and in computing results of queries containing prepositional phrases. Although not referred to as an FDBR, the use of relational images in denotations of verbs was first proposed by \cite{frost1989constructing}.
+\end{enumerate}
+
+We hope that this paper reawakens an interest in Compositional Semantics, in particular for NL query processing.
+
+\section{How to Access our NLQI}
+\label{webist2019conf:access}
+
+Our NL interface can be accessed at the following web site:
+
+\begin{center}
+	\url{http://speechweb2.cs.uwindsor.ca/solarman4/demo_sparql.html}
+\end{center}
+
+\subsection{\uppercase{The Triplestore that is Queried}}
+\label{webist2019conf:triplestore}
+Our NLQI computes answers with respect to a triplestore containing data about the planets, the moons that orbit them, and the people who discovered those moons, and when, where and with what implement they were discovered. Note that each triple could be equally well be represented by a row in a relational database.
+
+The triplestore contains triples such as the following which represent the event \#1045 in which \texttt{hall} (in the role of \textit{subject}) discovered \texttt{phobos} (in the role of \textit{object}) in 1877 (in the role of \textit{year}) with the \texttt{refractor\_telescope\_1} (in the role of \textit{implement})  at the \texttt{us\_naval\_observatory} (in the role of \textit{location}).
+
+\begin{table}
+	\caption{Events of type ``Discover''. The full URIs of the events, properties, and entities have been omitted here.}
+	\label{webist2019conf:evdiscover}
+	\centering
+	\begin{tabular}{lll}
+		\toprule
+		Event & Property & Entity \\
+		\midrule
+		event1045 &
+		subject &
+		hall \\
+		
+		event1045 &
+		object &
+		phobos \\
+		
+		event1045 &
+		type &
+		discover\_ev \\
+		
+		event1045 &
+		year &
+		1877 \\
+		
+		event1045 &
+		location &
+		us\_naval\_observatory \\
+		
+		event1045 &
+		implement &
+		refractor\_telescope\_1 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Events representing set membership are represented as follows:
+
+\begin{table}
+	\caption{Events of type ``Membership''.}
+	\label{webist2019conf:evmember}
+	\centering
+	\begin{tabular}{lll}
+		\toprule
+		Event & Property & Entity \\
+		\midrule
+		event1128 &
+		subject &
+		galileo \\
+		
+		event1128 &
+		object &
+		person \\
+		
+		event1128 &
+		type &
+		membership \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+The complete triplestore, which contains tens of thousands of triples,  is hosted on a remote compute server using the Virtuoso software \cite{virtuoso} and can be accessed by following the link at the beginning of \Cref{webist2019conf:access}.
+
+\section{Example Queries}
+\label{webist2019conf:examples}
+
+Our NLQI can answer millions of queries with respect to the triplestore discussed above. The NLQI can accommodate queries containing common and proper nouns, adjectives, conjunction and disjunction, intransitive and transitive verbs, nested quantification, superlatives, chained prepositional phrases containing quantifiers, comparatives and polysemantic words. In the following we provide an informal explanation of how the answer is computed.
+
+\subsection{Queries Demonstrating the Range of NL Features that our NLQI can Accommodate}
+\label{webist2019conf:nlexamples}
+
+\texttt{phobos spins} $\Rightarrow \True$
+
+\noindent \texttt{phobos is a moon} $\Rightarrow \True$ \\
+
+The function denoted by \texttt{phobos} checks to see if $\entityassoc{phobos}$ is a member of the $\spin$ set, and secondly if $\entityassoc{phobos}$ is a member of the $\moon$ set. \\
+
+\noindent \texttt{a moon spins} $\Rightarrow \True$
+
+\noindent \texttt{every moon spins} $\Rightarrow \True$
+
+\noindent \texttt{an atmospheric moon exists} $\Rightarrow \True$ \\
+
+The function denoted by \texttt{a} checks to see if the intersection of the set of $\moons$ and the set of $\spins$ is non-empty. The function denoted by \texttt{every} checks to see if the set of moons is a subset of the $\spins$ set. The denotations of \texttt{a} and \texttt{every} that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
+
+The answer to the third query is obtained by checking if the intersection of the $\mathit{atmospheric}$ set and the $\moon$ set is non-empty. \\
+
+\noindent \texttt{hall discovered} $\Rightarrow \True$ \\
+
+All of the events of type ``discovered'' are collected together and are checked to see if $\entityassoc{hall}$ is found as the subject role value of any of them. If so, $\True$ is returned. \\
+
+\noindent \texttt{when did hall discover} $\Rightarrow \mathit{1877}$ \\
+
+The ``year'' property of the  events returned by ``hall discover'' (treated as ``hall discovered'') are returned. \\
+
+\noindent \texttt{phobos was discovered} $\Rightarrow \True$ \\
+
+All of the events of type ``discovered'' are collected together and are checked to see if $\entityassoc{phobos}$ is found as the object role value of any of them. If so $\True$ is returned. \\\
+
+\noindent \texttt{earth was discovered} $\Rightarrow \False$ \\
+
+Earth was not discovered by anyone, according to our data. \\
+
+\noindent \texttt{did hall discover phobos} $\Rightarrow \True$ \\
+
+%TODO: FIXUP BELOW
+
+All of the events of type ``discover'' are collected together and are checked to create a pair $(s, \evs)$ for each value of the subject attribute found in the set of events. $\evs$ is the set of events to which the subject attribute is related through a discovery event.  Each pair is then examined to see if the function denoted by the object termphrase (in this case \texttt{phobos}) returns a non-empty set when applied to a set (called an \textit{FDBR}, which is described later) generated from the set of $\evs$ in the pair, and if so the subject of the pair is added to the set which is returned as the denotation of the verbphrase part of the query. The denotation of the termphrase at the beginning of the query is then applied to the denotation of the verbphrase to obtain the answer to the query. %(See \Cref{sec:album} for more detailed discussion of this process).
+
+Owing to the fact that our semantics is compositional the \textit{subject} and \textit{object} termphrases of the query above can be replaced by any termphrases. For example: \\
+
+\noindent \texttt{a person or a team  discovered every moon that orbits mars} $\Rightarrow \True$
+
+\noindent \texttt{who discovered 2 moons that orbit mars} $\Rightarrow \hall$ \\
+
+``who'', ``what'', ``where'', ``when'' and ``how'' can be used in place of the \textit{subject} termphrase. Different role values are returned depending on which ``wh..'' word is used in the query. \\
+
+\noindent \texttt{where discovered by galileo} $\Rightarrow \mathit{padua}$
+
+\noindent \texttt{when discovered by galileo} $\Rightarrow \mathit{1610}$
+
+\noindent \texttt{every telescope was used to discover a moon} $\Rightarrow \True$ (w.r.t.our data)
+
+\noindent \texttt{a moon was discovered by every telescope} $\Rightarrow \False$
+
+\noindent \texttt{a telescope was used by hall to discover two moons} $\Rightarrow \True$
+
+\noindent \texttt{which moons were discovered with two telescopes}
+
+$\Rightarrow$ \textit{halimede laomedeia sao themisto}
+
+\noindent \texttt{who discovered deimos with a telescope that was used to discover \\ every moon that orbits mars} $\Rightarrow \hall$
+
+\noindent \texttt{who discovered a moon with two telescopes}
+
+$\Rightarrow$ \textit{nicholson science\_team\_18 science\_team\_2}
+
+\noindent \texttt{how was sao discovered} $\Rightarrow$ \textit{blanco\_telescope canada-france-hawaii\_telescope}
+
+\noindent \texttt{how discovered in 1877} $\Rightarrow$ \textit{refractor\_telescope\_1}
+
+\noindent \texttt{how many telescopes were used to discover sao} $\Rightarrow 2$
+
+\noindent \texttt{who discovered sao}  $\Rightarrow$ \textit{science\_team\_18}
+
+\noindent \texttt{how did science\_team\_18 discover sao}
+
+$\Rightarrow$ \textit{blanco\_telescope canada-france-hawaii\_telescope}
+
+\noindent \texttt{which planet is orbited by every moon that was discovered by \\ two people}
+$\Rightarrow$ \textit{saturn; none}
+
+\noindent \texttt{which person discovered a moon in 1877 with every telescope that was used to discover phobos} $\Rightarrow$ \textit{hall; none}
+
+\noindent \texttt{who discovered in 1948 and 1949 with a telescope} $\Rightarrow \mathit{kuiper}$
+
+\subsection{Queries with ``Non-Compositional'' Structures}
+\label{webist2019conf:noncompositional}
+
+We agree that natural language has non-compositional features but believe that the non-compositionality is mostly problematic when the objective is to give a meaning to an NL expression (without a context). It is less problematic when answering NL queries. As illustrated below, the person posing the query, or the database or triplestore can provide contexts that help resolve much of the ambiguity resulting from non-compositional features.
+
+The advantages of a using a compositional semantics include
+\begin{inparaenum}[1)]
+	\item the answer to a query is as correct as the data from which it is derived,
+	\item  the meaning of sub phrases within a query can be discussed formally,
+	\item the query language can be extended such that all existing phrases maintain their original meanings,
+	\item the definition of syntax and semantics in the compositional semantics can be used as a blueprint for the implementation of the query processor.
+\end{inparaenum}
+
+Some researchers have provided examples of what they claim to be non-compositional structures in NL. For example, Hirst \cite{hirst1992semantic} gives the example of the verb ``depart'' which he states is not compositional because its meaning changes with the prepositional phrase(s) which follow it, and that the definition of compositionality needs to be modified to include the requirement that the function used to compose the meaning of parts must be systematic. We claim that our semantics for verbs is systematic as the denotations of subject and object termphrases, and the possibly empty list of prepositional phrases following the verb are treated equally and are all used in the same way to filter the set of events of the type associated with the verb, before that set is returned as the denotation of the verb phrase. This is illustrated in the following queries: \\
+
+\noindent \texttt{who discovered} $\Rightarrow$ \textit{bernard bond cassini cassini\_imaging\_science\_team christy dollfus galileo} $\etc$ \\
+
+No \textit{subject}, \textit{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word \texttt{who} picks out the \textit{subjects} from those events. \\
+
+\noindent \texttt{where discovered io} $\Rightarrow \mathit{padua}$ \\
+
+No \textit{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \textit{object} termphrase \texttt{io} and then, those that pass the filter are returned by the verbphrase and the word \texttt{where} picks out the location from those events. %(See section $\Cref{sec:examples}$ for more details). \\
+
+\noindent \texttt{who discovered in 1610} $\Rightarrow \mathit{galileo}$ \\
+
+No \textit{subject} or \textit{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``date'' equal to 1610 pass the filter and then the denotation of the word \texttt{who} selects the subject which is returned.
+
+In our semantics, the \textit{subject} and \textit{object} termphrases are treated as filters as are all prepositional phrases, as shown in the following example: \\
+
+\noindent \texttt{who discovered every moon that orbits mars with one telescope or a \\ moon that orbits Jupiter with a telescope} $\Rightarrow$ \textit{one. ; none. ; none. ; bernard galileo kowal melotte nicholson perrine science\_team\_1 science\_team\_2 ; hall ; hall ; none.} \\
+
+Several results are returned because the query is syntactically ambiguous. \\
+
+\noindent \texttt{where discovered in 1610} $\Rightarrow \mathit{padua}$
+
+\noindent \texttt{how discovered in padua} $\Rightarrow$ \textit{galilean\_telescope\_1}
+
+\subsection{Extensions to the Semantics}
+\label{webist2019conf:extend}
+
+Some phrases containing nested quantifiers are given by some researchers, as examples of non-compositionality. For example: ``a US diplomat was sent to every capital'' is often read as having two meanings which can only be disambiguated by additional knowledge. We argue that the person posing a query can express the query unambiguously if they are familiar with quantifier scoping conventions used by our processor, as illustrated in the following: \\
+
+\noindent \texttt{christy or science\_team\_19 or science\_team\_20 or science\_team\_21 \\ discovered every moon that orbits pluto} $\Rightarrow \False$ \\
+
+In our semantics, quantifier scoping is always leftmost/outermost, and an unambiguous query can be formulated as follows: \\
+
+\noindent \texttt{every moon that orbits pluto was discovered by christy or \\ science\_team\_19 or science\_team\_20 or science\_team\_21} $\Rightarrow \True$ \\
+
+Some examples of non-compositionality involve polysemantic superlative words such as ``most'' in, for example:
+\begin{center}
+	\textit{``Who discovered most moons that orbit $P$. Where $P$ is a planet.''}
+\end{center}
+If ``most'' is treated as ``more than half'' then: \\
+
+\noindent \texttt{who discovered most moons that orbit mars} $\Rightarrow \hall$ \\
+
+Because our semantics currently allows only this reading. However, the answer to the alternate reading ``who discovered the most moons that orbit $P$'' – i.e. more than anyone else who discovered a moon that orbits $P$. Could be obtained in our semantics by comparing all of the $(\ent, \evs)$ pairs returned by the verbphrase to see which \textit{subject} is paired with most \textit{objects}. We are currently working on this and other extensions to our semantics. \\ %(See \Cref{} for more explanation). \\
+
+\noindent \texttt{how was every moon that orbits saturn discovered} $\Rightarrow$ \textit{cassini \\ reflector\_telescope\_1 aerial\_telescope\_1 refractor\_telescope\_4} $\etc$ \\
+
+It may be surprising that \textit{cassini} is returned in the answer since it is not a \texttt{telescope}, but is instead a \texttt{spacecraft}.  However, since it was used to discover at least one \texttt{moon} that orbits \texttt{saturn}, it is considered to have fulfilled the \textit{implement} role and is encoded as such in the triplestore.
+
+\section{The FDBR: A Novel Data Structure for Natural Language Queries}
+\label{webist2019conf:album}
+
+\subsection{Montague Semantics}
+
+All quantifiers, such as ``a'', ``every'' and ``more than two'' are treated in MS as functions which take two characteristic functions of sets as arguments and return a Boolean value as result. Our modifications to MS are to use sets of entities instead of predicates/characteristic functions of those sets, and to pair sets of events with each entity; the set of events paired with an entity justify the entity’s inclusion in the denotation. For example:
+\begin{multline*}
+	\meaningof{propernoun} = \\ \lambda p.
+	\{(e, \evs)\ |\ (e, \evs) \in p\ \&\ e = \\ \mathrm{the\ entity\ associated\ with\ the\ proper\ noun}\}
+\end{multline*}
+\begin{equation*}
+	\begin{split}
+		\meaningof{spins} = \{(\entityassoc{phobos}, \{\eventassoc{1360}\}),
+		(\entityassoc{deimos}, \{\eventassoc{1332}\}), \\ \etc\}
+	\end{split}
+\end{equation*}
+Therefore,
+\begin{equation*}
+	\begin{split}
+		& \meaningof{phobos\ spins} = \meaningof{phobos}\ \meaningof{spins} \\
+		& = \lambda s.\ \{(e, \evs) | (e, \evs) \in s\ \&\ e = \entityassoc{phobos}\} \\
+		& \qquad \{(\entityassoc{phobos},{\eventassoc{1360}}), (\entityassoc{deimos}, \eventassoc{1332}), \ldots\} \\
+		& = \{(\entityassoc{phobos}, \eventassoc{1360})\}
+	\end{split}
+\end{equation*}
+\begin{multline*} %TODO: intersect_fdbr
+	\meaningof{a} = \lambda m \lambda s.\ \{(e_1,\evs_2)\ |\ (e_1,\evs_1) )\in m \\
+	\&\ (e_2,\evs_2) \in s\ \&\ e_1 = e_2\})
+\end{multline*}
+\begin{multline*}
+	\meaningof{a\ moon\ spins} =
+	\{(\entityassoc{phobos}, \eventassoc{1360}), \\ (\entityassoc{deimos}, \eventassoc{1332}),\ \etc\}
+\end{multline*}
+
+%TODO every
+
+%Similarly, the answer to ``who discovered every moon that orbits Saturn'' returns a non-empty set of pairs ${(\entityassoc{galileo}, \evs), \etc}$ where $\evs$ is a set of events which includes the events in which \texttt{galileo} discovered every moon that orbits mars.
+
+Note that the events $\evs$ paired with the entities returned in the denotation of ``was every moon that orbits Saturn discovered'' are the events representing membership of those entities of type moon in the object value of events of type discovery. This enables additional data to be accessed from those events, as illustrated in the last example query in the previous section.
+
+%TODO: this is not consistent with our semantics
+%TODO: single role assumption?
+\subsection{The FDBR}
+
+In order to generate the  answer to ``hall discovered every moon that orbits mars'', $\meaningof{every}$ is applied to $\meaningof{moon\ that\ orbits\ mars}$ (i.e. the set of \texttt{moons} that orbit \texttt{mars}), as first argument, and  the set of entities  that were discovered by \texttt{hall}, as the second argument. Our semantics generates this set from the set of events of type ``discover'' where the subject role is the entity associated with \texttt{hall}, as discussed below:
+
+\noindent Every set of $n$-ary events (i.e. events with $n$ roles) of a given type, e.g. discovery, defines $n^2 - n$ binary relations. For example, for discovery events: \\
+
+\noindent $\relationn{discover}{subject}{object}$ $\relationn{discover}{subject}{year}$ $\relationn{discover}{subject}{implement}$ $\dots$
+
+\noindent $\relationn{discover}{object}{subject}$ $\relationn{discover}{object}{year}$ $\relationn{discover}{object}{implement}$ $\dots$
+
+\noindent $\relationn{discover}{year}{subject}$ $\relationn{discover}{year}{object}$ $\relationn{discover}{year}{implement}$ $\dots$ \\
+
+\noindent $\etc$ to 20 binary relations for  the set of discovery events or an 5-ary discovery relation. For example:
+\begin{multline*}
+	\relationn{discover}{subject}{object} = \\ \{(\event{1045}, \entity{hall}, \entity{phobos}), (\event{1046}, \entity{hall}, \entity{deimos}), \etc\}
+\end{multline*}
+If we collect all of the values from the range of a relation that are mapped to by each value $v$ from the domain (i.e. the image of $v$ under the relation $r$) and create the set of all pairs $(v, image\_of\_v)$, we obtain a function defined by the relation $r$, i.e. the FDBR. For example:
+\begin{multline*}
+	\FDBR{\relationn{discover}{subject}{object}} \\ = \{ ( \entity{hall}, \{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\}) \}),\\ \etc\}
+\end{multline*}
+It is these functions that are created, and used, by the denotation of the transitive verb associated with the type of the events. For example in calculating the value of $\meaningof{who\ discovered\ every\ moon\ that\ orbits\ mars}$, $\meaningof{every}$ is applied to the set of entities which is the denotation of ``moon that orbits mars'' (i.e $\{ (\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\}$ ) and all of the images that are in the second field of the pairs in $\FDBR{\relationn{discover}{subject}{object}}$. For the pair $(\entity{hall}, \{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\})$, $\meaningof{every}$ returns the non-empty set $\{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\}$, and the value in the first field, i.e. $\entity{hall}$, is subsequently returned with the answer to the query.
+
+The various FDBRs are used to answer different types of queries. For example: \\
+
+\noindent \texttt{who discovered phobos and deimos} $\Rightarrow hall$
+
+uses $\FDBR{\relationn{discover}{subject}{object}}$
+
+\noindent \texttt{where discovered by galileo} $\Rightarrow \mathit{padua}$
+
+uses $\FDBR{\relationn{discover}{location}{subject}}$
+
+\noindent \texttt{how discovered in 1610 or 1855}
+
+$\Rightarrow$  \textit{galilean\_telescope\_1}
+
+uses $\FDBR{\relationn{discover}{implement}{year}}$
+
+\section{Handling Prepositional Phrases}
+
+Prepositional phrases (PPs) such as ``with a telescope'' are treated
+similarly to the method above, except that the termphrase
+following the preposition is applied to the set of entities that are extracted from
+the set of events in the FDBR function, according to the role associated with
+the preposition. The result is a ``filtered'' FDBR which is further filtered by
+subsequent PPs.
+
+\section{Quantifiers and Events}
+\label{webist2019conf:quant}
+In 2015, Champollion \cite{champollion2015interaction} stated that, at that time, it was generally thought by linguists that integration of Montagovian-style compositional semantics and Davidsonian–style event semantics \cite{parsons1990events,davidson1967logical} was problematic, particularly with respect to quantifiers. Champollion did not agree with that analysis and presented an integration which he called ``quantificational event semantics'' which he claimed solved the difficulties of integration by assuming that verbs and their projections denote existential quantifiers over events and that these quantifiers always take lowest possible scope.
+
+In this paper, we borrow much from Montague Semantics (MS), Davidsonian Event Semantics,
+and Champollion's Quantificational Event Semantics. However, we provide definitions of our
+denotations in the notation of set theory, which improves computational efficiency and, we
+believe, simplifies understanding of our denotations. We also believe that our semantics is
+intuitive, systematic, and compositional.
+
+\section{Our Approach with Relational Databases}
+
+Our NLQI could be easily adapted for use with conventional relational databases. 
+Each row in a relation \textit{Rel} can be thought of as representing an event of type \textit{Rel}, and each column name can be thought of as a role name.  The event itself would serve as the primary key, and only the triple retrieval function would need to be modified.  This architecture allows the denotations to remain unchanged and yet still work with different types of databases.
+
+\section{Implementation of our NLQI}
+\label{webist2019conf:implementation}
+We built our query processor as an executable attribute grammar using the X-SAIGA Haskell parser-combinator library package \cite{frosthafiz2008}.
+The $\mathit{collect}$ function which converts a binary relation to an FDBR is one of the most
+compute intensive parts of our implementation of the semantics. However, in Haskell, once a value is
+computed, it can be made available for future use. We have developed an algorithm to compute
+$\FDBR{\mathit{rel}}$ in $O(n\ log\ n)$ time, where $n$ is the number of pairs in $\mathit{rel}$.
+Alternatively, the FDBR functions can be computed and stored in a cache when the NLQI is offline.
+Our implementation is amenable to running on low power devices, enabling it for use with the Internet of Things. A version of our query processor exists that can run on a common consumer network router as a proof of concept for this application.
+The use of Haskell for the implementation of our NLQI has many advantages, including:
+
+\begin{enumerate}
+	%\setlength\itemsep{0em}
+	\item Haskell's ``lazy'' evaluation strategy only computes values when they are required, enabling parser combinator
+	libraries to be built that can handle highly ambiguous left-recursive grammars in polynomial time.
+	\item The higher-order functional capability of Haskell allows the direct definition of higher-order
+	functions that are the denotations of some English words and phrases.
+	\item The ability to partially apply functions of $n$ arguments to 1 to $n$ arguments allows the
+	definition and manipulation of denotation of phrases such as ``every moon'', and ``discover
+	phobos''.
+	\item The availability of the $\mathit{hsparql}$ \cite{hsparql} Haskell package enables a simple interface between our semantic processor and SPARQL endpoints to our triplestores.
+\end{enumerate}
+
+\section{Related Work}
+\label{webist2019conf:relatedwork}
+
+Orakel \cite{cimiano2007orakel} is a portable NLQI which uses a Montague-like grammar and a lambda calculus semantics. Our approach is similar in this respect. Queries are translated to an expression of first order logic enriched with predicates for query and numerical operators. These
+expressions are translated to SPARQL or F-Logic. Orakel supports negation, limited quantification, and simple prepositional phrases.
+
+YAGO2 \cite{hoffart2013yago2} is a semantic knowledge base containing reified triples extracted from Wikipedia, WordNet and GeoNames, representing nearly 0.5 billion facts. Reification is achieved by tagging each triple with an identifier. However, this is hidden from the user who views the knowledge base as a set of ``SPOTL'' quintuples, where T is for time and L for location. The SPOTLX query language is used to access YAGO2. SPOTLX can handle queries with prepositional aspects involving time and location. However, no mention is made of chained complex PPs.
+
+Alexandria \cite{wendt2012linguistic} is an event-based triplestore, with 160 million triples (representing 13 million n-ary relationships), derived from FreeBase. Alexandria uses a neo-Davidsonian \cite{parsons1990events} event-based semantics. In Alexandria, queries are parsed to a syntactic dependency graph, mapped to a semantic description, and translated to SPARQL queries containing named graphs. Queries with simple PPs are accommodated. However, no mention is made of negation, nested quantification, or chained complex PPs.
+
+The systems referred to above have made substantial progress in handling ambiguity and matching NL query words to URIs. However, they appear to have hit a roadblock with respect to natural-language coverage. Most can handle simple PPs such as in ``who was born in 1918'' but none can handle chained complex PPs, containing quantifiers, such as ``in us\_naval\_observatory in 1877 or 1860''.
+
+Blackburn and Bos \cite{blackburn2005representation} implemented lambda calculus with respect to natural language, in
+Prolog, and \cite{van2010computational} have extensively discussed such implementation in
+Haskell. Implementation of the lambda calculus for open-domain question answering has been
+investigated by \cite{ahn2005question}.
+The SQUALL query language \cite{ferre:squall,ferre2013squall} is a controlled natural language
+(CNL) for querying and updating triplestores represented as RDF graphs. SQUALL can return
+answers directly from remote triplestores, as we do, using simple SPARQL-endpoint triple
+retrieval commands. It can also be translated to SPARQL queries which can be processed by
+SPARQL endpoints for faster computation of answers. SQUALL can handle
+quantification, aggregation, some forms of negation, and chained complex prepositional phrases.
+It is also written in a functional language. However, some queries in SQUALL require the use of
+variables and low-level relational algebraic operators (see for example, the queries on page 118
+of \cite{ferre2013squall}).
+
+\section{Concluding Comments}
+
+We are confident that, after we accommodate negation, our compositional semantics is appropriate for most queries that are likely to be asked of data stores containing everyday knowledge.
+The FDBR datastructure presented in this paper can be used to handle many kinds of complex language features, including chained prepositional phrases and superlatives.  The way quantification is handled within the semantics is consistent with other work in this area, as discussed in \Cref{webist2019conf:quant}. 
+The approach chosen is flexible enough that it can accommodate queries to both relational and non-relational types of databases, including Semantic Web triplestores.  It is also suitable for use on low power devices, which may be useful for applications on the Internet of Things (IoT).
+
+In the future, we plan to scale up the capability of our NLQI further to access massive data stores such as DBpedia.  To achieve this goal, we plan to accelerate the FDBR generation process using specialized acceleration hardware, such as FPGAs and GPUs.
+
+%\pagebreak
+%TODO: these need to be numbered from 1 each time
+\printbibliography[heading=subbibintoc]
+\end{refsection}
+
+\end{document}
