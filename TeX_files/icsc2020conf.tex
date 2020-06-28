@@ -1,0 +1,441 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{A Compositional Semantics for a Wide-Coverage Natural-Language Query Interface to a Semantic Web Triplestore}
+\begin{refsection}
+
+\label{chapter:icsc2020conference}
+
+%INTRODUCTION:
+
+\section{Introduction}
+
+Many Natural Language Query Interfaces to relational databases and semantic web triplestores
+convert the NL query to a formal query language such as SQL or SPARQL and then execute the formal
+query with respect to the relational database or semantic web triplestore respectively. One problem with
+these approaches is that the interface is restricted by the difficulty of translating complex NL phrases to
+the formal query language. In particular, queries with chained prepositional phrases containing
+quantifiers have been difficult to accommodate. Examples of such queries are: ``who discovered two
+moons with a telescope in 1877 at us\_naval\_observatory'', and ``where was a telescope used by hall to discover phobos''
+
+An alternative approach is to treat the NL query as an expression of the lambda calculus, using an
+extended form of the denotational semantics of Richard Montague \cite{Dowty:wall}, and to calculate the answer directly
+by interpreting the lambda calculus expression with respect to the data store. All that are required to be
+extracted from the data store are unary relations corresponding to sets of entities associated with the
+denotations of common nouns, adjectives and intransitive verbs, and the $n^2 - n$ binary relations
+associated with $n$-ary transitive verbs.
+
+Montague semantics can be easily implemented in a pure functional programming language such as
+Haskell. The higher-order functional capability of Haskell and the ability to partially apply higher-order functions enable Montague denotations of words such as ``every'' to be directly defined in the language. Furthermore, the availability of
+parser combinator libraries enables the construction of Executable Attribute Grammars (EAGs) within the language.
+This lends itself to a direct implementation of Montague-style integration of syntax rules with semantic rules.
+
+\section{A Prototype System}
+\label{icsc2020conf:prot}
+
+The pure functional programming language Haskell was used to build a prototype NL interface to a
+semantic web triplestore.  It can be accessed by via this URL: \\
+
+{\small \url{http://speechweb2.cs.uwindsor.ca/solarman4/demo_sparql.html}} \\
+
+\noindent Notably, our interface is able to accommodate highly complex chained prepositional phrases in queries, including those with superlatives.
+For example, our system can accommodate the query: ``\texttt{who discovered the most vacuumous moons using the most telescopes in the most places}.''  A comprehensive list of examples can be found at the ``More Examples'' link on that page.
+
+If a syntactically ambiguous query is entered, the results from each possible interpretation are returned, along with their corresponding syntax trees.
+For example, ``\texttt{who discovered the most vacuumous moons in 1877}'' could be treated as ``\texttt{who (discovered (the most (vacuumous moons)) [in 1877])}''.  This style of notation was chosen to closely mirror how the semantics are internally evaluated in the Haskell language.  Both parentheses and brackets denote scoping, and brackets denote lists of prepositional phrases
+
+\section{Related Work}
+\label{icsc2020conf:relatedwork}
+%TODO: ...to be added... from Elsevier paper
+Orakel \cite{cimiano:haase} is a portable NLQI which uses a Montague-like grammar and a lambda-calculus semantics to analyze queries. The approach described in this paper is similar to Orakel in this respect. However, in Orakel, queries are translated to an expression of first-order logic enriched with predicates for query and numerical operators. These expressions are translated to SPARQL or F-Logic. Orakel supports negation, limited quantification, and simple prepositional phrases. Portability is achieved by having the lexicon customized by people with limited linguistic expertise. It is claimed that Orakel can accommodate $n$-ary relations with $n \geq 2$. However, no examples are given of such queries being translated to SPARQL.
+
+YAGO2 \cite{hoffart2013yago2} is a semantic knowledge base containing reified triples extracted from Wikipedia, WordNet and GeoNames, representing nearly 0.5 billion facts. Reification is achieved by tagging each triple with an identifier. However, this is hidden from the user who views the knowledge base as a set of ``SPOTL'' quintuples, where T is for time and L for location. The SPOTLX query language is used to access YAGO2. Although SPOTLX is a formal language, it is significantly easier to use than is SPARQL for queries involving time and location (which in SPARQL would require many joins for reified triplestores). SPOTLX does not accommodate quantification or negation, but can handle queries with prepositional aspects involving time and location. However, no mention is made of chained complex PPs.
+
+Alexandria \cite{wendt2012linguistic} is an event-based triplestore, with 160 million triples (representing 13 million n-ary relationships), derived from FreeBase. Alexandria uses a neo-Davidsonian \cite{parsons1990events} event-based semantics. In Alexandria, queries are parsed to a syntactic dependency graph, mapped to a semantic description, and translated to SPARQL queries containing named graphs. Queries with simple PPs are accommodated. However, no mention is made of negation, nested quantification, or chained complex PPs.
+
+The systems referred to above have made substantial progress in handling ambiguity and matching NL query words to URIs. However, they appear to have hit a roadblock with respect to natural-language coverage. Most can handle simple PPs such as in ``who was born in 1918'' but none can handle chained complex PPs, containing quantifiers, such as ``in us\_naval\_observatory in 1877 or 1860''. There appear to be three reasons for this: 1) those NLQIs that were designed for non-reified triplestores, such as DBpedia, do not appear to be easily extended to reified triplestores that are necessary for complex PPs. 2) those NLQIs that were designed for non-reified or reified triplestores, and which translate the NL queries to SPARQL, suffer from the fact that SPARQL was originally designed for non-reified triplestores.  Although SPARQL was extended to handle ``named graphs'' \cite{carroll2005named} which support a limited form of reification but appear to be suitable only for provenance data. SPARQL was also extended to accommodate triple identifiers. 3) The YAGO2 system is the only system that has an NLQI for a reified triplestore that does not translate to SPARQL. However, YAGO2 can only accommodate PPs related to time and location and does not support quantification.
+
+Reference \cite{blackburn2005representation} implemented lambda calculus with repect to natural language, in
+Prolog, and \cite{van2010computational} have extensively discussed such implementation in
+Haskell. Implementation of the lamda calculus for open-domain question answering has been
+investigated by \cite{ahn2005question}.
+The SQUALL query language \cite{ferre:squall,ferre2013squall} is a controlled natural language
+(CNL) for querying and updating triplestores represented as RDF graphs. SQUALL can return
+answers directly from remote triplestores, as the approach described in this paper does, using simple SPARQL-endpoint triple
+retrieval commands. It can also be translated to SPARQL queries which can be processed by
+SPARQL endpoints for faster computation of answers. SQUALL syntax and semantics are
+defined as a Montague Grammar facilitating the translation to SPARQL.SQUALL can handle
+quantification, aggregation, some forms of negation, and chained complex prepositional phrases.
+It is also written in a functional language. However, some queries in SQUALL require the use of
+variables and low-level relational algebraic operators (see for example, the queries on page 118
+of \cite{ferre2013squall}).
+
+\section{The Extension to Montague Semantics}
+%The first part of section 3: pages: bottom of 1:5; page 1:6, down to, but not including subsection 3.1
+%from TOCHI paper
+
+MS \cite{Dowty:wall} defines the meaning of words, phrases, sentences and queries in terms of a space of functions that is
+built over a set of entities (the universe of discourse) and the Boolean values $\True$ and $\False$. For
+example, the word ``moon'' denotes the characteristic function (logical predicate) which maps entities to
+$\True$ or $\False$. The result is $\True$ if the entity is a moon, and $\False$ otherwise. One of Montague's many insights was his recognition that proper nouns such as ``Phobos'' do not denote entities; rather they
+denote functions that take characteristic functions as argument and return Boolean values as result. For
+example ``Phobos'' denotes the function $\lambda f \  f \  \entityassoc{\phobos}$ where $\entityassoc{\phobos}$ represents the entity associated with
+the name Phobos. For readers not familiar with the Lambda Calculus, the expression $\lambda f \ \mathit{expr}$ is the
+name (and definition) of a function which, when applied to an argument $g$ returns as result the
+expression $\mathit{expr}$ with all instances of $f$ in $expr$ replaced by $g$. According to MS, the phrase ``Phobos
+spins'' is interpreted as shown below, where $a \implies b$ indicates that $b$ is the result of evaluating $a$, $\meaningof{a}$
+represents the denotation (meaning) of $a$, $\wordpred{w}$ is the logical predicate associated with the word $\mathit{w}$,
+and $\lambda$ is the Lambda symbol.
+\begin{equation*}
+	\begin{split}
+		& \meaningof{\phobos \ \spins} \\
+		\implies&  \meaningof{\phobos}\ \meaningof{\spins} \\
+		\implies&  \lambda f\ f \ \entityassoc{phobos} \ \meaningof{\spins} \\
+		\implies&  \lambda f \ f \ \entityassoc{phobos} \ \wordpred{\spins} \\
+		\implies&  \wordpred{\spins} \ \entityassoc{phobos} \\
+		\implies&  \True
+	\end{split}
+\end{equation*}
+owing to the fact that Phobos does spin.
+
+Montague's treatment of quantifiers such as ``a'', ``every'', ``some'', ``one'' etc. is to treat their
+denotations as higher-order functions. For example, the word ``every'' denotes the following function:
+\begin{align*}
+	\meaningof{\every} =& \lambda p \  \lambda q \  \forall x \  (p \  x \Rightarrow q \  x)
+\end{align*}
+For example:
+\begin{equation*}
+	\begin{split}
+		& \meaningof{\every \  \moon \  \spins} \\
+		\implies&  (\meaningof{\every\ \moon}) \  \meaningof{\spins} \quad(\mathrm{from}\ \mathrm{syntactic}\ \mathrm{parsing}) \\
+		\implies&  (\lambda p \  \lambda q \  \forall x (p \  x \Rightarrow q \  x) \  \wordpred{\moon}) \  \wordpred{\spins} \\
+		\implies&  (\lambda q \  \forall x \  (\wordpred{\moon} \   x \Rightarrow q \   x)) \  \wordpred{spins} \\
+		\implies&  \forall x \  \wordpred{\moon} \   x \Rightarrow \wordpred{spins} \   x \\
+		\implies&  \True\ (\mathrm{every\ moon\ in\ the\ universe \ of\ discourse\ spins})
+	\end{split}
+\end{equation*}
+\subsection{A Computationally Tractable Version of Montague Semantics} %Subsections 3.2 and 3.3 from TOCHI paper
+\label{icsc2020conf:frostmont}
+The direct implementation of MS is not practical for applications with a large universe of discourse
+owing to the use of characteristic functions. For example, the denotation of ``every'' given above is
+computationally intractable in a query such as ``does every moon spin'' as it would require the
+characteristic function that is the denotation of ``moon'' to be applied to every entity in the universe of
+discourse. A more efficient alternative approach is to use the sets defined by characteristic functions
+directly in denotations \cite{frost1989constructing, frost2002efficient}. For example:
+\[ \meaningof{moon} = \{\entityassoc{\phobos} , \entityassoc{\deimos}, \ldots\} \]
+All other denotations are modified accordingly. For example:
+\begin{align*}
+	\meaningof{\phobos} &= \lambda s \ \entityassoc{\phobos}  \in s\ \mathrm{(where} \in  \mathrm{is\ the\ set} \\ & \qquad\qquad\qquad\quad\ \ \mathrm{\ membership\ operator)} \\
+	\meaningof{\every} &= \lambda s \  \lambda t \ (s \subseteq t) \quad \mathrm{(where\ } s \subseteq t \mathrm{\ returns\ \True\ } \\
+	& \qquad\qquad\qquad\qquad\ \mathrm{if\ } s \mathrm{\ is\ a\ subset\ of\ } t) \\
+	\meaningof{\spins} &= \mathrm{the\ set\ of\ entities\ that\ spin}
+\end{align*}
+
+Thus the phrase ``every moon spins'' is interpreted as follows:
+\begin{equation*}
+	\begin{split}
+		&\meaningof{\every \ \moon \ \spins}\\
+		\implies& (\lambda s \ \lambda t \ (s \subseteq t)) \ \meaningof{moon} \ \meaningof{\spins} \\
+		\implies& \meaningof{moon}  \subseteq  \meaningof{\spins} \\
+		\implies& \True \quad (\mathrm{because\ all\ moons\ in\ the\ universe\ of} \\
+		&\mathrm{\quad\qquad\ discourse\ are\ in\ the\ set\ of\ things\ that\ spin}) \\
+	\end{split}
+\end{equation*}
+
+The phrase ``phobos spins'' is interpreted as follows:
+\begin{equation*}
+	\begin{split}
+		&\meaningof{\phobos \ \spins}\\
+		\implies& (\lambda s \ \entityassoc{\phobos} \in s) \ \meaningof{spins}\\
+		\implies& \entityassoc{\phobos} \in  \meaningof{spins} \\
+		\implies& \True \quad (\mathrm{because\ Phobos,\ in\ the\ universe\ of} \\
+		&\mathrm{\quad\qquad\ discourse,\ is\ in\ the\ set\ of\ entities\ that\ spin})
+	\end{split}
+\end{equation*}
+\subsection{An Event-Based Version of Montague Semantics}
+\label{icsc2020conf:evflms}
+An event-based version of MS is needed to accommodate queries executed with respect to event-based reified triplestores \cite{graphmqslide}. Such a semantics has been developed and is described in
+%BLIND Peelar's Master's thesis
+earlier papers \cite{graphmqslide, frost2014demonstration} and in Peelar's Master's thesis \cite{peelar2016accommodating}.
+
+It should be noted that binary relations can be obtained from event-based triplestores by first retrieving
+all triples of the type associated with the transitive verb, then extracting all event identifiers from those
+triples, followed by retrieving all subjects and objects associated with those events. The binary relation
+is obtained by pairing each subject with each object with which it is associated through an event.
+
+In the event-based approach, rather than returning sets of entities as results of evaluating denotational
+expressions, sets of pairs are returned. Each pair $(\mathit{ent}, \mathit{evs})$ consists of an entity $\mathit{ent}$ paired with a set of
+events $\mathit{evs}$ which justify the entity being in the answer. For example:
+\[ \meaningof{\phobos\ \spins} \implies \{(\entityassoc{\phobos}, \{\eventassoc{1360}\})\} \]
+where $\eventassoc{1360}$ is the event identifier for the event in which $\entityassoc{\phobos}$ became a member of the set of entities which spin.
+
+%Section 4 all down to but not including subsection 4.4
+
+\section{Denotations of Transitive Verbs}
+\label{icsc2020conf:newuevflms}
+
+The main contribution of this paper and the associated demo program beyond the results described in \cite{frost2014demonstration}-\cite{hafiz:frost} is that Montague's treatment of transitive verbs is extended by using the
+$(n^2 - n)$ functions that are defined by the $n$-ary relation associated with each of the more complex
+transitive verbs. First Montague's treatment of transitive verbs will be introduced.
+
+\subsection{Montague's Treatment of Transitive Verbs}
+
+%NOTE: this is in relation to 3.0
+
+\label{icsc2020conf:montytransitive}
+Transitive verbs in MS are handled using syntactic manipulation rather than with an explicit semantic denotation (see page 216 of \cite{Dowty:wall}).
+
+
+\subsection{An Alternative Treatment of Transitive Verbs I}
+In earlier work \cite {frost2006realization}, an explicit denotation for transitive verbs was developed that gives the same result as MS for some queries when their translations to lambda expressions are rewritten to their canonical forms. However, this approach does not work for queries such as ``hall discovered a moon'', since the denotation of the term-phrase ``a moon'' is more complex than the denotation of the term-phrase ``phobos''.
+
+\subsection{An Alternative Treatment of Transitive Verbs II}
+\label{icsc2020conf:altvbii}
+
+%NOTE: this is in direct relation to 3.1
+
+One solution to the problem above is to use sets rather than characteristic functions (predicates) of those sets (as discussed in Section \ref{icsc2020conf:frostmont}) in the denotations of transitive verbs. The basic idea \cite{frost1989constructing} which is adopted in this paper is to consider transitive verbs as relations from the subjects or objects of those verbs to the events they participate in. 
+Specifically, transitive verbs are denoted using the {\em function defined by the binary relation} (FDBR) \cite{peelar2016accommodating} induced by the relation $\mathit{rel}$ that underlies the verb:
+\begin{equation*}
+	\begin{split}
+		&\FDBR{\mathit{rel}} = \{(x, \mathit{image}_x)\ | \ (\exists e)\ (x, e) \in \mathit{rel}\ \\& \qquad \& \ \mathit{image}_x = \{ y\ |\ (x, y) \in \mathit{rel} \}  \}
+	\end{split}
+\end{equation*}
+
+Briefly, $\FDBR{\mathit{rel}}$ converts $\mathit{rel}$ into a function without any loss of information by grouping together elements in the codomain that are related under the same element in the domain. For example, consider the relation underlying the active voice of ``discover'', $\relation{discover}$:
+\[ \FDBR{\relation{discover}} = \{(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \} ),\ \mathrm{etc} \ldots \} \]
+If the transitive verb is followed by a term-phrase such as ``phobos'' or ``a moon'', then
+the function denoted by that term-phrase is used to ``filter'' the denotation of the transitive verb for relevant actors. For example:
+\[ \meaningof{discovered} \ \meaningof{phobos} \implies \{ (\entityassoc{\hall}, \{ \eventassoc{1045} \} ) \} \]
+Similarly,
+\[\meaningof{discovered} \ \meaningof{a\ moon} \implies \{ (\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \} ), \dots \} \]
+\noindent The denotation of the transitive verb ``discover'' follows from the above:
+\begin{multline*}
+	\meaningof{discover} = \\
+	\lambda t\ \{ (s,\ \mathit{relevs})\ |\ (s, \mathit{evs})\ \in\ \FDBR{\relation{discover}}\  \\
+	\&\ (t\ \objfdbr{evs} \neq \emptyset) \\
+	\&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}} \}
+\end{multline*}
+where $\objfdbr{evs}$ is the FDBR from the objects in the events of the set $\mathit{evs}$ to the events they participate in within $\mathit{evs}$.  In the examples above,
+\begin{multline*}
+	\objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}} \\ = \{(\entityassoc{phobos}, \{\eventassoc{1045}\}), (\entityassoc{deimos}, \{\eventassoc{1046}\}) \}
+\end{multline*}
+
+When $\meaningof{\phobos}$ is applied to $\objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}}$, it filters the FDBR
+to only contain {\em relevant} pairs\footnote{The notion of event relevance is discussed in more detail in \cite{peelar2016accommodating}}.  If the FDBR is empty after filtering, then the pair corresponding to that FDBR is discarded.
+The function $\gatherevs{\mathit{fdbr}}$ returns the set of all events in the second column of $\mathit{fdbr}$:
+\[ \gatherevs{\mathit{fdbr}} = \{ \mathit{ev}\ |\ (\exists \mathit{e})(\exists \mathit{evs})\ (e, \mathit{evs}) \in \mathit{fdbr}\ \&\ \mathit{ev} \in \mathit{evs} \} \]
+As another example, consider $\meaningof{\discover\ \every\ \moon}$:
+\begin{equation*}
+	\begin{split}
+		& \meaningof{\discover\ \every\ \moon} \\
+		\implies & \meaningof{discover}\ (\meaningof{\every\ \moon}) \\
+		\implies & (\lambda t\ \{(s, \mathit{relevs})\ |\ (s, \mathit{evs})\ \in \FDBR{\relation{\discover}}\ \\
+		& \qquad \&\ t\ \objfdbr{evs} \neq \emptyset  \\
+		& \qquad \&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}}\})\ \\
+		& \quad (\meaningof{\every\ \moon}) \\
+		\implies & \{(s, \mathit{relevs})\ |\ (s, \mathit{evs})\ \in \FDBR{\relation{\discover}}\ \\
+		& \qquad \&\ \meaningof{\every\ \moon}\ \objfdbr{evs} \neq \emptyset \\
+		& \qquad \&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}} \} \\
+		\implies & \emptyset \qquad(\mathrm{owing\ to\ the\ fact\ that\ no\ entity\ in\ the} \\
+		\phantom{\implies} & \phantom{\emptyset} \qquad \mathrm{universe\ of\ discourse\ discovered\ every\ moon})
+	\end{split}
+\end{equation*}
+
+Specifically, observe how the pair $(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \}) \in \FDBR{\relation{\discover}}$ is treated above:
+\begin{equation*}
+	\begin{split}
+		&\meaningof{\mathit{every\ moon}}\ \objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}} \\
+		\implies & \meaningof{\mathit{every\ moon}}\ \\
+		& \qquad \{(\entityassoc{phobos}, \{\eventassoc{1045}\}), (\entityassoc{deimos}, \{\eventassoc{1046}\})\} \\
+		\implies & \emptyset \quad (\mathrm{owing\ to\ the\ fact\ that\ there\ exist\ entities}\ \\
+		\phantom{\implies}	& \phantom{\emptyset} \quad \mathrm{other\ than\ \phobos\ and\ \deimos \ in\ the\ set\ \moon})
+	\end{split}
+\end{equation*}
+
+In this event-based approach, the result of a verb-phrase such as ``discovered phobos'' is a list
+of pairs, each pair consisting of an entity which discovered phobos, paired with the set of events of
+type {\em discover} in which that entity was the subject and $\entityassoc{\phobos}$ was the object.
+In other words, the set of events in each pair can be thought of as a form of justification for the subject entity in the first field of that pair belonging in the result.
+
+\subsection{Accommodating Chained Prepositional Phrases}
+
+The above approach can be extended to support prepositional phrases in queries with only minor changes \cite{peelar2016accommodating, frost2013event}. Briefly, the denotations of the prepositions act as filters to the denotation of the transitive verb they apply to.  Consider, for example, the query ``discovered in 1877 with a telescope''.  In this query, the prepositions are ``in 1877'' and ``with a telescope''.  Performing this filtering is identical to the term-phrase filtering shown above, with some added logic to select columns other than the subject and object from the relation.
+
+The denotation for a preposition applied to a term-phrase is a pair  $(\mathit{props},$ $\mathit{tmph})$ where $\mathit{props}$ is a set of properties that an FDBR should be constructed from (for example ``implement'', ``year'', or ``location''), and $\mathit{tmph}$ is the term-phrase that will be applied to that resulting FDBR.
+\begin{equation*}
+	\begin{split}
+		\meaningof{\mathit{at}} =&\ \lambda t\ (\{\mathit{location}\}, t) \\
+		\meaningof{\mathit{in}} =&\ \lambda t\ (\{{\mathit{location}}, {\mathit{year}}\}, t) \\
+		\meaningof{\mathit{with}} =&\ \lambda t\ (\{\mathit{implement}\}, t) \\
+		\meaningof{\mathit{using}} =&\ \lambda t\ (\{\mathit{implement}\}, t) \\
+		\meaningof{\mathit{to}} =&\ \lambda t\ (\{\mathit{subject}\}, t)
+	\end{split}
+\end{equation*}
+
+Under this approach, a prepositional phrase is treated in the same way as the term-phrase following the verb \cite{peelar2016accommodating}.
+This approach is powerful enough that the word ``by'', as in ``discovered by'', can be treated in the same way as a preposition, enabling active and passive voices of transitive verbs to be treated in a uniform way.  This was one of the key contributions described in Peelar's Master's thesis \cite{peelar2016accommodating}.
+\[
+\meaningof{\mathit{by}} = \lambda t\ (\{\mathit{subject}\}, t)
+\]
+The denotation of the transitive verb is filtered in the order that the prepositions appear.  To achieve this, the previous denotation for ``discover'' is modified such that $\objfdbr{evs}$ is replaced with the more general $\propfdbr{prop}{evs}$, and the filtered FDBR from each applied termphrase is fed into the next preposition.  If the passive form of the transitive verb is used, then the relation is flipped and the same logic applies.
+
+\subsection{Formal Denotations of Transitive Verbs}
+
+While a denotation for transitive verbs that allows for chained prepositional phrases and a unified treatment of active and passive voices improves expressibility, there are still a number of queries with transitive verbs that are not possible with the above approach. For example, consider the transitive verb ``used'', as in the query ``refractor\_telescope\_1 was used to discover phobos''.  Here, the subject of the query is a refractor telescope, however it is neither the subject nor object of the relation underlying the denotation of ``used'', which here is the same relation underlying the denotation of ``discover'' -- it is an implement in that relation. 
+A relation would need to be constructed from the ``implement'' property of the relation rather than the ``subject'' or ``object'' property as in the denotations in Section \ref{icsc2020conf:altvbii} in order to compute this.
+
+\newcommand{\mbinrel}[3]{\mathrm{make\_binrel}({#1}, {#2}, {#3})}
+
+This can be addressed with minor modifications to those denotations. Namely, the underlying relation is generalized to be $n$-ary. The columns of the $n$-ary relation are the properties of the event type of the transitive verb, with one column corresponding to the event identifier itself as in the denotation in Section \ref{icsc2020conf:altvbii}. A new function {\em make\_binrel} is introduced which converts an $n$-ary relation $r$ into a binary relation by selecting two columns $c_1$ and $c_2$ from it:
+\[
+\mbinrel{r}{c_1}{c_2} = \ldots
+\]
+The FDBR is constructed from the underlying relation by using a new function that works on $n$-ary relations:
+\[\mathrm{FDBR}_{\mathit{prop}}(r) = \FDBR{\mbinrel{r}{\mathit{prop}}{eventid}}\]
+Here, $\mathit{eventid}$ refers to the column of the relation that contains the event.
+The denotation for transitive verbs is augmented with the property $\mathit{prop}$ used to form the binary relation from the $n$-ary relation, for example ``subject'', ``object'', or ``implement'', replacing $\FDBR{r}$ with $\mathrm{FDBR}_{\mathit{prop}}(r)$.  With these revisions, it is possible to express a denotation for the passive voice of the verb ``used'' (as in ``what was used by hall''):
+\begin{equation*}
+	\begin{split}
+		&\meaningof{used\ by} = \\
+		&\lambda t\ \{ (s,\ \mathit{relevs})\ |\ (s, \mathit{evs})\ \in\ \mathrm{FDBR}_{\mathit{implement}}(\relation{\discover})\  \\
+		& \&\ (t\ \propfdbr{subject}{evs} \neq \emptyset) \\
+		& \&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}} \}
+	\end{split}
+\end{equation*}
+Now, denotations for transitive verbs can be provided from any property to any other property, for example from implements to years, or from years to objects. This could be useful for constructing NL interfaces for other languages, such as French.
+
+\section{The $n^2-n$ Functions Defined By An $n$-ary Relation}
+
+The major contribution of this paper is to use the approach described above to considerably broaden the coverage of English compared to other systems and earlier \cite{graphmqslide,peelar2016accommodating} query interfaces developed in this direct line of research.
+First, notice that the phrase ``discover x'' often appears in contexts where the result expected is
+the set of subjects who discovered ``x''. However the words ``discover'' and ``discovered''
+also appear in other contexts. For example, ``discover with a telescope'' (subjects expected), ``discovered by
+hall'' (objects expected), ``how was x discovered''  (implements expected), ``who used a telescope
+to discover something in 1877'' (subjects expected), and ``when was a telescope used to discover'' (years
+expected).
+
+%TODO: keep this away from events for now
+It has been observed that different functions can be defined for a set of events. Suppose that the event is
+thought of as a row in an $n$-ary relation, such as the 5-ary discover relation (Table \ref{icsc2020conf:discover}).
+%\setlength{\tabcolsep}{0.4em} % for the horizontal padding
+%\renewcommand{\arraystretch}{1}% for the vertical padding
+	\begin{table}
+		\caption{\footnotesize\normalfont\scshape\\The "Discover'' Relation}
+		\centering
+		%\vspace{-0,25cm}
+		\begin{tabular}{  c c c c c  }
+			\hline \hline
+			subject & object & date & implement & location \\
+			\hline
+			\dots & \dots & \dots & \dots & \dots \\
+			hall & phobos & 1877 & refractor\_telescope\_1 & us\_naval\_observatory \\
+			\dots & \dots & \dots & \dots & \dots \\
+			\hline \hline
+		\end{tabular}
+		\vspace{-1em}
+		\label{icsc2020conf:discover}
+	\end{table}
+	
+	The example in Section \ref{icsc2020conf:montytransitive} used the FDBR from subjects to
+	objects. However, there are $n^2-n = (25-5)$ functions that can be defined from the 5-ary relation above if the function from a column to itself is excluded:
+	subject to object, object to subject, subject to date, date to subject, date to subject, date to object etc.
+	These functions can be used to answer any query about the discover relation, including those containing chained complex prepositional phrases.
+
+\section{Applicability to Relational Databases}
+
+An event-based triplestore can be thought
+of as a set of tables in a relational database where each event corresponds to a row in a table.  Each table corresponds to a relation in the event-based triplestore (e.g, the ``discover'' relation).
+The event identifier, which is unique, becomes the row index.
+The only interface that the semantics has with the underlying database is through simple retrieval functions.  Currently, they are implemented using Triple Pattern Fragments \cite{verborgh2014web}, but they could also be implemented using simple SQL queries. Therefore, it is possible to use our approach with any relational database platform.
+
+\section{Implementation}
+
+NLQIs using Montague-type semantics are ideally suited for implementation in syntax-directed interpreters. One form of syntax-directed interpreter is an EAG in which the executable code of the interpreter has a close similarity to textbook attribute grammar notation. Accordingly, the Solarman NLQI is built as an executable specification of an attribute grammar using the Haskell X-SAIGA context-free parser combinator library \cite{frost2008parser, hafiz:frost}.  The source code for Solarman, including the X-SAIGA parser combinator library, is available on the Hackage package archive \cite{XSaiga:2016}.
+%
+%The following Haskell code is an example attribute grammar production rule which defines both the syntax and the semantics of determiner phrases such as ``something'', ``anyone'', ``a person'' or ``every moon'':
+%
+%\begin{boldcode}
+%	detph  = memoize Detph
+%	(parser (nt indefpron S3)
+%	[rule_s TERMPH_VAL OF LHS ISEQUALTO 
+%	copy [synthesized TERMPH_VAL OF S3]]
+%	<|>
+%	parser (nt det S1 *> nt nouncla S2)
+%	[rule_s TERMPH_VAL OF LHS ISEQUALTO 
+%	applydet [synthesized DET_VAL      OF S1,
+%	synthesized NOUNCLA_VAL  OF S2]])                                              
+%\end{boldcode}
+%
+%\noindent
+%This EAG rule corresponds to the following syntax rule, which states that a determiner phrase consists of an indefinite pronoun, or else a determiner followed by a noun clause:
+%
+%\begin{boldcode}
+%	detph  ::=  indefpron  | det nouncla  
+%\end{boldcode}
+%
+%\noindent
+%The attribute grammar rule also encodes two synthesized attribute semantic rules: i) if the determiner phrase is an indefinite pronoun then the {\ttfamily\bfseries\small TERMPH\_VAL} attribute value of the determiner phrase is obtained by copying the {\ttfamily\bfseries\small TERMPH\_VAL} attribute value of the indefinite pronoun, and ii) if the determiner phrase consists of a determiner followed by a noun clause, then the {\ttfamily\bfseries\small TERMPH\_VAL} attribute value of the determiner phrase is obtained by using the function {\ttfamily\bfseries\small applydet} to the {\ttfamily\bfseries\small DET\_VAL} attribute value of the determiner and the {\ttfamily\bfseries\small NOUNCLA\_VAL} attribute vaue of the noun clause.
+
+
+%MORE FOR BELOW
+
+%\subsubsection*{ORAKEL}
+
+%\subsubsection*{QuestIO}
+
+\section{Future Work}
+
+\subsection{Non-event based triplestores}
+
+Our approach requires an event-based triplestore to handle chained prepositional phrases. There is a clear need to support non-event-based Semantic Web triplestores as well. It may be possible to build an adapter from conventional triplestores to event-based triplestores using Semantic Web OWL schemas or a machine learning approach.
+
+\subsection{Very large triplestores}
+
+This approach currently is only viable for databases with tens of thousands of facts, whereas Semantic Web triplestores such as DBPedia \cite{dbpedia} could contain millions.  It is possible to memoize the semantics to avoid FDBRs from being re-computed throughout an expression, greatly improving the evaluation speed.  The demonstration in Section \ref{icsc2020conf::prot} features an early version of this functionality enabling queries with deeply nested transitive verbs to be efficiently evaluated (e.g, ``who discovered a moon that orbits a planet that is orbited by a thing'').  Our approach, which we will expand on in the future, lifts the semantics into a memoized form while maintaining their underlying compositionality.  Furthermore, the FDBRs can be generated and cached offline instead of generating them on the fly.
+
+\subsection{Negation}
+
+The semantics described in this paper use the Open World Assumption and hence do not support negation.  Work has been done on event-based semantics that support negation \cite{champollion2010quantification} in environments where the Closed World Assumption holds. It may be possible to use similar techniques to provide a drop-in denotation for ``not'' and ``no'', supporting negation in our semantics as well.
+
+%%%
+
+\section{Conclusion}
+The approach described in this paper extends previous work on building natural-language query interfaces to online data stores by providing an explicit Montague-style efficient denotation for transitive verbs; and an approach for accommodating queries containing chained complex prepositional phrases. The viability of this approach was demonstrated by building an NL query interface to an event-based semantic-web triplestore containing thousands of facts. The approach could be used with relational databases by considering the $n^2 – n$ functions defined by each $n$-ary relation associated with $n$-ary transitive verbs. Research on scaling this approach is ongoing, with the goal being to create an interface to query data stores containing millions of facts.
+
+
+
+
+
+% if have a single appendix:
+%\appendix[Proof of the Zonklar Equations]
+% or
+%\appendix  % for no appendix heading
+% do not use \section anymore after \appendix, only \section*
+% is possibly needed
+
+% use appendices with more than one appendix
+% then use \section to start each appendix
+% you must declare a \section before using any
+% \subsection or using \label (\appendices by itself
+% starts a section numbered zero.)
+%
+
+
+%\appendices
+
+% use section* for acknowledgement
+
+\section*{Acknowledgment}
+
+This research was funded by a grant from the Natural Sciences and Engineering Research Council of Canada.
+
+
+
+%\pagebreak
+%TODO: these need to be numbered from 1 each time
+\printbibliography[heading=subbibintoc]
+\end{refsection}
+
+\end{document}
