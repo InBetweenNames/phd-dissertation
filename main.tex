@@ -405,35 +405,46 @@
 \begin{uwindefaultspaceenv}
 
 	
-	Some of the material in this thesis is derived from the following research papers:
+	Some of the material in this thesis is derived from the following research 
+	papers:
+	
+%	\begin{center}
+%		\begin{tabular}{ | c | c | c | }
+%			\hline
+%			\parbox{0.6in}{Thesis Chapter} & \parbox{3in}{Publication title/full citation} & \parbox{1in}{Publication Status} \\ 
+%			\hline
+%			2 & \parbox{3.5in}{\fullcite{frost2018extensible}} & Published \\  
+%			\hline
+%			3 & cell8 & Published \\
+%			\hline
+%			4 & cell8 & Published \\
+%			\hline
+%			5 & cell8 & Submitted \\
+%			\hline
+%		\end{tabular}
+%	\end{center}
+	
 \end{uwindefaultspaceenv}
 
-\cite{frosthafiz2008} \fullcite{frosthafiz2008}
 
-\cite{frostagboola2014} \fullcite{frostagboola2014}
+%\fullcite{frosthafiz2008}
 
-\cite{frost2014demonstration} \fullcite{frost2014demonstration}
+%\fullcite{frostagboola2014}
+
+%\fullcite{frost2014demonstration}
+
+\fullcite{frost2018extensible}
+\fullcite{frostpeelar2019}
+\fullcite{peelar2020compositional}
 
 \begin{uwindefaultspaceenv}
 	%TODO
-	Paper \cite{frosthafiz2008} (Frost, Hafiz, and Callaghan) describes a set of functional parser combinators developed by Frost and Hafiz as part of Hafiz's doctoral thesis work, which enables language processors to be built as executable specifications of fully-general attribute grammars, including ambiguous left-recursive grammars.  The processors use a polynomial time complexity top-down parsing strategy which enables a natural specification of the grammars and the associated semantic rules.  This was previously thought to be impossible, and was stated as such in many textbooks on parsing.
+%	Paper \cite{frosthafiz2008} (Frost, Hafiz, and Callaghan) describes a set of functional parser combinators developed by Frost and Hafiz as part of Hafiz's doctoral thesis work, which enables language processors to be built as executable specifications of fully-general attribute grammars, including ambiguous left-recursive grammars.  The processors use a polynomial time complexity top-down parsing strategy which enables a natural specification of the grammars and the associated semantic rules.  This was previously thought to be impossible, and was stated as such in many textbooks on parsing.
 	
-	Paper \cite{frostagboola2014} (Frost, Agboola, Matthews, and Donais) describes an event based semantics developed by Dr. Frost and his research team and includes extracts from a Haskell program which demonstrated the viability of the semantics with respect to an in-program database of triples coded as part of the program.
-	
-	Paper \cite{frost2014demonstration} (Frost, Donais, Matthews, Agboola, and Stewart) describes the demonstration of the Haskell program which I wrote and which forms the basis of this thesis work.  The reason that I am not listed as an author is that the paper was submitted before I officially joined the research team.  I developed the Haskell program after the paper was submitted.  The online program was the one used by Dr. Frost in the demonstration he gave at the conference this paper was presented at.
-	
-	My contributions to the research project include:
-	
-	%TODO: shorten this to fit on one page
-	\begin{itemize}
-		\item Improving the efficiency of the programs which implement the event-based semantics
-		\item Integrating the event-based semantics with the parser combinators to build the query processor
-		\item Enhancing the existing module to access the external triplestore with efficient methods to do so, including a basic form of query fusion in the form of memoization
-		\item Demonstrating a novel method of handling the word ``by'' in prepositional phrases, and extending prepositional phrases to span multiple property names
-		\item Building a web interface to the query processor which includes both an English Natural Language Interface and also a safe Direct Query Interface for directly evaluating the combinators
-		\item Converting the parser Hafiz wrote\cite{frosthafiz2008} to natively work with monads in Haskell, as well as the original semantics\cite{frost2014demonstration} to be monad based
-		\item Maintaining the XSaiga package on {\em Hackage}\cite{XSaiga:2016}, an online repository of Haskell libraries and programs, which contains the semantics, parser, and triplestore described in this Thesis
-	\end{itemize}
+%	Paper \cite{frostagboola2014} (Frost, Agboola, Matthews, and Donais) describes an event based semantics developed by Dr. Frost and his research team and includes extracts from a Haskell program which demonstrated the viability of the semantics with respect to an in-program database of triples coded as part of the program.
+
+
+	A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores (SUBMITTED) %TODO
 	
 	I am aware of the University of Windsor Senate Policy on Authorship and I certify that I have properly acknowledged the contribution of other researchers to my thesis, and have obtained written permission from each of the co-author(s) to include the above material(s) in my thesis. 
 	
@@ -449,6 +460,7 @@
 	standard referencing practices. Furthermore, to the extent that I have included copyrighted material that
 	surpasses the bounds of fair dealing within the meaning of the Canada Copyright Act, I certify that I have
 	obtained a written permission from the copyright owner(s) to include such material(s) in my thesis.
+	
 	I declare that this is a true copy of my thesis, including any final revisions, as approved by my thesis
 	committee and the Graduate Studies office, and that this thesis has not been submitted for a higher degree to
 	any other University or Institution.
@@ -487,26 +499,26 @@
 \addcontentsline{toc}{chapter}{Acknowledgements}
 
 \begin{uwindefaultspaceenv}
-	I'd like to thank, in no particular order:
-	%TODO
+%	I'd like to thank, in no particular order:
+%	
+%	TODO
 	
-	Dr. Richard A. Frost, whom I've been working with since my first semester here at the University of Windsor, for his guidance in my work
-	and the many opportunities he has provided me over the years to participate in research.  You were the first professor I had a chance to have a conversation with when I started
-	my Undergraduate degree here in 2009, and ultimately it is our conversations during the labs of 60-100 that got me seriously interested in functional programming in the first place.
+%	Dr. Richard A. Frost, whom I've been working with since my first semester here at the University of Windsor, for his guidance in my work
+%	and the many opportunities he has provided me over the years to participate in research.  You were the first professor I had a chance to have a conversation with when I started
+%	my Undergraduate degree here in 2009, and ultimately it is our conversations during the labs of 60-100 that got me seriously interested in functional programming in the first place.
 	
-	Dr. Robert D. Kent, for believing in me and providing me with many opportunities to contribute here at the University, and generally being a very positive role model in my life.
-	It is in no small part our talks that have allowed me to refocus, get my priorities straight, and get my life back in order.
+%	Dr. Robert D. Kent, for believing in me and providing me with many opportunities to contribute here at the University, and generally being a very positive role model in my life.
+%	It is in no small part our talks that have allowed me to refocus, get my priorities straight, and get my life back in order.
 	
 	%My External and Internal Readers, Dr. Richard J. Caron and Dr. Luis G. Rueda, for being available on such short notice to participate on my Thesis Committee.
 	
 	%David MacMillan, Bryan St. Amour and Paul Preney, for being great lab partners, being up for interesting conversations, and always being willing to lend an ear.
 	%Thank you also Bryan and Paul for letting me use your LaTeX styles and giving my first draft a read.
 	
-	All of the secretaries in the School of Computer Science for their help during my degree.  Whether it was getting me through scheduling nightmares or helping me get things done by the deadlines, your help has been incredibly invaluable to me and I sincerely thank you for your work.
-	
-	My wife, Taylor, for being incredibly supportive of me both in life and in my work.  It's crazy to think about all that's happened in the last 5 years.  I'm so grateful to have had you by my side through all of it.
-	
-	%And my friend Kyle Iaquinta for taking the time to proofread my Thesis and providing me with positive encouragement throughout my degree.
+%	All of the secretaries in the School of Computer Science for their help during my degree.  Whether it was getting me through scheduling nightmares or helping me get things done by the deadlines, your help has been incredibly invaluable to me and I sincerely thank you for your work.
+%	
+%	My wife, Taylor, for being incredibly supportive of me both in life and in my work.  It's crazy to think about all that's happened in the last 5 years.  I'm so grateful to have had you by my side through all of it.
+%	
 \end{uwindefaultspaceenv}
 
 %----------
@@ -612,6 +624,21 @@ Below is a list of peer-reviewed conference papers that I have authored or co-au
 
 \cite{frost2014demonstration} \fullcite{frost2014demonstration} -- Was involved but not credited
 
+Paper \cite{frost2014demonstration} (Frost, Donais, Matthews, Agboola, and Stewart) describes the demonstration of the Haskell program which I wrote and which forms the basis of this thesis work.  The reason that I am not listed as an author is that the paper was submitted before I officially joined the research team.  I developed the Haskell program after the paper was submitted.  The online program was the one used by Dr. Frost in the demonstration he gave at the conference this paper was presented at.
+
+My contributions to the research project include:
+
+%TODO: reword/shorten
+\begin{itemize}
+	\item Improving the efficiency of the programs which implement the event-based semantics
+	\item Integrating the event-based semantics with the parser combinators to build the query processor
+	\item Enhancing the existing module to access the external triplestore with efficient methods to do so, including a basic form of query fusion in the form of memoization
+	\item Demonstrating a novel method of handling the word ``by'' in prepositional phrases, and extending prepositional phrases to span multiple property names
+	\item Building a web interface to the query processor which includes both an English Natural Language Interface and also a safe Direct Query Interface for directly evaluating the combinators
+	\item Converting the parser Hafiz wrote\cite{frosthafiz2008} to natively work with monads in Haskell, as well as the original semantics\cite{frost2014demonstration} to be monad based
+	\item Maintaining the XSaiga package on {\em Hackage}\cite{XSaiga:2016}, an online repository of Haskell libraries and programs, which contains the semantics, parser, and triplestore described in this Thesis
+\end{itemize}
+
 Peer reviewed Journal papers:
 
 \cite{peelar2019real} \fullcite{peelar2019real}
@@ -619,6 +646,10 @@ Peer reviewed Journal papers:
 %Unrefereed papers:
 
 %TODO: MSc thesis?
+
+\section*{Appendix C - Copyright Releases}
+\addcontentsline{toc}{section}{Appendix C - Copyright Releases}
+\addcontentsline{apc}{appendices}{Appendix C - Copyright Releases}
 
 \chapter*{Vita Auctoris}
 \addcontentsline{toc}{chapter}{Vita Auctoris}
