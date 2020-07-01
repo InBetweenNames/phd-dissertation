@@ -214,7 +214,6 @@ For example, the function defined by the $\relation{discover}_{\mathit{subject} 
 	\FDBR{\relation{discover}_{\mathit{subject} \rightarrow \mathit{object}}} = \\ \{ (\entityassoc{hall}, \{\entityassoc{phobos}, \entityassoc{deimos}\}), (\entityassoc{kuiper}, \{ \entityassoc{miranda}, \entityassoc{nereid} \}),
 	\mathit{etc} \ldots \}
 \end{multline*}
-
 In such functions, we shall refer to the first value in a pair as the ``subject'' and the value in
 the second place as the ``set of objects''.
 Consider the query ``who discovered phobos'': the function which is the denotation
@@ -351,7 +350,6 @@ expected if the queries are treated as having leftmost, outermost quantifier sco
 	\setlength\itemsep{0em}
 	\item every moon that orbits mars and was discovered with a telescope was discovered by a person – $\True$
 \end{enumerate}
-
 The evaluation begins by retrieving all of the ``moon'' entities and then
 intersecting this set with the set returned by evaluating $\meaningof{orbits\ mars}$, which is obtained by use of the
 function $\mathit{f\_orbit}_{\mathit{subject} \rightarrow \mathit{object}}$ from subjects to the set of objects which they orbit. The function that is the
@@ -456,7 +454,6 @@ $\FDBR{\mathit{rel}}$ in $O(n\ log\ n)$ time, where $n$ is the number of pairs i
 Alternatively, the FDBR functions can be computed and stored in a cache when the NLQI is offline.
 Our implementation is amenable to running on low power devices, enabling it for use with the Internet of Things. A version of our query processor exists that can run on a common consumer network router as a proof of concept for this application.
 The use of Haskell for the implementation of our NLQI has many advantages, including:
-
 \begin{enumerate}
 	\setlength\itemsep{0em}
 	\item Haskell's ``lazy'' evaluation strategy of Haskell only computes values when they are required, enabling parser combinator

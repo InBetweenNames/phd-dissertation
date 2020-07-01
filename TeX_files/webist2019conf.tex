@@ -46,7 +46,7 @@ Our NLQI computes answers with respect to a triplestore containing data about th
 
 The triplestore contains triples such as the following which represent the event \#1045 in which \texttt{hall} (in the role of \textit{subject}) discovered \texttt{phobos} (in the role of \textit{object}) in 1877 (in the role of \textit{year}) with the \texttt{refractor\_telescope\_1} (in the role of \textit{implement})  at the \texttt{us\_naval\_observatory} (in the role of \textit{location}).
 
-\begin{table}
+\begin{table}[h]
 	\caption{Events of type ``Discover''. The full URIs of the events, properties, and entities have been omitted here.}
 	\label{webist2019conf:evdiscover}
 	\centering
@@ -83,7 +83,7 @@ The triplestore contains triples such as the following which represent the event
 
 Events representing set membership are represented as follows:
 
-\begin{table}
+\begin{table}[h]
 	\caption{Events of type ``Membership''.}
 	\label{webist2019conf:evmember}
 	\centering
@@ -271,31 +271,31 @@ It may be surprising that \textit{cassini} is returned in the answer since it is
 All quantifiers, such as ``a'', ``every'' and ``more than two'' are treated in MS as functions which take two characteristic functions of sets as arguments and return a Boolean value as result. Our modifications to MS are to use sets of entities instead of predicates/characteristic functions of those sets, and to pair sets of events with each entity; the set of events paired with an entity justify the entity’s inclusion in the denotation. For example:
 \begin{multline*}
 	\meaningof{propernoun} = \\ \lambda p.
-	\{(e, \evs)\ |\ (e, \evs) \in p\ \&\ e = \\ \mathrm{the\ entity\ associated\ with\ the\ proper\ noun}\}
+	\{(e, \evs)\ |\ (e, \evs) \in p\ \&\ e = \mathrm{the\ entity\ associated\ with\ the\ proper\ noun}\}
 \end{multline*}
 \begin{equation*}
 	\begin{split}
 		\meaningof{spins} = \{(\entityassoc{phobos}, \{\eventassoc{1360}\}),
-		(\entityassoc{deimos}, \{\eventassoc{1332}\}), \\ \etc\}
+		(\entityassoc{deimos}, \{\eventassoc{1332}\}),\ \etc\}
 	\end{split}
 \end{equation*}
 Therefore,
 \begin{equation*}
 	\begin{split}
 		& \meaningof{phobos\ spins} = \meaningof{phobos}\ \meaningof{spins} \\
-		& = \lambda s.\ \{(e, \evs) | (e, \evs) \in s\ \&\ e = \entityassoc{phobos}\} \\
-		& \qquad \{(\entityassoc{phobos},{\eventassoc{1360}}), (\entityassoc{deimos}, \eventassoc{1332}), \ldots\} \\
+		& = \lambda s.\ \{(e, \evs) | (e, \evs) \in s\ \&\ e = \entityassoc{phobos}\} 
+		 \{(\entityassoc{phobos},{\eventassoc{1360}}), (\entityassoc{deimos}, \eventassoc{1332}), \ldots\} \\
 		& = \{(\entityassoc{phobos}, \eventassoc{1360})\}
 	\end{split}
 \end{equation*}
-\begin{multline*} %TODO: intersect_fdbr
-	\meaningof{a} = \lambda m \lambda s.\ \{(e_1,\evs_2)\ |\ (e_1,\evs_1) )\in m \\
+\begin{equation*} %TODO: intersect_fdbr
+	\meaningof{a} = \lambda m \lambda s.\ \{(e_1,\evs_2)\ |\ (e_1,\evs_1) )\in m\ 
 	\&\ (e_2,\evs_2) \in s\ \&\ e_1 = e_2\})
-\end{multline*}
-\begin{multline*}
+\end{equation*}
+\begin{equation*}
 	\meaningof{a\ moon\ spins} =
-	\{(\entityassoc{phobos}, \eventassoc{1360}), \\ (\entityassoc{deimos}, \eventassoc{1332}),\ \etc\}
-\end{multline*}
+	\{(\entityassoc{phobos}, \eventassoc{1360}),\ (\entityassoc{deimos}, \eventassoc{1332}),\ \etc\}
+\end{equation*}
 
 %TODO every
 
@@ -318,14 +318,19 @@ In order to generate the  answer to ``hall discovered every moon that orbits mar
 \noindent $\relationn{discover}{year}{subject}$ $\relationn{discover}{year}{object}$ $\relationn{discover}{year}{implement}$ $\dots$ \\
 
 \noindent $\etc$ to 20 binary relations for  the set of discovery events or an 5-ary discovery relation. For example:
-\begin{multline*}
-	\relationn{discover}{subject}{object} = \\ \{(\event{1045}, \entity{hall}, \entity{phobos}), (\event{1046}, \entity{hall}, \entity{deimos}), \etc\}
-\end{multline*}
+\begin{equation*}
+	\relationn{discover}{subject}{object} = \{(\event{1045}, \entity{hall}, \entity{phobos}), (\event{1046}, \entity{hall}, \entity{deimos}), \etc\}
+\end{equation*}
 If we collect all of the values from the range of a relation that are mapped to by each value $v$ from the domain (i.e. the image of $v$ under the relation $r$) and create the set of all pairs $(v, image\_of\_v)$, we obtain a function defined by the relation $r$, i.e. the FDBR. For example:
-\begin{multline*}
-	\FDBR{\relationn{discover}{subject}{object}} \\ = \{ ( \entity{hall}, \{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\}) \}),\\ \etc\}
-\end{multline*}
-It is these functions that are created, and used, by the denotation of the transitive verb associated with the type of the events. For example in calculating the value of $\meaningof{who\ discovered\ every\ moon\ that\ orbits\ mars}$, $\meaningof{every}$ is applied to the set of entities which is the denotation of ``moon that orbits mars'' (i.e $\{ (\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\}$ ) and all of the images that are in the second field of the pairs in $\FDBR{\relationn{discover}{subject}{object}}$. For the pair $(\entity{hall}, \{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\})$, $\meaningof{every}$ returns the non-empty set $\{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\}$, and the value in the first field, i.e. $\entity{hall}$, is subsequently returned with the answer to the query.
+\begin{equation*}
+	\begin{split}
+	\FDBR{\relationn{discover}{subject}{object}} = \{& ( \entity{hall}, \{(\entity{phobos}, \{\event{1045}\}),\ (\entity{deimos}, \{\event{1046}\}) \}),\\
+	&\etc\}
+	\end{split}
+\end{equation*}
+It is these functions that are created, and used, by the denotation of the transitive verb associated with the type of the events. For example in calculating the value of $\meaningof{who\ discovered\ every\ moon\ that\ orbits\ mars}$, $\meaningof{every}$ is applied to the set of entities which is the denotation of ``moon that orbits mars'' (i.e $\{ (\entity{phobos}, \{\event{1045}\}),\\ (\entity{deimos}, \{\event{1046}\})\}$) and all of the images that are in the second field of the pairs in $\FDBR{\relationn{discover}{subject}{object}}$.
+
+For the pair $(\entity{hall}, \{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\})$, $\meaningof{every}$ returns the non-empty set $\{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\}$, and the value in the first field, i.e. $\entity{hall}$, is subsequently returned with the answer to the query.
 
 The various FDBRs are used to answer different types of queries. For example: \\
 

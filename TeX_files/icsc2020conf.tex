@@ -205,10 +205,9 @@ One solution to the problem above is to use sets rather than characteristic func
 Specifically, transitive verbs are denoted using the {\em function defined by the binary relation} (FDBR) \cite{peelar2016accommodating} induced by the relation $\mathit{rel}$ that underlies the verb:
 \begin{equation*}
 	\begin{split}
-		&\FDBR{\mathit{rel}} = \{(x, \mathit{image}_x)\ | \ (\exists e)\ (x, e) \in \mathit{rel}\ \\& \qquad \& \ \mathit{image}_x = \{ y\ |\ (x, y) \in \mathit{rel} \}  \}
+		&\FDBR{\mathit{rel}} = \{(x, \mathit{image}_x)\ | \ (\exists e)\ (x, e) \in \mathit{rel}\ \& \ \mathit{image}_x = \{ y\ |\ (x, y) \in \mathit{rel} \}  \}
 	\end{split}
 \end{equation*}
-
 Briefly, $\FDBR{\mathit{rel}}$ converts $\mathit{rel}$ into a function without any loss of information by grouping together elements in the codomain that are related under the same element in the domain. For example, consider the relation underlying the active voice of ``discover'', $\relation{discover}$:
 \[ \FDBR{\relation{discover}} = \{(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \} ),\ \mathrm{etc} \ldots \} \]
 If the transitive verb is followed by a term-phrase such as ``phobos'' or ``a moon'', then
@@ -218,20 +217,22 @@ Similarly,
 \[\meaningof{discovered} \ \meaningof{a\ moon} \implies \{ (\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \} ), \dots \} \]
 \noindent The denotation of the transitive verb ``discover'' follows from the above:
 \begin{multline*}
-	\meaningof{discover} = \\
+	\meaningof{discover} =
 	\lambda t\ \{ (s,\ \mathit{relevs})\ |\ (s, \mathit{evs})\ \in\ \FDBR{\relation{discover}}\  \\
-	\&\ (t\ \objfdbr{evs} \neq \emptyset) \\
+	\&\ (t\ \objfdbr{evs} \neq \emptyset)
 	\&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}} \}
 \end{multline*}
 where $\objfdbr{evs}$ is the FDBR from the objects in the events of the set $\mathit{evs}$ to the events they participate in within $\mathit{evs}$.  In the examples above,
 \begin{multline*}
-	\objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}} \\ = \{(\entityassoc{phobos}, \{\eventassoc{1045}\}), (\entityassoc{deimos}, \{\eventassoc{1046}\}) \}
+	\objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}} = \{(\entityassoc{phobos}, \{\eventassoc{1045}\}), (\entityassoc{deimos}, \{\eventassoc{1046}\}) \}
 \end{multline*}
-
 When $\meaningof{\phobos}$ is applied to $\objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}}$, it filters the FDBR
 to only contain {\em relevant} pairs\footnote{The notion of event relevance is discussed in more detail in \cite{peelar2016accommodating}}.  If the FDBR is empty after filtering, then the pair corresponding to that FDBR is discarded.
 The function $\gatherevs{\mathit{fdbr}}$ returns the set of all events in the second column of $\mathit{fdbr}$:
-\[ \gatherevs{\mathit{fdbr}} = \{ \mathit{ev}\ |\ (\exists \mathit{e})(\exists \mathit{evs})\ (e, \mathit{evs}) \in \mathit{fdbr}\ \&\ \mathit{ev} \in \mathit{evs} \} \]
+\begin{equation*}
+	\gatherevs{\mathit{fdbr}} = \{ \mathit{ev}\ |\ (\exists \mathit{e})(\exists \mathit{evs})\ (e, \mathit{evs}) \in \mathit{fdbr}\ \&\ \mathit{ev} \in \mathit{evs} \}
+\end{equation*}
+
 As another example, consider $\meaningof{\discover\ \every\ \moon}$:
 \begin{equation*}
 	\begin{split}
@@ -248,7 +249,6 @@ As another example, consider $\meaningof{\discover\ \every\ \moon}$:
 		\phantom{\implies} & \phantom{\emptyset} \qquad \mathrm{universe\ of\ discourse\ discovered\ every\ moon})
 	\end{split}
 \end{equation*}
-
 Specifically, observe how the pair $(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \}) \in \FDBR{\relation{\discover}}$ is treated above:
 \begin{equation*}
 	\begin{split}
@@ -259,7 +259,6 @@ Specifically, observe how the pair $(\entityassoc{\hall}, \{ \eventassoc{1045}, 
 		\phantom{\implies}	& \phantom{\emptyset} \quad \mathrm{other\ than\ \phobos\ and\ \deimos \ in\ the\ set\ \moon})
 	\end{split}
 \end{equation*}
-
 In this event-based approach, the result of a verb-phrase such as ``discovered phobos'' is a list
 of pairs, each pair consisting of an entity which discovered phobos, paired with the set of events of
 type {\em discover} in which that entity was the subject and $\entityassoc{\phobos}$ was the object.
@@ -279,7 +278,6 @@ The denotation for a preposition applied to a term-phrase is a pair  $(\mathit{p
 		\meaningof{\mathit{to}} =&\ \lambda t\ (\{\mathit{subject}\}, t)
 	\end{split}
 \end{equation*}
-
 Under this approach, a prepositional phrase is treated in the same way as the term-phrase following the verb \cite{peelar2016accommodating}.
 This approach is powerful enough that the word ``by'', as in ``discovered by'', can be treated in the same way as a preposition, enabling active and passive voices of transitive verbs to be treated in a uniform way.  This was one of the key contributions described in Peelar's Master's thesis \cite{peelar2016accommodating}.
 \[
@@ -358,7 +356,7 @@ The only interface that the semantics has with the underlying database is throug
 
 \section{Implementation}
 
-NLQIs using Montague-type semantics are ideally suited for implementation in syntax-directed interpreters. One form of syntax-directed interpreter is an EAG in which the executable code of the interpreter has a close similarity to textbook attribute grammar notation. Accordingly, the Solarman NLQI is built as an executable specification of an attribute grammar using the Haskell X-SAIGA context-free parser combinator library \cite{frost2008parser, hafiz:frost}.  The source code for Solarman, including the X-SAIGA parser combinator library, is available on the Hackage package archive \cite{XSaiga:2016}.
+NLQIs using Montague-type semantics are ideally suited for implementation in syntax-directed interpreters. One form of syntax-directed interpreter is an EAG in which the executable code of the interpreter has a close similarity to textbook attribute grammar notation. Accordingly, the Solarman NLQI is built as an executable specification of an attribute grammar using the Haskell X-SAIGA context-free parser combinator library \cite{frost2008parser, hafiz:frost}.  The source code for Solarman, including the X-SAIGA parser combinator library, is available on the Hackage package archive \cite{xsaiga}.
 %
 %The following Haskell code is an example attribute grammar production rule which defines both the syntax and the semantics of determiner phrases such as ``something'', ``anyone'', ``a person'' or ``every moon'':
 %
