@@ -1,0 +1,640 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Accommodating Negation in an Efficient Event-Based Natural Language Query Interface to the Semantic Web}
+
+\begin{refsection}
+
+\label{chapter:webist2020conf}
+
+This paper was submitted to the WEBIST 2020 conference.  We have not yet received our paper notification,
+although we expect to receive it on September 14 2020. %TODO
+
+\section{Introduction}
+\label{sec:introduction}
+
+%first paragraph after section is noindent
+
+\noindent The Semantic Web consists of a collection of triplestores accessible via \textit{endpoints} that process queries using various query languages.  Widely used methods for querying triplestores include using SPARQL \cite{sparql} and Linked Data Fragments (LDF) \cite{verborgh2014web}.  These query languages, while powerful, are not designed with end-users in mind, with their primary use cases revolving around databases rather than user-facing applications.
+An alternative approach to using a database querying language directly is to use a Natural Language Query Interface (NLQI).  NLQIs have a number of benefits including being accessible through both text and speech modalities.
+
+There are two main approaches used by NLQIs.  Machine Learning (ML) can be used to attempt to determine the user's intent and retrieve corresponding relevant information.  This has the advantage of being able to support a wide variety of queries, with the risk that returned information may not truly satisfy the user's intent.  The second type of approach is to use a Compositional Semantics (CS) to directly answer the query with regards to a knowledge base.  CS is predicated on the notion that the meaning of a sentence can be derived from the meaning of its parts \cite{Dowty:wall}.  This has the advantage that the answer to a query is as correct as the information in the knowledge base itself. As a result, CS-based NLQIs are able to express highly sophisticated ``narrow'' queries using complex linguistic constructs including superlatives and chained prepositional phrases.  For example, it is possible for the NLQI presented in this paper to evaluate, with respect to a knowledge base consisting of facts about the solar system, the query:
+\begin{center}
+	\texttt{which vacuumous moon that orbits the planet that is orbited by the most moons was discovered by nicholson or pickering with a telescope in 1898 in not mt\_wilson or not mt\_hopkins}
+\end{center}
+However, CS approaches have drawn a lot of criticism.  They have been characterized as being rigid, and therefore not sufficiently able to handle complex queries in real world applications.  Recent work has addressed a number of these issues, including accommodating chained complex prepositional phrases \cite{peelar2016accommodating}, $N$-ary transitive verbs \cite{peelar2020compositional} and superlative phrases \cite{frostpeelar2019}.  It has also been shown that CS can be memoized for efficient evaluation \cite{peelar2020webistjournal}, which also enables offline pre-computation of query results.  %The NLQI presented in this paper is capable of running on low power systems and even directly in web browsers using technologies
+
+One criticism of our previous approaches was that they relied on the Open World Assumption (OWA) and hence could not support negation in queries.  While the Resource Description Framework (RDF) \cite{w3csemanticweb} underlying the Semantic Web itself is predicated on the OWA, there exist triplestores where the Closed World Assumption (CWA) holds, particularly in knowledge bases for expert systems.  It would be ideal to support negation in queries to these triplestores.
+
+In this paper, we show that it is possible to accommodate negation in an English NLQI to an event-based triplestore where the CWA holds.
+In particular, we describe an English NLQI to an event-based triplestore using a CS that supports arbitrary quantification including negation, complex linguistic constructs including chained prepositional phrases with superlatives and $N$-ary transitive verbs.
+The approach is an extension of Montague’s approach \cite{Dowty:wall}.
+
+%TODO: at end
+In \Cref{subsec:prevwork} we describe previous work on NLQIs to the Semantic Web that support negation.  In \Cref{sec:demo} we describe how to access a live demonstration of our NLQI that can accommodate the queries presented in this paper along with some example queries.  In \Cref{sec:event} we describe event-based semantics and in \Cref{sec:negation} we describe how to accommodate negation where the CWA holds. In \Cref{sec:examples} we provide a list of examples queries and explain how they are processed.  Finally, we conclude in \Cref{sec:future} and \Cref{sec:conclusion}.
+
+%TODO: discuss FDBR?
+
+
+\subsection{Previous work}
+\label{subsec:prevwork}
+
+In 2002, Frost and Boulos introduced the notion of ``complementary sets'' as a way of accommodating negation in FLMS, a set-theoretic version of Montague Semantics \cite{frostboulos2002}. Their approach has two drawbacks: first, that a separate denotation for transitive verbs had to be created for handling queries such as ``\texttt{discover no moon}''.  In practice, this means that 4 denotations of transitive verbs are required: for active and passive tense verbs, and the corresponding ``\texttt{no}'' query (as in ``\texttt{discover no moon}'' or ``\texttt{discovered by no person}'').  The approach presented in this paper requires only one denotation for transitive verbs for all cases, including with the presence of chained prepositional phrases and superlatives.  Second, their approach required that the cardinality of the set of entities in the database be a known constant.  The denotations presented in this paper receive the cardinality of the set of entities as an argument instead.  A query is made to the triplestore itself to retrieve the cardinality of the set of entities, removing the need for computing it locally.
+
+Champollion showed that that negation in event-based CS can be accommodated using ``negative events'' \cite{champollion2011}.  These appear to be similar to the ideas expressed in \cite{frostboulos2002}, although both approaches were developed independently.
+Where Frost and Boulos discuss representing the result of a ``negative'' query by implicitly enumerating the complement of a set of entities, Champollion describes events that preclude other events from occurring.  This gives some confidence about the nature of the approach taken towards accommodating negation in CS. Our own approach to negation in this paper is based in part on \cite{frostboulos2002}, but is event-based rather than entity-based and therefore suitable for event-based triplestores.
+
+%Champollion in \cite{champollion2015interaction} described how event-based denotational semantics can be integrated with a neo-davidsonian approach, which was previously believed to not be possible.  Our own approach was developed independently and seems to follow the same lines of thought...
+
+SQUALL \cite{ferre:squall} has limited support for negation in queries, mapping negation onto the ``\texttt{NOT EXISTS}'' construct of SPARQL.  In particular, SQUALL has a denotation for the adverb ``\texttt{not}'', where its presence removes triples from the result set.  This implies closed-world semantics for the query \cite{dazari2014bridging}, although this is not discussed by the authors.  SQUALL is unable to accommodate negation in noun-phrases (such as ``which non-moon spins'').  SQUALL is also unable to negate termphrases (for example ``not Hall or not Galileo'').  The reading of SQUALL queries is also not as natural as what our semantics can accommodate.  The example given in \cite{ferre2014squall}, ``\textit{Which author of Paper42 has not affiliation Salford\_University?}'' could be expressed in the semantics of this paper as ``\textit{Which author of Paper42 is not affiliated with Salford\_University?}''.  Also, where SQUALL depends strictly on translation to SPARQL, the approach described in this paper is not tied to any particular database query language or interface and could readily be adapted to relational databases.
+
+%Furthermore, our approach can accommodate double negatives (can SQUALL do that?) and nested... (moon that was discovered by no team in 2007 TODO)
+
+\section{How to Access our NLQI}
+\label{sec:demo}
+
+\noindent A live demonstration of our NLQI is accessible via the following URL:
+\begin{center}
+	\url{https://speechweb2.cs.uwindsor.ca/solarman4/demo_sparql.html}
+\end{center}
+In addition to accepting textual input, it also can be interacted with speech on browsers that support the WebSpeech API \cite{world2018web}.  Currently, this includes Google Chrome-based browsers and Firefox.
+
+\subsection{Example Queries}
+
+The following are a list of example queries that demonstrate features of the interface:
+
+\noindent $N$-ary Transitive verbs:
+
+\newcommand{\examplespacing}{\vspace{0.5em}}
+
+\examplespacing
+
+\texttt{who used a telescope to discover a moon}
+
+\examplespacing
+
+\noindent Quantification:
+
+\examplespacing
+
+%bold?
+\texttt{who used two telescopes to discover one moon} $\Rightarrow$ \texttt{science\_team\_2}
+
+\examplespacing
+
+\noindent Chained prepositional phrases:
+
+\examplespacing
+
+\texttt{which telescope was used by a person in 1877} $\Rightarrow$ \texttt{refractor\_telescope\_1}
+
+\noindent Superlatives:
+
+\examplespacing
+
+\texttt{hall discovered the most moons that orbit mars} $\Rightarrow$ \texttt{True}
+
+\examplespacing
+
+\noindent Negated noun-phrases:
+
+\examplespacing
+
+\texttt{a non-planet was discovered} $\Rightarrow$ \texttt{True}
+
+\examplespacing
+
+\noindent Negated verb-phrases:
+
+\examplespacing
+
+\texttt{allen did not discover anything} $\Rightarrow$ \texttt{True}
+
+\examplespacing
+
+\noindent Negated term-phrases, including conjunction:
+
+\examplespacing
+
+\texttt{not hall and galileo discovered phobos} $\Rightarrow$ \texttt{False}
+
+\examplespacing
+
+\noindent Adjectives:
+
+\examplespacing
+
+\texttt{enceladus is a vacuumous moon} $\Rightarrow$ \texttt{True}
+
+\examplespacing
+
+%TODO: more?
+
+
+%Additionally, a version of our NLQI that operates entirely within the web browser can be found here:
+
+\section{Event-Based Denotational Semantics}
+\label{sec:event}
+
+\noindent The approach described in this paper builds upon FLMS \cite{frost1989constructing}, EV-FLMS \cite{frost2014demonstration}, UEV-FLMS \cite{peelar2016accommodating}, and most recently
+Memoized UEV-FLMS \cite{frostpeelar2019}.  Notably, our semantics are event-based rather than entity-based.  The fundamental data structure underlying our semantics is called the Function defined by a Relation, or \textit{FDBR}, described in \Cref{subsec:fdbr}.  This data structure has been shown to be useful in answering a wide variety of Natural Language queries \cite{frostpeelar2019}.  In this paper, we show how the FDBR can be used to answer queries involving negation in event-based databases where the CWA holds.
+
+\subsection{Event-based Triplestores}
+
+A conventional triplestore is a database of triples that have the form \textit{(Subject, Predicate, Object)}.
+An event-based triplestore is a triplestore where the \textit{Subject} of a triple denotes an event \cite{frost2013event}\cite{frost2014demonstration}.
+The main advantage event-based triplestores offer is that it is straightforward to add additional
+information to an event by simply adding more triples referencing that event.  It is less straightforward to do the same in a triplestore where the \textit{Subject} denotes an entity.
+Such an approach in a conventional triplestore requires \textit{reification} and involves using ontological information to link multiple triples together.
+
+As an example, consider a triple that describes the statement ``Jane bought a pencil'':
+\begin{small}
+	\begin{verbatim}
+    <ent:Jane> <act:purchase> <ent:pencil_1> .
+	\end{verbatim}
+\end{small}
+Without reification, there is no way to add other information about the purchase to the triplestore, such as the price, or the time or location that the transaction took place.
+In an event-based triplestore, this is straightforward:
+\begin{small}
+	\begin{verbatim}
+        <event:1> <type> <type:purchase_ev> .
+        <event:1> <subject> <ent:Jane> .
+        <event:1> <object> <ent:pencil_1> .
+	\end{verbatim}
+\end{small}
+Since the triples directly reference the event itself, adding more information about the event simply involves adding more triples to the triplestore with the \textit{Subject} matching the event.
+
+%\subsection{Event-based Compositional Semantics}
+%
+%...
+%
+%\cite{peelar2016accommodating}
+
+\subsection{The Function Defined by a Relation (FDBR)}
+\label{subsec:fdbr}
+
+The notion of a \textit{Function defined by a Relation} (FDBR) was first described in \cite{peelar2016accommodating} as useful datastructure for accommodating chained prepositional phrases in Natural Language Queries.  It was shown that the word ``by'', as in ``discovered by'', could be treated as a ``virtual preposition'' under this approach. In \cite{frostpeelar2019} it was shown that the FDBR can be used to answer many kinds of NL queries including superlatives (including those that occur in a prepositional phrase), and as a useful datastructure for memoizing the results of queries performed in the denotations.  This vastly improved query execution time and opened the door for offline computation of results.
+The definition of the FDBR is as follows:
+\begin{equation*}
+		\FDBR{\mathit{rel}} = \{(x, \mathit{image}_x)\ | \ (\exists e)\ (x, e) \in \mathit{rel}\ \& \ \mathit{image}_x = \{ y\ |\ (x, y) \in \mathit{rel} \}  \}
+\end{equation*}
+Where \textit{rel} is the name of a binary relation.
+The FDBR has been shown to be useful for the denotation of transitive verbs.  Consider the denotation for the active voice of ``\texttt{discover}'' given in \cite{peelar2020compositional}, for example:
+\begin{multline*}
+	\meaningof{discover} =
+	\lambda t\ \{ (s,\ \mathit{relevs})\ |\ (s, \mathit{evs})\ \in\ \FDBR{\relation{discover}}\ \\
+	\&\ (t\ \objfdbr{evs} \neq \emptyset)\ \&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}} \}
+\end{multline*}
+where $\objfdbr{evs}$ is the FDBR from the objects in the events of the set $\mathit{evs}$ to the events they participate in within $\mathit{evs}$.  ``\texttt{discover phobos}'', where \texttt{phobos} is a proper noun, results in the FDBR:
+\begin{equation*}
+	\{(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \})\}
+\end{equation*}
+The FDBR can be readily extended to $N$-ary relations (and hence $N$-ary transitive verbs) \cite{peelar2020compositional}. In this paper we show that with some small modifications, the FDBR can be used to answer NL queries with negation as well, in cases where the CWA holds.
+%
+%\subsection{Memoized Compositional Semantics}
+%
+%\noindent In \cite{frostpeelar2019} it was shown that it is possible to memoize an event-based semantics, drastically improving time complexity... the approach described in this paper builds on this ... %TODO: do we even need to mention this?
+
+%
+%\section{\uppercase{The Open and Closed World Assumptions}}
+%
+%%TODO: move to introduction?
+%\noindent RDF relies on the OWA \cite{w3csemanticweb}.  Unfortunately, the OWA precludes
+%negation in queries, which might be useful in certain applications.  It would be ideal to support negation in applications where the CWA holds. The Open World Assumption (OWA) can be informally characterized by the statement ``the absence of evidence does not constitute evidence of absence''.  RDF maintains the OWA as part of its specification.
+
+\section{Accommodating Negation}
+\label{sec:negation}
+\noindent Negation in NL queries is only possible if the CWA holds for a database.  We modify
+the semantics presented in \cite{frostpeelar2019}, \cite{frost2018extensible} and \cite{peelar2020compositional} such that the results of denotations may return the complement of an FDBR in addition to an FDBR, adopting a similar approach to \cite{frostboulos2002}.  We define this type as follows:
+\begin{small}
+	\begin{verbatim}
+		type Result = FDBR fdbr | ComplementFDBR fdbr
+	\end{verbatim}
+\end{small}
+We then define the intersection of two \texttt{Result} types as follows:
+\begin{small}
+	\begin{verbatim}
+    intersect_result (FDBR a) (FDBR b)
+    = FDBR $ intersect_fdbr a b
+    intersect_result (FDBR a) (ComplementFDBR b)
+    = FDBR $ difference_fdbr a b
+    intersect_result (ComplementFDBR a) (FDBR b)
+    = FDBR $ difference_fdbr b a
+    intersect_result (ComplementFDBR a)
+    (ComplementFDBR b)
+    = ComplementFDBR $ union_fdbr a b
+	\end{verbatim}
+\end{small}
+Where \texttt{intersect\_fdbr} operates as it did previously, and a new function \linebreak \texttt{difference\_fdbr} is introduced as follows:
+\begin{multline*}
+\mathit{difference\_fdbr} = \\ \lambda m \lambda s.\{(e_1,\evs_2)\ |\ (e_1,\evs_1) \in m\ \&\ \forall(e_2, \evs_2)\ ((e_2,\evs_2) \in s\ \Rightarrow e_1 \neq e_2)\}
+\end{multline*}
+That is, \textit{difference\_fdbr} removes all entities found in the left column of the second FDBR from the first FDBR.  This is a key function for performing negation, and plays a similar role to the \texttt{NOT EXISTS} operator in SPARQL.  A function is introduced for computing the union of \texttt{Results} as well:
+\begin{small}
+	\begin{verbatim}
+    union_result (FDBR a) (FDBR b)
+    = FDBR $ union_fdbr a b
+    union_result (FDBR a) (ComplementFDBR b)
+    = ComplementFDBR $ b `difference_fdbr` a
+    union_result (ComplementFDBR a) (FDBR b)
+    = ComplementFDBR $ a `difference_fdbr` b
+    union_result (ComplementFDBR a)
+    (ComplementFDBR b)
+    = ComplementFDBR $ a `intersect_fdbr` b
+	\end{verbatim}
+\end{small}
+This is used in the denotation of ``\texttt{and}'' and ``\texttt{or}'' as used with termphrases.
+Next, we introduce a function to obtain the cardinality of a Result:
+\begin{small}
+	\begin{verbatim}
+    cardinality _ (FDBR np) = List.length np
+    cardinality (Just num_ents) (ComplementFDBR np)
+    = num_ents - length np
+	\end{verbatim}
+\end{small}
+
+The first argument to this function is passed in from the query pipeline described in \cite{peelar2020webistjournal}, and is either \texttt{Nothing} or \texttt{Just num\_ents}, where
+\texttt{num\_ents} is the cardinality of the set of entities in the triplestore.  It will only be retrieved if the query has any denotations involving negation in it.
+
+Our approach maintains leftmost-outermost scoping of quantifiers including negation, which provides for a natural reading of the query.
+
+\subsection{Quantifiers}
+\label{subsec:quantifiers}
+
+We modify the denotations of all quantifiers to be characterized in terms of the cardinality:
+\begin{small}
+	\begin{verbatim}
+    a' = intersect_result
+    every'' cardinality nph vbph =
+    if cardinality res == cardinality nph
+    then res else FDBR []
+    one'' cardinality nph vbph =
+    if cardinality res == 1 then res else FDBR []
+    two'' cardinality nph vbph =
+    if cardinality res == 2 then res else FDBR []
+    most'' cardinality nph vbph =
+    if n_nph /= 0 && (n_nph_v / n_nph) > 0.5
+    then res else FDBR []
+    where
+    n_nph = fromIntegral $ cardinality nph
+    n_nph_v = fromIntegral $ cardinality res
+	\end{verbatim}
+\end{small}
+where in the above denotations, \texttt{res = intersect\_result'' nph vbph}.
+Curiously, the function \texttt{cardinality} appears as the first argument to these
+quantifiers, giving them three arguments in total.  This function is passed in from the caller
+as a function that can be used to obtain the cardinality of a FDBR.  A function, ``\texttt{apply\_card}'' is used to automatically apply the cardinality function to the denotations.  For example:
+\begin{small}
+	\begin{verbatim}
+    every' = applyCard every'' >|< GettsIntersect GI_Every
+    every = wrapS2 every'
+	\end{verbatim}
+\end{small}
+The \texttt{>|<} operator is described in more detail in \cite{peelar2020webistjournal}.  It
+is used to assign a unique name to the denotations according to the syntax tree of the query.
+This is useful for memoization and query optimization.
+``\texttt{no}'' is denoted as follows:
+\begin{small}
+	\begin{verbatim}
+    no'' cardinality nph (FDBR []) =
+    ComplementFDBR []
+    no'' cardinality nph vbph =
+    if cardinality res == 0 then vbph
+    else FDBR []
+	\end{verbatim}
+\end{small}
+This is a departure from the denotation of ``\texttt{no}'' given in \cite{frostboulos2002}.
+Namely, the complement of the empty FDBR (denoting ``everything'') is returned when an empty
+FDBR is passed as the second argument to ``\texttt{no}''.  This is critical in handling ``\texttt{no}'' in the denotation of transitive verbs as discussed later in \Cref{subsec:tvs}.
+
+\subsection{Negating Noun- and Verb-phrases}
+
+We denote ``\texttt{not}'', when applied to a verb-phrase (such as ``\texttt{not spins}'') as follows:
+\begin{small}
+	\begin{verbatim}
+    not (FDBR vbph) = ComplementFDBR vbph
+    not (ComplementFDBR vbph) = FDBR vbph
+	\end{verbatim}
+\end{small}
+``\texttt{non}'' plays a similar role as a prefix to a noun-phrase, and can be denoted as:
+\begin{small}
+	\begin{verbatim}
+    non = not
+	\end{verbatim}
+\end{small}
+
+\subsection{Negating Term-phrases}
+
+One aspect missing from both \cite{ferre2014squall} and \cite{frostboulos2002} is the notion
+of negating termphrases, such as ``\texttt{hall}'', ``\texttt{a moon}'', ``\texttt{one moon}'', and ``\texttt{no moon}'', which exhibits double negation.  Negating termphrases provides more flexibility to the query interface, making it possible to express the query:
+
+\begin{center}
+	\texttt{who discovered in 1877 not one moon that orbits mars}
+\end{center}
+Where ``\texttt{one}'' denotes ``exactly one''.  This query explicitly is excluding any discoverers that discovered exactly one \texttt{moon} that orbits \texttt{mars}.  It results in \texttt{hall}, because \texttt{hall} discovered two \texttt{moons} that orbit \texttt{mars} in 1877.
+``\texttt{not}'' when applied to a term-phrase, such as ``\texttt{hall}'' or ``\texttt{a moon}'' is denoted as follows:
+\begin{small}
+	\begin{verbatim}
+    termnot tmph vbph
+    = intersect_result (not (tmph vbph)) vbph
+	\end{verbatim}
+\end{small}
+Therefore \texttt{not hall spins} is evaluated as follows:
+\begin{small}
+	\begin{verbatim}
+    (not hall) spins
+    => intersect_result (not (hall spins)) spins
+    => intersect_result (not (FDBR [])) spins
+    => intersect_result (ComplementFDBR []) spins
+    => spins
+    => True  (because spins is not empty)
+	\end{verbatim}
+\end{small}
+Negating term-phrases was not discussed in \cite{frostboulos2002}, and it offers more flexibility
+in the nature of queries that can be performed (see \Cref{sec:examples})
+
+
+\subsection{A Denotation for Transitive Verbs that Accommodates Superlatives, Prepositional Phrases, and Negation}
+\label{subsec:tvs}
+
+Transitive verbs are less straightforward to accommodate with negation.  Consider the following query:
+\begin{center}
+    \texttt{ganymede discovered no moons}
+\end{center}
+\noindent This query should evaluate to $\True$, as \texttt{ganymede}, a \texttt{moon}, was not the subject of any discovery events -- however, \texttt{ganymede} is not the \textit{subject} of any events of type \textit{discover}.  Therefore, it is missing from $\FDBR{\relation{discover}_{subject}}$, where $\relation{discover}_{subject}$ is the relation from the \textit{subject}s of the \textit{discover} events to the events of type \textit{discover} that they participate in.
+
+A denotation is given in \cite{frostboulos2002} that accommodates this usage of transitive verbs, however it requires syntactic disambiguation at the grammar level to apply correctly.  The approach also does not scale well when other linguistic constructs are introduced, such as chained prepositional phrases and superlatives, requiring a new denotation to support each usage.  The examples given in that paper required 4 denotations for transitive verb depending on the context.
+
+The denotation we introduce expands on the denotation introduced in \cite{frostpeelar2019}, where we described how superlative phrases can also be accommodated.  This new denotation evaluates the list of prepositional phrases (including superlatives) in leftmost-outermost order, which is consistent with other work in the area \cite{champollion2010quantification}, \cite{ferre2014squall}.  For example, the query ``\texttt{discovered a moon in 1877 with a telescope}'' would be evaluated with scoping as though it were as follows:
+``\texttt{discovered (a moon (in 1877 (with a telescope)))} -- that is, ``\texttt{with a telescope}'' takes precedence over ''\texttt{in 1877}, which in turn takes precedence over \texttt{a moon}''.
+
+Only one denotation for transitive verbs is required for all cases (rather than 4 as in \cite{frostboulos2002}). In particular, the word ``\texttt{no}'' can be handled compositionally rather than syntactically in the query.
+
+We modify the denotation for transitive verbs given in \cite{peelar2020webistjournal} to evaluate the list of prepositional phrases in leftmost-outermost order.  The \texttt{filter\_ev} function, described in \cite{peelar2016accommodating}, is modified to operate on one prepositional phrase at a time: a new FDBR is computed for each prepositional phrase applied.  This allows superlatives to be neatly evaluated in order rather than after the prepositions are evaluated as denoted in \cite{frostpeelar2019}.  \texttt{filter\_ev} also is modified to account for negation in the query: first, the current prepositional phrase is evaluated against the empty FDBR (\texttt{FDBR[]}).  If the result is not an FDBR, then it is a \texttt{no} termphrase:
+\begin{small}
+	\begin{verbatim}
+    in no place (FDBR [])
+    => ComplementFDBR []
+	\end{verbatim}
+\end{small}
+This is owing to the denotation of \texttt{no} used in \Cref{subsec:quantifiers}.  Indeed, the only way to obtain a non-empty FDBR from applying an empty FDBR is through negation.  When this is the case, \texttt{filter\_ev} returns a complement in the same fashion as \cite{frostboulos2002}.
+
+Since \texttt{filter\_ev} can also receive the complement of an FDBR, as in the case when negation is present in the query, applying term-phrases can be difficult.  The complement operation is reversed by taking the FDBR of the transitive verb itself and performing the intersection of it with the complement passed into \texttt{filter\_ev}.  Whether negation is present in the current prepositional phrase or not, this FDBR is passed in to the termphrase of that preposition.  If no negation is present in the current preposition, the result is returned as-is, unless it contains a superlative.  Otherwise, if negation is present, then if a complement of an FDBR was passed into \texttt{filter\_ev}, the FDBR used in the denotation of the transitive verb itself is used to compute the complement, otherwise the FDBR passed into \texttt{filter\_ev} is used directly. This allows for \texttt{discover no moon in 1948} to work as expected. This can neatly handle the following cases:
+
+\examplespacing
+
+\texttt{discover no moons in no places with no telescopes}
+
+\examplespacing
+
+\noindent The result is the complement of the FDBR of those that discovered a moon in a place with a telescope
+
+\examplespacing
+
+\texttt{discover no moons in 1877}
+
+\examplespacing
+
+\noindent The result is the complement of the FDBR of those that discovered a moon in 1877
+
+\examplespacing
+
+\texttt{discover a moon in 1877}
+
+\examplespacing
+
+\noindent The result is the FDBR of the people that discovered a moon in 1877.
+
+\subsection{Obtaining the cardinality of the entities of the triplestore}
+
+In systems where the Open World Assumption holds, obtaining the cardinality of the set of entities
+may not be possible, as the cardinality of that set may be infinite.  Attempting to obtain that set at all may not be practical.  Even in systems where the CWA holds, obtaining the set of all entities in the database may not be feasible.  Fortunately, only the cardinality is required to start answering queries.
+
+A new querying primitive is introduced from \cite{peelar2020webistjournal} that queries the remote triplestore itself for the cardinality of the set of entities in the triplestore:
+
+\begin{verbatim}
+        getts_cardinality_allents ev_data props
+\end{verbatim}
+
+Here, \texttt{ev\_data} represents the URL of the triplestore itself (in the case of SPARQL, a SPARQL endpoint URL), and \texttt{props} is the set of properties of the events contained in the triplestore whose entities should be counted towards the cardinality.  In the example queries given in this paper, the properties listed for cardinality are \texttt{subject}, \texttt{object}, \texttt{location}, and \texttt{implement}.  We exclude the \texttt{year} property as entities must exist both physically and temporally \cite{w3csemanticweb}.  This function, like the other  \texttt{getts*} family functions described in \cite{frostpeelar2019}, can be specialized for different types of databases, including relational triplestores.
+
+This alleviates having to send the full set of entities to the semantics in order to answer a query that uses negation. Note that the cardinality of the set of entities of the triplestore is only ever required in queries that have negation present.  Using the memoization and triplestore querying framework described in \cite{peelar2020webistjournal}, a guarantee is made that if no negation is present in the query, the cardinality query will never be performed.  Therefore, our denotations for negation in queries, including ``\texttt{not}'', ``\texttt{non}'', ``\texttt{no}'' and ``\texttt{the least}'', are drop-in enhancements to NLQIs built using our framework: if the CWA holds for the application, all one needs to do is add these denotations in.  Otherwise, the NLQI will operate with the open world semantics described in \cite{frostpeelar2019}.
+
+In some cases, the user may want to force evaluation of the complement.  It is possible to introduce a special denotation, ``\texttt{force\_eval}'', will obtain all triples and force retrieval of all entities.  This may be cached on the interface to alleviate the load against the remote triplestore using the memoization framework in \cite{frostpeelar2019}.  It may be appropriate to evaluate the complement if its cardinality is under a certain threshold as well, triggering ``\texttt{force\_eval}'' automatically -- this could be customized on a per-application basis.
+
+\subsection{Accommodating ``the least''} %galileo discovered no moon
+
+In \cite{frostpeelar2019} we described how to accommodate superlative phrases compositionally by
+delegating their evaluation to the transitive verb they are arguments of.  This allows them to appear in chained prepositional phrases.
+
+One problem described with that approach was answering queries with superlatives such as ``the least'' or ``the lowest number of''.  The main reason for this was owing to the OWA underlying the semantics.  Under that approach, ``\texttt{which planets are orbited by the least number of moons}'' would return \texttt{earth}, despite both \texttt{venus} and \texttt{mercury} having a lower number of moons than Earth.  The semantics had no concept of \textit{zero} and could only report about what was observable.  Since there were no events explicitly stating that \texttt{venus} and \texttt{mercury} had no moons, it could not assume that it was not the case.
+
+We propose an alternative approach in this paper, where ``\texttt{the least}'' is handled similarly to the word ``\texttt{no}''.  The denotation for ``\texttt{the least}'' first checks that the complement of the FDBR is non-empty.  If so, ``\texttt{the least}'' returns the complement of that FDBR -- this allows for ``venus'' and ``mercury'' to appear in the result set while removing all non-candidates.  If the complement of the FDBR is empty, however, then it performs the same cardinality partitioning that the ``\texttt{the most}'' does \cite{frostpeelar2019}, except it chooses the lowest {\em object cardinality} entities to form the result rather than the greatest.
+
+\section{Example Queries}
+\label{sec:examples}
+\noindent The following are some example queries that can be handled by our NLQI.  With each query
+we explain the result and how it was evaluated.
+
+\examplespacing
+
+\texttt{no people spin} $\Rightarrow \True$
+
+\examplespacing
+
+\noindent The intersection of the \texttt{people} and \texttt{spins} FDBRs is empty, therefore \texttt{no} returns \texttt{spin}, which is non-empty and therefore $\True$.
+
+\texttt{a non person exists} $\Rightarrow \True$
+
+\examplespacing
+
+\noindent ``\texttt{non person}'' is the complement of the \texttt{person} set, and the intersection of this complement with the \texttt{exists} set (which is the complement of the empty set) is the same as the complement of the union of the \texttt{person} set with the \texttt{empty} set.  The answer is characterized in terms of the cardinality, which for the complement of an FDBR is defined as the cardinality of the number of set of entities in the triplestore minus the cardinality of the FDBR itself.  This is greater than 0, and therefore there is at least one entity that is both a non-person and exists.
+
+\examplespacing
+
+\texttt{a person does not exist} $\Rightarrow \False$
+
+\examplespacing
+
+\noindent This computes the intersection of the \texttt{person} FDBR with the complement of the \texttt{exists} FDBR, which is just the empty FDBR.  Therefore, the result is empty, and the result is $\False$.
+
+\examplespacing
+
+\texttt{what discovered no moon in 1877} $\Rightarrow$ \texttt{everything except: hall}
+
+\examplespacing
+
+\noindent This sentence is treated similarly to \texttt{what did not discover a moon in 1877}.  The result is the complement of the set of entities that discovered a moon in 1877, in this case, \texttt{hall}.
+
+\examplespacing
+
+\texttt{what discovered a non moon} $\Rightarrow$ \texttt{nothing.}
+
+\examplespacing
+
+\noindent This query is specifically asking about entities that discovered non-moons -- the entities that did not discover anything are not included in this set and therefore an FDBR is returned.  Since that FDBR is empty, the result is that nothing in our triplestore discovered any non-moons.
+
+\examplespacing
+
+\texttt{allen discovered no moon at no places} $\Rightarrow$ $\True$
+
+\examplespacing
+
+\noindent The result of ``\texttt{discovered no moon at no places}'' is the complement of the FDBR returned from ``\texttt{discovered a moon at a place}''.  This includes entities that either discovered a moon at no known location, or discovered a non-moon at a known location.  Since \texttt{allen} does not appear in the FDBR returned by ``\texttt{discovered a moon at a place}'', the result is $\True$.
+
+\examplespacing
+
+\texttt{what discovered the most moons using no telescopes} $\Rightarrow$ \texttt{voyager\_science\_team}
+
+\examplespacing
+
+\noindent This query combines both a superlative phrase with negation.  The query is asking ``out of the events where entities discovered something without using a telescope, which ones discovered the most moons''.  Since \texttt{voyager\_science\_team} used no telescopes at all to discover 22 moons, more than any other entities that discovered using no telescopes, they are in the result set.
+
+\examplespacing
+
+\texttt{what was discovered by no team in 1877} $\Rightarrow$ \texttt{everything.}
+
+\examplespacing
+
+\noindent This query is handled the same as ``\texttt{what was not discovered by a team in 1877}'', which returns the complement of the empty FDBR, since no \texttt{teams} discovered anything in 1877.
+
+\examplespacing
+
+\texttt{how was something discovered using no telescope} $\Rightarrow$ \texttt{I can't perform this query because I would need to enumerate the entire triplestore.}
+
+\examplespacing
+
+\noindent This query is asking about which implements that are not telescopes were used in a discovery event.  However, \texttt{something} is defined as the complement of the empty FDBR, and \texttt{discovered using no telescope} is the complement of the FDBR of \texttt{discovered using a telescope}.  Since the intersection of the two complements is itself a complement, \texttt{how} receives the complement of an FDBR and is unable to enumerate the events to retrieve implements from directly.  Although it is possible to answer the query by fully evaluating the complement, we have not implemented this behaviour in our NLQI at this time.  However, a similar query, ``\texttt{which non telescope was used to discover something}'' is able to yield the result ``\texttt{cassini, voyager\_1, voyager\_2}''.
+
+%\examplespacing
+
+%\noindent This query will return the non-telescopes that were used in all events of type discovery.
+
+\examplespacing
+
+\texttt{not hall discovered ganymede} $\Rightarrow$ $\True$
+
+\examplespacing
+
+\noindent ``not hall'' is a negated term-phrase.  The result is $\True$ because \texttt{galileo} discovered \texttt{ganymede}, not \texttt{hall}.
+
+\examplespacing
+
+\texttt{which person that does not spin discovered no planet in 1877 using a telescope and is a discoverer} $\Rightarrow$ \texttt{bernard, bond, cassini, christy, dollfus, galileo, hall, herschel, holman, huygens, karkoschka, kowal, kuiper, lassell, melotte, nicholson, perrine, pickering, sheppard, showalter}
+
+\examplespacing
+
+\noindent The result is all of the people that are \texttt{discoverers}, since none of the members of \texttt{person} \texttt{spin}, and none of them discovered a \texttt{planet} in 1877 using a \texttt{telescope}.  It may be helpful to examine the scoping of this query:
+
+\examplespacing
+
+\texttt{which (person `that` (does not spin)) ((discovered (no planet) [in 1877, using (a telescope)]) and (is a discoverer))}
+
+\examplespacing
+
+\texttt{nothing exists} $\Rightarrow \False$
+
+\examplespacing
+
+\noindent This is $\False$ because the intersection of \texttt{thing} and \texttt{exists} is non-empty.
+
+\examplespacing
+
+\texttt{everything exists} $\Rightarrow$ $\True$
+
+\examplespacing
+
+\noindent This is $\True$ because \texttt{thing} and \texttt{exists} are both the complement of the empty FDBR, and the intersection of those results in the same.  Therefore ``\texttt{thing}'' is a subset of ``\texttt{exists}''.
+
+\examplespacing
+
+\texttt{what was not discovered by hall} $\Rightarrow$ \texttt{everything except: deimos, phobos}
+
+\examplespacing
+
+\noindent This is the complement of the FDBR ``discovered by hall''.  The answer is the set of all things excluding those that \texttt{hall} discovered.
+
+\examplespacing
+
+\texttt{phobos and deimos were not discovered by not hall} $\Rightarrow$ $\True$
+
+\examplespacing
+
+\noindent This query features double negation and is equivalent to asking ``phobos and deimos were discovered by hall''.  The result is $\True$.
+
+\examplespacing
+
+\texttt{not not kuiper discovered not not nereid}
+
+\examplespacing
+
+\noindent This query also features double negation on the termphrases \texttt{kuiper} and \texttt{nereid}.
+This is equivalent to the query \texttt{kuiper discovered nereid}.
+
+\examplespacing
+
+\texttt{which non vacuumous moon that orbits most planets that spin was not discovered by kuiper at two places using the most telescopes in 1942} $\Rightarrow$ \texttt{none.}
+
+\examplespacing
+
+\noindent This query features a variety of complex linguistic constructs, including nested $N$-ary transitive verbs, adjectives, negation, chained prepositional phrases, quantification and superlative phrases.  The result is ``none'' because ``\texttt{non vacuumous moon that orbits most planets that spin}'' returns the empty FDBR, and the intersection of the empty FDBR with any set is also the empty FDBR.
+
+\examplespacing
+
+\texttt{not no moon orbits mars} $\Rightarrow \True$
+
+\examplespacing
+
+\noindent This query features a negated termphrase, which itself consists of the word ``no'' (entailing negation itself). ``\texttt{orbits mars}'' is the FDBR from the entities \texttt{phobos} and \texttt{deimos} to their orbit events, and ``\texttt{not no moon orbits mars}'' evaluates to ``\texttt{orbits mars}'' with the entities of ``\texttt{no moon orbits mars}'' removed.  Since ``\texttt{no moon orbits mars}'' is $\False$, it returns the empty FDBR, which is then removed from ``\texttt{orbits mars}'', giving a non-empty result.  Therefore, the query returns $\True$. This provides evidence that our NLQI correctly handles negation as a compositional construct.
+
+\examplespacing
+
+\texttt{who discovered no moons at no places} $\Rightarrow$ \texttt{allen, baum, buie, burns ...(full results omitted)... weaver, young\_e\_f, young\_l\_a}
+
+\examplespacing
+
+The result is everyone that is not known to have discovered a moon at a place.  This includes the discoverers that discovered a moon at no known location, or whose location property is not listed in the event, or discoverers that discovered a non moon at a known location.
+
+\examplespacing
+
+\section{Future Work}
+\label{sec:future}
+
+\noindent Our next efforts will be focused on creating an NLQI to DBPedia using the approaches
+described here and in \cite{peelar2020webistjournal}.  Specifically, we plan to use Timbr.ai \cite{timbr} to provide a relational view of DBPedia, targeting SQL as the query language.
+Once this is done, we plan to test our NLQI using well-known benchmarks such as QALD \cite{qald9}.
+
+We also plan to explore interfacing with non-event based triplestores in general.  ML approaches may be useful in contexts where ontological information is not available for reification.
+
+
+\section{Conclusions}
+\label{sec:conclusion}
+
+\noindent In conclusion, we have shown that it is possible to accommodate negation in our event-based CS efficiently.  We have shown that our approach to negation is powerful, able to be applied to noun-phrases, verb-phrases, and term-phrases.  We presented a denotation for ``\texttt{no}'' that enables it to be treated as a quantifier that can be compositionally used in conjunction with transitive verbs, either as an argument to the verb or as a preposition.  We improved on \cite{frostboulos2002} by maintaining only one denotation for transitive verbs throughout the semantics rather than requiring different denotations depending on the context.  Notably, our approach to negation seems to be consistent with other work in event semantics \cite{champollion2011}.  We improved on \cite{ferre2013squall} by enabling the negation of term-phrases, and also enabling our approach to be used with other query languages than SPARQL.  We discussed the necessity of the Closed World Assumption for queries involving negation and described how to extend the CS in \cite{frostpeelar2019} to accommodate negation in queries.  Where the CWA is not appropriate, leaving out the denotations for ``\texttt{not}'', ``\texttt{non}'', and ``\texttt{the least}'' is sufficient to restore the Open World Assumption in the semantics.  Our approach also fits within the memoization framework in \cite{frostpeelar2019}. We also discussed example queries that are supported with our NLQI and explained how the results are formed.
+We believe now that our semantics is ready to be benchmarked directly against other systems on large knowledge bases using, for example, QALD-9 \cite{qald9}.
+
+\section*{Acknowledgements}
+
+\noindent This research was supported by NSERC of Canada.
+
+%TODO
+%\bibliographystyle{apalike}
+%{\small
+%	\bibliography{frostpaper}}
+
+
+\section*{Appendix}
+
+\noindent The complete source code for the demonstration, including the semantics and parsing framework, can be found online at the Hackage Haskell package repository under the \textit{XSaiga} project \cite{xsaiga}:
+
+\begin{center}
+	\url{https://hackage.haskell.org/package/XSaiga}
+\end{center}
+
+%TODO: these need to be numbered from 1 each time
+\printbibliography[heading=subbibintoc]
+
+\end{refsection}
+
+\end{document}
