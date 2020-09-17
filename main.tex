@@ -48,6 +48,9 @@
 \newcommand{\listappendicesname}{List of Appendices}
 \newlistof{appendices}{apc}{\listappendicesname}
 
+\newcommand{\listabbreviationsname}{List of Abbreviations}
+\newlistof{abbreviations}{abc}{\listabbreviationsname}
+
 %\usepackage{underscore}
 \graphicspath{ {images/} }
 
@@ -238,45 +241,51 @@
 \title{\dtitle}
 \date{\defensedate}
 
+%TODO: Explain first few years of doctoral work understanding and improving efficiency
+%of parser (time complexity change?) and EAG combinators written by Richard and Rahmatullah
+
 \begin{document}
-	
+
+\emergencystretch 3em %TODO: check other papers for margins TEST
+%https://tex.stackexchange.com/questions/9107/how-can-i-make-my-text-never-go-over-the-right-margin-by-always-hyphenating-or-b
+
 \setlength{\abovedisplayskip}{0pt}
 \setlength{\belowdisplayskip}{12pt}
 \setlength{\abovedisplayshortskip}{0pt}
-\setlength{\belowdisplayshortskip}{0pt} 
-	
+\setlength{\belowdisplayshortskip}{0pt}
+
 %\renewcommand{\gitMark}{
-%	Branch: \gitBranch\,@\,\gitAbbrevHash{} 
-%	\textbullet{} 
-%	Release:\gitReln{} 
+%	Branch: \gitBranch\,@\,\gitAbbrevHash{}
+%	\textbullet{}
+%	Release:\gitReln{}
 %	(\gitAuthorDate)
 %}
-	
+
 \pagenumbering{roman}
 
 %---------
 
 \clearpage
 
-%TODO: change title to Scalable, Efficient and Precise Natural Language *Semantics* in the Semantic Web?
+%TODO: change title to Scalable, Efficient and Precise Natural Language *Semantics* *for* the Semantic Web?
 
 \thispagestyle{empty}
 \begin{center}
 	\vspace*{0in}
-	
+
 	\begin{uwinsinglespaceenv}
 		\Large{\strong\dtitle}
 	\end{uwinsinglespaceenv}
-	
+
 	\vspace{0.125in}
 	%\vspace{\fill} %
 	\begin{uwinonehalfspaceenv}
 		by
-		
+
 		Shane Peelar
 	\end{uwinonehalfspaceenv}
 	\vspace{1.625in}
-	
+
 	%\normalsize
 	\begin{uwinonehalfspaceenv}
 	A Dissertation \\*
@@ -286,16 +295,16 @@
 	the Degree of Doctor of Philosophy at the \\*
 	University of Windsor \\*
 	\end{uwinonehalfspaceenv}
-	
+
 	\vspace{0.625in}
 	\begin{uwinonehalfspaceenv}
 	Windsor, Ontario, Canada \\
-	
+
 	%\vspace{0.5cm}
-	
+
 	\phantom{2020} \\
 	%\vspace{0.5cm}
-	
+
 	\textcopyright \  2020 Shane Peelar
 	\end{uwinonehalfspaceenv}
 \end{center}
@@ -310,8 +319,8 @@
 	\begin{uwinonehalfspaceenv}
 		\parbox{6in}{\centering\dtitle}
 	\end{uwinonehalfspaceenv}
-	
-	
+
+
 	%\vspace{\fill} %
 	\vspace{0.35cm}
 	\begin{uwinonehalfspaceenv}
@@ -319,56 +328,56 @@
 	{Shane Peelar}
 	\end{uwinonehalfspaceenv}
 	%\vspace{0.7071cm}
-	
-	
-	
+
+
+
 	\vspace{0.5in}
-	
+
 	APPROVED BY:
-	
+
 	\vspace{0.5in}
-	
+
 	\noindent\rule{4in}{0.4pt}
 
 	Dr. Diana Zaiu Inkpen, External Examiner
-	
-	%School of Electrical Engineering and Computer Science, 
+
+	%School of Electrical Engineering and Computer Science,
 	University of Ottawa
-	
-	\vspace{0.5in}
-	
-	\noindent\rule{4in}{0.4pt}
-	
-	Dr. Richard J. Caron
-	
-	Department of Mathematics and Statistics
-	
-	\vspace{0.5in}
-	
-	\noindent\rule{4in}{0.4pt}
-	
-	Dr. Pooya Moradian Zadeh
-	
-	School of Computer Science
-	
+
 	\vspace{0.5in}
 
 	\noindent\rule{4in}{0.4pt}
-	
-	Dr. Jianguo Lu
-	
-	School of Computer Science
-	
+
+	Dr. Richard J. Caron
+
+	Department of Mathematics and Statistics
+
 	\vspace{0.5in}
-	
+
 	\noindent\rule{4in}{0.4pt}
-	
-	Dr. Richard A. Frost, Advisor
-	
+
+	Dr. Pooya Moradian Zadeh
+
 	School of Computer Science
-	
+
 	\vspace{0.5in}
-	
+
+	\noindent\rule{4in}{0.4pt}
+
+	Dr. Jianguo Lu
+
+	School of Computer Science
+
+	\vspace{0.5in}
+
+	\noindent\rule{4in}{0.4pt}
+
+	Dr. Richard A. Frost, Advisor
+
+	School of Computer Science
+
+	\vspace{0.5in}
+
 \end{center}
 
 \vspace*{\fill}
@@ -398,28 +407,63 @@
 \begin{uwindefaultspaceenv}
 	\begin{enumerate}
 		\item Co-Authorship Declaration
-		
-			I hereby declare that this thesis incorporates material that is result of joint research, as follows: %TODO
-		
+
+			I hereby declare that this thesis incorporates material that is result of joint research undertaken under the supervision of Dr. Richard A. Frost.  The collaboration is covered
+            in Chapters 2 through 6 of the dissertation.
+
+            My involvement in the SpeechWeb project began in 2009 when I had begun my Undergraduate
+            degree in Computer Science at the University of Windsor.  Back then, I worked with Dr. Frost as part of my Outstanding Scholars scholarship and became familiar with developing SpeechWeb applications in Haskell.
+
+            Dr. Frost and Dr. Rahmatullah Hafiz had successfully shown in 2012 that it was possible to parse highly ambiguous left-recursive context-free grammars using functional combinators as part of Dr. Hafiz's doctoral dissertation. This opened the doors to a larger NSERC project
+            that was intended to demonstrate that compositional semantics are an appropriate choice
+            for building a Natural Language Query Interface to the Semantic Web.
+
+            In 2014, although I wasn't formally credited, I helped contribute to a paper that was published at the ESWC \cite{frost2014demonstration}.
+
+
+            In 2016, I completed my Master's degree with Dr. Frost as my supervisor.  My task was to extend the English coverage of the NLQI with prepositional phrases.  In doing so, I discovered that the word ``by'' as in ``discovered by'' could be treated in the same way as a preposition, simplifying the grammar and the semantics while also allowing more flexible queries.
+
+            In 2017, I began my Doctoral studies aiming at bringing the SpeechWeb to the Semantic Web.
+            This would require both improving the time complexity of query evaluation within the semantics, and also enhancing the query interface with an even broader coverage of English.  It would also require allowing the NLQI to run on a wide variety of devices, including those with low power requirements and using the semantics with non-event based triplestores.  Throughout the course of my studies, Dr. Frost and I published %TODO
+            papers.  My contributions to those papers are as follows:
+
+
+
+            %TODO explain:
+            % * How I became involved in the project
+            % * What Richard and Rahmatullah had done up until my involvement
+            % * What my task was:
+            %   * Speed up and extend English coverage (with prepositional phrases)
+            % * Explain what Richard's NSERC was intended to achieve:
+            %   * Speed up and prove compositionality is appropriate for building an NL interface to the Semantic Web
+            % * Explain the different stages of the work
+            % * Explain the papers we produced
+            % * Explain my contributions to those papers
+            % * State my thesis statement here and how the papers prove it
+            % * Change formatting to be consistent across all papers
+            % * Explain how the result of the work is more general, and the approach could be used to solve similar problems...
+            % This is all to help the readers understand my contributions
+
+
 		\item Declaration of Previous Publication
 	\end{enumerate}
 \end{uwindefaultspaceenv}
 
 \begin{uwindefaultspaceenv}
 
-	
-	Some of the material in this thesis is derived from the following research 
+
+	Some of the material in this thesis is derived from the following research
 	papers:
-	
+
 %	\begin{center}
 
 %		\begin{tabular}{ | c | c | c | }
 
 %			\hline
-%			\parbox{0.6in}{Thesis Chapter} & \parbox{3in}{Publication title/full citation} & \parbox{1in}{Publication Status} \\ 
+%			\parbox{0.6in}{Thesis Chapter} & \parbox{3in}{Publication title/full citation} & \parbox{1in}{Publication Status} \\
 
 %			\hline
-%			2 & \parbox{3.5in}{\fullcite{frost2018extensible}} & Published \\  
+%			2 & \parbox{3.5in}{\fullcite{frost2018extensible}} & Published \\
 
 %			\hline
 %			3 & cell8 & Published \\
@@ -434,7 +478,7 @@
 %		\end{tabular}
 
 %	\end{center}
-	
+
 \end{uwindefaultspaceenv}
 
 
@@ -444,38 +488,43 @@
 
 %\fullcite{frost2014demonstration}
 
-\fullcite{frost2018extensible}
-\fullcite{frostpeelar2019}
-\fullcite{peelar2020compositional}
+\begin{enumerate}
+    \item \fullcite{frost2018extensible}
+
+    \item \fullcite{frostpeelar2019}
+
+    \item \fullcite{peelar2020compositional}
+
+    \item A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores (SUBMITTED) %TODO
+
+    \item Accommodating Negation in an Efficient Event-Based Natural Language Query Interface to the Semantic Web (SUBMITTED) %TODO
+\end{enumerate}
 
 \begin{uwindefaultspaceenv}
 	%TODO
 %	Paper \cite{frosthafiz2008} (Frost, Hafiz, and Callaghan) describes a set of functional parser combinators developed by Frost and Hafiz as part of Hafiz's doctoral thesis work, which enables language processors to be built as executable specifications of fully-general attribute grammars, including ambiguous left-recursive grammars.  The processors use a polynomial time complexity top-down parsing strategy which enables a natural specification of the grammars and the associated semantic rules.  This was previously thought to be impossible, and was stated as such in many textbooks on parsing.
-	
+
 %	Paper \cite{frostagboola2014} (Frost, Agboola, Matthews, and Donais) describes an event based semantics developed by Dr. Frost and his research team and includes extracts from a Haskell program which demonstrated the viability of the semantics with respect to an in-program database of triples coded as part of the program.
 
+	I am aware of the University of Windsor Senate Policy on Authorship and I certify that I have properly acknowledged the contribution of other researchers to my thesis, and have obtained written permission from each of the co-author(s) to include the above material(s) in my thesis.
 
-	A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores (SUBMITTED) %TODO
-	
-	I am aware of the University of Windsor Senate Policy on Authorship and I certify that I have properly acknowledged the contribution of other researchers to my thesis, and have obtained written permission from each of the co-author(s) to include the above material(s) in my thesis. 
-	
 	I certify that, with the above qualification, this thesis, and the research to which it refers, is the product of my own work.
-	
+
 	I certify that I have obtained a written permission from the copyright owner(s) to include the above
 	published material(s) in my thesis. I certify that the above material describes work completed during my
 	registration as graduate student at the University of Windsor.
-	
+
 	I declare that, to the best of my knowledge, my thesis does not infringe upon anyone's copyright nor
 	violate any proprietary rights and that any ideas, techniques, quotations, or any other material from the work
 	of other people included in my thesis, published or otherwise, are fully acknowledged in accordance with the
 	standard referencing practices. Furthermore, to the extent that I have included copyrighted material that
 	surpasses the bounds of fair dealing within the meaning of the Canada Copyright Act, I certify that I have
 	obtained a written permission from the copyright owner(s) to include such material(s) in my thesis.
-	
+
 	I declare that this is a true copy of my thesis, including any final revisions, as approved by my thesis
 	committee and the Graduate Studies office, and that this thesis has not been submitted for a higher degree to
 	any other University or Institution.
-	
+
 \end{uwindefaultspaceenv}
 
 %----------
@@ -498,7 +547,7 @@
 \vspace*{\fill}
 
 \begin{center}
-	{\em This Thesis is dedicated to my Meme and Pepe, Theresa and Alfred Bombardier}
+	{\em This Thesis is dedicated to my Mémé and Pépé, Theresa and Alfred Bombardier}
 \end{center}
 
 \vspace*{\fill}
@@ -511,25 +560,25 @@
 
 \begin{uwindefaultspaceenv}
 %	I'd like to thank, in no particular order:
-%	
+%
 %	TODO
-	
+
 %	Dr. Richard A. Frost, whom I've been working with since my first semester here at the University of Windsor, for his guidance in my work
 %	and the many opportunities he has provided me over the years to participate in research.  You were the first professor I had a chance to have a conversation with when I started
 %	my Undergraduate degree here in 2009, and ultimately it is our conversations during the labs of 60-100 that got me seriously interested in functional programming in the first place.
-	
+
 %	Dr. Robert D. Kent, for believing in me and providing me with many opportunities to contribute here at the University, and generally being a very positive role model in my life.
 %	It is in no small part our talks that have allowed me to refocus, get my priorities straight, and get my life back in order.
-	
+
 	%My External and Internal Readers, Dr. Richard J. Caron and Dr. Luis G. Rueda, for being available on such short notice to participate on my Thesis Committee.
-	
+
 	%David MacMillan, Bryan St. Amour and Paul Preney, for being great lab partners, being up for interesting conversations, and always being willing to lend an ear.
 	%Thank you also Bryan and Paul for letting me use your LaTeX styles and giving my first draft a read.
-	
+
 %	All of the secretaries in the School of Computer Science for their help during my degree.  Whether it was getting me through scheduling nightmares or helping me get things done by the deadlines, your help has been incredibly invaluable to me and I sincerely thank you for your work.
-%	
+%
 %	My wife, Taylor, for being incredibly supportive of me both in life and in my work.  It's crazy to think about all that's happened in the last 5 years.  I'm so grateful to have had you by my side through all of it.
-%	
+%
 \end{uwindefaultspaceenv}
 
 %----------
@@ -556,8 +605,16 @@
 
 \clearpage
 \phantomsection
-\addcontentsline{toc}{chapter}{Nomenclature}
-\listoftheorems[ignoreall,show={definition}]
+\addcontentsline{toc}{chapter}{List of Abbreviations}
+\listofabbreviations
+%\listoftheorems[ignoreall,show={definition}]
+
+%TODO: sort alphabetically
+\addcontentsline{abc}{section}{NL - Natural Language}
+\addcontentsline{abc}{section}{NLQI - Natural Language Query Interface}
+\addcontentsline{abc}{section}{MS - Montague Semantics}
+\addcontentsline{abc}{section}{SPARQL - SPARQL Protocol and RDF Query Language} %TODO
+\addcontentsline{abc}{section}{ML - Machine Learning}
 
 
 \clearpage
@@ -619,6 +676,7 @@ The source code for Solarman and the XSaiga parser can be obtained online via th
 %\inputminted[autogobble, fontsize=\scriptsize, breaklines=true]{haskell}{../solarman/XSaiga/LocalData.hs}
 
 \section*{Appendix B - List of Refereed Papers Relating to the Thesis}
+\label{appendix:b}
 \addcontentsline{toc}{section}{Appendix B - List of Refereed Papers Relating to the Thesis}
 \addcontentsline{apc}{appendices}{Appendix B - List of Refereed Papers Relating to the Thesis}
 
@@ -668,58 +726,66 @@ Peer reviewed Journal papers:
 
 \begin{enumerate}
 	\item {\Cref{chapter:nliwod2018conf} includes a refereed paper, which was published as:
-	
+
 	\fullcite{frost2018extensible}
-	
+
 	Below is the copyright information from IEEE:
-	
+
 	2018 IEEE. Reprinted, with permission, from Richard A. Frost and Shane Peelar, An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore, October 2018.}
-	
+
 	\item {\Cref{chapter:webist2019conf} includes a refereed paper, which was published as:
-		
+
 	\fullcite{frostpeelar2019}
-	
+
 	Dr. Vitor Pedrosa, the chair of INSTICC, which maintains the publication for the paper, has personally sent the following e-mail to the authors regarding the copyright:
-	
-	
+
+
 		{ \ttfamily
 		Dear Shane Peelar,
 
-		
+
 		Thank you very much for your email.
 
-		
+
 		\hyphenchar\font=`\-% allowing hyphenation
-		
+
 		I hereby grant you the necessary authorization to add the mention
 		paper to your doctoral dissertation as long as all the bibliography
 		information from its publication is there too and the version
 		that you use is the one published.
 
-		
+
 		Best regards,
 
-		
+
 		Vitor Pedrosa
 		}
-	
+
 	}
+
+	\item {\Cref{chapter:icsc2020conf} includes a refereed paper, which was published as:
+
+		\fullcite{peelar2020compositional}
+
+		Below is the copyright information from IEEE:
+
+		2020 IEEE. Reprinted, with permission, from Shane Peelar and Richard A. Frost, A Compositional Semantics for a Wide-Coverage Natural-Language Query Interface to a Semantic Web Triplestore, February 2020.}
 
 	\item {\Cref{chapter:webist2019journal} includes a paper that has been submitted for publication to the WEBIST Springer Journal:
-		
-		\fullcite{peelar2020webistjournal}
-		
-		As it has not yet been published, the copyright belongs to Shane Peelar and Richard A. Frost.
 
-	}
-	
-	\item {\Cref{chapter:icsc2020conf} includes a refereed paper, which was published as:
-		
-		\fullcite{peelar2020compositional}
-		
-		Below is the copyright information from IEEE:
-		
-		2020 IEEE. Reprinted, with permission, from Shane Peelar and Richard A. Frost, A Compositional Semantics for a Wide-Coverage Natural-Language Query Interface to a Semantic Web Triplestore, February 2020.}
+    \fullcite{peelar2020webistjournal}
+
+    As it has not yet been published, the copyright belongs to Shane Peelar and Richard A. Frost.
+    }
+
+    %TODO
+	\item {\Cref{chapter:webist2020conf} includes a paper that has been submitted for publication to the WEBIST 2020 conference:
+
+    %\fullcite{webist2020conf}
+
+    As it has not yet been published, the copyright belongs to Shane Peelar and Richard A. Frost.
+
+    }
 \end{enumerate}
 
 

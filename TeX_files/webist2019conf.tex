@@ -4,7 +4,7 @@
 
 \chapter{A New Data Structure for Processing Natural Language Database Queries}
 \begin{refsection}
-	
+
 This paper was published as:
 
 \fullcite{frostpeelar2019}
@@ -42,7 +42,7 @@ Our NL interface can be accessed at the following web site:
 
 \subsection{The Triplestore that is Queried}
 \label{webist2019conf:triplestore}
-Our NLQI computes answers with respect to a triplestore containing data about the planets, the moons that orbit them, and the people who discovered those moons, and when, where and with what implement they were discovered. Note that each triple could be equally well be represented by a row in a relational database.
+Our NLQI computes answers with respect to a triplestore containing data about the planets, the moons that orbit them, and the people who discovered those moons, and when, where and with what implement they were discovered. Note that each set of triples associated with an event could be equally well be represented by a row in a relational database.
 
 The triplestore contains triples such as the following which represent the event \#1045 in which \texttt{hall} (in the role of \textit{subject}) discovered \texttt{phobos} (in the role of \textit{object}) in 1877 (in the role of \textit{year}) with the \texttt{refractor\_telescope\_1} (in the role of \textit{implement})  at the \texttt{us\_naval\_observatory} (in the role of \textit{location}).
 
@@ -57,23 +57,23 @@ The triplestore contains triples such as the following which represent the event
 		event1045 &
 		subject &
 		hall \\
-		
+
 		event1045 &
 		object &
 		phobos \\
-		
+
 		event1045 &
 		type &
 		discover\_ev \\
-		
+
 		event1045 &
 		year &
 		1877 \\
-		
+
 		event1045 &
 		location &
 		us\_naval\_observatory \\
-		
+
 		event1045 &
 		implement &
 		refractor\_telescope\_1 \\
@@ -94,11 +94,11 @@ Events representing set membership are represented as follows:
 		event1128 &
 		subject &
 		galileo \\
-		
+
 		event1128 &
 		object &
 		person \\
-		
+
 		event1128 &
 		type &
 		membership \\
@@ -120,7 +120,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \noindent \texttt{phobos is a moon} $\Rightarrow \True$ \\
 
-The function denoted by \texttt{phobos} checks to see if $\entityassoc{phobos}$ is a member of the $\spin$ set, and secondly if $\entityassoc{phobos}$ is a member of the $\moon$ set. \\
+The function denoted by ``\texttt{phobos}'' checks to see if $\entityassoc{phobos}$ is a member of the $\spin$ set, and secondly if $\entityassoc{phobos}$ is a member of the $\moon$ set. \\
 
 \noindent \texttt{a moon spins} $\Rightarrow \True$
 
@@ -128,7 +128,7 @@ The function denoted by \texttt{phobos} checks to see if $\entityassoc{phobos}$ 
 
 \noindent \texttt{an atmospheric moon exists} $\Rightarrow \True$ \\
 
-The function denoted by \texttt{a} checks to see if the intersection of the set of $\moons$ and the set of $\spins$ is non-empty. The function denoted by \texttt{every} checks to see if the set of moons is a subset of the $\spins$ set. The denotations of \texttt{a} and \texttt{every} that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
+The function denoted by `\texttt{a}' checks to see if the intersection of the set of $\moons$ and the set of $\spins$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of the $\spins$ set. The denotations of `\texttt{a}' and ``\texttt{every}'' that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
 
 The answer to the third query is obtained by checking if the intersection of the $\mathit{atmospheric}$ set and the $\moon$ set is non-empty. \\
 
@@ -204,7 +204,7 @@ $\Rightarrow$ \textit{saturn; none}
 \subsection{Queries with ``Non-Compositional'' Structures}
 \label{webist2019conf:noncompositional}
 
-We agree that natural language has non-compositional features but believe that the non-compositionality is mostly problematic when the objective is to give a meaning to an NL expression (without a context). It is less problematic when answering NL queries. As illustrated below, the person posing the query, or the database or triplestore can provide contexts that help resolve much of the ambiguity resulting from non-compositional features.
+We agree with many other researchers that natural language has non-compositional features but believe that the non-compositionality is mostly problematic when the objective is to give a meaning to an NL expression without a context. It is less problematic when answering NL queries. As illustrated below, the person posing the query, or the database or triplestore can provide contexts that help resolve much of the ambiguity resulting from non-compositional features.
 
 The advantages of a using a compositional semantics include
 \begin{inparaenum}[1)]
@@ -218,15 +218,15 @@ Some researchers have provided examples of what they claim to be non-composition
 
 \noindent \texttt{who discovered} $\Rightarrow$ \textit{bernard bond cassini cassini\_imaging\_science\_team christy dollfus galileo} $\etc$ \\
 
-No \textit{subject}, \textit{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word \texttt{who} picks out the \textit{subjects} from those events. \\
+No \textit{subject}, \textit{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word ``\texttt{who}'' picks out the \textit{subjects} from those events. \\
 
 \noindent \texttt{where discovered io} $\Rightarrow \mathit{padua}$ \\
 
-No \textit{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \textit{object} termphrase \texttt{io} and then, those that pass the filter are returned by the verbphrase and the word \texttt{where} picks out the location from those events. %(See section $\Cref{sec:examples}$ for more details). \\
+No \textit{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \textit{object} termphrase ``\texttt{io}'' and then, those that pass the filter are returned by the verbphrase and the word ``\texttt{where}'' picks out the location from those events. \\ %(See section $\Cref{sec:examples}$ for more details).
 
 \noindent \texttt{who discovered in 1610} $\Rightarrow \mathit{galileo}$ \\
 
-No \textit{subject} or \textit{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``date'' equal to 1610 pass the filter and then the denotation of the word \texttt{who} selects the subject which is returned.
+No \textit{subject} or \textit{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``date'' equal to 1610 pass the filter and then the denotation of the word ``\texttt{who}'' selects the subject which is returned.
 
 In our semantics, the \textit{subject} and \textit{object} termphrases are treated as filters as are all prepositional phrases, as shown in the following example: \\
 
@@ -283,13 +283,13 @@ Therefore,
 \begin{equation*}
 	\begin{split}
 		& \meaningof{phobos\ spins} = \meaningof{phobos}\ \meaningof{spins} \\
-		& = \lambda s.\ \{(e, \evs) | (e, \evs) \in s\ \&\ e = \entityassoc{phobos}\} 
+		& = \lambda s.\ \{(e, \evs) | (e, \evs) \in s\ \&\ e = \entityassoc{phobos}\}
 		 \{(\entityassoc{phobos},{\eventassoc{1360}}), (\entityassoc{deimos}, \eventassoc{1332}), \ldots\} \\
 		& = \{(\entityassoc{phobos}, \eventassoc{1360})\}
 	\end{split}
 \end{equation*}
 \begin{equation*} %TODO: intersect_fdbr
-	\meaningof{a} = \lambda m \lambda s.\ \{(e_1,\evs_2)\ |\ (e_1,\evs_1) )\in m\ 
+	\meaningof{a} = \lambda m \lambda s.\ \{(e_1,\evs_2)\ |\ (e_1,\evs_1) )\in m\
 	\&\ (e_2,\evs_2) \in s\ \&\ e_1 = e_2\})
 \end{equation*}
 \begin{equation*}
@@ -369,7 +369,7 @@ intuitive, systematic, and compositional.
 
 \section{Our Approach with Relational Databases}
 
-Our NLQI could be easily adapted for use with conventional relational databases. 
+Our NLQI could be easily adapted for use with conventional relational databases.
 Each row in a relation \textit{Rel} can be thought of as representing an event of type \textit{Rel}, and each column name can be thought of as a role name.  The event itself would serve as the primary key, and only the triple retrieval function would need to be modified.  This architecture allows the denotations to remain unchanged and yet still work with different types of databases.
 
 \section{Implementation of our NLQI}
@@ -424,7 +424,7 @@ of \cite{ferre2013squall}).
 \section{Concluding Comments}
 
 We are confident that, after we accommodate negation, our compositional semantics is appropriate for most queries that are likely to be asked of data stores containing everyday knowledge.
-The FDBR datastructure presented in this paper can be used to handle many kinds of complex language features, including chained prepositional phrases and superlatives.  The way quantification is handled within the semantics is consistent with other work in this area, as discussed in \Cref{webist2019conf:quant}. 
+The FDBR datastructure presented in this paper can be used to handle many kinds of complex language features, including chained prepositional phrases and superlatives.  The way quantification is handled within the semantics is consistent with other work in this area, as discussed in \Cref{webist2019conf:quant}.
 The approach chosen is flexible enough that it can accommodate queries to both relational and non-relational types of databases, including Semantic Web triplestores.  It is also suitable for use on low power devices, which may be useful for applications on the Internet of Things (IoT).
 
 In the future, we plan to scale up the capability of our NLQI further to access massive data stores such as DBpedia.  To achieve this goal, we plan to accelerate the FDBR generation process using specialized acceleration hardware, such as FPGAs and GPUs.

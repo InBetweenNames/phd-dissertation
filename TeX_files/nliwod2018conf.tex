@@ -57,10 +57,9 @@ interface. (NLQI).
 In order to facilitate the extension of an NLQI, it helps if the query language is based on a compositional
 semantics such as Montague Semantics (MS) \cite{Dowty:wall} or a version of it, and if the language processor is highly
 modular. Such an NLQI to an online event-based triplestore has been constructed and is available
-through a web interface, which is discussed in section 2. The NLQI can accommodate common and
-proper nouns, adjectives, conjunction and disjunction, nested quantifiers, intransitive and transitive n-
-ary verbs, and chained complex prepositional phrases (PPs). The NLQI is implemented as an executable
-specification of a attribute grammar (EAG) using parser combinators in the pure functional programming
+through a web interface, which is discussed in Section \ref{ext:demonstration}. The NLQI can accommodate common and
+proper nouns, adjectives, conjunction and disjunction, nested quantifiers, intransitive and transitive $n$-ary verbs, and chained complex prepositional phrases (PPs). The NLQI is implemented as an executable
+specification of an attribute grammar (EAG) using parser combinators in the pure functional programming
 language Haskell.
 Our parser/interpreter can handle ambiguous left-recursive grammars and fully dependent synthesized
 and inherited attributes.
@@ -104,7 +103,7 @@ advantage of the optimized retrieval operators in the SPARQL endpoint to our tri
 functions defined by sets of events are computed in Haskell as needed during the evaluation of the
 queries.
 
-The following queries illustrate that quantifier scoping is leftmost outermost:
+The following queries illustrate that quantifier scoping is leftmost-outermost:
 
 \begin{itemize}
 	\setlength\itemsep{0em}
@@ -119,7 +118,7 @@ The following queries illustrate that quantifier scoping is leftmost outermost:
 	\item how many telescopes were used to discover sao: $2$
 	\item who discovered sao: $\mathit{science\_team\_18}$
 	\item how did science\_team\_18 discover sao: \\ $\mathit{blanco\_telescope\ canada}$-$\mathit{france}$-$\mathit{hawaii\_telescope}$
-	\item which planet is orbited by every moon that was discovered by two people: $\mathit{saturn;\ none}$
+	\item which planet is orbited by every moon that was discovered by two people: $\mathit{saturn;\ none}$ (multiple results are returned as the query is ambiguous)
 	\item which person discovered a moon in 1877 with every telescope that was used to discover phobos: $\mathit{hall; none}$
 \end{itemize}
 
@@ -142,7 +141,7 @@ Original MS \cite{Dowty:wall}:
 	\end{split}
 \end{equation*}
 Requiring $\mathit{moon\_pred}$ to be applied to all entities in the universe of discourse. In the set-based MS, the denotation of a noun, adjective or intransitive verb is a set of entities of type denoted by $\mathit{es}$.
-The denotation of the word ``every'' is modified to:
+Montague's denotation of the word ``every'' is modified to:
 \begin{equation*}
 	\begin{split}
 		& \meaningof{\every \  \moon \  \spins} \\
@@ -167,7 +166,7 @@ Then:
 		\implies& \True \qquad(\mathrm{if\ Phobos\ spins.})
 	\end{split}
 \end{equation*}
-All denotations are modified to use sets rather than characteristic functions.
+All denotations are modified from Montague's approach to use sets rather than characteristic functions.
 
 \subsection{Events}
 
@@ -248,7 +247,7 @@ The FDBR of this binary relation is then computed:
 Consider the query ``who discovered phobos'': the function which is the denotation
 of ``discovered'' computes $\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}}$ and then applies the function which is the
 denotation of ``phobos'' to the set of objects of the events in every pair $(\mathit{subj},\mathit{evs})$ which is a
-member of \\ $\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}}$. For every pair which returns $\True$, the subject and set of events is
+member of $\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}}$. For every pair which returns $\True$, the subject and set of events is
 added to the resulting denotation. The final resulting denotation of
 ``discovered phobos'' is a set of pairs consisting of subjects which were mapped by
 $\relation{discover}\_\mathit{evs}_{\mathit{subject}}$ to a set of events whose objects contains $\entityassoc{phobos}$. The answer to this example query includes $(\entityassoc{hall}, \{\eventassoc{1030}\})$. Similarly, the query ``who
@@ -438,7 +437,7 @@ moons, but did not discover any one moon with two telescopes (see queries g to i
 	\item what did nicholson discover with one telescope: $\mathit{nothing}$
 	\item what did nicholson discover with a telescope: \\ $\mathit{\qquad sinope\ lysithea\ carme\ ananke}$
 \end{enumerate}
-%	
+%
 Since Nicholson used multiple telescopes to discover multiple objects, n) returns $\mathit{nothing}$. On the other hand o) relaxes this restriction, yielding the expected result (see Section \ref{ext:conclusion}).
 %We shall review our approach to quantifier scoping in chained
 %propositional phrases in future work.
@@ -494,11 +493,11 @@ A number of design decisions facilitate future extension of our NLQI:
 	code for the language processor closely resembles the textbook notation for the AG defining
 	the language to be processed. EAGs are ideally suited for
 	implementation of language interpreters for MGs.
-	
+
 	\item Our semantics is based on the highly modular and compositional semantics. The similarity of MGs and AGs suggested to us that it should
 	be comparatively easy to implement a Montague-style natural-language query processor as an
 	executable attribute grammar.
-	
+
 	\item The dictionary in the Haskell code to facilitate the addition of new words and
 	categories of words to the query language. Our NLQI Haskell code can be accessed at:
 	\begin{center} \url{http://speechweb2.cs.uwindsor.ca/solarman4/src/} \end{center}
@@ -526,9 +525,9 @@ A number of design decisions facilitate future extension of our NLQI:
 	rather than whole queries. This allows us to define new words in terms of existing phrases for
 	which we have defined an interpreter. For example:
 	\begin{center} \texttt{discoverer = meaning\_of nouncla ``person who discovered something''} \end{center}
-	
+
 	\item Construction of the interpreter as an EAG accommodates ambiguous and left-recursive
-	grammars greatly facilitates the extension of the query language to include new 
+	grammars greatly facilitates the extension of the query language to include new
 	constructs. When grammars are converted to non-left-recursive
 	form (which is often the case when modular top-down parsers are used) can complicate the
 	specification of semantic rules. For example, the specification of the syntax and associated
@@ -604,7 +603,7 @@ Extensible NLQIs are necessary if the potential of the semantic web is realized 
 to existing triplestores by people who may not have been involved in the creation of those triplestores.
 We hope that other researchers who are familiar with Haskell will download and experiment with the
 software that we have developed; all of which is available through the links that we have provided. Our
-event-based triplestore is also available for remote access at from the URL
+event-based triplestore is also available for remote access at the URL
 links that we have given.
 
 Our semantics could be easily extended accommodate very simple negation as in the query ``no moon orbits two planets''. However, the query ``which person orbits no moons?'' would not return the correct answer. The reason is that list returned by evaluating the denotation corresponding to ``orbits no moons'' would only contain entities that orbits something but not a moon. It would not contain entities that orbit nothing. This problem is related to how the ``closed world assumption'' is implemented. To solve tis problem, we will begin by investigating the methods used in the experimental NLQIs Orakel \cite{cimiano:haase}, PANTO \cite{wang2007panto}, Pythia \cite{unger:cimiano}, and TBSL \cite{hoffner2013user}. We shall also consider theoretical computational linguistic approaches for dealing with negation and quantification in event-based semantics, e.g. \cite{champollion2010quantification}.
