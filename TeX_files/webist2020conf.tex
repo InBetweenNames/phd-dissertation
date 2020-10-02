@@ -8,8 +8,11 @@
 
 \label{chapter:webist2020conf}
 
-This paper was submitted to the WEBIST 2020 conference.  We have not yet received our paper notification,
-although we expect to receive it on September 14 2020. %TODO
+This paper was published as:
+
+It was featured at WEBIST 2020.
+
+%TODO
 
 \section{Introduction}
 \label{sec:introduction}
@@ -30,7 +33,7 @@ One criticism of our previous approaches was that they relied on the Open World 
 In this paper, we show that it is possible to accommodate negation in an English NLQI to an event-based triplestore where the CWA holds.
 In particular, we describe an English NLQI to an event-based triplestore using a CS that supports arbitrary quantification including negation, complex linguistic constructs including chained prepositional phrases with superlatives and $n$-ary transitive verbs.
 The approach is an extension of Montague’s approach \cite{Dowty:wall}.  Readers are
-directed towards \cite{frostpeelar2019} for an introduction to the work that this paper builds on.
+directed towards \cite{frostpeelar2019} and \cite{peelar2020webistjournal} for an introduction to the work that this paper builds on
 
 %TODO: at end
 In \Cref{subsec:prevwork} we describe previous work on NLQIs to the Semantic Web that support negation.  In \Cref{sec:demo} we describe how to access a live demonstration of our NLQI that can accommodate the queries presented in this paper along with some other example queries.  In \Cref{sec:event} we describe our event-based semantics and in \Cref{sec:negation} we describe how to accommodate negation where the CWA holds. In \Cref{sec:examples} we provide a list of examples queries and explain how they are processed.  Finally, we conclude in \Cref{sec:future} and \Cref{sec:conclusion}.
@@ -38,7 +41,7 @@ In \Cref{subsec:prevwork} we describe previous work on NLQIs to the Semantic Web
 %TODO: discuss FDBR?
 
 
-\subsection{Previous work}
+\section{Previous work}
 \label{subsec:prevwork}
 
 In 2002, Frost and Boulos introduced the notion of ``complementary sets'' as a way of accommodating negation in FLMS, a set-theoretic version of Montague Semantics \cite{frostboulos2002}. Their approach has two drawbacks: first, that a separate denotation for transitive verbs had to be created for handling queries such as ``\texttt{discover no moon}''.  In practice, this meant that 4 denotations of transitive verbs were required: for active and passive tense verbs, and a corresponding ``\texttt{no}'' query (as in ``\texttt{discover no moon}'' or ``\texttt{discovered by no person}'').  The approach presented in this paper requires only one denotation for transitive verbs for all cases, including with the presence of chained prepositional phrases and superlatives.  Second, their approach required that the cardinality of the set of entities in the database be a known constant.  The denotations presented in this paper receive the cardinality of the set of entities as an argument instead.  A query is made to the triplestore itself to retrieve the cardinality of the set of entities, removing the need for computing it locally.
@@ -61,13 +64,24 @@ SQUALL \cite{ferre:squall} has limited support for negation in queries, mapping 
 \end{center}
 In addition to accepting textual input, it also can be interacted with speech on browsers that support the WebSpeech API \cite{world2018web}.  Currently, this includes Google Chrome-based browsers and Firefox.
 
-\subsection{Example Queries}
+\subsection{System overview}
 
-The following are a list of example queries that demonstrate features of the interface:
+The approach presented in this paper is based on Richard Montague's denotational semantics \cite{Dowty:wall}.  In particular, our system derives the meaning of a query from the meaning of its parts.  A query is evaluated with respect to a triplestore as though it were a formal mathematical expression using an Executable Attribute Grammar \cite{hafiz2011executable}.  For example, the query
+``\texttt{ganymede discovered no moons}'' is evaluated as the expression:
+\begin{equation*}
+    \meaningof{phobos}\ (\meaningof{discovered}\ (\meaningof{no}\ \meaningof{moons}))
+\end{equation*}
+where $\meaningof{x}$ represents the denotation (meaning) of $x$.
 
-\noindent $n$-ary Transitive verbs:
+\subsection{Supported Features}
+
+The following are a list of example queries that demonstrate features supported by the interface.
 
 \newcommand{\examplespacing}{\vspace{0.5em}}
+
+\examplespacing
+
+\noindent $n$-ary Transitive verbs:
 
 \examplespacing
 
@@ -130,6 +144,17 @@ The following are a list of example queries that demonstrate features of the int
 
 \examplespacing
 
+\noindent The above features can be combined arbitrarily to form rich queries.
+For example, adjectives can be combined with negation:
+
+\examplespacing
+
+\texttt{mars is a non-blue planet} $\Rightarrow$ \texttt{True}
+
+\examplespacing
+
+\noindent In all cases, the query processor returns the syntax tree of the query to help the user understand how the query was evaluated \cite{peelar2020compositional}.  A list of example queries and a discussion of how they are evaluated can be found in \Cref{sec:examples}.
+
 %TODO: more?
 
 
@@ -139,7 +164,7 @@ The following are a list of example queries that demonstrate features of the int
 \label{sec:event}
 
 \noindent The approach described in this paper builds upon FLMS \cite{frost1989constructing}, EV-FLMS \cite{frost2014demonstration}, UEV-FLMS \cite{peelar2016accommodating}, and most recently
-Memoized UEV-FLMS \cite{frostpeelar2019}.  Notably, our semantics are event-based rather than entity-based.  The fundamental data structure underlying our semantics is called the Function defined by a Relation, or \textit{FDBR}, described in \Cref{subsec:fdbr}.  This data structure has been shown to be useful in answering a wide variety of Natural Language queries \cite{frostpeelar2019}.  In this paper, we show how the FDBR can be used to answer queries involving negation in event-based databases where the CWA holds.
+Memoized UEV-FLMS \cite{peelar2020webistjournal}.  Notably, our semantics are event-based rather than entity-based.  The fundamental data structure underlying our semantics is called the Function defined by a Relation, or \textit{FDBR}, described in \Cref{subsec:fdbr}.  This data structure has been shown to be useful in answering a wide variety of Natural Language queries \cite{frostpeelar2019}.  In this paper, we show how the FDBR can be used to answer queries involving negation in event-based databases where the CWA holds.
 
 \subsection{Event-based Triplestores}
 
@@ -376,7 +401,7 @@ The denotation we introduce expands on the denotation introduced in \cite{frostp
 
 Only one denotation for transitive verbs is required for all cases (rather than 4 as in \cite{frostboulos2002}). In particular, the word ``\texttt{no}'' can be handled compositionally rather than syntactically in the query.
 
-We modify the denotation for transitive verbs given in \cite{peelar2020webistjournal} to evaluate the list of prepositional phrases in leftmost-outermost order.  The \texttt{filter\_ev} function, described in \cite{peelar2016accommodating}, is modified to operate on one prepositional phrase at a time: a new FDBR is computed for each prepositional phrase applied.  This allows superlatives to be neatly evaluated in order rather than after the prepositions are evaluated as denoted in \cite{frostpeelar2019}.  \texttt{filter\_ev} also is modified to account for negation in the query: first, the current prepositional phrase is evaluated against the empty FDBR (\texttt{FDBR[]}).  If the result is not an FDBR, then it is a \texttt{no} termphrase:
+We modify the denotation for transitive verbs given in \cite{peelar2020webistjournal} to evaluate the list of prepositional phrases in leftmost-outermost order.  The \texttt{filter\_ev} function, described in \cite{peelar2016accommodating}, is modified to operate on one prepositional phrase at a time: a new FDBR is computed for each prepositional phrase applied.  This allows superlatives to be neatly evaluated in the order they appear rather than in a separate stage after the prepositions are evaluated as denoted in \cite{frostpeelar2019}.  \texttt{filter\_ev} also is modified to account for negation in the query: first, the current prepositional phrase is evaluated against the empty FDBR (\texttt{FDBR[]}).  If the result is not an FDBR, then it is a \texttt{no} termphrase:
 \begin{small}
 	\begin{verbatim}
     in no place (FDBR [])
@@ -616,7 +641,7 @@ We also plan to explore interfacing with non-event based triplestores in general
 \section{Conclusions}
 \label{sec:conclusion}
 
-\noindent In conclusion, we have shown that it is possible to accommodate negation in our event-based CS efficiently.  We have shown that our approach to negation is powerful, able to be applied to noun-phrases, verb-phrases, and term-phrases.  We presented a denotation for ``\texttt{no}'' that enables it to be treated as a quantifier that can be compositionally used in conjunction with transitive verbs, either as an argument to the verb or as a preposition.  We improved on \cite{frostboulos2002} by maintaining only one denotation for transitive verbs throughout the semantics rather than requiring different denotations depending on the context.  Notably, our approach to negation seems to be consistent with other work in event semantics \cite{champollion2011}.  We improved on \cite{ferre2013squall} by enabling the negation of term-phrases, and also enabling our approach to be used with other query languages than SPARQL.  We discussed the necessity of the Closed World Assumption for queries involving negation and described how to extend the CS in \cite{frostpeelar2019} to accommodate negation in queries.  Where the CWA is not appropriate, leaving out the denotations for ``\texttt{not}'', ``\texttt{non}'', and ``\texttt{the least}'' is sufficient to restore the Open World Assumption in the semantics.  Our approach also fits within the memoization framework in \cite{frostpeelar2019}. We also discussed example queries that are supported with our NLQI and explained how the results are formed.
+\noindent We have shown that it is possible to accommodate negation in our event-based CS efficiently.  We have shown that our approach to negation is powerful, able to be applied to noun-phrases, verb-phrases, and term-phrases.  We presented a denotation for ``\texttt{no}'' that enables it to be treated as a quantifier that can be compositionally used in conjunction with transitive verbs, either as an argument to the verb or as a preposition.  We improved on \cite{frostboulos2002} by maintaining only one denotation for transitive verbs throughout the semantics rather than requiring different denotations depending on the context.  Notably, our approach to negation seems to be consistent with other work in event semantics \cite{champollion2011}.  We improved on \cite{ferre2013squall} by enabling the negation of term-phrases, and also enabling our approach to be used with other query languages than SPARQL.  We discussed the necessity of the Closed World Assumption for queries involving negation and described how to extend the CS in \cite{frostpeelar2019} to accommodate negation in queries.  Where the CWA is not appropriate, leaving out the denotations for ``\texttt{not}'', ``\texttt{non}'', and ``\texttt{the least}'' is sufficient to restore the Open World Assumption in the semantics.  Our approach also fits within the memoization framework in \cite{frostpeelar2019}. We also discussed example queries that are supported with our NLQI and explained how the results are formed.
 We believe now that our semantics is ready to be benchmarked directly against other systems on large knowledge bases using, for example, QALD-9 \cite{qald9}.
 
 \section*{Acknowledgements}
