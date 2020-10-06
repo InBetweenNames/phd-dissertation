@@ -51,8 +51,7 @@ Additional data can be added as follows:
 	<event1030> <location> <us_naval_observatory> .
 \end{boldcode}
 
-Ideally, it should be possible to query these and other triples, using an extensible natural-language query
-interface. (NLQI).
+Ideally, it should be possible to query these and other triples, using an extensible Natural-Language Query Interface (NLQI).
 
 In order to facilitate the extension of an NLQI, it helps if the query language is based on a compositional
 semantics such as Montague Semantics (MS) \cite{Dowty:wall} or a version of it, and if the language processor is highly
@@ -270,7 +269,7 @@ example, consider the query:
 
 ``who discovered in 1948 and 1949 with a telescope'' $\rightarrow$ kuiper
 
-The calculation here involves computing $\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}}$, then filtering it with the denotation of ``with a telescope''. %(reference to be provided after review process) %Peelar's Master's Thesis \cite{peelar2016accommodating} explains this in more detail.
+The calculation here involves computing $\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}}$, then filtering it with the denotation of ``in 1948 and 1949'', then finally filtering it with the denotation of ``with a telescope''. %(reference to be provided after review process) %Peelar's Master's Thesis \cite{peelar2016accommodating} explains this in more detail.
 
 \subsubsection{Choosing the FDBR to compute}
 \label{ext:choosingfdbr}
@@ -438,7 +437,7 @@ moons, but did not discover any one moon with two telescopes (see queries g to i
 	\item what did nicholson discover with a telescope: \\ $\mathit{\qquad sinope\ lysithea\ carme\ ananke}$
 \end{enumerate}
 %
-Since Nicholson used multiple telescopes to discover multiple objects, n) returns $\mathit{nothing}$. On the other hand o) relaxes this restriction, yielding the expected result (see Section \ref{ext:conclusion}).
+Note that in the above queries, ``one'' and ``two'' are taken to mean ``exactly one'' and ``exactly two''. Since Nicholson used multiple telescopes to discover multiple objects, n) returns $\mathit{nothing}$ (``discover with one telescope'' returns an FDBR of all discoverers that used exactly one telescope in all their discoveries, which excludes Nicholson). On the other hand o) relaxes this restriction, yielding the expected result (see Section \ref{ext:conclusion}).  Note that i) differs from n) because ``was discovered with one telescope'' returns an FDBR of all objects that were discovered each with exactly one telescope.
 %We shall review our approach to quantifier scoping in chained
 %propositional phrases in future work.
 
@@ -455,7 +454,7 @@ Our implementation is amenable to running on low power devices, enabling it for 
 The use of Haskell for the implementation of our NLQI has many advantages, including:
 \begin{enumerate}
 	\setlength\itemsep{0em}
-	\item Haskell's ``lazy'' evaluation strategy of Haskell only computes values when they are required, enabling parser combinator
+	\item Haskell's ``lazy'' evaluation strategy only computes values when they are required, enabling parser combinator
 	libraries to be built that can handle highly ambiguous left-recursive grammars in polynomial time. The accommodation of left recursive
 	grammars simplifies the integration of semantic and syntactic rules in the EAGs, enabling the query processor to be highly modular and extensible.
 	\item The higher-order functional capability of Haskell allows the direct definition of higher-order
@@ -494,9 +493,9 @@ A number of design decisions facilitate future extension of our NLQI:
 	the language to be processed. EAGs are ideally suited for
 	implementation of language interpreters for MGs.
 
-	\item Our semantics is based on the highly modular and compositional semantics. The similarity of MGs and AGs suggested to us that it should
+	\item Our semantics is based on a highly modular and compositional semantics. The similarity of MGs and AGs suggested to us that it should
 	be comparatively easy to implement a Montague-style natural-language query processor as an
-	executable attribute grammar.
+	executable attribute grammar.  Frost and Hafiz \cite{frosthafiz2008} therefore began by defining memoized functional combinators, corresponding to ``\texttt{orelse}'' and ``\texttt{then}'' that enable language processors to be built as executable specifications of attribute grammars.
 
 	\item The dictionary in the Haskell code to facilitate the addition of new words and
 	categories of words to the query language. Our NLQI Haskell code can be accessed at:
@@ -529,7 +528,7 @@ A number of design decisions facilitate future extension of our NLQI:
 	\item Construction of the interpreter as an EAG accommodates ambiguous and left-recursive
 	grammars greatly facilitates the extension of the query language to include new
 	constructs. When grammars are converted to non-left-recursive
-	form (which is often the case when modular top-down parsers are used) can complicate the
+	form (which is often the case when modular top-down parsers are used), this can complicate the
 	specification of semantic rules. For example, the specification of the syntax and associated
 	semantic rules for converting a bit string to its decimal value is much easier if the grammar
 	chosen is left recursive.
@@ -562,7 +561,7 @@ the most events representing that subject discovering a moon that orbits mars. T
 addition of ``the most'' to the set of quantifiers and the appropriate modification to the denotation of
 transitive verbs to take advantage of the information available in the appropriate FDBR. A similar
 modification could be made to accommodate queries containing the words ``earliest'' ``most recently'', using $\FDBR{\relation{\discover}_{\mathit{object}\rightarrow\mathit{year}}}$ etc., and queries such as ``which telescope was used to discover most
-moons'' using $\FDBR{\relation{\discover}_{\mathit{implement}\rightarrow\mathit{object}}}$ , etc.
+moons'' using $\FDBR{\relation{\discover}_{\mathit{implement}\rightarrow\mathit{object}}}$ , etc.  Accommodating ``the least'' can be similarly achieved by introducing complements into the semantics \cite{peelarfrostwebist2020}.
 
 \section{Related Work}
 \label{ext:relatedwork}
@@ -606,7 +605,7 @@ software that we have developed; all of which is available through the links tha
 event-based triplestore is also available for remote access at the URL
 links that we have given.
 
-Our semantics could be easily extended accommodate very simple negation as in the query ``no moon orbits two planets''. However, the query ``which person orbits no moons?'' would not return the correct answer. The reason is that list returned by evaluating the denotation corresponding to ``orbits no moons'' would only contain entities that orbits something but not a moon. It would not contain entities that orbit nothing. This problem is related to how the ``closed world assumption'' is implemented. To solve tis problem, we will begin by investigating the methods used in the experimental NLQIs Orakel \cite{cimiano:haase}, PANTO \cite{wang2007panto}, Pythia \cite{unger:cimiano}, and TBSL \cite{hoffner2013user}. We shall also consider theoretical computational linguistic approaches for dealing with negation and quantification in event-based semantics, e.g. \cite{champollion2010quantification}.
+Our semantics could be easily extended to accommodate very simple negation as in the query ``no moon orbits two planets''. However, the query ``which person orbits no moons?'' would not return the correct answer. The reason is that list returned by evaluating the denotation corresponding to ``orbits no moons'' would only contain entities that orbits something but not a moon. It would not contain entities that orbit nothing. This problem is related to how the ``closed world assumption'' is implemented. To solve tis problem, we will begin by investigating the methods used in the experimental NLQIs Orakel \cite{cimiano:haase}, PANTO \cite{wang2007panto}, Pythia \cite{unger:cimiano}, and TBSL \cite{hoffner2013user}. We shall also consider theoretical computational linguistic approaches for dealing with negation and quantification in event-based semantics, e.g. \cite{champollion2010quantification}.
 
 In this paper, we have not addressed the problems that result from the user's lack of knowledge of the URIs used in the triplestores. Significant progress has been made by others, e.g. \cite{walter:unger}, in tackling this problem.
 

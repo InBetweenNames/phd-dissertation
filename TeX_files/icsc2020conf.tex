@@ -9,7 +9,7 @@ This paper was published as:
 
 \fullcite{peelar2020compositional}
 
-It was featured at IEEE ICSC 2020.  We were invited to submit a full length paper to the IEEE ICSC Springer journal(name?) %TODO
+It was featured at IEEE ICSC 2020.  We were invited to submit a full length paper to Advances in Science, Technology and Engineering Systems Journal (ASTESJ) for a Special Issue on Multidisciplinary Sciences and Engineering.
 
 \label{chapter:icsc2020conf}
 
@@ -46,7 +46,7 @@ semantic web triplestore.  It can be accessed by via this URL: \\
 {\small \url{http://speechweb2.cs.uwindsor.ca/solarman4/demo_sparql.html}} \\
 
 \noindent Notably, our interface is able to accommodate highly complex chained prepositional phrases in queries, including those with superlatives.
-For example, our system can accommodate the query: ``\texttt{who discovered the most vacuumous moons using the most telescopes in the most places}.''  A comprehensive list of examples can be found at the ``More Examples'' link on that page.
+For example, our system can accommodate the query: ``\texttt{who discovered the most vacuumous moons using the most telescopes in the most places}.''  A comprehensive list of examples can be found at the ``More Examples'' link at the URL above.
 
 If a syntactically ambiguous query is entered, the results from each possible interpretation are returned, along with their corresponding syntax trees.
 For example, ``\texttt{who discovered the most vacuumous moons in 1877}'' could be treated as ``\texttt{who (discovered (the most (vacuumous moons)) [in 1877])}''.  This style of notation was chosen to closely mirror how the semantics are internally evaluated in the Haskell language.  Both parentheses and brackets denote scoping, and brackets denote lists of prepositional phrases
@@ -201,7 +201,7 @@ In earlier work \cite {frost2006realization}, an explicit denotation for transit
 
 %NOTE: this is in direct relation to 3.1
 
-One solution to the problem above is to use sets rather than characteristic functions (predicates) of those sets (as discussed in Section \ref{icsc2020conf:frostmont}) in the denotations of transitive verbs. The basic idea \cite{frost1989constructing} which is adopted in this paper is to consider transitive verbs as relations from the subjects or objects of those verbs to the events they participate in. 
+One solution to the problem above is to use sets rather than characteristic functions (predicates) of those sets (as discussed in Section \ref{icsc2020conf:frostmont}) in the denotations of transitive verbs. The basic idea \cite{frost1989constructing} which is adopted in this paper is to consider transitive verbs as relations from the subjects or objects of those verbs to the events they participate in.
 Specifically, transitive verbs are denoted using the {\em function defined by the binary relation} (FDBR) \cite{peelar2016accommodating} induced by the relation $\mathit{rel}$ that underlies the verb:
 \begin{equation*}
 	\begin{split}
@@ -287,7 +287,7 @@ The denotation of the transitive verb is filtered in the order that the preposit
 
 \subsection{Formal Denotations of Transitive Verbs}
 
-While a denotation for transitive verbs that allows for chained prepositional phrases and a unified treatment of active and passive voices improves expressibility, there are still a number of queries with transitive verbs that are not possible with the above approach. For example, consider the transitive verb ``used'', as in the query ``refractor\_telescope\_1 was used to discover phobos''.  Here, the subject of the query is a refractor telescope, however it is neither the subject nor object of the relation underlying the denotation of ``used'', which here is the same relation underlying the denotation of ``discover'' -- it is an implement in that relation. 
+While a denotation for transitive verbs that allows for chained prepositional phrases and a unified treatment of active and passive voices improves expressibility, there are still a number of queries with transitive verbs that are not possible with the above approach. For example, consider the transitive verb ``used'', as in the query ``refractor\_telescope\_1 was used to discover phobos''.  Here, the subject of the query is a refractor telescope, however it is neither the subject nor object of the relation underlying the denotation of ``used'', which here is the same relation underlying the denotation of ``discover'' -- it is an implement in that relation.
 A relation would need to be constructed from the ``implement'' property of the relation rather than the ``subject'' or ``object'' property as in the denotations in Section \ref{icsc2020conf:altvbii} in order to compute this.
 
 \newcommand{\mbinrel}[3]{\mathrm{make\_binrel}({#1}, {#2}, {#3})}
@@ -341,7 +341,7 @@ thought of as a row in an $n$-ary relation, such as the 5-ary discover relation 
 		\vspace{-1em}
 		\label{icsc2020conf:discover}
 	\end{table}
-	
+
 	The example in Section \ref{icsc2020conf:montytransitive} used the FDBR from subjects to
 	objects. However, there are $n^2-n = (25-5)$ functions that can be defined from the 5-ary relation above if the function from a column to itself is excluded:
 	subject to object, object to subject, subject to date, date to subject, date to subject, date to object etc.
@@ -363,20 +363,20 @@ NLQIs using Montague-type semantics are ideally suited for implementation in syn
 %\begin{boldcode}
 %	detph  = memoize Detph
 %	(parser (nt indefpron S3)
-%	[rule_s TERMPH_VAL OF LHS ISEQUALTO 
+%	[rule_s TERMPH_VAL OF LHS ISEQUALTO
 %	copy [synthesized TERMPH_VAL OF S3]]
 %	<|>
 %	parser (nt det S1 *> nt nouncla S2)
-%	[rule_s TERMPH_VAL OF LHS ISEQUALTO 
+%	[rule_s TERMPH_VAL OF LHS ISEQUALTO
 %	applydet [synthesized DET_VAL      OF S1,
-%	synthesized NOUNCLA_VAL  OF S2]])                                              
+%	synthesized NOUNCLA_VAL  OF S2]])
 %\end{boldcode}
 %
 %\noindent
 %This EAG rule corresponds to the following syntax rule, which states that a determiner phrase consists of an indefinite pronoun, or else a determiner followed by a noun clause:
 %
 %\begin{boldcode}
-%	detph  ::=  indefpron  | det nouncla  
+%	detph  ::=  indefpron  | det nouncla
 %\end{boldcode}
 %
 %\noindent

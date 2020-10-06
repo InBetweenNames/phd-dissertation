@@ -4,7 +4,7 @@
 
 \chapter{A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores}
 \begin{refsection}
-	
+
 This paper has been submitted to the WEBIST 2020 Springer journal.
 We were invited to do so... %TODO
 
@@ -109,23 +109,23 @@ The triplestore contains triples such as those in \Cref{webist2019journal:evdisc
 		event1045 &
 		subject &
 		hall \\
-		
+
 		event1045 &
 		object &
 		phobos \\
-		
+
 		event1045 &
 		ev\_type &
 		discover\_ev \\
-		
+
 		event1045 &
 		year &
 		1877 \\
-		
+
 		event1045 &
 		location &
 		us\_naval\_observatory \\
-		
+
 		event1045 &
 		implement &
 		refractor\_telescope\_1 \\
@@ -143,11 +143,11 @@ The triplestore contains triples such as those in \Cref{webist2019journal:evdisc
 		event1128 &
 		subject &
 		galileo \\
-		
+
 		event1128 &
 		object &
 		person \\
-		
+
 		event1128 &
 		ev\_type &
 		membership \\
@@ -159,7 +159,7 @@ The complete triplestore, which contains tens of thousands of triples, is hosted
 \section{Example Queries}
 \label{webist2019journal:examples}
 
-Our NLQI can answer millions of queries with respect to the triplestore discussed above. The NLQI can accommodate queries containing common and proper nouns, adjectives, conjunction and disjunction, intransitive and transitive verbs, nested quantification, superlatives, chained prepositional phrases containing quantifiers, comparatives and polysemantic words. In the following sections, we provide an informal explanation of how the answer is computed.  If a query is syntactically ambiguous, the results from each possible interpretation of the query are denoted with a semicolon.
+Our NLQI can answer millions of queries with respect to the triplestore discussed above. The NLQI can accommodate queries containing common and proper nouns, adjectives, conjunction and disjunction, intransitive and transitive verbs, nested quantification, superlatives, chained prepositional phrases containing quantifiers, comparatives and polysemantic words. In the following sections, we provide an informal explanation of how the answer is computed.  If a query is syntactically ambiguous, the results from each possible interpretation of the query are separated with a semicolon.
 
 \subsection{Queries Demonstrating the Range of NL Features that our NLQI can Accommodate}
 \label{webist2019journal:nlexamples}
@@ -184,7 +184,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\noindent The function denoted by ``\texttt{a}'' checks to see if the intersection of the set of $\moons$ and the set of $\spins$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of the $\spins$ set. The denotations of \texttt{a} and \texttt{every} that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.  The answer to the third query is obtained by checking if the intersection of the $\mathit{atmospheric}$ set and the $\moon$ set is non-empty.
+\noindent The function denoted by ``\texttt{a}'' checks to see if the intersection of the set of $\moons$ and the set of $\spins$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of the $\spins$ set. The denotations of \texttt{a} and \texttt{every} that we use are set-theoretic event-based versions of the denotations from MS which use characteristic functions.  The answer to the third query is obtained by checking if the intersection of the $\mathit{atmospheric}$ set and the $\moon$ set is non-empty.
 
 \examplespacing
 
@@ -340,7 +340,7 @@ Some phrases containing nested quantifiers are given by some researchers as exam
 
 \examplespacing
 
-\noindent In our semantics, quantifier scoping is always leftmost/outermost, and an unambiguous query can be formulated as follows: 
+\noindent In our semantics, quantifier scoping is always leftmost/outermost, and an unambiguous query can be formulated as follows:
 
 \examplespacing
 
@@ -458,7 +458,7 @@ Therefore,
 \subsection{The FDBR}
 \label{webist2019journal:fdbr}
 
-In order to generate the  answer to ``\texttt{hall discovered every moon that orbits mars}'', $\meaningof{every}$ is applied to $\meaningof{moon\ that\ orbits\ mars}$ (i.e. the set of \texttt{moons} that orbit \texttt{mars}), as first argument, and the set of entities  that were discovered by \texttt{hall}, as the second argument. 
+In order to generate the  answer to ``\texttt{hall discovered every moon that orbits mars}'', $\meaningof{every}$ is applied to $\meaningof{moon\ that\ orbits\ mars}$ (i.e. the set of \texttt{moons} that orbit \texttt{mars}), as first argument, and the set of entities  that were discovered by \texttt{hall}, as the second argument.
 Our semantics generates this set from the set of events of type ``discover'' whose the subject property is ``\textit{hall}'', as discussed below:
 
 Every set of $n$-ary events (i.e. events with $n$ roles) of a given type, e.g. discovery, defines $n^2 - n$ binary relations. For example, for discovery events:
@@ -472,7 +472,7 @@ Every set of $n$-ary events (i.e. events with $n$ roles) of a given type, e.g. d
 \begin{multline*}
 	\relationn{discover}{subject}{object} = \{(\event{1045}, \entity{hall}, \entity{phobos}), (\event{1046}, \entity{hall}, \entity{deimos}), \etc\}
 \end{multline*}
-If we collect all of the values from the range of a relation that are mapped to by each value $v$ from the domain (i.e. the image of $v$ under the relation $r$) and create the set of all pairs $(v, image\_of\_v)$, we obtain a {\em Function Defined by the Relation} $r$, i.e. the FDBR. For example:
+If we collect all of the values from the range of a relation that are mapped to by each value $v$ from the domain (i.e. the image of $v$ under the relation $r$) and create the set of all pairs $(v, image\_of\_v)$, we obtain a {\em Function Defined by the Binary Relation} $r$, i.e. the FDBR. For example:
 \begin{multline*}
 	\FDBR{\relationn{discover}{subject}{object}} \\ = \Big\{ ( \entity{hall}, \big\{(\entity{phobos}, \{\event{1045}\big\}), (\entity{deimos}, \big\{\event{1046}\}) \big\}), \etc\Big\}
 \end{multline*}
@@ -526,7 +526,7 @@ First, we introduce the denotation for ``\texttt{the most}'':
 \begin{equation*}
 	\meaningof{the\ most} = \lambda m.(\text{GT}, \textit{intersect}\ m)
 \end{equation*}
-``\texttt{the most}'' takes a nounphrase as an argument and returns a pair consisting of the ordering \textit{GT} (i.e. ``greater than''), and a termphrase created using partial application of the \textit{intersect} function.  This ordering describes how the results should be sorted -- in this case, in descending order. 
+``\texttt{the most}'' takes a nounphrase as an argument and returns a pair consisting of the ordering \textit{GT} (i.e. ``greater than''), and a termphrase created using partial application of the \textit{intersect} function.  This ordering describes how the results should be sorted -- in this case, in descending order.
 
 The denotation for prepositional phrases is modified to include an ordering as third parameter, which may take on the special value \textit{None} if the prepositional phrase does not contain a superlative phrase within it.  However, if it does contain a superlative phrase, the ordering of the prepositional phrase is set to the ordering specified in the denotation of the superlative phrase.
 
@@ -672,9 +672,9 @@ After all ``\texttt{getts}'' queries are evaluated, their results are merged tog
 Once the reduced triplestore is passed into the semantics, however, it still needs to be queried by the semantic functions in the denotations.  This is where the boundary of the impure code of the NLQI meets the pure code of the semantics. At this higher level, there are three primitives that are used to query the reduced triplestore:
 \begin{itemize}
 	\item \texttt{pure\_getts\_triples\_entevprop\_type ev\_data prop\_names ev\_type}
-	
+
 	\item \texttt{pure\_getts\_triples\_entevprop ev\_data prop\_names evs}
-	
+
 	\item \texttt{pure\_getts\_members ev\_data set}
 \end{itemize}
 These are very similar functions to those described previously, however they are implemented as pure functions in Haskell.  The actual implementation of the reduced triplestore is opaque to the semantics, which rely strictly on these three functions to retrieve triples from the reduced triplestore.  Implementing these as pure functions allows them to be embedded in the semantics, which are implemented as pure functions themselves.  This provides a number of benefits, including allowing the semantics and queries to be lazily evaluated.
@@ -799,7 +799,7 @@ Semantic ambiguity may also be accommodated by permitting multiple definitions o
 
 \subsection{Semantic Implementation}
 
-The semantics themselves are completely unaware of the structure of the underlying triplestore or the methods and query languages used to retrieve triples from it.
+The semantics themselves are completely unaware of the structure of the underlying triplestore and the methods and query languages used to retrieve triples from it.
 Recall from \Cref{webist2019journal:architecture} that the result of a parse of user input produces two items: a pure function that, given a triplestore as input will produce the result of a query and a tree that represents the query itself, including the types of queries that are required from a remote triplestore.
 
 \subsubsection{Applying Multiple Semantics in Parallel}
@@ -833,7 +833,7 @@ However, this is somewhat inconvenient and unfamiliar syntax to work with. Fortu
 \end{equation*}
 Here, the function $\mathit{wrap}_N$ takes a pair of functions $(f, g)$ with arity $N$ and then $N$ pairs of arguments to be applied in order to $f$ and $g$ respectively.  This allows ``\texttt{a' <<*>> moon' <<*>> spins'}'' above to be written as ``$\mathtt{a'\ moon\ spins}$'', where $\mathtt{a''} = \mathit{wrap}_2\ \mathtt{a'}$.
 %While it is possible in languages with sufficient meta-programming facilities to define $\mathit{wrap}_N$ generically and deduce $N$ from its context, i.e. from the pair of functions it is applied to, for our purposes it is not necessary to do so.In the semantics as described, each function needs only two arguments at most, and the types are \_.
-%Note that this approach generalizes to $N$ semantic functions by using $N$-applicative $N$-functors and modifying $\mathit{wrap}_N$ accordingly. 
+%Note that this approach generalizes to $N$ semantic functions by using $N$-applicative $N$-functors and modifying $\mathit{wrap}_N$ accordingly.
 Therefore, we can retain the familiar function application syntax in the semantics while taking advantage of parallel function application. By itself, this is a convenience, but let us revisit the Memo Tree once more. It has two uses. The first is as stated previously, in determining which queries need to be performed against the remote triplestore. The second is that this allows us to assign a unique identifier to each sub-expression of the parsed input.
 
 \subsubsection{Memoized Compositional Semantics}
@@ -868,7 +868,7 @@ As it turns out, we can use the Memo Tree to memoize the results of the sub-expr
 %The results of these function applications remain the same during each evaluation, with the only difference being the FDBR obtained from the set of events in the row of the FDBR they are being \textit{intersect}ed with during prepositional filtering.  If there are $m$ nested transitive verbs in a query, each having an FDBR with $n$ rows, then the complexity for evaluation is $O(n^m)$.
 %However, using the memoization scheme described previously, the situation improves drastically.  The results of the subqueries as listed previously are retrieved without needing to be re-computed during intersection with the sets of events in each row of the FDBRs.  This reduces the complexity to $O(mn)$ where $m$ is the number of nested transitive verbs, each having an FDBR with $n$ rows.
 The State monad in Haskell is used to thread the memoized state throughout the execution of the semantics.  This mirrors the memoization technique used in the parser itself to provide efficient parsing using combinators \cite{frosthafiz2008}.
-We believe this two-pronged approach to triplestore retrieval and memoization is novel and has not been used in any other Compositional Semantics-based systems.  We intend to expand more on our approach in a future publication, as we believe it to be useful for creating modular and efficient compositional NLQIs that can scale to the needs of the Semantic Web.
+We believe this two-pronged approach to triplestore retrieval and memoization is novel and has not been used in any other Compositional Semantics-based systems.  We intend to expand more on our approach in a future publication, as we believe it to be useful for creating modular and efficient compositional NLQIs that can scale to the needs of the Semantic Web.  For example, this approach could be used for developing NLQIs for low-power embedded devices that are suitable for IoT applications.
 
 \section{Related Work}
 \label{webist2019journal:relatedwork}
@@ -923,7 +923,7 @@ We also believe it should be possible to handle non-event based triplestores as 
 \label{webist2019journal:conclusions}
 
 This work comes at an appropriate time when massive triplestores, such as DBpedia \cite{dbpedia} are being created containing billions of verified facts. We are currently looking at how such facts can be converted to event-based triples which can be queried by our interface.
-We are confident that, after we accommodate negation, our compositional semantics is appropriate for answering most queries that are likely to be asked of data stores containing everyday knowledge. We have shown how the FDBR data structure presented in this paper can be used to handle many kinds of complex language features, including chained prepositional phrases and superlatives. The way quantification is handled within the semantics is consistent with other work in this area, as discussed in \Cref{webist2019journal:quant}. Our approach is extensible enough that it can accommodate queries to both relational and non-relational types of database, including Semantic Web triplestores. Our approach is also suitable for use on low power devices, which may be useful for applications on the Internet of Things (IoT).
+We are confident that, after we accommodate negation, our compositional semantics is appropriate for answering most queries that are likely to be asked of data stores containing domain-specific knowledge. We have shown how the FDBR data structure presented in this paper can be used to handle many kinds of complex language features, including chained prepositional phrases and superlatives. The way quantification is handled within the semantics is consistent with other work in this area, as discussed in \Cref{webist2019journal:quant}. Our approach is extensible enough that it can accommodate queries to both relational and non-relational types of database, including Semantic Web triplestores. Our approach is also suitable for use on low power devices, which may be useful for applications on the Internet of Things (IoT).
 
 We have shown how our system is tolerant of highly ambiguous user input and we discussed possible ways to present this in \Cref{webist2019journal:ambiguity}.  In particular, we discussed how both semantic and syntactic ambiguity could be handled.
 We also presented a novel approach to memoizing compositional semantics using unique identifiers attached to sub-expressions in a query, substantially improving the time complexity of evaluation. We also showed how those unique identifiers are also useful to determine the set of queries that need to be made to the remote database.
@@ -935,7 +935,7 @@ Our next goal is to provide an NLQI to DBPedia using our approach with the techn
 %We are also able to accommodate many concurrent users with a recent extension that allows the interface to be executed in a web browser which only uses the remote server to retrieve triples from the triplestore.
 
 %We are confident that, after we accommodate negation, our compositional semantics is appropriate for most queries that are likely to be asked of data stores containing everyday knowledge.
-%The FDBR data structure presented in this paper can be used to handle many kinds of complex language features, including chained prepositional phrases and superlatives.  The way quantification is handled within the semantics is consistent with other work in this area, as discussed in \Cref{sec:quant}. 
+%The FDBR data structure presented in this paper can be used to handle many kinds of complex language features, including chained prepositional phrases and superlatives.  The way quantification is handled within the semantics is consistent with other work in this area, as discussed in \Cref{sec:quant}.
 %The approach chosen is flexible enough that it can accommodate queries to both relational and non-relational types of databases, including Semantic Web triplestores.  It is also suitable for use on low power devices, which may be useful for applications on the Internet of Things (IoT).
 %
 %In the future, we plan to scale up the capability of our NLQI further to access massive data stores such as DBpedia.  To achieve this goal, we plan to accelerate the FDBR generation process using specialized acceleration hardware, such as FPGAs and GPUs.
