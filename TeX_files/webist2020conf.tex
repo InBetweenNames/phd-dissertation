@@ -177,20 +177,16 @@ information to an event by simply adding more triples referencing that event.  I
 Such an approach in a conventional triplestore requires \textit{reification} and involves using ontological information to link multiple triples together.
 
 As an example, consider a triple that describes the statement ``Jane bought a pencil'':
-\begin{small}
-	\begin{verbatim}
+\begin{code}
     <ent:Jane> <act:purchase> <ent:pencil_1> .
-	\end{verbatim}
-\end{small}
+\end{code}
 Without reification, there is no way to add other information about the purchase to the triplestore, such as the price, or the time or location that the transaction took place.
 In an event-based triplestore, this is straightforward:
-\begin{small}
-	\begin{verbatim}
-        <event:1> <type> <type:purchase_ev> .
-        <event:1> <subject> <ent:Jane> .
-        <event:1> <object> <ent:pencil_1> .
-	\end{verbatim}
-\end{small}
+\begin{code}
+    <event:1> <type> <type:purchase_ev> .
+    <event:1> <subject> <ent:Jane> .
+    <event:1> <object> <ent:pencil_1> .
+\end{code}
 Since the triples directly reference the event itself, adding more information about the event simply involves adding more triples to the triplestore with the \textit{Subject} matching the event.
 
 %\subsection{Event-based Compositional Semantics}
@@ -199,22 +195,22 @@ Since the triples directly reference the event itself, adding more information a
 %
 %\cite{peelar2016accommodating}
 
-\subsection{The Function Defined by a Relation (FDBR)}
+\subsection{The Function Defined by a Binary Relation (FDBR)}
 \label{subsec:fdbr}
 
-The notion of a \textit{Function defined by a Relation} (FDBR) was first described in \cite{peelar2016accommodating} as useful datastructure for accommodating chained prepositional phrases in Natural Language Queries.  It was shown that the word ``by'', as in ``discovered by'', could be treated as a ``virtual preposition'' under this approach. In \cite{frostpeelar2019} it was shown that the FDBR can be used to answer many kinds of NL queries including superlatives (including those that occur in a prepositional phrase), and as a useful datastructure for memoizing the results of queries performed in the denotations.  This vastly improved query execution time and opened the door for offline computation of results.
+The notion of a \textit{Function Defined by a Binary Relation} (FDBR) was first described in \cite{peelar2016accommodating} as useful datastructure for accommodating chained prepositional phrases in Natural Language Queries.  It was shown that the word ``by'', as in ``discovered by'', could be treated as a ``virtual preposition'' under this approach. In \cite{frostpeelar2019} it was shown that the FDBR can be used to answer many kinds of NL queries including superlatives (including those that occur in a prepositional phrase), and as a useful datastructure for memoizing the results of queries performed in the denotations.  This vastly improved query execution time and opened the door for offline computation of results.
 The definition of the FDBR is as follows:
 \begin{equation*}
-		\FDBR{\mathit{rel}} = \{(x, \mathit{image}_x)\ | \ (\exists e)\ (x, e) \in \mathit{rel}\ \& \ \mathit{image}_x = \{ y\ |\ (x, y) \in \mathit{rel} \}  \}
+		\FDBR{\rel} = \{(x, \image_x)\ | \ (\exists e)\ (x, e) \in \rel\ \& \ \image_x = \{ y\ |\ (x, y) \in \rel \}  \}
 \end{equation*}
 Where \textit{rel} is the name of a binary relation.
 The FDBR has been shown to be useful for the denotation of transitive verbs.  Consider the denotation for the active voice of ``\texttt{discover}'' given in \cite{peelar2020compositional}, for example:
 \begin{multline*}
 	\meaningof{discover} =
-	\lambda t\ \{ (s,\ \mathit{relevs})\ |\ (s, \mathit{evs})\ \in\ \FDBR{\relation{discover}}\ \\
-	\&\ (t\ \objfdbr{evs} \neq \emptyset)\ \&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}} \}
+	\lambda t\ \{ (s,\ \opit{relevs})\ |\ (s, \evs)\ \in\ \FDBR{\relation{discover}}\ \\
+	\&\ (t\ \objfdbr{evs} \neq \emptyset)\ \&\ \opit{relevs} = \gatherevs{\objfdbr{evs}} \}
 \end{multline*}
-where $\objfdbr{evs}$ is the FDBR from the objects in the events of the set $\mathit{evs}$ to the events they participate in within $\mathit{evs}$.  ``\texttt{discover phobos}'', where \texttt{phobos} is a proper noun, results in the FDBR:
+where $\objfdbr{evs}$ is the FDBR from the objects in the events of the set $\evs$ to the events they participate in within $\evs$.  ``\texttt{discover phobos}'', where \texttt{phobos} is a proper noun, results in the FDBR:
 \begin{equation*}
 	\{(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \})\}
 \end{equation*}
@@ -235,52 +231,42 @@ The FDBR can be readily extended to $n$-ary relations (and hence $n$-ary transit
 \label{sec:negation}
 \noindent Negation in NL queries is only possible if the CWA holds for a database.  We modify
 the semantics presented in \cite{frostpeelar2019}, \cite{frost2018extensible} and \cite{peelar2020compositional} such that the results of denotations may return the complement of an FDBR in addition to an FDBR, adopting a similar approach to \cite{frostboulos2002}.  We define this type as follows:
-\begin{small}
-	\begin{verbatim}
-		type Result = FDBR fdbr | ComplementFDBR fdbr
-	\end{verbatim}
-\end{small}
+\begin{code}
+    type Result = FDBR fdbr | ComplementFDBR fdbr
+\end{code}
 We then define the intersection of two \texttt{Result} types as follows:
-\begin{small}
-	\begin{verbatim}
+\begin{code}
     intersect_result (FDBR a) (FDBR b)
-    = FDBR $ intersect_fdbr a b
+      = FDBR $ intersect_fdbr a b
     intersect_result (FDBR a) (ComplementFDBR b)
-    = FDBR $ difference_fdbr a b
+      = FDBR $ difference_fdbr a b
     intersect_result (ComplementFDBR a) (FDBR b)
-    = FDBR $ difference_fdbr b a
-    intersect_result (ComplementFDBR a)
-    (ComplementFDBR b)
-    = ComplementFDBR $ union_fdbr a b
-	\end{verbatim}
-\end{small}
+      = FDBR $ difference_fdbr b a
+    intersect_result (ComplementFDBR a) (ComplementFDBR b)
+      = ComplementFDBR $ union_fdbr a b
+\end{code}
 Where \texttt{intersect\_fdbr} operates as it did previously, and a new function \linebreak \texttt{difference\_fdbr} is introduced as follows:
 \begin{multline*}
-\mathit{difference\_fdbr} = \\ \lambda m \lambda s.\{(e_1,\evs_2)\ |\ (e_1,\evs_1) \in m\ \&\ \forall(e_2, \evs_2)\ ((e_2,\evs_2) \in s\ \Rightarrow e_1 \neq e_2)\}
+\opit{difference\_fdbr} = \\ \lambda m \lambda s.\{(e_1,\evs_2)\ |\ (e_1,\evs_1) \in m\ \&\ \forall(e_2, \evs_2)\ ((e_2,\evs_2) \in s\ \Rightarrow e_1 \neq e_2)\}
 \end{multline*}
-That is, \textit{difference\_fdbr} removes all entities found in the left column of the second FDBR from the first FDBR.  This is a key function for performing negation, and plays a similar role to the \texttt{NOT EXISTS} operator in SPARQL.  A function is introduced for computing the union of \texttt{Results} as well:
-\begin{small}
-	\begin{verbatim}
+That is, \textit{difference\_fdbr} removes all entities found in the left column of the second FDBR from the first FDBR.  This is a key function for performing negation, and plays a similar role to the ``\texttt{NOT EXISTS}'' operator in SPARQL.  A function is introduced for computing the union of \texttt{Results} as well:
+\begin{code}
     union_result (FDBR a) (FDBR b)
-    = FDBR $ union_fdbr a b
+      = FDBR $ union_fdbr a b
     union_result (FDBR a) (ComplementFDBR b)
-    = ComplementFDBR $ b `difference_fdbr` a
+      = ComplementFDBR $ b `difference_fdbr` a
     union_result (ComplementFDBR a) (FDBR b)
-    = ComplementFDBR $ a `difference_fdbr` b
-    union_result (ComplementFDBR a)
-    (ComplementFDBR b)
-    = ComplementFDBR $ a `intersect_fdbr` b
-	\end{verbatim}
-\end{small}
+      = ComplementFDBR $ a `difference_fdbr` b
+    union_result (ComplementFDBR a) (ComplementFDBR b)
+      = ComplementFDBR $ a `intersect_fdbr` b
+\end{code}
 This is used in the denotation of ``\texttt{and}'' and ``\texttt{or}'' as used with termphrases.
 Next, we introduce a function to obtain the cardinality of a Result:
-\begin{small}
-	\begin{verbatim}
+\begin{code}
     cardinality _ (FDBR np) = List.length np
     cardinality (Just num_ents) (ComplementFDBR np)
     = num_ents - length np
-	\end{verbatim}
-\end{small}
+\end{code}
 
 The first argument to this function is passed in from the query pipeline described in \cite{peelar2020webistjournal}, and is either \texttt{Nothing} or \texttt{Just num\_ents}, where
 \texttt{num\_ents} is the cardinality of the set of entities in the triplestore.  It will only be retrieved if the query has any denotations involving negation in it.
@@ -291,51 +277,39 @@ Our approach maintains leftmost-outermost scoping of quantifiers including negat
 \label{subsec:quantifiers}
 
 We modify the denotations of all quantifiers to be characterized in terms of the cardinality:
-\begin{small}
-\begin{verbatim}
+\begin{code}
     a' = intersect_result
     every'' cardinality nph vbph =
       if cardinality result == cardinality nph
       then result else FDBR []
     one'' cardinality nph vbph =
-      if cardinality result == 1
-        then result
-        else FDBR []
+      if cardinality result == 1 then result else FDBR []
     two'' cardinality nph vbph =
-      if cardinality result == 2
-        then result
-        else FDBR []
+      if cardinality result == 2 then result else FDBR []
     most'' cardinality nph vbph =
       if n_nph /= 0 && (n_nph_v / n_nph) > 0.5
         then result else FDBR []
       where
         n_nph = fromIntegral $ cardinality nph
         n_nph_v = fromIntegral $ cardinality res
-\end{verbatim}
-\end{small}
-where in the above denotations, \\ \texttt{result = intersect\_result'' nph vbph}.
+\end{code}
+where in the above denotations, \texttt{result = intersect\_result'' nph vbph}.
 Curiously, the function \texttt{cardinality} appears as the first argument to these
 quantifiers, giving them three arguments in total.  This function is passed in from the caller
 as a function that can be used to obtain the cardinality of a FDBR.  A function, ``\texttt{apply\_card}'' is used to automatically apply the cardinality function to the denotations.  For example:
-\begin{small}
-	\begin{verbatim}
+\begin{code}
     every' = applyCard every'' >|< GettsIntersect GI_Every
     every = wrapS2 every'
-	\end{verbatim}
-\end{small}
+\end{code}
 The \texttt{>|<} operator is described in more detail in \cite{peelar2020webistjournal}.  It
 is used to assign a unique name to the denotations according to the syntax tree of the query.
 This is useful for memoization and query optimization.
 ``\texttt{no}'' is denoted as follows:
-\begin{small}
-	\begin{verbatim}
-    no'' cardinality nph (FDBR []) =
-      ComplementFDBR []
-    no'' cardinality nph vbph =
-      if cardinality result == 0 then vbph
+\begin{code}
+    no'' cardinality nph (FDBR []) = ComplementFDBR []
+    no'' cardinality nph vbph = if cardinality result == 0 then vbph
         else FDBR []
-	\end{verbatim}
-\end{small}
+\end{code}
 This is a departure from the denotation of ``\texttt{no}'' given in \cite{frostboulos2002}.
 Namely, the complement of the empty FDBR (denoting ``everything'') is returned when an empty
 FDBR is passed as the second argument to ``\texttt{no}''.  This is critical in handling ``\texttt{no}'' in the denotation of transitive verbs as discussed later in \Cref{subsec:tvs}.
@@ -343,18 +317,14 @@ FDBR is passed as the second argument to ``\texttt{no}''.  This is critical in h
 \subsection{Negating Noun- and Verb-phrases}
 
 We denote ``\texttt{not}'', when applied to a verb-phrase (such as ``\texttt{not spins}'') as follows:
-\begin{small}
-	\begin{verbatim}
+\begin{code}
     not (FDBR vbph) = ComplementFDBR vbph
     not (ComplementFDBR vbph) = FDBR vbph
-	\end{verbatim}
-\end{small}
+\end{code}
 ``\texttt{non}'' plays a similar role as a prefix to a noun-phrase, and can be denoted as:
-\begin{small}
-	\begin{verbatim}
+\begin{code}
     non = not
-	\end{verbatim}
-\end{small}
+\end{code}
 
 \subsection{Negating Term-phrases}
 
@@ -366,23 +336,18 @@ of negating termphrases, such as ``\texttt{hall}'', ``\texttt{a moon}'', ``\text
 \end{center}
 Where ``\texttt{one}'' denotes ``exactly one''.  This query explicitly is excluding any discoverers that discovered exactly one \texttt{moon} that orbits \texttt{mars}.  It results in \texttt{hall}, because \texttt{hall} discovered two \texttt{moons} that orbit \texttt{mars} in 1877.
 ``\texttt{not}'' when applied to a term-phrase, such as ``\texttt{hall}'' or ``\texttt{a moon}'' is denoted as follows:
-\begin{small}
-	\begin{verbatim}
-    termnot tmph vbph
-    = intersect_result (not (tmph vbph)) vbph
-	\end{verbatim}
-\end{small}
+\begin{code}
+    termnot tmph vbph = intersect_result (not (tmph vbph)) vbph
+\end{code}
 Therefore \texttt{not hall spins} is evaluated as follows:
-\begin{small}
-	\begin{verbatim}
-    (not hall) spins
+\begin{code}
+       (not hall) spins
     => intersect_result (not (hall spins)) spins
     => intersect_result (not (FDBR [])) spins
     => intersect_result (ComplementFDBR []) spins
     => spins
     => True  (because spins is not empty)
-	\end{verbatim}
-\end{small}
+\end{code}
 Negating term-phrases was not discussed in \cite{frostboulos2002}, and it offers more flexibility
 in the nature of queries that can be performed (see \Cref{sec:examples})
 
@@ -394,7 +359,7 @@ Transitive verbs are less straightforward to accommodate with negation.  Conside
 \begin{center}
     \texttt{ganymede discovered no moons}
 \end{center}
-\noindent This query should evaluate to $\True$, as \texttt{ganymede}, a \texttt{moon}, was not the subject of any discovery events -- however, \texttt{ganymede} is not the \textit{subject} of any events of type \textit{discover}.  Therefore, it is missing from $\FDBR{\relation{discover}_{subject}}$, where $\relation{discover}_{subject}$ is the relation from the \textit{subject}s of the \textit{discover} events to the events of type \textit{discover} that they participate in.
+\noindent This query should evaluate to $\True$, as \texttt{ganymede}, a \texttt{moon}, was not the subject of any discovery events -- however, \texttt{ganymede} is not the \textit{subject} of any events of type \textit{discover}.  Therefore, it is missing from $\FDBR{\relationone{discover}{subject}}$, where $\relationone{discover}{subject}$ is the relation from the \textit{subject}s of the \textit{discover} events to the events of type \textit{discover} that they participate in.
 
 A denotation is given in \cite{frostboulos2002} that accommodates this usage of transitive verbs; however it requires syntactic disambiguation at the grammar level to apply correctly.  The approach also does not scale well when other linguistic constructs are introduced, such as chained prepositional phrases and superlatives, requiring a new denotation to support each usage.  The examples given in that paper required 4 denotations for transitive verb depending on the context.
 
@@ -404,12 +369,9 @@ The denotation we introduce expands on the denotation introduced in \cite{frostp
 Only one denotation for transitive verbs is required for all cases (rather than 4 as in \cite{frostboulos2002}). In particular, the word ``\texttt{no}'' can be handled compositionally rather than syntactically in the query.
 
 We modify the denotation for transitive verbs given in \cite{peelar2020webistjournal} to evaluate the list of prepositional phrases in leftmost-outermost order.  The \texttt{filter\_ev} function, described in \cite{peelar2016accommodating}, is modified to operate on one prepositional phrase at a time: a new FDBR is computed for each prepositional phrase applied.  This allows superlatives to be neatly evaluated in the order they appear rather than in a separate stage after the prepositions are evaluated as denoted in \cite{frostpeelar2019}.  \texttt{filter\_ev} also is modified to account for negation in the query: first, the current prepositional phrase is evaluated against the empty FDBR (\texttt{FDBR[]}).  If the result is not an FDBR, then it is a \texttt{no} termphrase:
-\begin{small}
-	\begin{verbatim}
-    in no place (FDBR [])
-    => ComplementFDBR []
-	\end{verbatim}
-\end{small}
+\begin{code}
+    in no place (FDBR []) => ComplementFDBR []
+\end{code}
 This is owing to the denotation of \texttt{no} used in \Cref{subsec:quantifiers}.  Indeed, the only way to obtain a non-empty FDBR from applying an empty FDBR is through negation.  When this is the case, \texttt{filter\_ev} returns a complement in the same fashion as \cite{frostboulos2002}.
 
 Since \texttt{filter\_ev} can also receive the complement of an FDBR, as in the case when negation is present in the query, applying term-phrases can be difficult.  The complement operation is reversed by taking the FDBR of the transitive verb itself and performing the intersection of it with the complement passed into \texttt{filter\_ev}.  Whether negation is present in the current prepositional phrase or not, this FDBR is passed in to the termphrase of that preposition.  If no negation is present in the current preposition, the result is returned as-is, unless it contains a superlative.  Otherwise, if negation is present, then if a complement of an FDBR was passed into \texttt{filter\_ev}, the FDBR used in the denotation of the transitive verb itself is used to compute the complement, otherwise the FDBR passed into \texttt{filter\_ev} is used directly. This allows for \texttt{discover no moon in 1948} to work as expected. This can neatly handle the following cases:
@@ -444,11 +406,9 @@ In systems where the Open World Assumption holds, obtaining the cardinality of t
 may not be possible, as the cardinality of that set may be infinite.  Attempting to obtain that set at all may not be practical.  Even in systems where the CWA holds, obtaining the set of all entities in the database may not be feasible.  Fortunately, only the cardinality is required to start answering queries.
 
 A new querying primitive is introduced from \cite{peelar2020webistjournal} that queries the remote triplestore itself for the cardinality of the set of entities in the triplestore:
-
-\begin{verbatim}
-        getts_cardinality_allents ev_data props
-\end{verbatim}
-
+\begin{code}
+    getts_cardinality_allents ev_data props
+\end{code}
 Here, \texttt{ev\_data} represents the URL of the triplestore itself (in the case of SPARQL, a SPARQL endpoint URL), and \texttt{props} is the set of properties of the events contained in the triplestore whose entities should be counted towards the cardinality.  In the example queries given in this paper, the properties listed for cardinality are \texttt{subject}, \texttt{object}, \texttt{location}, and \texttt{implement}.  We exclude the \texttt{year} property as all entities must exist both physically and temporally \cite{w3csemanticweb}.  This function, like the other  \texttt{getts*} family functions described in \cite{frostpeelar2019}, can be specialized for different types of databases, including relational triplestores.
 
 This alleviates having to send the full set of entities to the semantics in order to answer a query that uses negation. Note that the cardinality of the set of entities of the triplestore is only ever required in queries that have negation present.  Using the memoization and triplestore querying framework described in \cite{peelar2020webistjournal}, a guarantee is made that if no negation is present in the query, the cardinality query will never be performed.  Therefore, our denotations for negation in queries, including ``\texttt{not}'', ``\texttt{non}'', ``\texttt{no}'' and ``\texttt{the least}'', are drop-in enhancements to NLQIs built using our framework: if the CWA holds for the application, all one needs to do is add these denotations in.  Otherwise, the NLQI will operate with the open world semantics described in \cite{frostpeelar2019}.

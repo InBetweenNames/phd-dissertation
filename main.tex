@@ -104,39 +104,44 @@
 
 \lstnewenvironment{code}
 {\lstset{}%
-	\csname lst@SetFirstLabel\endcsname}
+    \csname lst@SetFirstLabel\endcsname}
 {\csname lst@SaveFirstLabel\endcsname}
 \lstset{
-	basicstyle={\ttfamily},
-	flexiblecolumns=false,
-	basewidth={0.5em,0.45em},
-	literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1
-	{>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
-	{\\\\}{{\char`\\\char`\\}}1
-	{->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
-	{<=}{{$\leq$}}2 {=>}{{$\Rightarrow$}}2
-	{\ .\ }{{$\circ$}}2
-	{>>}{{>>}}2 {>>=}{{>>=}}2
-	{|}{{$\mid$}}1
+    basicstyle={\ttfamily},
+    flexiblecolumns=false,
+    basewidth={0.5em,0.5em},
+    literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1 {|}{{$\mid$}}1
+    {>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
+    {\\\\}{{\char`\\\char`\\}}1
+    {->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
+    {<=}{{$\leq$}}2 {=>}{{$\implies$}}2
+    {\ .\ }{{$\circ$}}2
+    {>>}{{>>}}2
+    {*>}{{*>}}2
+    {>>=}{{>>=}}3
+    {>|<}{{>|<}}3
+    {<*>}{{<*>}}3
+    {<+>}{{<+>}}3
+    {<<*>>}{{<<*>>}}5
 }
 
-\lstnewenvironment{spec}
-{\lstset{}%
-	\csname lst@SetFirstLabel\endcsname}
-{\csname lst@SaveFirstLabel\endcsname}
-\lstset{
-	basicstyle={\ttfamily},
-	flexiblecolumns=false,
-	basewidth={0.5em,0.45em},
-	literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1
-	{>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
-	{\\\\}{{\char`\\\char`\\}}1
-	{->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
-	{<=}{{$\leq$}}2 {=>}{{$\Rightarrow$}}2
-	{\ .\ }{{$\circ$}}2
-	{>>}{{>>}}2 {>>=}{{>>=}}2
-	{|}{{$\mid$}}1
-}
+%\lstnewenvironment{spec}
+%{\lstset{}%
+%	\csname lst@SetFirstLabel\endcsname}
+%{\csname lst@SaveFirstLabel\endcsname}
+%\lstset{
+%	basicstyle={\ttfamily},
+%	flexiblecolumns=false,
+%	basewidth={0.5em,0.45em},
+%	literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1
+%	{>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
+%	{\\\\}{{\char`\\\char`\\}}1
+%	{->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
+%	{<=}{{$\leq$}}2 {=>}{{$\Rightarrow$}}2
+%	{\ .\ }{{$\circ$}}2
+%	{>>}{{>>}}2 {>>=}{{>>=}}2
+%	{|}{{$\mid$}}1
+%}
 
 \newcommand{\uwinverytightsinglespacelen}{0.9}
 \newcommand{\uwintightsinglespacelen}{1.0}
@@ -193,51 +198,60 @@
 
 \setmonofont{CMU Typewriter Text}%{Consolas}
 
+\newcommand{\dmathit}[1]{\textit{#1}}
+\newcommand{\dmathrm}[1]{\text{#1}}
+\newcommand{\dmathbf}[1]{\textbf{#1}}
+
 %Macros for denotations
-\newcommand{\phobos}{\mathit{phobos}}
-\newcommand{\deimos}{\mathit{deimos}}
-\newcommand{\every}{\mathit{every}}
-\newcommand{\spins}{\mathit{spins}}
-\newcommand{\spin}{\mathit{spin}}
-\newcommand{\moon}{\mathit{moon}}
-\newcommand{\moons}{\mathit{moons}}
+\DeclareMathOperator{\phobos}{phobos}
+\DeclareMathOperator{\deimos}{deimos}
+\DeclareMathOperator{\every}{every}
+\DeclareMathOperator{\spins}{spins}
+\DeclareMathOperator{\spin}{spin}
+\DeclareMathOperator{\moon}{moon}
+\DeclareMathOperator{\moons}{moons}
 
-\newcommand{\meaningof}[1]{\lVert \mathit{#1} \rVert}
-\newcommand{\eventassoc}[1]{ev_{\mathrm{#1}}}
-\newcommand{\event}[1]{ev_{\mathrm{#1}}}
-\newcommand{\entityassoc}[1]{e_{#1}}
-\newcommand{\entity}[1]{e_{#1}}
-\newcommand{\wordpred}[1]{\mathit{#1\_pred}}
-\newcommand{\wordset}[1]{\mathit{#1\_set}}
-\newcommand{\True}{\mathit{True}}
-\newcommand{\False}{\mathit{False}}
+\newcommand{\meaningof}[1]{\lVert\dmathit{#1\hspace{0.1em}}\rVert} %this *is* text
+\newcommand{\eventassoc}[1]{\operatorname{\mathit{ev}}_{#1}}
+\newcommand{\event}[1]{\eventassoc{#1}}
+\newcommand{\entityassoc}[1]{\mathrm{e}_{\operatorname{#1}}}
+\newcommand{\entity}[1]{\entityassoc{#1}}
+\newcommand{\wordpred}[1]{\operatorname{#1}_{\operatorname{\mathit{pred}}}}
+\newcommand{\wordset}[1]{\operatorname{#1}_{\operatorname{\mathit{set}}}}
+\newcommand{\True}{\operatorname{\mathit{True}}}
+\newcommand{\False}{\operatorname{\mathit{False}}}
 
+\DeclareMathOperator{\discover}{discover}
+\DeclareMathOperator{\discovered}{discovered}
+\DeclareMathOperator{\discoveredby}{discovered by}
+\DeclareMathOperator{\used}{used}
+\DeclareMathOperator{\hall}{hall}
 
-\newcommand{\discover}{\mathit{discover}}
-\newcommand{\discovered}{\mathit{discovered}}
-\newcommand{\discoveredby}{\mathit{discovered\ by}}
-\newcommand{\discoveredwith}{\mathit{discovered\ with}}
-\newcommand{\used}{\mathit{used}}
-\newcommand{\hall}{\mathit{hall}}
+\newcommand{\relation}[1]{\operatorname{#1}_{\operatorname{\mathit{rel}}}}
+\newcommand{\relationn}[3]{\operatorname{#1}_{\operatorname{\mathit{rel}}\,:\,\operatorname{\mathit{#2}} \rightarrow \operatorname{\mathit{#3}}}}
+\newcommand{\relationone}[2]{\operatorname{#1}_{\operatorname{\mathit{rel}}\,:\,\operatorname{\mathit{#2}}}}
 
-\newcommand{\relation}[1]{\mathit{#1\_rel}}
-\newcommand{\relationn}[3]{\mathit{#1\_rel_{#2 \rightarrow #3}}}
-\newcommand{\collect}{\mathit{collect}}
+\DeclareMathOperator{\collect}{collect}
 
-\newcommand{\FDBR}[1]{\mathrm{FDBR}({#1})}
-\newcommand{\Album}[1]{\mathrm{Album}({#1})}
-\newcommand{\objfdbr}[1]{\mathrm{obj\_fdbr}(\mathit{#1})}
-\newcommand{\gatherevs}[1]{\mathrm{gather}({#1})}
-\newcommand{\propfdbr}[2]{\mathrm{prop\_fdbr}(\mathit{#1, #2})}
+\newcommand{\FDBR}[1]{\operatorname{FDBR}({#1})}
+\newcommand{\objfdbr}[1]{\operatorname{obj\_fdbr}({#1})}
+\newcommand{\gatherevs}[1]{\operatorname{gather}({#1})}
+\newcommand{\propfdbr}[2]{\operatorname{prop\_fdbr}({#1}, {#2})}
 
-\newcommand{\evs}{\mathit{evs}}
-\newcommand{\ent}{\mathit{ent}}
-\newcommand{\ev}{\mathit{ev}}
-\newcommand{\etc}{\mathit{etc}\ldots}
+\DeclareMathOperator{\ent}{ent}
+\DeclareMathOperator{\ev}{ev}
+
+\newcommand{\opit}[1]{\operatorname{\mathit{#1}}}
+
+\newcommand{\evs}{\operatorname{\mathit{evs}}}
+\newcommand{\etc}{\operatorname{\mathit{etc\ldots}}}
+\newcommand{\rel}{\operatorname{\mathit{rel}}}
+%\newcommand{\image}{\operatorname{\mathit{image}}}
+\DeclareMathOperator{\image}{image}
 
 \author{Shane Peelar}
 \newcommand{\dtitle}{Scalable, Efficient and Precise Natural Language Processing in the Semantic Web}
-\newcommand{\defensedate}{September 3 2020}
+\newcommand{\defensedate}{December 7 2020}
 \title{\dtitle}
 \date{\defensedate}
 
@@ -577,14 +591,30 @@
 
 %TODO: sort alphabetically
 %TODO: maybe list where first mentioned?
+\addcontentsline{abc}{section}{AG - Attribute Grammar}
+\addcontentsline{abc}{section}{CNL - Controlled Natural Language}
 \addcontentsline{abc}{section}{CS - Compositional Semantics}
+\addcontentsline{abc}{section}{CWA - Closed World Assumption}
+\addcontentsline{abc}{section}{EAG - Executable Attribute Grammar}
+\addcontentsline{abc}{section}{FDBR - Function Defined by a Binary Relation}
+\addcontentsline{abc}{section}{LDF - Linked Data Fragments}
 \addcontentsline{abc}{section}{ML - Machine Learning}
 \addcontentsline{abc}{section}{MS - Montague Semantics}
+\addcontentsline{abc}{section}{OWA - Open World Assumption}
 \addcontentsline{abc}{section}{NL - Natural Language}
 \addcontentsline{abc}{section}{NLQI - Natural Language Query Interface}
 \addcontentsline{abc}{section}{PP - Prepositional Phrase}
-\addcontentsline{abc}{section}{SPARQL - SPARQL Protocol and RDF Query Language} %TODO
+\addcontentsline{abc}{section}{RDF - Resource Description Framework}
+\addcontentsline{abc}{section}{SPARQL - SPARQL Protocol and RDF Query Language}
 
+%TODO: list of figures?
+%TODO: list of tables?
+%TODO: list of abbreviations: page on first mentioned
+%TODO: unify formatting across all pages
+%TODO: link the chapters together
+%TODO: complete introduction
+%TODO: complete preface
+%TODO: each chapter should have self-contained abbreviations
 
 \clearpage
 \pagenumbering{arabic}

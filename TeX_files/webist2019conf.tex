@@ -128,15 +128,15 @@ The function denoted by ``\texttt{phobos}'' checks to see if $\entityassoc{phobo
 
 \noindent \texttt{an atmospheric moon exists} $\Rightarrow \True$ \\
 
-The function denoted by `\texttt{a}' checks to see if the intersection of the set of $\moons$ and the set of $\spins$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of the $\spins$ set. The denotations of `\texttt{a}' and ``\texttt{every}'' that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
+The function denoted by `\texttt{a}' checks to see if the intersection of $\wordset{moon}$ and $\wordset{spins}$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of $\wordset{spins}$. The denotations of ``\texttt{a}'' and ``\texttt{every}'' that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
 
-The answer to the third query is obtained by checking if the intersection of the $\mathit{atmospheric}$ set and the $\moon$ set is non-empty. \\
+The answer to the third query is obtained by checking if the intersection of $\wordset{atmospheric}$ and $\wordset{moon}$ is non-empty. \\
 
 \noindent \texttt{hall discovered} $\Rightarrow \True$ \\
 
 All of the events of type ``discovered'' are collected together and are checked to see if $\entityassoc{hall}$ is found as the subject role value of any of them. If so, $\True$ is returned. \\
 
-\noindent \texttt{when did hall discover} $\Rightarrow \mathit{1877}$ \\
+\noindent \texttt{when did hall discover} $\Rightarrow 1877$ \\
 
 The ``year'' property of the  events returned by ``hall discover'' (treated as ``hall discovered'') are returned. \\
 
@@ -162,9 +162,9 @@ Owing to the fact that our semantics is compositional the \textit{subject} and \
 
 ``who'', ``what'', ``where'', ``when'' and ``how'' can be used in place of the \textit{subject} termphrase. Different role values are returned depending on which ``wh..'' word is used in the query. \\
 
-\noindent \texttt{where discovered by galileo} $\Rightarrow \mathit{padua}$
+\noindent \texttt{where discovered by galileo} $\Rightarrow \opit{padua}$
 
-\noindent \texttt{when discovered by galileo} $\Rightarrow \mathit{1610}$
+\noindent \texttt{when discovered by galileo} $\Rightarrow 1610$
 
 \noindent \texttt{every telescope was used to discover a moon} $\Rightarrow \True$ (w.r.t.our data)
 
@@ -199,7 +199,7 @@ $\Rightarrow$ \textit{saturn; none}
 
 \noindent \texttt{which person discovered a moon in 1877 with every telescope that was used to discover phobos} $\Rightarrow$ \textit{hall; none}
 
-\noindent \texttt{who discovered in 1948 and 1949 with a telescope} $\Rightarrow \mathit{kuiper}$
+\noindent \texttt{who discovered in 1948 and 1949 with a telescope} $\Rightarrow \opit{kuiper}$
 
 \subsection{Queries with ``Non-Compositional'' Structures}
 \label{webist2019conf:noncompositional}
@@ -220,11 +220,11 @@ Some researchers have provided examples of what they claim to be non-composition
 
 No \textit{subject}, \textit{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word ``\texttt{who}'' picks out the \textit{subjects} from those events. \\
 
-\noindent \texttt{where discovered io} $\Rightarrow \mathit{padua}$ \\
+\noindent \texttt{where discovered io} $\Rightarrow \opit{padua}$ \\
 
 No \textit{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \textit{object} termphrase ``\texttt{io}'' and then, those that pass the filter are returned by the verbphrase and the word ``\texttt{where}'' picks out the location from those events. \\ %(See section $\Cref{sec:examples}$ for more details).
 
-\noindent \texttt{who discovered in 1610} $\Rightarrow \mathit{galileo}$ \\
+\noindent \texttt{who discovered in 1610} $\Rightarrow \opit{galileo}$ \\
 
 No \textit{subject} or \textit{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``date'' equal to 1610 pass the filter and then the denotation of the word ``\texttt{who}'' selects the subject which is returned.
 
@@ -234,7 +234,7 @@ In our semantics, the \textit{subject} and \textit{object} termphrases are treat
 
 Several results are returned because the query is syntactically ambiguous. \\
 
-\noindent \texttt{where discovered in 1610} $\Rightarrow \mathit{padua}$
+\noindent \texttt{where discovered in 1610} $\Rightarrow \opit{padua}$
 
 \noindent \texttt{how discovered in padua} $\Rightarrow$ \textit{galilean\_telescope\_1}
 
@@ -271,7 +271,7 @@ It may be surprising that \textit{cassini} is returned in the answer since it is
 All quantifiers, such as ``a'', ``every'' and ``more than two'' are treated in MS as functions which take two characteristic functions of sets as arguments and return a Boolean value as result. Our modifications to MS are to use sets of entities instead of predicates/characteristic functions of those sets, and to pair sets of events with each entity; the set of events paired with an entity justify the entity’s inclusion in the denotation. For example:
 \begin{multline*}
 	\meaningof{propernoun} = \\ \lambda p.
-	\{(e, \evs)\ |\ (e, \evs) \in p\ \&\ e = \mathrm{the\ entity\ associated\ with\ the\ proper\ noun}\}
+	\{(e, \evs)\ |\ (e, \evs) \in p\ \&\ e = \dmathrm{the entity associated with the proper noun}\}
 \end{multline*}
 \begin{equation*}
 	\begin{split}
@@ -282,7 +282,7 @@ All quantifiers, such as ``a'', ``every'' and ``more than two'' are treated in M
 Therefore,
 \begin{equation*}
 	\begin{split}
-		& \meaningof{phobos\ spins} = \meaningof{phobos}\ \meaningof{spins} \\
+		& \meaningof{phobos spins} = \meaningof{phobos}\ \meaningof{spins} \\
 		& = \lambda s.\ \{(e, \evs) | (e, \evs) \in s\ \&\ e = \entityassoc{phobos}\}
 		 \{(\entityassoc{phobos},{\eventassoc{1360}}), (\entityassoc{deimos}, \eventassoc{1332}), \ldots\} \\
 		& = \{(\entityassoc{phobos}, \eventassoc{1360})\}
@@ -322,31 +322,28 @@ In order to generate the  answer to ``hall discovered every moon that orbits mar
 	\relationn{discover}{subject}{object} = \{(\event{1045}, \entity{hall}, \entity{phobos}), (\event{1046}, \entity{hall}, \entity{deimos}), \etc\}
 \end{equation*}
 If we collect all of the values from the range of a relation that are mapped to by each value $v$ from the domain (i.e. the image of $v$ under the relation $r$) and create the set of all pairs $(v, image\_of\_v)$, we obtain a function defined by the relation $r$, i.e. the FDBR. For example:
-\begin{equation*}
-	\begin{split}
-	\FDBR{\relationn{discover}{subject}{object}} = \{& ( \entity{hall}, \{(\entity{phobos}, \{\event{1045}\}),\ (\entity{deimos}, \{\event{1046}\}) \}),\\
-	&\etc\}
-	\end{split}
-\end{equation*}
-It is these functions that are created, and used, by the denotation of the transitive verb associated with the type of the events. For example in calculating the value of $\meaningof{who\ discovered\ every\ moon\ that\ orbits\ mars}$, $\meaningof{every}$ is applied to the set of entities which is the denotation of ``moon that orbits mars'' (i.e $\{ (\entity{phobos}, \{\event{1045}\}),\\ (\entity{deimos}, \{\event{1046}\})\}$) and all of the images that are in the second field of the pairs in $\FDBR{\relationn{discover}{subject}{object}}$.
+\begin{multline*}
+	\FDBR{\relationn{discover}{subject}{object}} = \\ \{( \entity{hall}, \{(\entity{phobos}, \{\event{1045}\}),\ (\entity{deimos}, \{\event{1046}\}) \}),\etc\}
+\end{multline*}
+It is these functions that are created, and used, by the denotation of the transitive verb associated with the type of the events. For example in calculating the value of $\meaningof{who discovered every moon that orbits mars}$, $\meaningof{every}$ is applied to the set of entities which is the denotation of ``moon that orbits mars'' (i.e $\{ (\entity{phobos}, \{\event{1045}\}),\\ (\entity{deimos}, \{\event{1046}\})\}$) and all of the images that are in the second field of the pairs in $\FDBR{\relationn{discover}{subject}{object}}$.
 
 For the pair $(\entity{hall}, \{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\})$, $\meaningof{every}$ returns the non-empty set $\{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\}$, and the value in the first field, i.e. $\entity{hall}$, is subsequently returned with the answer to the query.
 
 The various FDBRs are used to answer different types of queries. For example: \\
 
-\noindent \texttt{who discovered phobos and deimos} $\Rightarrow hall$
+\hspace{4em}\parbox{\linewidth}{
+\texttt{who discovered phobos and deimos} $\Rightarrow hall$
 
-uses $\FDBR{\relationn{discover}{subject}{object}}$
+\hspace{2em} uses $\FDBR{\relationn{discover}{subject}{object}}$
 
-\noindent \texttt{where discovered by galileo} $\Rightarrow \mathit{padua}$
+\texttt{where discovered by galileo} $\Rightarrow \opit{padua}$
 
-uses $\FDBR{\relationn{discover}{location}{subject}}$
+\hspace{2em} uses $\FDBR{\relationn{discover}{location}{subject}}$
 
-\noindent \texttt{how discovered in 1610 or 1855}
+\texttt{how discovered in 1610 or 1855} $\Rightarrow$  \textit{galilean\_telescope\_1}
 
-$\Rightarrow$  \textit{galilean\_telescope\_1}
-
-uses $\FDBR{\relationn{discover}{implement}{year}}$
+\hspace{2em} uses $\FDBR{\relationn{discover}{implement}{year}}$
+}
 
 \section{Handling Prepositional Phrases}
 
@@ -375,10 +372,10 @@ Each row in a relation \textit{Rel} can be thought of as representing an event o
 \section{Implementation of our NLQI}
 \label{webist2019conf:implementation}
 We built our query processor as an executable attribute grammar using the X-SAIGA Haskell parser-combinator library package \cite{frosthafiz2008}.
-The $\mathit{collect}$ function which converts a binary relation to an FDBR is one of the most
+The $\opit{collect}$ function which converts a binary relation to an FDBR is one of the most
 compute intensive parts of our implementation of the semantics. However, in Haskell, once a value is
 computed, it can be made available for future use. We have developed an algorithm to compute
-$\FDBR{\mathit{rel}}$ in $O(n\ log\ n)$ time, where $n$ is the number of pairs in $\mathit{rel}$.
+$\FDBR{\rel}$ in $O(n\ \operatorname{log}\ n)$ time, where $n$ is the number of pairs in $\rel$.
 Alternatively, the FDBR functions can be computed and stored in a cache when the NLQI is offline.
 Our implementation is amenable to running on low power devices, enabling it for use with the Internet of Things. A version of our query processor exists that can run on a common consumer network router as a proof of concept for this application.
 The use of Haskell for the implementation of our NLQI has many advantages, including:
@@ -392,7 +389,7 @@ The use of Haskell for the implementation of our NLQI has many advantages, inclu
 	\item The ability to partially apply functions of $n$ arguments to 1 to $n$ arguments allows the
 	definition and manipulation of denotation of phrases such as ``every moon'', and ``discover
 	phobos''.
-	\item The availability of the $\mathit{hsparql}$ \cite{hsparql} Haskell package enables a simple interface between our semantic processor and SPARQL endpoints to our triplestores.
+	\item The availability of the \textit{hsparql} \cite{hsparql} Haskell package enables a simple interface between our semantic processor and SPARQL endpoints to our triplestores.
 \end{enumerate}
 
 \section{Related Work}

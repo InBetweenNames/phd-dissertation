@@ -1,22 +1,5 @@
 \documentclass[../main.tex]{subfiles}
 
-\lstnewenvironment{boldcode}
-{\lstset{}%
-	\csname lst@SetFirstLabel\endcsname}
-{\csname lst@SaveFirstLabel\endcsname}
-\lstset{
-	basicstyle={\ttfamily\bfseries\small},
-	flexiblecolumns=false,
-	literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1
-	{>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
-	{\\\\}{{\char`\\\char`\\}}1
-	{->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
-	{<=}{{$\leq$}}2 {=>}{{$\implies$}}2
-	{\ .\ }{{$\circ$}}2
-	{>>}{{>>}}2 {>>=}{{>>=}}2
-	{|}{{$\mid$}}1
-}
-
 \begin{document}
 
 \chapter{An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore}
@@ -37,19 +20,19 @@ knowledge of the way in which existing data is stored. This is particularly the 
 triplestores, where people can add many properties such as the time, location, and implement used, to
 a triple such as ``\texttt{<hall> <discovered> <phobos>}''. For example, consider an event-based triplestore containing the following triples, amongst others, where we use bare names for URIs:
 
-\begin{boldcode}
+\begin{code}
 	<event1030> <type> <discovery> .
 	<event1030> <subject> <hall> .
 	<event1030> <object> <phobos> .
-\end{boldcode}
+\end{code}
 
 Additional data can be added as follows:
 
-\begin{boldcode}
+\begin{code}
 	<event1030> <date> <1877> .
 	<event1030> <implement> <refractor_telescope_1> .
 	<event1030> <location> <us_naval_observatory> .
-\end{boldcode}
+\end{code}
 
 Ideally, it should be possible to query these and other triples, using an extensible Natural-Language Query Interface (NLQI).
 
@@ -109,16 +92,16 @@ The following queries illustrate that quantifier scoping is leftmost-outermost:
 	\item every telescope was used to discover a moon: $\True$
 	\item a moon was discovered by every telescope: $\False$
 	\item a telescope was used by hall to discover two moons: $\True$
-	\item which moons were discovered with two telescopes: \\$\mathit{halimede\ laomedeia\ sao\ themisto}$
+	\item which moons were discovered with two telescopes: \\$\dmathit{halimede laomedeia sao themisto}$
 	\item hall discovered a moon with two telescopes: $\False$
 	\item who discovered deimos with a telescope that was used to discover every moon that orbits mars: $\hall;hall$
-	\item who discovered a moon with two telescopes: \\ $\mathit{nicholson\ science\_team\_18\ science\_team\_2}$
-	\item how was sao discovered: $\mathit{blanco\_telescope\ canada}$-$\mathit{france}$-$\mathit{hawaii\_telescope}$
+	\item who discovered a moon with two telescopes: \\ $\dmathit{nicholson science\_team\_18\ science\_team\_2}$
+	\item how was sao discovered: $\dmathit{blanco\_telescope canada}$-$\dmathit{france}$-$\dmathit{hawaii\_telescope}$
 	\item how many telescopes were used to discover sao: $2$
-	\item who discovered sao: $\mathit{science\_team\_18}$
-	\item how did science\_team\_18 discover sao: \\ $\mathit{blanco\_telescope\ canada}$-$\mathit{france}$-$\mathit{hawaii\_telescope}$
-	\item which planet is orbited by every moon that was discovered by two people: $\mathit{saturn;\ none}$ (multiple results are returned as the query is ambiguous)
-	\item which person discovered a moon in 1877 with every telescope that was used to discover phobos: $\mathit{hall; none}$
+	\item who discovered sao: $\dmathit{science\_team\_18}$
+	\item how did science\_team\_18 discover sao: \\ $\dmathit{blanco\_telescope canada}$-$\dmathit{france}$-$\dmathit{hawaii\_telescope}$
+	\item which planet is orbited by every moon that was discovered by two people: $\dmathit{saturn; none}$ (multiple results are returned as the query is ambiguous)
+	\item which person discovered a moon in 1877 with every telescope that was used to discover phobos: $\dmathit{hall; none}$
 \end{itemize}
 
 \section{Our Modification to Montague Semantics}
@@ -131,38 +114,38 @@ implementation of the semantics computationally tractable:
 Original MS \cite{Dowty:wall}:
 \begin{equation*}
 	\begin{split}
-		& \meaningof{\every \  \moon \  \spins} \\
-		\implies&  (\meaningof{\every\ \moon}) \  \meaningof{\spins} \\
-		\implies&  (\lambda p \  \lambda q \  \forall x (p \  x \Rightarrow q \  x) \  \wordpred{\moon}) \  \wordpred{\spins} \\
-		\implies&  (\lambda q \  \forall x \  (\wordpred{\moon} \   x \Rightarrow q \   x)) \  \wordpred{spins} \\
-		\implies&  \forall x \  \wordpred{\moon} \   x \Rightarrow \wordpred{spins} \   x \\
+		& \meaningof{every moon spins} \\
+		\implies&  (\meaningof{every moon}) \ \meaningof{spins} \\
+		\implies&  (\lambda p \ \lambda q \ \forall x (p \  x \Rightarrow q \  x) \  \wordpred{moon}) \  \wordpred{spins} \\
+		\implies&  (\lambda q \ \forall x \ (\wordpred{moon} \ x \Rightarrow q \ x)) \  \wordpred{spins} \\
+		\implies&  \forall x \ \wordpred{moon} \ x \Rightarrow \wordpred{spins} \ x \\
 		\implies&  \True
 	\end{split}
 \end{equation*}
-Requiring $\mathit{moon\_pred}$ to be applied to all entities in the universe of discourse. In the set-based MS, the denotation of a noun, adjective or intransitive verb is a set of entities of type denoted by $\mathit{es}$.
+Requiring $\wordpred{moon}$ to be applied to all entities in the universe of discourse. In the set-based MS, the denotation of a noun, adjective or intransitive verb is a set of entities of type denoted by $\opit{es}$.
 Montague's denotation of the word ``every'' is modified to:
 \begin{equation*}
 	\begin{split}
-		& \meaningof{\every \  \moon \  \spins} \\
-		\implies&  (\meaningof{\every\ \moon}) \  \meaningof{\spins} \\
-		\implies&  (\lambda s \ \lambda t \ s \subseteq t)\ \wordset{\moon} \ \wordset{\spin} \\
-		\implies&  (\lambda t \ \wordset{\moon} \subseteq t)\ \wordset{\spin} \\
-		\implies&  \wordset{\moon} \subseteq \wordset{\spin} \\
+		& \meaningof{every moon spins} \\
+		\implies&  (\meaningof{every moon}) \  \meaningof{spins} \\
+		\implies&  (\lambda s \ \lambda t \ s \subseteq t)\ \wordset{moon} \ \wordset{spin} \\
+		\implies&  (\lambda t \ \wordset{moon} \subseteq t)\ \wordset{spin} \\
+		\implies&  \wordset{moon} \subseteq \wordset{spin} \\
 		\implies&  \True
 	\end{split}
 \end{equation*}
 Which is computationally tractable if the representations of sets of moons and things that spin can be readily retrieved.
-Proper nouns denote functions of type $\mathit{es} \rightarrow \mathit{Bool}$.
+Proper nouns denote functions of type $\opit{es} \rightarrow \opit{Bool}$.
 \[
-\meaningof{\phobos} = \lambda s\ \entityassoc{phobos} \in s
+\meaningof{phobos} = \lambda s\ \entityassoc{phobos} \in s
 \]
 Then:
 \begin{equation*}
 	\begin{split}
-		& \meaningof{\phobos\ \spins} \\
-		\implies& (\lambda s\ \entityassoc{\phobos} \in s) \\
-		\implies& \entityassoc{\phobos} \in \wordset{spin} \\
-		\implies& \True \qquad(\mathrm{if\ Phobos\ spins.})
+		& \meaningof{phobos spins} \\
+		\implies& (\lambda s\ \entityassoc{phobos} \in s) \\
+		\implies& \entityassoc{phobos} \in \wordset{spin} \\
+		\implies& \True \qquad(\dmathrm{if Phobos spins.})
 	\end{split}
 \end{equation*}
 All denotations are modified from Montague's approach to use sets rather than characteristic functions.
@@ -188,16 +171,16 @@ $n^2 - n$ functions between the entities in the $n$ roles in the events associat
 \label{ext:transvbfdbr}
 
 In a simple version of our semantics, 2-place transitive verbs denote functions from a possibly empty list of
-at most one termphrase to a set of pairs of type $(e,\mathit{es})$ where $e$ is an entity and $\mathit{es}$
+at most one termphrase to a set of pairs of type $(e,\opit{es})$ where $e$ is an entity and $\opit{es}$
 is a set of entities. The function computes the answer by using data that is retrieved from the datastore
 as needed. Consider the verb ``discover'' which we use in our examples. In our triplestore, each
-discovery event has 5 roles: $\mathit{subject}$ (agent), $\mathit{object}$ (theme), $\mathit{implement}$, $\mathit{year}$
-and $\mathit{location}$. The triplestore defines 20 binary relations between these 5 roles: $\mathit{subject} \rightarrow \mathit{object}$,
-$\mathit{subject} \rightarrow \mathit{implement}$, $\mathit{subject} \rightarrow \mathit{year}$, $\mathit{subject} \rightarrow \mathit{location}$, $\mathit{object} \rightarrow \mathit{subject}$, etc. For example,
+discovery event has 5 roles: $\opit{subject}$ (agent), $\opit{object}$ (theme), $\opit{implement}$, $\opit{year}$
+and $\opit{location}$. The triplestore defines 20 binary relations between these 5 roles: $\opit{subject} \rightarrow \opit{object}$,
+$\opit{subject} \rightarrow \opit{implement}$, $\opit{subject} \rightarrow \opit{year}$, $\opit{subject} \rightarrow \opit{location}$, $\opit{object} \rightarrow \opit{subject}$, etc. For example,
 the facts that Hall discovered Phobos and Deimos and Kuiper discovered Miranda and Nereid,
 are represented as follows:
 \begin{multline*}
-	\relation{\discover}_{\mathit{subject} \rightarrow \mathit{object}} = \\ \{ (\entityassoc{hall}, \entityassoc{phobos}), (\entityassoc{hall}, \entityassoc{deimos}), (\entityassoc{kuiper}, \entityassoc{miranda}), (\entityassoc{kuiper}, \entityassoc{nereid}), \mathit{etc} \ldots \}
+	\relationn{discover}{subject}{object} = \\ \{ (\entityassoc{hall}, \entityassoc{phobos}), (\entityassoc{hall}, \entityassoc{deimos}), (\entityassoc{kuiper}, \entityassoc{miranda}), (\entityassoc{kuiper}, \entityassoc{nereid}), \etc \}
 \end{multline*}
 For every $n$-ary verb there are $n^2 - n$ binary relations represented by the events associated
 with that verb.
@@ -205,55 +188,55 @@ Each binary relation can be converted to a function, by ``collecting'', into a s
 in the codomain that are associated with each value in the domain of the relation, and creating
 a pair consisting of the value from the domain paired with that set. In 2016, Peelar called this induced function the {\em Function Defined by a Binary Relation (FDBR)} \cite{peelar2016accommodating}:
 \begin{equation*}
-	\FDBR{\mathit{rel}} = \{(x, \mathit{image}_x)\ |\ (\exists e)\ (x, e) \in \mathit{rel}\ \&\ \mathit{image}_x = \{ y\ |\ (x, y) \in \mathit{rel} \}  \}
+	\FDBR{\rel} = \{(x, \image_x)\ |\ (\exists e)\ (x, e) \in \rel\ \&\ \image_x = \{ y\ |\ (x, y) \in \rel \}  \}
 \end{equation*}
-For example, the function defined by the $\relation{discover}_{\mathit{subject} \rightarrow \mathit{object}}$ relation above is:
+For example, the function defined by the $\relationn{discover}{subject}{object}$ relation above is:
 \begin{multline*}
-	\FDBR{\relation{discover}_{\mathit{subject} \rightarrow \mathit{object}}} = \\ \{ (\entityassoc{hall}, \{\entityassoc{phobos}, \entityassoc{deimos}\}), (\entityassoc{kuiper}, \{ \entityassoc{miranda}, \entityassoc{nereid} \}),
-	\mathit{etc} \ldots \}
+	\FDBR{\relationn{discover}{subject}{object}} = \\ \{ (\entityassoc{hall}, \{\entityassoc{phobos}, \entityassoc{deimos}\}), (\entityassoc{kuiper}, \{ \entityassoc{miranda}, \entityassoc{nereid} \}),
+	\etc \}
 \end{multline*}
 In such functions, we shall refer to the first value in a pair as the ``subject'' and the value in
 the second place as the ``set of objects''.
 Consider the query ``who discovered phobos'': the function which is the denotation
-of ``discovered'' computes $\FDBR{\relation{discover}_{\mathit{subject} \rightarrow \mathit{object}}}$ and then applies the function which is the
-denotation of ``phobos'' to the set of objects in every pair $(\mathit{subj}, \mathit{objs})$ which is a member of
-$\FDBR{\relation{discover}_{\mathit{subject} \rightarrow \mathit{object}}}$. For every pair which returns a value of $\True$, the subject of the pair is added to
+of ``discovered'' computes $\FDBR{\relationn{discover}{subject}{object}}$ and then applies the function which is the
+denotation of ``phobos'' to the set of objects in every pair $(\opit{subj}, \opit{objs})$ which is a member of
+$\FDBR{\relationn{discover}{subject}{object}}$. For every pair which returns a value of $\True$, the subject of the pair is added to
 the result. The final result of ``discovered
-phobos'' is a set of pairs, each consisting of every subject which was mapped by $\FDBR{\relation{\discover}_{\mathit{subject} \rightarrow \mathit{object}}}$
+phobos'' is a set of pairs, each consisting of every subject which was mapped by $\FDBR{\relationn{discover}{subject}{object}}$
 to a set of objects which contains $\entityassoc{phobos}$. That is, every entity that discovered phobos paired with the set of events which justify that entity being in the answer. The
 answer to this example query includes $\entityassoc{hall}$. Similarly, the query ``who discovered a moon'' is
 processed analogously to the above, with the denotation of ``a moon'' being applied to the set of
-objects in every pair in $\FDBR{\relation{\discover}_{\mathit{subject} \rightarrow \mathit{object}}}$, and if $\True$, the associated subject is added to
+objects in every pair in $\FDBR{\relationn{discover}{subject}{object}}$, and if $\True$, the associated subject is added to
 the result. Every entity that discovered a moon is in the result.
 
 If no termphrase follows the transitive verb, all subjects of pairs that are in
-$\FDBR{\relation{discover}_{\mathit{subject} \rightarrow \mathit{object}}}$ are returned as the answer. For example, the answer to the query
+$\FDBR{\relationn{discover}{subject}{object}}$ are returned as the answer. For example, the answer to the query
 ``who discovered'' is the set of all entities who discovered anything.
 
 \subsubsection{Denotation of transitive verbs with events}
 \label{ext:transevents}
 
 In order to take advantage of the extra knowledge represented by events, we modify the above so
-that the denotation of a transitive verb is a function from a list of at most one termphrase and a possibly empty list of PPs to a set of pairs of type $(e,\mathit{evs})$ where $e$ is an entity and $\mathit{evs}$ is a set of events.
+that the denotation of a transitive verb is a function from a list of at most one termphrase and a possibly empty list of PPs to a set of pairs of type $(e,\evs)$ where $e$ is an entity and $\evs$ is a set of events.
 The function first computes a discover relation from subjects of discover events to those events:
-\begin{multline*}
-	\relation{discover}\_\mathit{evs}_\mathit{subject} = \{ (\entityassoc{hall}, \eventassoc{1}), (\entityassoc{hall}, \eventassoc{2}), (\entityassoc{kuiper}, \eventassoc{3}), (\entityassoc{kuiper}, \eventassoc{4}), \mathit{etc} \ldots \}
-\end{multline*}
+\begin{equation*}
+	\relationone{discover}{subject} = \{ (\entityassoc{hall}, \eventassoc{1}), (\entityassoc{hall}, \eventassoc{2}), (\entityassoc{kuiper}, \eventassoc{3}), (\entityassoc{kuiper}, \eventassoc{4}), \etc \}
+\end{equation*}
 The FDBR of this binary relation is then computed:
-\begin{multline*}
-	\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}} = \{(\entityassoc{hall}, \{\eventassoc{1}, \eventassoc{2}\}), (\entityassoc{kuiper}, \{\eventassoc{3}, \eventassoc{4}\}), \mathit{etc} \ldots \}
-\end{multline*}
+\begin{equation*}
+	\FDBR{\relationone{discover}{subject}} = \{(\entityassoc{hall}, \{\eventassoc{1}, \eventassoc{2}\}), (\entityassoc{kuiper}, \{\eventassoc{3}, \eventassoc{4}\}), \etc \}
+\end{equation*}
 Consider the query ``who discovered phobos'': the function which is the denotation
-of ``discovered'' computes $\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}}$ and then applies the function which is the
-denotation of ``phobos'' to the set of objects of the events in every pair $(\mathit{subj},\mathit{evs})$ which is a
-member of $\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}}$. For every pair which returns $\True$, the subject and set of events is
+of ``discovered'' computes $\relationone{discover}{subject}$ and then applies the function which is the
+denotation of ``phobos'' to the set of objects of the events in every pair $(\opit{subj},\evs)$ which is a
+member of $\relationone{discover}{subject}$. For every pair which returns $\True$, the subject and set of events is
 added to the resulting denotation. The final resulting denotation of
 ``discovered phobos'' is a set of pairs consisting of subjects which were mapped by
-$\relation{discover}\_\mathit{evs}_{\mathit{subject}}$ to a set of events whose objects contains $\entityassoc{phobos}$. The answer to this example query includes $(\entityassoc{hall}, \{\eventassoc{1030}\})$. Similarly, the query ``who
+$\relationone{discover}{subject}$ to a set of events whose objects contains $\entityassoc{phobos}$. The answer to this example query includes $(\entityassoc{hall}, \{\eventassoc{1030}\})$. Similarly, the query ``who
 discovered a moon'' is processed analogously to the above, with the denotation of ``a moon''
-being applied to the set of objects from the set of events in every pair in $\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}}$,
+being applied to the set of objects from the set of events in every pair in $\relationone{discover}{subject}$,
 and if $\True$, the pair is added to the result.
-If no termphrase or PP follows the transitive verb, all pairs in $\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}}$
+If no termphrase or PP follows the transitive verb, all pairs in $\relationone{discover}{subject}$
 are returned as the answer . For example, the answer to the query ``who discovered'' is the set of
 all entities who discovered anything, paired with the set of events of type discovery in which
 they were the subject.
@@ -269,15 +252,15 @@ example, consider the query:
 
 ``who discovered in 1948 and 1949 with a telescope'' $\rightarrow$ kuiper
 
-The calculation here involves computing $\FDBR{\relation{discover}\_\mathit{evs}_{\mathit{subject}}}$, then filtering it with the denotation of ``in 1948 and 1949'', then finally filtering it with the denotation of ``with a telescope''. %(reference to be provided after review process) %Peelar's Master's Thesis \cite{peelar2016accommodating} explains this in more detail.
+The calculation here involves computing $\relationone{discover}{subject}$, then filtering it with the denotation of ``in 1948 and 1949'', then finally filtering it with the denotation of ``with a telescope''. %(reference to be provided after review process) %Peelar's Master's Thesis \cite{peelar2016accommodating} explains this in more detail.
 
 \subsubsection{Choosing the FDBR to compute}
 \label{ext:choosingfdbr}
 
 The denotation of a verb, for example ``discover'', needs to know which FDBR to compute
 before PPs are applied. For example, the query ``what was used to discover
-two moons'' needs $\FDBR{\relation{discover}\_\mathit{evs}_\mathit{implement}}$, whereas ``who discovered two moons'' needs
-$\FDBR{\relation{discover}\_\mathit{evs}_\mathit{subject}}$. In our approach, the choice is made depending on the context in
+two moons'' needs $\relationone{discover}{implement}$, whereas ``who discovered two moons'' needs
+$\relationone{discover}{subject}$. In our approach, the choice is made depending on the context in
 which the verb appears. The denotation of a transitive verb contains the ``active'' and ``passive'' properties to be queried depending
 on the verb voice, along with the event type that corresponds to the underlying relation. The grammar determines whether a transitive verb is used in the active or passive voice and selects the corresponding property in the denotation to form the domain of the FDBR. In the above examples, when ``used'' is in the active voice, it selects the ``subject'' property, but if it is in the passive voice, it selects the ``implement'' property. In both cases, the ``type'' property of the events that the FDBR is built from is ``discover\_ev''.
 
@@ -312,7 +295,7 @@ on the verb voice, along with the event type that corresponds to the underlying 
 %contain the pair $(\entityassoc{hall} , \{\entityassoc{phobos}, \entityassoc{deimos}\})$ and the denotation of ``phobos'' applied to
 %$\{\entityassoc{phobos}, \entityassoc{deimos}\}$ returns $\True$.
 %
-%The termphrase following the transitive verb can denote any function of type $\mathit{es} \rightarrow Bool$.
+%The termphrase following the transitive verb can denote any function of type $\dmathit{es} \rightarrow Bool$.
 %
 %As a simple explanation of the above: $\entityassoc{hall}$ is in the answer because Hall discovered both Phobos
 %and Deimos and the function denoted by Phobos returns $\True$ when applied to the set of entities
@@ -349,18 +332,18 @@ expected if the queries are treated as having leftmost, outermost quantifier sco
 	\item every moon that orbits mars and was discovered with a telescope was discovered by a person – $\True$
 \end{enumerate}
 The evaluation begins by retrieving all of the ``moon'' entities and then
-intersecting this set with the set returned by evaluating $\meaningof{orbits\ mars}$, which is obtained by use of the
-function $\mathit{f\_orbit}_{\mathit{subject} \rightarrow \mathit{object}}$ from subjects to the set of objects which they orbit. The function that is the
+intersecting this set with the set returned by evaluating $\meaningof{orbits mars}$, which is obtained by use of the
+function $\operatorname{f\_orbit}_{\opit{subject} \rightarrow \opit{object}}$ from subjects to the set of objects which they orbit. The function that is the
 denotation of ``mars'' is then applied by the function denoted by ``orbit'' to all sets of objects that are in
-the range of the function $\mathit{f\_orbit}_{\mathit{subject} \rightarrow \mathit{object}}$. This returns the set of subjects that orbit Mars. Then, This set is
+the range of the function $\operatorname{f\_orbit}_{\opit{subject} \rightarrow \opit{object}}$. This returns the set of subjects that orbit Mars. Then, This set is
 intersected with the set of all moons that were discovered with a telescope (which is computed using
-the function $\mathit{f\_discover}_{\mathit{object} \rightarrow \mathit{implements}}$).The set resulting from this intersection is then passed as the first
-argument to the denotation of ``every''. The second argument to $\meaningof{\every}$ is the set obtained by
-evaluating the phrase ``discovered by a person'' which is computed by use of the function $\mathit{f\_discover}_{\mathit{object} \rightarrow \mathit{subject}}$ from objects discovered to subjects who discovered them. The function that is the denotation of ``a
+the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{implements}}$).The set resulting from this intersection is then passed as the first
+argument to the denotation of ``every''. The second argument to $\meaningof{every}$ is the set obtained by
+evaluating the phrase ``discovered by a person'' which is computed by use of the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{subject}}$ from objects discovered to subjects who discovered them. The function that is the denotation of ``a
 person'' is applied by the function denoted by ``discover'' to all sets of subjects that are in the range of
-the function $\mathit{f\_discover}_{\mathit{object} \rightarrow \mathit{subject}}$ This returns the set of objects that were discovered by a person.
+the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{subject}}$ This returns the set of objects that were discovered by a person.
 $\meaningof{every}$ applies the subset operator to the two arguments and returns $\True$ if and only if the set of objects
-$\meaningof{moon\ that\ orbits\ mars\ and\ was\ discovered\ with\ a\ telescope}$ is a subset of $\meaningof{discovered\ by\ a\ person}$. In
+$\meaningof{moon that orbits mars and was discovered with a telescope}$ is a subset of $\meaningof{discovered by a person}$. In
 our triplestore, this is the case.
 \begin{enumerate}[before=\small, label=\alph*.]
 	\setlength\itemsep{0em}
@@ -374,13 +357,13 @@ our triplestore, this is the case.
 	\item every moon that orbits Neptune was discovered by a person or a team – $\True$
 \end{enumerate}
 \noindent Scoping does not require the person or the team to be the same for all discoveries of the moons that
-orbit Neptune. $\meaningof{discovered\ by\ a\ person\ or\ a\ team}$ returns everything that was discovered by any
+orbit Neptune. $\meaningof{discovered by a person or a team}$ returns everything that was discovered by any
 person or any team. This set is tested by $\meaningof{every}$ to see if it includes all of the entities returned by
-$\meaningof{moon\ that\ orbits\ Neptune}$.
+$\meaningof{moon that orbits neptune}$.
 \begin{enumerate}[before=\small, label=\alph*.]
 	\setlength\itemsep{0em}
 	\setcounter{enumi}{3}
-	\item a telescope or voyager\_2 was used to discover every moon that orbits Neptune – $\False$
+	\item a telescope or voyager\_2 was used to discover every moon that orbits neptune – $\False$
 \end{enumerate}
 \noindent No single telescope nor Voyager 2 was used to discover every moon that orbits Neptune
 \begin{enumerate}[before=\small, label=\alph*.]
@@ -420,24 +403,24 @@ moons, but did not discover any one moon with two telescopes (see queries g to i
 
 \begin{enumerate}[label=\alph*.]
 	\setlength\itemsep{0em}
-	\item which moons were discovered with two telescopes: \\ $\mathit{\qquad halimede\ laomedeia\ sao\ themisto}$
-	\item who used two telescopes to discover a moon: \\ $\mathit{\qquad nicholson\ science\_team\_18\ science\_team\_2}$
-	\item who discovered sao: $\mathit{science\_team\_18}$
-	\item who discovered themisto: $\mathit{science\_team\_2}$
-	\item which moon was discovered by science\_team\_18 with two telescopes: \\ $\mathit{\qquad halimede\ laomedeia\ sao}$
-	\item what was used to discover sao: \\ $\mathit{\qquad blanco\_telescope\ canada}$-$\mathit{france}$-$\mathit{hawaii\_telescope}$
-	\item what did nicholson discover with two telescopes: \\ $\mathit{\qquad sinope\ lysithea\ carme\ ananke}$
-	\item which moon was discovered by nicholson with two telescopes: $\mathit{none}$
-	\item which moon was discovered by nicholson with one telescope: \\ $\mathit{\qquad ananke\ carme\ lysithea\ sinope}$
-	\item how was sinope discovered: $\mathit{refractor\_telescope\_2}$
-	\item how was carme discovered: $\mathit{hooker\_telescope}$
-	\item how was ananke discovered: $\mathit{hooker\_telescope}$
-	\item how was lysithea discovered: $\mathit{hooker\_telescope}$
-	\item what did nicholson discover with one telescope: $\mathit{nothing}$
-	\item what did nicholson discover with a telescope: \\ $\mathit{\qquad sinope\ lysithea\ carme\ ananke}$
+	\item which moons were discovered with two telescopes: \\ $\dmathit{\qquad halimede laomedeia sao themisto}$
+	\item who used two telescopes to discover a moon: \\ $\dmathit{\qquad nicholson science\_team\_18 science\_team\_2}$
+	\item who discovered sao: $\dmathit{science\_team\_18}$
+	\item who discovered themisto: $\dmathit{science\_team\_2}$
+	\item which moon was discovered by science\_team\_18 with two telescopes: \\ $\dmathit{\qquad halimede laomedeia sao}$
+	\item what was used to discover sao: \\ $\dmathit{\qquad blanco\_telescope canada}$-$\dmathit{france}$-$\dmathit{hawaii\_telescope}$
+	\item what did nicholson discover with two telescopes: \\ $\dmathit{\qquad sinope lysithea carme ananke}$
+	\item which moon was discovered by nicholson with two telescopes: $\dmathit{none}$
+	\item which moon was discovered by nicholson with one telescope: \\ $\dmathit{\qquad ananke carme lysithea sinope}$
+	\item how was sinope discovered: $\dmathit{refractor\_telescope\_2}$
+	\item how was carme discovered: $\dmathit{hooker\_telescope}$
+	\item how was ananke discovered: $\dmathit{hooker\_telescope}$
+	\item how was lysithea discovered: $\dmathit{hooker\_telescope}$
+	\item what did nicholson discover with one telescope: $\dmathit{nothing}$
+	\item what did nicholson discover with a telescope: \\ $\dmathit{\qquad sinope lysithea carme ananke}$
 \end{enumerate}
 %
-Note that in the above queries, ``one'' and ``two'' are taken to mean ``exactly one'' and ``exactly two''. Since Nicholson used multiple telescopes to discover multiple objects, n) returns $\mathit{nothing}$ (``discover with one telescope'' returns an FDBR of all discoverers that used exactly one telescope in all their discoveries, which excludes Nicholson). On the other hand o) relaxes this restriction, yielding the expected result (see Section \ref{ext:conclusion}).  Note that i) differs from n) because ``was discovered with one telescope'' returns an FDBR of all objects that were discovered each with exactly one telescope.
+Note that in the above queries, ``one'' and ``two'' are taken to mean ``exactly one'' and ``exactly two''. Since Nicholson used multiple telescopes to discover multiple objects, n) returns $\opit{nothing}$ (``discover with one telescope'' returns an FDBR of all discoverers that used exactly one telescope in all their discoveries, which excludes Nicholson). On the other hand o) relaxes this restriction, yielding the expected result (see Section \ref{ext:conclusion}).  Note that i) differs from n) because ``was discovered with one telescope'' returns an FDBR of all objects that were discovered each with exactly one telescope.
 %We shall review our approach to quantifier scoping in chained
 %propositional phrases in future work.
 
@@ -445,10 +428,10 @@ Note that in the above queries, ``one'' and ``two'' are taken to mean ``exactly 
 \label{ext:implementation}
 We built our query processor as an executable attribute grammar using the X-SAIGA Haskell parser-
 combinator library package. %\cite{xsaiga}.
-The $\mathit{collect}$ function which converts a binary relation to an FDBR is one of the most
+The $\operatorname{collect}$ function which converts a binary relation to an FDBR is one of the most
 compute intensive parts of our implementation of the semantics. However, in Haskell, once a value is
 computed, it can be made available for future use. We have developed an algorithm to compute
-$\FDBR{\mathit{rel}}$ in $O(n\ log\ n)$ time, where $n$ is the number of pairs in $\mathit{rel}$.
+$\FDBR{\rel}$ in $O(n\ \operatorname{lg}\ n)$ time, where $n$ is the number of pairs in $\rel$.
 Alternatively, the FDBR functions can be computed and stored in a cache when the NLQI is offline.
 Our implementation is amenable to running on low power devices, enabling it for use with the Internet of Things. A version of our query processor exists that can run on a common consumer network router as a proof of concept for this application.
 The use of Haskell for the implementation of our NLQI has many advantages, including:
@@ -458,11 +441,11 @@ The use of Haskell for the implementation of our NLQI has many advantages, inclu
 	libraries to be built that can handle highly ambiguous left-recursive grammars in polynomial time. The accommodation of left recursive
 	grammars simplifies the integration of semantic and syntactic rules in the EAGs, enabling the query processor to be highly modular and extensible.
 	\item The higher-order functional capability of Haskell allows the direct definition of higher-order
-	functions that are the denotations of some English words and phrases. For example: $ \mathit{termand}\ s\ t = (\lambda v)\ s\ v\ \&\ t\ v  $
+	functions that are the denotations of some English words and phrases. For example: $ \opit{termand}\ s\ t = (\lambda v)\ s\ v\ \&\ t\ v  $
 	\item The ability to partially apply functions of $n$ arguments to 1 to $n$ arguments allows the
 	definition and manipulation of denotation of phrases such as ``every moon'', and ``discover
 	phobos''.
-	\item The availability of the $\mathit{hsparql}$ \cite{hsparql} Haskell package enables a simple interface between our
+	\item The availability of the \textit{hsparql} \cite{hsparql} Haskell package enables a simple interface between our
 	semantic processor and SPARQL endpoints to our triplestores.
 \end{enumerate}
 
@@ -553,15 +536,15 @@ the list of moons they discovered as answer to the original query.
 \subsubsection{Adding superlatives and graded quantifiers}
 The second contribution of this paper is to recognize that each FDBR contains more information than we
 have taken advantage of so far. For example, in computing the answer to the query ``who discovered
-every moon''. We consider each pair $(\mathit{subj}, \mathit{objs})$ in $\FDBR{\relation{\discover}_{\mathit{subject}\rightarrow\mathit{object}}}$
-independently and apply the meaning of ``every moon'' to the set $\mathit{objs}$ in order to determine if the
+every moon''. We consider each pair $(\opit{subj}, \opit{objs})$ in $\FDBR{\relationn{discover}{subject}{object}}$
+independently and apply the meaning of ``every moon'' to the set $\opit{objs}$ in order to determine if the
 subj should be in the answer. However, for a question such as ``who discovered the most moons that
 orbit mars'' the whole of the FDBR needs to be processed so that the result contains the subject with
 the most events representing that subject discovering a moon that orbits mars. This requires the
 addition of ``the most'' to the set of quantifiers and the appropriate modification to the denotation of
 transitive verbs to take advantage of the information available in the appropriate FDBR. A similar
-modification could be made to accommodate queries containing the words ``earliest'' ``most recently'', using $\FDBR{\relation{\discover}_{\mathit{object}\rightarrow\mathit{year}}}$ etc., and queries such as ``which telescope was used to discover most
-moons'' using $\FDBR{\relation{\discover}_{\mathit{implement}\rightarrow\mathit{object}}}$ , etc.  Accommodating ``the least'' can be similarly achieved by introducing complements into the semantics \cite{peelarfrostwebist2020}.
+modification could be made to accommodate queries containing the words ``earliest'' ``most recently'', using $\FDBR{\relationn{discover}{object}{year}}$ etc., and queries such as ``which telescope was used to discover most
+moons'' using $\FDBR{\relationn{discover}{implement}{object}}$ , etc.  Accommodating ``the least'' can be similarly achieved by introducing complements into the semantics \cite{peelarfrostwebist2020}.
 
 \section{Related Work}
 \label{ext:relatedwork}
@@ -625,15 +608,15 @@ It should be noted that our current treatment of PPs is linguistically naive and
 %	\item hall used a telescope to discover two moons - $\True$
 %	\item hall discovered two moons with a telescope -$\True$
 %	\item which moons were discovered by hall – $\phobos\ \deimos$
-%	\item who discovered sinope – $\mathit{nicholson}$
+%	\item who discovered sinope – $\dmathit{nicholson}$
 %	\item how many telescopes were used to discover sinope – $2$
-%	\item which moon was discovered by Nicholson - $\mathit{ananke\ carme\ lysithea\ sinope}$
-%	\item how did nicholson use a telescope to discover sinope - $\mathit{refractor\_telescope_2\ hooker\_telescope}$
+%	\item which moon was discovered by Nicholson - $\dmathit{ananke\ carme\ lysithea\ sinope}$
+%	\item how did nicholson use a telescope to discover sinope - $\dmathit{refractor\_telescope_2\ hooker\_telescope}$
 %	\item nicholson discovered a moon with two telescopes – $\True$
 %	\item nicholson used two telescopes to discover a moon – $\True$
-%	\item what was discovered by nicholson with two telescopes - $\mathit{nothing}$
-%	\item which moon was discovered with two telescopes by nicholson – $\mathit{None}$
-%	\item which moon was discovered by nicholson with two telescopes – $\mathit{None}$
+%	\item what was discovered by nicholson with two telescopes - $\dmathit{nothing}$
+%	\item which moon was discovered with two telescopes by nicholson – $\dmathit{None}$
+%	\item which moon was discovered by nicholson with two telescopes – $\dmathit{None}$
 %\end{enumerate}
 %
 %We believe that our approach needs modification to correctly handle quantifier scoping when

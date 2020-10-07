@@ -87,18 +87,18 @@ example, the word ``moon'' denotes the characteristic function (logical predicat
 $\True$ or $\False$. The result is $\True$ if the entity is a moon, and $\False$ otherwise. One of Montague's many insights was his recognition that proper nouns such as ``Phobos'' do not denote entities; rather they
 denote functions that take characteristic functions as argument and return Boolean values as result. For
 example ``Phobos'' denotes the function $\lambda f \  f \  \entityassoc{\phobos}$ where $\entityassoc{\phobos}$ represents the entity associated with
-the name Phobos. For readers not familiar with the Lambda Calculus, the expression $\lambda f \ \mathit{expr}$ is the
+the name Phobos. For readers not familiar with the Lambda Calculus, the expression $\lambda f \ \opit{expr}$ is the
 name (and definition) of a function which, when applied to an argument $g$ returns as result the
-expression $\mathit{expr}$ with all instances of $f$ in $expr$ replaced by $g$. According to MS, the phrase ``Phobos
+expression $\opit{expr}$ with all instances of $f$ in $\opit{expr}$ replaced by $g$. According to MS, the phrase ``Phobos
 spins'' is interpreted as shown below, where $a \implies b$ indicates that $b$ is the result of evaluating $a$, $\meaningof{a}$
-represents the denotation (meaning) of $a$, $\wordpred{w}$ is the logical predicate associated with the word $\mathit{w}$,
+represents the denotation (meaning) of $a$, $\wordpred{w}$ is the logical predicate associated with the word $w$,
 and $\lambda$ is the Lambda symbol.
 \begin{equation*}
 	\begin{split}
-		& \meaningof{\phobos \ \spins} \\
-		\implies&  \meaningof{\phobos}\ \meaningof{\spins} \\
-		\implies&  \lambda f\ f \ \entityassoc{phobos} \ \meaningof{\spins} \\
-		\implies&  \lambda f \ f \ \entityassoc{phobos} \ \wordpred{\spins} \\
+		& \meaningof{phobos spins} \\
+		\implies&  \meaningof{phobos}\ \meaningof{spins} \\
+		\implies&  \lambda f\ f \ \entityassoc{phobos} \ \meaningof{spins} \\
+		\implies&  \lambda f\ f \ \entityassoc{phobos} \ \wordpred{spins} \\
 		\implies&  \wordpred{\spins} \ \entityassoc{phobos} \\
 		\implies&  \True
 	\end{split}
@@ -108,17 +108,17 @@ owing to the fact that Phobos does spin.
 Montague's treatment of quantifiers such as ``a'', ``every'', ``some'', ``one'' etc. is to treat their
 denotations as higher-order functions. For example, the word ``every'' denotes the following function:
 \begin{align*}
-	\meaningof{\every} =& \lambda p \  \lambda q \  \forall x \  (p \  x \Rightarrow q \  x)
+	\meaningof{every} =& \lambda p \  \lambda q \  \forall x \  (p \  x \Rightarrow q \  x)
 \end{align*}
 For example:
 \begin{equation*}
 	\begin{split}
-		& \meaningof{\every \  \moon \  \spins} \\
-		\implies&  (\meaningof{\every\ \moon}) \  \meaningof{\spins} \quad(\mathrm{from}\ \mathrm{syntactic}\ \mathrm{parsing}) \\
+		& \meaningof{every moon spins} \\
+		\implies&  (\meaningof{every moon}) \  \meaningof{spins} \quad(\dmathrm{from syntactic parsing}) \\
 		\implies&  (\lambda p \  \lambda q \  \forall x (p \  x \Rightarrow q \  x) \  \wordpred{\moon}) \  \wordpred{\spins} \\
 		\implies&  (\lambda q \  \forall x \  (\wordpred{\moon} \   x \Rightarrow q \   x)) \  \wordpred{spins} \\
-		\implies&  \forall x \  \wordpred{\moon} \   x \Rightarrow \wordpred{spins} \   x \\
-		\implies&  \True\ (\mathrm{every\ moon\ in\ the\ universe \ of\ discourse\ spins})
+		\implies&  \forall x \  \wordpred{\moon} \ x \Rightarrow \wordpred{spins} \   x \\
+		\implies&  \True\ (\dmathrm{every moon in the universe of discourse spins})
 	\end{split}
 \end{equation*}
 \subsection{A Computationally Tractable Version of Montague Semantics} %Subsections 3.2 and 3.3 from TOCHI paper
@@ -132,31 +132,30 @@ directly in denotations \cite{frost1989constructing, frost2002efficient}. For ex
 \[ \meaningof{moon} = \{\entityassoc{\phobos} , \entityassoc{\deimos}, \ldots\} \]
 All other denotations are modified accordingly. For example:
 \begin{align*}
-	\meaningof{\phobos} &= \lambda s \ \entityassoc{\phobos}  \in s\ \mathrm{(where} \in  \mathrm{is\ the\ set} \\ & \qquad\qquad\qquad\quad\ \ \mathrm{\ membership\ operator)} \\
-	\meaningof{\every} &= \lambda s \  \lambda t \ (s \subseteq t) \quad \mathrm{(where\ } s \subseteq t \mathrm{\ returns\ \True\ } \\
-	& \qquad\qquad\qquad\qquad\ \mathrm{if\ } s \mathrm{\ is\ a\ subset\ of\ } t) \\
-	\meaningof{\spins} &= \mathrm{the\ set\ of\ entities\ that\ spin}
+	\meaningof{phobos} &= \lambda s \ \entityassoc{\phobos} \in s\ \dmathrm{(where $\in$ is the set membership operator)} \\
+	\meaningof{every} &= \lambda s \  \lambda t \ (s \subseteq t)\ \dmathrm{(where $s \subseteq t$ returns $\True$ if $s$ is a subset of $t$)} \\
+	\meaningof{spins} &= \dmathrm{the set of entities that spin}
 \end{align*}
 
 Thus the phrase ``every moon spins'' is interpreted as follows:
 \begin{equation*}
 	\begin{split}
-		&\meaningof{\every \ \moon \ \spins}\\
-		\implies& (\lambda s \ \lambda t \ (s \subseteq t)) \ \meaningof{moon} \ \meaningof{\spins} \\
-		\implies& \meaningof{moon}  \subseteq  \meaningof{\spins} \\
-		\implies& \True \quad (\mathrm{because\ all\ moons\ in\ the\ universe\ of} \\
-		&\mathrm{\quad\qquad\ discourse\ are\ in\ the\ set\ of\ things\ that\ spin}) \\
+		&\meaningof{every moon spins}\\
+		\implies& (\lambda s \ \lambda t \ (s \subseteq t)) \ \meaningof{moon} \ \meaningof{spins} \\
+		\implies& \meaningof{moon}  \subseteq  \meaningof{spins} \\
+		\implies& \True \quad (\dmathrm{because all moons in the universe of} \\
+		&\dmathrm{\quad\qquad\ discourse are in the set of things that spin}) \\
 	\end{split}
 \end{equation*}
 
 The phrase ``phobos spins'' is interpreted as follows:
 \begin{equation*}
 	\begin{split}
-		&\meaningof{\phobos \ \spins}\\
+		&\meaningof{phobos spins}\\
 		\implies& (\lambda s \ \entityassoc{\phobos} \in s) \ \meaningof{spins}\\
 		\implies& \entityassoc{\phobos} \in  \meaningof{spins} \\
-		\implies& \True \quad (\mathrm{because\ Phobos,\ in\ the\ universe\ of} \\
-		&\mathrm{\quad\qquad\ discourse,\ is\ in\ the\ set\ of\ entities\ that\ spin})
+		\implies& \True \quad (\dmathrm{because Phobos, in the universe of} \\
+		&\dmathrm{\quad\qquad\ discourse, is in the set of entities that spin})
 	\end{split}
 \end{equation*}
 \subsection{An Event-Based Version of Montague Semantics}
@@ -171,9 +170,9 @@ triples, followed by retrieving all subjects and objects associated with those e
 is obtained by pairing each subject with each object with which it is associated through an event.
 
 In the event-based approach, rather than returning sets of entities as results of evaluating denotational
-expressions, sets of pairs are returned. Each pair $(\mathit{ent}, \mathit{evs})$ consists of an entity $\mathit{ent}$ paired with a set of
-events $\mathit{evs}$ which justify the entity being in the answer. For example:
-\[ \meaningof{\phobos\ \spins} \implies \{(\entityassoc{\phobos}, \{\eventassoc{1360}\})\} \]
+expressions, sets of pairs are returned. Each pair $(\ent, \evs)$ consists of an entity $\ent$ paired with a set of
+events $\evs$ which justify the entity being in the answer. For example:
+\[ \meaningof{phobos spins} \implies \{(\entityassoc{\phobos}, \{\eventassoc{1360}\})\} \]
 where $\eventassoc{1360}$ is the event identifier for the event in which $\entityassoc{\phobos}$ became a member of the set of entities which spin.
 
 %Section 4 all down to but not including subsection 4.4
@@ -181,7 +180,7 @@ where $\eventassoc{1360}$ is the event identifier for the event in which $\entit
 \section{Denotations of Transitive Verbs}
 \label{icsc2020conf:newuevflms}
 
-The main contribution of this paper and the associated demo program beyond the results described in \cite{frost2014demonstration}-\cite{hafiz:frost} is that Montague's treatment of transitive verbs is extended by using the
+The main contribution of this paper and the associated demo program beyond the results described in \cite{frost2014demonstration,hafiz:frost} is that Montague's treatment of transitive verbs is extended by using the
 $(n^2 - n)$ functions that are defined by the $n$-ary relation associated with each of the more complex
 transitive verbs. First Montague's treatment of transitive verbs will be introduced.
 
@@ -202,14 +201,14 @@ In earlier work \cite {frost2006realization}, an explicit denotation for transit
 %NOTE: this is in direct relation to 3.1
 
 One solution to the problem above is to use sets rather than characteristic functions (predicates) of those sets (as discussed in Section \ref{icsc2020conf:frostmont}) in the denotations of transitive verbs. The basic idea \cite{frost1989constructing} which is adopted in this paper is to consider transitive verbs as relations from the subjects or objects of those verbs to the events they participate in.
-Specifically, transitive verbs are denoted using the {\em function defined by the binary relation} (FDBR) \cite{peelar2016accommodating} induced by the relation $\mathit{rel}$ that underlies the verb:
+Specifically, transitive verbs are denoted using the {\em function defined by the binary relation} (FDBR) \cite{peelar2016accommodating} induced by the relation $\rel$ that underlies the verb:
 \begin{equation*}
 	\begin{split}
-		&\FDBR{\mathit{rel}} = \{(x, \mathit{image}_x)\ | \ (\exists e)\ (x, e) \in \mathit{rel}\ \& \ \mathit{image}_x = \{ y\ |\ (x, y) \in \mathit{rel} \}  \}
+		&\FDBR{\rel} = \{(x, \image_x)\ | \ (\exists e)\ (x, e) \in \rel\ \& \ \image_x = \{ y\ |\ (x, y) \in \rel \}  \}
 	\end{split}
 \end{equation*}
-Briefly, $\FDBR{\mathit{rel}}$ converts $\mathit{rel}$ into a function without any loss of information by grouping together elements in the codomain that are related under the same element in the domain. For example, consider the relation underlying the active voice of ``discover'', $\relation{discover}$:
-\[ \FDBR{\relation{discover}} = \{(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \} ),\ \mathrm{etc} \ldots \} \]
+Briefly, $\FDBR{\rel}$ converts $\rel$ into a function without any loss of information by grouping together elements in the codomain that are related under the same element in the domain. For example, consider the relation underlying the active voice of ``discover'', $\relation{discover}$:
+\[ \FDBR{\relation{discover}} = \{(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \} ),\ \dmathrm{etc} \ldots \} \]
 If the transitive verb is followed by a term-phrase such as ``phobos'' or ``a moon'', then
 the function denoted by that term-phrase is used to ``filter'' the denotation of the transitive verb for relevant actors. For example:
 \[ \meaningof{discovered} \ \meaningof{phobos} \implies \{ (\entityassoc{\hall}, \{ \eventassoc{1045} \} ) \} \]
@@ -218,94 +217,92 @@ Similarly,
 \noindent The denotation of the transitive verb ``discover'' follows from the above:
 \begin{multline*}
 	\meaningof{discover} =
-	\lambda t\ \{ (s,\ \mathit{relevs})\ |\ (s, \mathit{evs})\ \in\ \FDBR{\relation{discover}}\  \\
-	\&\ (t\ \objfdbr{evs} \neq \emptyset)
-	\&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}} \}
+	\lambda t\ \{ (s,\ \opit{relevs})\ |\ (s, \evs)\ \in\ \FDBR{\relation{discover}}\  \\
+	\&\ (t\ \objfdbr{\evs} \neq \emptyset)
+	\&\ \opit{relevs} = \gatherevs{\objfdbr{\evs}} \}
 \end{multline*}
-where $\objfdbr{evs}$ is the FDBR from the objects in the events of the set $\mathit{evs}$ to the events they participate in within $\mathit{evs}$.  In the examples above,
-\begin{multline*}
-	\objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}} = \{(\entityassoc{phobos}, \{\eventassoc{1045}\}), (\entityassoc{deimos}, \{\eventassoc{1046}\}) \}
-\end{multline*}
-When $\meaningof{\phobos}$ is applied to $\objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}}$, it filters the FDBR
-to only contain {\em relevant} pairs\footnote{The notion of event relevance is discussed in more detail in \cite{peelar2016accommodating}}.  If the FDBR is empty after filtering, then the pair corresponding to that FDBR is discarded.
-The function $\gatherevs{\mathit{fdbr}}$ returns the set of all events in the second column of $\mathit{fdbr}$:
+where $\objfdbr{\evs}$ is the FDBR from the objects in the events of the set $\evs$ to the events they participate in within $\evs$.  In the examples above,
 \begin{equation*}
-	\gatherevs{\mathit{fdbr}} = \{ \mathit{ev}\ |\ (\exists \mathit{e})(\exists \mathit{evs})\ (e, \mathit{evs}) \in \mathit{fdbr}\ \&\ \mathit{ev} \in \mathit{evs} \}
+	\objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}} = \{(\entityassoc{phobos}, \{\eventassoc{1045}\}), (\entityassoc{deimos}, \{\eventassoc{1046}\}) \}
+\end{equation*}
+When $\meaningof{phobos}$ is applied to $\objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}}$, it filters the FDBR
+to only contain {\em relevant} pairs\footnote{The notion of event relevance is discussed in more detail in \cite{peelar2016accommodating}}.  If the FDBR is empty after filtering, then the pair corresponding to that FDBR is discarded.
+The function $\gatherevs{\opit{fdbr}}$ returns the set of all events in the second column of $\opit{fdbr}$:
+\begin{equation*}
+	\gatherevs{\opit{fdbr}} = \{ \opit{ev}\ |\ (\exists e)(\exists \evs)\ (e, \evs) \in \opit{fdbr}\ \&\ \opit{ev} \in \evs \}
 \end{equation*}
 
-As another example, consider $\meaningof{\discover\ \every\ \moon}$:
+As another example, consider $\meaningof{discover every moon}$:
 \begin{equation*}
 	\begin{split}
-		& \meaningof{\discover\ \every\ \moon} \\
-		\implies & \meaningof{discover}\ (\meaningof{\every\ \moon}) \\
-		\implies & (\lambda t\ \{(s, \mathit{relevs})\ |\ (s, \mathit{evs})\ \in \FDBR{\relation{\discover}}\ \\
-		& \qquad \&\ t\ \objfdbr{evs} \neq \emptyset  \\
-		& \qquad \&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}}\})\ \\
-		& \quad (\meaningof{\every\ \moon}) \\
-		\implies & \{(s, \mathit{relevs})\ |\ (s, \mathit{evs})\ \in \FDBR{\relation{\discover}}\ \\
-		& \qquad \&\ \meaningof{\every\ \moon}\ \objfdbr{evs} \neq \emptyset \\
-		& \qquad \&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}} \} \\
-		\implies & \emptyset \qquad(\mathrm{owing\ to\ the\ fact\ that\ no\ entity\ in\ the} \\
-		\phantom{\implies} & \phantom{\emptyset} \qquad \mathrm{universe\ of\ discourse\ discovered\ every\ moon})
+		& \meaningof{discover every moon} \\
+		\implies & \meaningof{discover}\ (\meaningof{every moon}) \\
+		\implies & (\lambda t\ \{(s, \opit{relevs})\ |\ (s, \evs)\ \in \FDBR{\relation{\discover}}\ \\
+		& \qquad \&\ t\ \objfdbr{\evs} \neq \emptyset  \\
+		& \qquad \&\ \opit{relevs} = \gatherevs{\objfdbr{\evs}}\})\ \\
+		& \quad (\meaningof{every moon}) \\
+		\implies & \{(s, \opit{relevs})\ |\ (s, \evs)\ \in \FDBR{\relation{\discover}}\ \\
+		& \qquad \&\ \meaningof{every moon}\ \objfdbr{\evs} \neq \emptyset \\
+		& \qquad \&\ \opit{relevs} = \gatherevs{\objfdbr{\evs}} \} \\
+		\implies & \emptyset \qquad(\dmathrm{owing to the fact that no entity in the} \\
+		\phantom{\implies} & \phantom{\emptyset} \qquad \dmathrm{universe of discourse discovered every moon})
 	\end{split}
 \end{equation*}
 Specifically, observe how the pair $(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \}) \in \FDBR{\relation{\discover}}$ is treated above:
 \begin{equation*}
 	\begin{split}
-		&\meaningof{\mathit{every\ moon}}\ \objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}} \\
-		\implies & \meaningof{\mathit{every\ moon}}\ \\
-		& \qquad \{(\entityassoc{phobos}, \{\eventassoc{1045}\}), (\entityassoc{deimos}, \{\eventassoc{1046}\})\} \\
-		\implies & \emptyset \quad (\mathrm{owing\ to\ the\ fact\ that\ there\ exist\ entities}\ \\
-		\phantom{\implies}	& \phantom{\emptyset} \quad \mathrm{other\ than\ \phobos\ and\ \deimos \ in\ the\ set\ \moon})
+		&\meaningof{every moon}\ \objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}} \\
+		\implies & \meaningof{every moon}\ \{(\entityassoc{phobos}, \{\eventassoc{1045}\}), (\entityassoc{deimos}, \{\eventassoc{1046}\})\} \\
+		\implies & \emptyset \quad (\dmathrm{owing to the fact that there exist entities}\ \\
+		\phantom{\implies}	& \phantom{\emptyset} \quad \dmathrm{other than $\entity{phobos}$ and\ $\entity{deimos}$ in\ $\wordset{moon}$})
 	\end{split}
 \end{equation*}
 In this event-based approach, the result of a verb-phrase such as ``discovered phobos'' is a list
 of pairs, each pair consisting of an entity which discovered phobos, paired with the set of events of
-type {\em discover} in which that entity was the subject and $\entityassoc{\phobos}$ was the object.
+type {\em discover} in which that entity was the subject and $\entityassoc{phobos}$ was the object.
 In other words, the set of events in each pair can be thought of as a form of justification for the subject entity in the first field of that pair belonging in the result.
 
 \subsection{Accommodating Chained Prepositional Phrases}
 
 The above approach can be extended to support prepositional phrases in queries with only minor changes \cite{peelar2016accommodating, frost2013event}. Briefly, the denotations of the prepositions act as filters to the denotation of the transitive verb they apply to.  Consider, for example, the query ``discovered in 1877 with a telescope''.  In this query, the prepositions are ``in 1877'' and ``with a telescope''.  Performing this filtering is identical to the term-phrase filtering shown above, with some added logic to select columns other than the subject and object from the relation.
 
-The denotation for a preposition applied to a term-phrase is a pair  $(\mathit{props},$ $\mathit{tmph})$ where $\mathit{props}$ is a set of properties that an FDBR should be constructed from (for example ``implement'', ``year'', or ``location''), and $\mathit{tmph}$ is the term-phrase that will be applied to that resulting FDBR.
+The denotation for a preposition applied to a term-phrase is a pair  $(\opit{props},$ $\opit{tmph})$ where $\opit{props}$ is a set of properties that an FDBR should be constructed from (for example ``implement'', ``year'', or ``location''), and $\opit{tmph}$ is the term-phrase that will be applied to that resulting FDBR.
 \begin{equation*}
 	\begin{split}
-		\meaningof{\mathit{at}} =&\ \lambda t\ (\{\mathit{location}\}, t) \\
-		\meaningof{\mathit{in}} =&\ \lambda t\ (\{{\mathit{location}}, {\mathit{year}}\}, t) \\
-		\meaningof{\mathit{with}} =&\ \lambda t\ (\{\mathit{implement}\}, t) \\
-		\meaningof{\mathit{using}} =&\ \lambda t\ (\{\mathit{implement}\}, t) \\
-		\meaningof{\mathit{to}} =&\ \lambda t\ (\{\mathit{subject}\}, t)
+		\meaningof{at} =&\ \lambda t\;(\{\opit{location}\}, t) \\
+		\meaningof{in} =&\ \lambda t\;(\{{\opit{location}}, {\opit{year}}\}, t) \\
+		\meaningof{with} =&\ \lambda t\;(\{\opit{implement}\}, t) \\
+		\meaningof{using} =&\ \lambda t\;(\{\opit{implement}\}, t) \\
+		\meaningof{to} =&\ \lambda t\;(\{\opit{subject}\}, t)
 	\end{split}
 \end{equation*}
 Under this approach, a prepositional phrase is treated in the same way as the term-phrase following the verb \cite{peelar2016accommodating}.
 This approach is powerful enough that the word ``by'', as in ``discovered by'', can be treated in the same way as a preposition, enabling active and passive voices of transitive verbs to be treated in a uniform way.  This was one of the key contributions described in Peelar's Master's thesis \cite{peelar2016accommodating}.
 \[
-\meaningof{\mathit{by}} = \lambda t\ (\{\mathit{subject}\}, t)
+\meaningof{by} = \lambda t\ (\{\opit{subject}\}, t)
 \]
-The denotation of the transitive verb is filtered in the order that the prepositions appear.  To achieve this, the previous denotation for ``discover'' is modified such that $\objfdbr{evs}$ is replaced with the more general $\propfdbr{prop}{evs}$, and the filtered FDBR from each applied termphrase is fed into the next preposition.  If the passive form of the transitive verb is used, then the relation is flipped and the same logic applies.
+The denotation of the transitive verb is filtered in the order that the prepositions appear.  To achieve this, the previous denotation for ``discover'' is modified such that $\objfdbr{\evs}$ is replaced with the more general $\propfdbr{\opit{prop}}{\evs}$, and the filtered FDBR from each applied termphrase is fed into the next preposition.  If the passive form of the transitive verb is used, then the relation is flipped and the same logic applies.
 
 \subsection{Formal Denotations of Transitive Verbs}
 
 While a denotation for transitive verbs that allows for chained prepositional phrases and a unified treatment of active and passive voices improves expressibility, there are still a number of queries with transitive verbs that are not possible with the above approach. For example, consider the transitive verb ``used'', as in the query ``refractor\_telescope\_1 was used to discover phobos''.  Here, the subject of the query is a refractor telescope, however it is neither the subject nor object of the relation underlying the denotation of ``used'', which here is the same relation underlying the denotation of ``discover'' -- it is an implement in that relation.
 A relation would need to be constructed from the ``implement'' property of the relation rather than the ``subject'' or ``object'' property as in the denotations in Section \ref{icsc2020conf:altvbii} in order to compute this.
 
-\newcommand{\mbinrel}[3]{\mathrm{make\_binrel}({#1}, {#2}, {#3})}
+\newcommand{\mbinrel}[3]{\dmathrm{make\_binrel}({#1}, {#2}, {#3})}
 
 This can be addressed with minor modifications to those denotations. Namely, the underlying relation is generalized to be $n$-ary. The columns of the $n$-ary relation are the properties of the event type of the transitive verb, with one column corresponding to the event identifier itself as in the denotation in Section \ref{icsc2020conf:altvbii}. A new function {\em make\_binrel} is introduced which converts an $n$-ary relation $r$ into a binary relation by selecting two columns $c_1$ and $c_2$ from it:
 \[
 \mbinrel{r}{c_1}{c_2} = \ldots
 \]
 The FDBR is constructed from the underlying relation by using a new function that works on $n$-ary relations:
-\[\mathrm{FDBR}_{\mathit{prop}}(r) = \FDBR{\mbinrel{r}{\mathit{prop}}{eventid}}\]
-Here, $\mathit{eventid}$ refers to the column of the relation that contains the event.
-The denotation for transitive verbs is augmented with the property $\mathit{prop}$ used to form the binary relation from the $n$-ary relation, for example ``subject'', ``object'', or ``implement'', replacing $\FDBR{r}$ with $\mathrm{FDBR}_{\mathit{prop}}(r)$.  With these revisions, it is possible to express a denotation for the passive voice of the verb ``used'' (as in ``what was used by hall''):
+\[\dmathrm{FDBR}_{\opit{prop}}(r) = \FDBR{\mbinrel{r}{\opit{prop}}{eventid}}\]
+Here, $\opit{eventid}$ refers to the column of the relation that contains the event.
+The denotation for transitive verbs is augmented with the property $\opit{prop}$ used to form the binary relation from the $n$-ary relation, for example ``subject'', ``object'', or ``implement'', replacing $\FDBR{r}$ with $\dmathrm{FDBR}_{\opit{prop}}(r)$.  With these revisions, it is possible to express a denotation for the passive voice of the verb ``used'' (as in ``what was used by hall''):
 \begin{equation*}
 	\begin{split}
-		&\meaningof{used\ by} = \\
-		&\lambda t\ \{ (s,\ \mathit{relevs})\ |\ (s, \mathit{evs})\ \in\ \mathrm{FDBR}_{\mathit{implement}}(\relation{\discover})\  \\
-		& \&\ (t\ \propfdbr{subject}{evs} \neq \emptyset) \\
-		& \&\ \mathit{relevs} = \gatherevs{\objfdbr{evs}} \}
+		\meaningof{used by} = \lambda t\ \big\{ (s,\ \opit{relevs})\ |&\ (s, \evs)\ \in\ \dmathrm{FDBR}_{\opit{implement}}(\relation{\discover})\  \\
+		& \&\ t\ \propfdbr{\opit{subject}}{\evs} \neq \emptyset \\
+		& \&\ \opit{relevs} = \gatherevs{\objfdbr{\evs}} \big\}
 	\end{split}
 \end{equation*}
 Now, denotations for transitive verbs can be provided from any property to any other property, for example from implements to years, or from years to objects. This could be useful for constructing NL interfaces for other languages, such as French.
@@ -338,7 +335,6 @@ thought of as a row in an $n$-ary relation, such as the 5-ary discover relation 
 			\dots & \dots & \dots & \dots & \dots \\
 			\hline \hline
 		\end{tabular}
-		\vspace{-1em}
 		\label{icsc2020conf:discover}
 	\end{table}
 
@@ -350,7 +346,7 @@ thought of as a row in an $n$-ary relation, such as the 5-ary discover relation 
 \section{Applicability to Relational Databases}
 
 An event-based triplestore can be thought
-of as a set of tables in a relational database where each event corresponds to a row in a table.  Each table corresponds to a relation in the event-based triplestore (e.g, the ``discover'' relation).
+of as a set of tables in a relational database where each event corresponds to a row in a table.  Each table corresponds to a relation in the event-based triplestore (e.g, the ``\textit{discover}'' relation).
 The event identifier, which is unique, becomes the row index.
 The only interface that the semantics has with the underlying database is through simple retrieval functions.  Currently, they are implemented using Triple Pattern Fragments \cite{verborgh2014web}, but they could also be implemented using simple SQL queries. Therefore, it is possible to use our approach with any relational database platform.
 
@@ -397,7 +393,7 @@ Our approach requires an event-based triplestore to handle chained prepositional
 
 \subsection{Very large triplestores}
 
-This approach currently is only viable for databases with tens of thousands of facts, whereas Semantic Web triplestores such as DBPedia \cite{dbpedia} could contain millions.  It is possible to memoize the semantics to avoid FDBRs from being re-computed throughout an expression, greatly improving the evaluation speed.  The demonstration in Section \ref{icsc2020conf::prot} features an early version of this functionality enabling queries with deeply nested transitive verbs to be efficiently evaluated (e.g, ``who discovered a moon that orbits a planet that is orbited by a thing'').  Our approach, which we will expand on in the future, lifts the semantics into a memoized form while maintaining their underlying compositionality.  Furthermore, the FDBRs can be generated and cached offline instead of generating them on the fly.
+This approach currently is only viable for databases with tens of thousands of facts, whereas Semantic Web triplestores such as DBPedia \cite{dbpedia} could contain millions.  It is possible to memoize the semantics to avoid FDBRs from being re-computed throughout an expression, greatly improving the evaluation speed.  The demonstration in Section \ref{icsc2020conf:prot} features an early version of this functionality enabling queries with deeply nested transitive verbs to be efficiently evaluated (e.g, ``\texttt{who discovered a moon that orbits a planet that is orbited by a thing}'').  Our approach, which we will expand on in the future, lifts the semantics into a memoized form while maintaining their underlying compositionality.  Furthermore, the FDBRs can be generated and cached offline instead of generating them on the fly.
 
 \subsection{Negation}
 

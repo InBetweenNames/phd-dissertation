@@ -15,7 +15,7 @@ We were invited to do so... %TODO
 \label{webist2019journal:intro}
 This is an extended version of the paper by Frost and Peelar \cite{frostpeelar2019} that was presented at WEBIST 2019 in Vienna, Austria.  That paper was selected as one of the best papers at WEBIST 2019 and the authors were invited to submit an extended version for publication.  In this paper we expand upon the compositionality of our NLQI, including the parsing framework and semantic implementations, we introduce a novel method to accommodate superlatives using compositional semantics, and we discuss a novel approach to memoization and triplestore retrieval.  We also significantly expand upon how our NLQI is implemented.
 
-\noindent We begin by describing a Natural Language Query Interface (NLQI) that we have built. We hope that the interface will motivate readers to look into our modifications to MS. In \Cref{webist2019journal:access}, we explain how our NL Query interface (NLQI) can be accessed through the Web. In \Cref{webist2019journal:compositionality}, we describe the compositional aspects of our NLQI.  In \Cref{webist2019journal:triplestore}, we describe the Semantic Web triplestore. In \Cref{webist2019journal:examples} we discuss example queries and their results, including examples of what are often referred to as ``non-compositional'' features of NL that our NLQI can handle. With each of the examples we provide an informal explanation of how the answer is, or could be, computed. In \Cref{webist2019journal:album}, we describe the new FDBR data structure which is central to our approach. In \Cref{webist2019journal:prep} and \Cref{webist2019journal:superlatives}, we describe how our system accommodates chained prepositional phrases with superlatives.  In \Cref{webist2019journal:relationaldb}, we describe how to use our approach with relational databases. In \Cref{webist2019journal:implementation}, we provide a system overview and implementation details on how our semantics are realized. \Cref{webist2019journal:relatedwork} discusses how our work fits into the framework of existing work in this area.  We close with \Cref{webist2019journal:futurework} and \Cref{webist2019journal:conclusions} where we discuss future research directions and our conclusions.
+\noindent We begin by describing a Natural Language Query Interface (NLQI) that we have built. We hope that the interface will motivate readers to look into our modifications to MS. In \Cref{webist2019journal:access}, we explain how our NLQI can be accessed through the Web. In \Cref{webist2019journal:compositionality}, we describe the compositional aspects of our NLQI.  In \Cref{webist2019journal:triplestore}, we describe the Semantic Web triplestore. In \Cref{webist2019journal:examples} we discuss example queries and their results, including examples of what are often referred to as ``non-compositional'' features of NL that our NLQI can handle. With each of the examples we provide an informal explanation of how the answer is, or could be, computed. In \Cref{webist2019journal:album}, we describe the new FDBR data structure which is central to our approach. In \Cref{webist2019journal:prep} and \Cref{webist2019journal:superlatives}, we describe how our system accommodates chained prepositional phrases with superlatives.  In \Cref{webist2019journal:relationaldb}, we describe how to use our approach with relational databases. In \Cref{webist2019journal:implementation}, we provide a system overview and implementation details on how our semantics are realized. \Cref{webist2019journal:relatedwork} discusses how our work fits into the framework of existing work in this area.  We close with \Cref{webist2019journal:futurework} and \Cref{webist2019journal:conclusions} where we discuss future research directions and our conclusions.
 
 Much of our semantics is based on MS. We differ in these ways:
 
@@ -184,7 +184,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\noindent The function denoted by ``\texttt{a}'' checks to see if the intersection of the set of $\moons$ and the set of $\spins$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of the $\spins$ set. The denotations of \texttt{a} and \texttt{every} that we use are set-theoretic event-based versions of the denotations from MS which use characteristic functions.  The answer to the third query is obtained by checking if the intersection of the $\mathit{atmospheric}$ set and the $\moon$ set is non-empty.
+\noindent The function denoted by ``\texttt{a}'' checks to see if the intersection of the set of $\moons$ and the set of $\spins$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of the $\spins$ set. The denotations of \texttt{a} and \texttt{every} that we use are set-theoretic event-based versions of the denotations from MS which use characteristic functions.  The answer to the third query is obtained by checking if the intersection of the $\opit{atmospheric}$ set and the $\moon$ set is non-empty.
 
 \examplespacing
 
@@ -196,7 +196,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\texttt{when did hall discover} $\Rightarrow \mathit{1877}$
+\texttt{when did hall discover} $\Rightarrow 1877$
 
 \examplespacing
 
@@ -240,9 +240,9 @@ Owing to the fact that our semantics is compositional, the \textit{subject} and 
 
 \examplespacing
 
-\texttt{where discovered by galileo} $\Rightarrow \mathit{padua}$
+\texttt{where discovered by galileo} $\Rightarrow \opit{padua}$
 
-\texttt{when discovered by galileo} $\Rightarrow \mathit{1610}$
+\texttt{when discovered by galileo} $\Rightarrow 1610$
 
 \texttt{every telescope was used to discover a moon} $\Rightarrow \True$ (w.r.t.our data)
 
@@ -277,7 +277,7 @@ $\Rightarrow$ \textit{saturn; none} (ambiguous because ``\texttt{by two people}'
 
 \texttt{which person discovered a moon in 1877 with every telescope \linebreak that was used to discover phobos} $\Rightarrow$ \textit{hall; none} (ambiguous because ``\texttt{to discover phobos}'' could apply to ``\texttt{used}'' or ``\texttt{discovered}'')
 
-\texttt{who discovered in 1948 and 1949 with a telescope} $\Rightarrow \mathit{kuiper}$
+\texttt{who discovered in 1948 and 1949 with a telescope} $\Rightarrow \opit{kuiper}$
 
 \subsection{Queries with ``Non-Compositional'' Structures}
 \label{webist2019journal:noncompositional}
@@ -301,7 +301,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\texttt{where discovered io} $\Rightarrow \mathit{padua}$
+\texttt{where discovered io} $\Rightarrow \opit{padua}$
 
 \examplespacing
 
@@ -309,7 +309,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\texttt{who discovered in 1610} $\Rightarrow \mathit{galileo}$
+\texttt{who discovered in 1610} $\Rightarrow \opit{galileo}$
 
 \examplespacing
 
@@ -325,7 +325,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\texttt{where discovered in 1610} $\Rightarrow \mathit{padua}$
+\texttt{where discovered in 1610} $\Rightarrow \opit{padua}$
 
 \texttt{how discovered in padua} $\Rightarrow$ \textit{galilean\_telescope\_1}
 
@@ -400,14 +400,14 @@ All quantifiers, such as ``a'', ``every'' and ``more than two'' are treated in M
 \begin{equation*}
 	\begin{split}
 		\meaningof{propernoun} =&\ \lambda p.
-		\{(e, \evs)\ |\ (e, \evs) \in p\ \&\ e = \mathrm{the\ entity\ associated} \\ & \qquad \mathrm{with\ the\ proper\ noun}\} \\
+		\{(e, \evs)\ |\ (e, \evs) \in p\ \&\ e = \dmathrm{the\ entity\ associated} \\ & \qquad \dmathrm{with\ the\ proper\ noun}\} \\
 		\meaningof{spins} =&\ \{(\entityassoc{phobos}, \{\eventassoc{1360}\}), (\entityassoc{deimos}, \{\eventassoc{1332}\}), \etc\}
 	\end{split}
 \end{equation*}
 Therefore,
 \begin{equation*}
 	\begin{split}
-		& \meaningof{phobos\ spins} \\
+		& \meaningof{phobos spins} \\
 		\implies& \meaningof{phobos}\ \meaningof{spins} \\
 		\implies& \lambda s.\{(e, \evs)\ |\ (e, \evs) \in s\ \&\ e = \entityassoc{phobos}\}\ \meaningof{spins} \\
 		\implies& \{(e, \evs\ |\ (e, \evs) \in \meaningof{spins}\ \&\ e = \entityassoc{phobos}\}\ \\
@@ -416,11 +416,11 @@ Therefore,
 \end{equation*}
 %Indeed, $\eventassoc{1360}$ contains the proof that \textit{phobos} spins.
 We call this set of pairs of entities and events an \textit{FDBR}, and describe it in more detail in \Cref{webist2019journal:fdbr}.
-In the following example, we show how the FDBR can be used to denote the quantifier \texttt{a}.  The function $\mathit{intersect}$ computes the intersection of two FDBRs based on their entities, keeping the events of the second FDBR and discarding those of the first in the result.
+In the following example, we show how the FDBR can be used to denote the quantifier \texttt{a}.  The function $\operatorname{intersect}$ computes the intersection of two FDBRs based on their entities, keeping the events of the second FDBR and discarding those of the first in the result.
 \begin{equation*}
 	\begin{split}
-		\mathit{intersect} &= \lambda m \lambda s.\{(e_1,\evs_2)\ |\ (e_1,\evs_1) \in m\ \&\ (e_2,\evs_2) \in s\ \&\ e_1 = e_2\} \\
-		\meaningof{a} &= \mathit{intersect}
+		\operatorname{intersect} &= \lambda m \lambda s.\{(e_1,\evs_2)\ |\ (e_1,\evs_1) \in m\ \&\ (e_2,\evs_2) \in s\ \&\ e_1 = e_2\} \\
+		\meaningof{a} &= \operatorname{intersect}
 	\end{split}
 \end{equation*}
 Therefore,
@@ -432,13 +432,13 @@ Therefore,
 		\implies & \{(\entityassoc{phobos}, \{\eventassoc{1360}\}), (\entityassoc{deimos}, \{\eventassoc{1332}\}),\ \etc\}
 	\end{split}
 \end{equation*}
-We can define the denotations of other quantifiers in terms of $\mathit{intersect}$ as well.  For example, consider the denotation of \texttt{every}, where $\mathit{ents}\ m$ denotes the set of entities that appear in the first column of the FDBR $m$:
+We can define the denotations of other quantifiers in terms of $\operatorname{intersect}$ as well.  For example, consider the denotation of \texttt{every}, where $\operatorname{ents}\ m$ denotes the set of entities that appear in the first column of the FDBR $m$:
 \begin{equation*}
 	\begin{split}
-		\mathit{ents} &= \lambda m. \{ \mathit{ent}\ |\ (\exists \mathit{evs})\ (\mathit{ent}, \mathit{evs}) \in m \} \\
+		\operatorname{ents} &= \lambda m. \{ \opit{ent}\ |\ (\exists \evs)\ (\opit{ent}, \evs) \in m \} \\
 		\meaningof{every} &= \lambda m \lambda s.
 		\begin{cases}
-			\mathit{intersect}\ m\ s, & \mathit{ents}\ m \subseteq \mathit{ents}\ s \\
+			\opit{intersect}\ m\ s, & \operatorname{ents}\ m \subseteq \operatorname{ents}\ s \\
 			\emptyset, & \text{otherwise}
 		\end{cases}
 	\end{split}
@@ -446,9 +446,9 @@ We can define the denotations of other quantifiers in terms of $\mathit{intersec
 Therefore,
 \begin{equation*}
 	\begin{split}
-		&\meaningof{every\ moon\ spins} \\
-		\implies & \meaningof{every} \meaningof{\moon} \meaningof{\spins} \\
-		\implies & \mathit{intersect}\ m\ s\text{,\quad since } \mathit{ents}\ \meaningof{\moon} \subseteq \mathit{ents}\ \meaningof{\spins} \\
+		&\meaningof{every moon spins} \\
+		\implies & \meaningof{every} \meaningof{moon} \meaningof{spins} \\
+		\implies & \operatorname{intersect}\ m\ s\quad\dmathrm{(since $\operatorname{ents}\ \meaningof{moon} \subseteq \operatorname{ents}\ \meaningof{spins}$)} \\
 		\implies & \{(\entityassoc{phobos}, \{\eventassoc{1360}\}), (\entityassoc{deimos}, \{\eventassoc{1332}\}),\ \etc\}
 	\end{split}
 \end{equation*}
@@ -458,7 +458,7 @@ Therefore,
 \subsection{The FDBR}
 \label{webist2019journal:fdbr}
 
-In order to generate the  answer to ``\texttt{hall discovered every moon that orbits mars}'', $\meaningof{every}$ is applied to $\meaningof{moon\ that\ orbits\ mars}$ (i.e. the set of \texttt{moons} that orbit \texttt{mars}), as first argument, and the set of entities  that were discovered by \texttt{hall}, as the second argument.
+In order to generate the  answer to ``\texttt{hall discovered every moon that orbits mars}'', $\meaningof{every}$ is applied to $\meaningof{moon that orbits mars}$ (i.e. the set of \texttt{moons} that orbit \texttt{mars}), as first argument, and the set of entities  that were discovered by \texttt{hall}, as the second argument.
 Our semantics generates this set from the set of events of type ``discover'' whose the subject property is ``\textit{hall}'', as discussed below:
 
 Every set of $n$-ary events (i.e. events with $n$ roles) of a given type, e.g. discovery, defines $n^2 - n$ binary relations. For example, for discovery events:
@@ -488,7 +488,7 @@ The various FDBRs are used to answer different types of queries. For example:
 
 \indent \indent uses $\FDBR{\relationn{discover}{subject}{object}}$
 
-\texttt{where discovered by galileo} $\Rightarrow \mathit{padua}$
+\texttt{where discovered by galileo} $\Rightarrow \opit{padua}$
 
 \indent \indent uses $\FDBR{\relationn{discover}{location}{subject}}$
 
@@ -517,7 +517,7 @@ First, the denotation for ``\texttt{most}'' (as in ``more than half'') is define
 \begin{equation*}
 	\meaningof{most} = \lambda m \lambda s.
 	\begin{cases}
-		\mathit{intersect}\ m\ s, & \lvert\mathit{intersect}\ m\ s\rvert > \lvert{s}\rvert/2 \\
+		\operatorname{intersect}\ m\ s, & \lvert\operatorname{intersect}\ m\ s\rvert > \lvert{s}\rvert/2 \\
 		\emptyset, & \text{otherwise}
 	\end{cases}
 \end{equation*}
@@ -548,10 +548,10 @@ Store this relation in a relational database as a table using the event identifi
 \section{Implementation of our NLQI}
 \label{webist2019journal:implementation}
 We built our query processor as an executable attribute grammar using the {\em X-SAIGA} Haskell parser-combinator library package \cite{xsaiga}.
-The $\mathit{collect}$ function which converts a binary relation to an FDBR is one of the most
+The $\operatorname{collect}$ function which converts a binary relation to an FDBR is one of the most
 compute intensive parts of our implementation of the semantics. However, in Haskell, once a value is
 computed, it can be made available for future use. We have developed an algorithm to compute
-$\FDBR{\mathit{rel}}$ in $O(n\ \mathit{lg}\ n)$ time, where $n$ is the number of pairs in $\mathit{rel}$.
+$\FDBR{\rel}$ in $O(n\ \opit{lg}\ n)$ time, where $n$ is the number of pairs in $\rel$.
 Alternatively, the FDBR functions can be computed and stored in a cache when the NLQI is offline.
 Our implementation is amenable to running on low power devices, enabling it for use with the Internet of Things. A version of our query processor exists that can run on a common consumer network router as a proof of concept for this application.
 The use of Haskell for the implementation of our NLQI has many advantages, including:
@@ -564,7 +564,7 @@ The use of Haskell for the implementation of our NLQI has many advantages, inclu
 	\item The ability to partially apply functions of $n$ arguments to 1 to $n$ arguments allows the
 	definition and manipulation of denotation of phrases such as ``every moon'', and ``discover
 	phobos''.
-	\item The availability of the $\mathit{hsparql}$ \cite{hsparql} Haskell package enables a simple interface between our semantic processor and SPARQL endpoints to our triplestores.
+	\item The availability of the \textit{hsparql} \cite{hsparql} Haskell package enables a simple interface between our semantic processor and SPARQL endpoints to our triplestores.
 \end{enumerate}
 
 %\vfill
@@ -700,8 +700,7 @@ As queries may be ambiguous, it's important that users see how their queries wer
 
 \texttt{who discovered a moon in 1877 with a telescope}
 
-$\Rightarrow$
-\texttt{who (discovered (a moon) [in 1877, with (a telescope)])}
+\qquad $\Rightarrow$ \texttt{who (discovered (a moon) [in 1877, with (a telescope)])}
 
 \examplespacing
 
@@ -717,9 +716,9 @@ $\Rightarrow$
 
 \examplespacing
 
-\texttt{who (discovered (a (moon `that` (orbits [in 1877]))))} $\Rightarrow \mathit{none}$
+\texttt{who (discovered (a (moon `that` (orbits [in 1877]))))} $\Rightarrow \opit{none}$
 
-\texttt{who (discovered (a (moon `that` orbits)) [in 1877])} $\Rightarrow  \mathit{hall}$
+\texttt{who (discovered (a (moon `that` orbits)) [in 1877])} $\Rightarrow  \opit{hall}$
 
 \examplespacing
 
@@ -813,42 +812,40 @@ First, we introduce an operator, \texttt{>|<}, that allows us to bridge together
 This allows these two independent functions to be applied in parallel while parsing the input string using the exact same grammar and no code duplication, provided the \texttt{<<*>>} is used in place of function application.  For example, ``\texttt{a moon spins}'' is evaluated as though it were written as ``\texttt{a <<*>> moon <<*>> spins}'' under this approach.  Our NLQI uses this to construct the Memo Tree in parallel while applying the denotations of the words in the query.  Consider the following example, where GIntersect and GMembers are constructors of the Memo Tree:
 
 \begin{code}
-	a' = a >|< GIntersect
-	moon' = moon >|< GMembers "moon"
-	spins' = spins >|< GMembers "spins"
+    a' = a >|< GIntersect
+    moon' = moon >|< GMembers "moon"
+    spins' = spins >|< GMembers "spins"
 \end{code}
 Therefore,
 \begin{code}
-	a' <<*>> moon' <<*>> spins'
-	=> (a moon spins, GIntersect (GMembers "moon") (GMembers "spin"))
+    a' <<*>> moon' <<*>> spins'
+    => (a moon spins, GIntersect (GMembers "moon") (GMembers "spin"))
 \end{code}
 However, this is somewhat inconvenient and unfamiliar syntax to work with. Fortunately, it is trivial to define a set of ``wrapper'' functions to restore the original function application syntax:
 \begin{equation*}
 	\begin{split}
-		%	&\mathit{wrap}_1\ (f, g)\ (a_1, b_1) =\ (f\ a_1,\ g\ b_1) \\
-		%	&\mathit{wrap}_2\ (f, g)\ (a_1, b_1)\ (a_2,b_2) = (f\ a_1\ a_2,\ g\ b_1\ b_2) \\
+		%	&\opit{wrap}_1\ (f, g)\ (a_1, b_1) =\ (f\ a_1,\ g\ b_1) \\
+		%	&\opit{wrap}_2\ (f, g)\ (a_1, b_1)\ (a_2,b_2) = (f\ a_1\ a_2,\ g\ b_1\ b_2) \\
 		%	&\ldots \\
-		&\mathit{wrap}_N\ (f, g)\ (a_1, b_1)\ (a_2,b_2)\ \ldots\ (a_N, b_N) = (f\ a_1\ a_2 \ldots a_N,\ g\ b_1\ b_2 \ldots b_N)
+		&\opit{wrap}_N\ (f, g)\ (a_1, b_1)\ (a_2,b_2)\ \ldots\ (a_N, b_N) = (f\ a_1\ a_2 \ldots a_N,\ g\ b_1\ b_2 \ldots b_N)
 	\end{split}
 \end{equation*}
-Here, the function $\mathit{wrap}_N$ takes a pair of functions $(f, g)$ with arity $N$ and then $N$ pairs of arguments to be applied in order to $f$ and $g$ respectively.  This allows ``\texttt{a' <<*>> moon' <<*>> spins'}'' above to be written as ``$\mathtt{a'\ moon\ spins}$'', where $\mathtt{a''} = \mathit{wrap}_2\ \mathtt{a'}$.
-%While it is possible in languages with sufficient meta-programming facilities to define $\mathit{wrap}_N$ generically and deduce $N$ from its context, i.e. from the pair of functions it is applied to, for our purposes it is not necessary to do so.In the semantics as described, each function needs only two arguments at most, and the types are \_.
-%Note that this approach generalizes to $N$ semantic functions by using $N$-applicative $N$-functors and modifying $\mathit{wrap}_N$ accordingly.
+Here, the function $\opit{wrap}_N$ takes a pair of functions $(f, g)$ with arity $N$ and then $N$ pairs of arguments to be applied in order to $f$ and $g$ respectively.  This allows ``\texttt{a' <<*>> moon' <<*>> spins'}'' above to be written as ``$\mathtt{a'\ moon\ spins}$'', where $\mathtt{a''} = \opit{wrap}_2\ \mathtt{a'}$.
+%While it is possible in languages with sufficient meta-programming facilities to define $\opit{wrap}_N$ generically and deduce $N$ from its context, i.e. from the pair of functions it is applied to, for our purposes it is not necessary to do so.In the semantics as described, each function needs only two arguments at most, and the types are \_.
+%Note that this approach generalizes to $N$ semantic functions by using $N$-applicative $N$-functors and modifying $\opit{wrap}_N$ accordingly.
 Therefore, we can retain the familiar function application syntax in the semantics while taking advantage of parallel function application. By itself, this is a convenience, but let us revisit the Memo Tree once more. It has two uses. The first is as stated previously, in determining which queries need to be performed against the remote triplestore. The second is that this allows us to assign a unique identifier to each sub-expression of the parsed input.
 
 \subsubsection{Memoized Compositional Semantics}
 \label{webist2019journal:memoization}
 
-Consider the query ``\texttt{what is orbited by a thing that was discovered by a person that discovered{\linebreak}phobos}'', containing three nested transitive verbs.
+Consider the query ``\texttt{what is orbited by a thing that was discovered by a person that discovered phobos}'', containing three nested transitive verbs.
 One possible parse of this query yields:
 \begin{center}
-	\vspace{-0.5em}
 	\texttt{what (is orbited [by (a (thing `that` (was discovered [by (a (person `that` (discovered phobos)))])))])}
-	\vspace{-0.5em}
 \end{center}
 A query's sub-expressions may be evaluated multiple times during the prepositional filtering of a transitive verb (i.e one evaluation for each row of the FDBR denoted in that transitive verb).  This has a compounding effect when transitive verbs are nested as sub-expressions in prepositional phrases of other transitive verbs. In general, if there are $m$ nested transitive verbs in a query, each having an FDBR with $n$ rows. then the complexity for evaluation is $O(n^m)$.
 
-As it turns out, we can use the Memo Tree to memoize the results of the sub-expressions of a query, drastically reducing the number of re-evaluations performed.  The memoization occurs in a more sophisticated version of the $\mathit{wrap}_N$ functions described previously, which use the unique identifier provided by the Memo Tree to memoize the results of the semantic functions as they are evaluated. This is completely transparent to the user, and the familiar function application syntax used in all previous examples still remains. This reduces the complexity to $O(mn)$, where $m$ is the number of nested transitive verbs, each having an FDBR with $n$ rows. All sub-expressions in the query are memoized, including the final result of the query expression itself.
+As it turns out, we can use the Memo Tree to memoize the results of the sub-expressions of a query, drastically reducing the number of re-evaluations performed.  The memoization occurs in a more sophisticated version of the $\opit{wrap}_N$ functions described previously, which use the unique identifier provided by the Memo Tree to memoize the results of the semantic functions as they are evaluated. This is completely transparent to the user, and the familiar function application syntax used in all previous examples still remains. This reduces the complexity to $O(mn)$, where $m$ is the number of nested transitive verbs, each having an FDBR with $n$ rows. All sub-expressions in the query are memoized, including the final result of the query expression itself.
 
 %In this memoization scheme, the results of the sub-expressions as listed previously are retrieved without needing to be re-evaluated.
 %TODO: As an example, in the query above, the first time ``\texttt{thing `that` (was discovered [by (a (person `that` (discovered phobos)))])}'' is evaluated during prepositional filtering of \texttt{orbited}, it is memoized, and later references to this sub-expression retrieve the memoized value.
