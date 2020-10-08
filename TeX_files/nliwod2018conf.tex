@@ -34,8 +34,11 @@ Additional data can be added as follows:
 	<event1030> <location> <us_naval_observatory> .
 \end{code}
 
+\abbreviation{NLQI}{Natural Language Query Interface}
 Ideally, it should be possible to query these and other triples, using an extensible Natural-Language Query Interface (NLQI).
 
+\abbreviation{MS}{Montague Semantics}
+\abbreviation{PP}{Prepositional Phrase}
 In order to facilitate the extension of an NLQI, it helps if the query language is based on a compositional
 semantics such as Montague Semantics (MS) \cite{Dowty:wall} or a version of it, and if the language processor is highly
 modular. Such an NLQI to an online event-based triplestore has been constructed and is available
@@ -49,16 +52,18 @@ We begin in section \ref{ext:demonstration} with a demonstration of our NLQI. In
 Montague Semantics and our compositional event semantics. In section \ref{ext:quantifierscope} we discuss quantifier scoping. In section \ref{ext:implementation}, we describe our implementation
 of the NLQI as an EAG. In section \ref{ext:extensible}, we discuss how our interface can be extended. In section \ref{ext:relatedwork}, we discuss related work. We conclude in section \ref{ext:conclusion}.
 
-The motivation for this work is to rekindle an interest in Montague-like compositional semantics for query processing. Compositional semantics have many benefits which have been exploited in many computing applications, including the facilitation of extensibility.
+\abbreviation{CS}{Compositional Semantics}
+The motivation for this work is to rekindle an interest in Montague-like Compositional Semantics (CS) for query processing. Compositional Semantics have many benefits which have been exploited in many computing applications, including the facilitation of extensibility.
 
 \section{A Demonstration of our NLQI}
 \label{ext:demonstration}
+\abbreviation{SPARQL}{SPARQL Protocol and RDF Query Language}
 We have built a small ``Solarman'' triplestore containing approximately 22,000 facts about the moons in
 our solar system, the planets they orbit, and the people who discovered them, when, where and with
 which telescope. Our NLQI can answer many questions with respect to the ``Solarman'' triplestore, but no other questions yet. We
 have installed our NLQI to Solarman on a server and also on a home wireless router to ensure that our
 approach requires only minimal computing power (the answer time on the router is as fast as on the
-server.) The triplestore is stored using the Virtuoso semantic web software which supports a SPARQL
+server.) The triplestore is stored using the Virtuoso semantic web software which supports a SPARQL Protocol and RDF Query Language (SPARQL)
 endpoint. Our NLQI is accessible through the following web page, which contains example queries, and
 lists of words and categories of words that can be used in queries:
 
@@ -187,6 +192,7 @@ with that verb.
 Each binary relation can be converted to a function, by ``collecting'', into a set, all values
 in the codomain that are associated with each value in the domain of the relation, and creating
 a pair consisting of the value from the domain paired with that set. In 2016, Peelar called this induced function the {\em Function Defined by a Binary Relation (FDBR)} \cite{peelar2016accommodating}:
+\abbreviation{FDBR}{Function Defined by a Binary Relation}
 \begin{equation*}
 	\FDBR{\rel} = \{(x, \image_x)\ |\ (\exists e)\ (x, e) \in \rel\ \&\ \image_x = \{ y\ |\ (x, y) \in \rel \}  \}
 \end{equation*}
@@ -462,6 +468,9 @@ measure of the ability to extend the NLQI and the level of effort required to im
 
 A number of design decisions facilitate future extension of our NLQI:
 
+\abbreviation{AG}{Attribute Grammar}
+\abbreviation{MG}{Montague Grammar}
+\abbreviation{EAG}{Executable Attribute Grammar}
 \begin{enumerate}
 	\item Our query processor is implemented as a highly-modular executable specification of an attribute grammar (AG). AGs were introduced by Knuth \cite{knuth1968semantics} and are
 	widely used to define both the syntax and semantics of programming languages. Each syntax
@@ -556,13 +565,14 @@ Alexandria \cite{wendt2012linguistic} is an event-based triplestore, with 160 mi
 
 The systems referred to above have made substantial progress in handling ambiguity and matching NL query words to URIs. However, they appear to have hit a roadblock with respect to natural-language coverage. Most can handle simple PPs such as in ``who was born in 1918'' but none can handle chained complex PPs, containing quantifiers, such as ``in us\_naval\_observatory in 1877 or 1860''. There appear to be three reasons for this: 1) those NLQIs that were designed for non-reified triplestores, such as DBpedia, do not appear to be easily extended to reified triplestores that are necessary for complex PPs. 2) those NLQIs that were designed for non-reified or reified triplestores, and which translate the NL queries to SPARQL, suffer from the fact that SPARQL was originally designed for non-reified triplestores.  Although SPARQL was extended to handle ``named graphs'' \cite{carroll2005named} which support a limited form of reification but appear to be suitable only for provenance data. SPARQL was also extended to accommodate triple identifiers. 3) The YAGO2 system is the only system that has an NLQI for a reified triplestore that does not translate to SPARQL. However, YAGO2 can only accommodate PPs related to time and location and does not support quantification.
 
-
+\abbreviation{CNL}{Controlled Natural Language}
+\abbreviation{RDF}{Resource Description Framework}
 Blackburn and Bos \cite{blackburn2005representation} implemented lambda calculus with respect to natural language, in
 Prolog, and \cite{van2010computational} have extensively discussed such implementation in
 Haskell. Implementation of the lambda calculus for open-domain question answering has been
 investigated by \cite{ahn2005question}.
-The SQUALL query language \cite{ferre:squall,ferre2013squall} is a controlled natural language
-(CNL) for querying and updating triplestores represented as RDF graphs. SQUALL can return
+The SQUALL query language \cite{ferre:squall,ferre2013squall} is a Controlled Natural Language
+(CNL) for querying and updating triplestores represented as Resource Description Framework (RDF) graphs. SQUALL can return
 answers directly from remote triplestores, as we do, using simple SPARQL-endpoint triple
 retrieval commands. It can also be translated to SPARQL queries which can be processed by
 SPARQL endpoints for faster computation of answers. SQUALL syntax and semantics are

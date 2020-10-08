@@ -54,6 +54,8 @@
 \newcommand{\listnewtablesname}{List of Tables}
 \newlistof[chapter]{newtables}{ntb}{\listnewtablesname}
 
+%For abbreviation spacing in List of Abbreviations
+\newcommand{\abbreviation}[2]{\addcontentsline{abc}{section}{\protect\makebox[3em][l]{\thesection}\protect\makebox[5em][l]{\textbf{#1}} {#2}}}
 
 %\usepackage{underscore}
 \graphicspath{ {images/} }
@@ -598,23 +600,23 @@
 
 %\listoftheorems[ignoreall,show={definition}]
 
-%TODO: sort alphabetically
+%TODO: sort alphabetically?
 %TODO: maybe list where first mentioned?
-\addcontentsline{abc}{section}{AG - Attribute Grammar}
-\addcontentsline{abc}{section}{CNL - Controlled Natural Language}
-\addcontentsline{abc}{section}{CS - Compositional Semantics}
-\addcontentsline{abc}{section}{CWA - Closed World Assumption}
-\addcontentsline{abc}{section}{EAG - Executable Attribute Grammar}
-\addcontentsline{abc}{section}{FDBR - Function Defined by a Binary Relation}
-\addcontentsline{abc}{section}{LDF - Linked Data Fragments}
-\addcontentsline{abc}{section}{ML - Machine Learning}
-\addcontentsline{abc}{section}{MS - Montague Semantics}
-\addcontentsline{abc}{section}{OWA - Open World Assumption}
-\addcontentsline{abc}{section}{NL - Natural Language}
-\addcontentsline{abc}{section}{NLQI - Natural Language Query Interface}
-\addcontentsline{abc}{section}{PP - Prepositional Phrase}
-\addcontentsline{abc}{section}{RDF - Resource Description Framework}
-\addcontentsline{abc}{section}{SPARQL - SPARQL Protocol and RDF Query Language}
+%%\addcontentsline{abc}{section}{AG - Attribute Grammar}
+%%\addcontentsline{abc}{section}{CNL - Controlled Natural Language}
+%%\addcontentsline{abc}{section}{CS - Compositional Semantics}
+%%\addcontentsline{abc}{section}{CWA - Closed World Assumption}
+%%\addcontentsline{abc}{section}{EAG - Executable Attribute Grammar}
+%%\addcontentsline{abc}{section}{FDBR - Function Defined by a Binary Relation}
+%%\addcontentsline{abc}{section}{LDF - Linked Data Fragments}
+%%\addcontentsline{abc}{section}{MG - Montague Grammar}
+%%\addcontentsline{abc}{section}{ML - Machine Learning}
+%%\addcontentsline{abc}{section}{MS - Montague Semantics}
+%%\addcontentsline{abc}{section}{OWA - Open World Assumption}
+%%\addcontentsline{abc}{section}{NLQI - Natural Language Query Interface}
+%%\addcontentsline{abc}{section}{PP - Prepositional Phrase}
+%%\addcontentsline{abc}{section}{RDF - Resource Description Framework}
+%%\addcontentsline{abc}{section}{SPARQL - SPARQL Protocol and RDF Query Language}
 
 %TODO: list of figures?
 %TODO: list of tables?

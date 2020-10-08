@@ -21,6 +21,7 @@ It was featured at WEBIST 2020.
 
 %first paragraph after section is noindent
 
+\abbreviation{LDF}{Linked Data Fragments}
 \noindent The Semantic Web consists of a collection of triplestores accessible via \textit{endpoints} that process queries using various query languages.  Widely used methods for querying triplestores include using SPARQL \cite{sparql} and Linked Data Fragments (LDF) \cite{verborgh2014web}.  These query languages, while powerful, are not designed with end-users in mind, with their primary use cases aimed towards databases rather than user-facing applications.
 An alternative approach to using a database querying language directly is to use a Natural Language Query Interface (NLQI).  NLQIs have a number of benefits including being accessible through both text and speech modalities.
 
@@ -30,6 +31,8 @@ There are two main approaches used by NLQIs.  Machine Learning (ML) can be used 
 \end{center}
 However, CS approaches have drawn a lot of criticism.  They have been characterized as being rigid, and therefore not sufficiently able to handle complex queries in real world applications.  Recent work has addressed a number of these issues, including accommodating chained complex prepositional phrases \cite{peelar2016accommodating}, $n$-ary transitive verbs \cite{peelar2020compositional} and superlative phrases \cite{frostpeelar2019}.  It has also been shown that CS can be memoized for efficient evaluation \cite{peelar2020webistjournal}, which also enables offline pre-computation of query results.  %The NLQI presented in this paper is capable of running on low power systems and even directly in web browsers using technologies
 
+\abbreviation{OWA}{Open World Assumption}
+\abbreviation{CWA}{Closed World Assumption}
 One criticism of our previous approaches was that they relied on the Open World Assumption (OWA) and hence could not support negation in queries.  While the Resource Description Framework (RDF) \cite{w3csemanticweb} underlying the Semantic Web itself is predicated on the OWA, there exist triplestores where the Closed World Assumption (CWA) holds, particularly in knowledge bases for expert systems.  It would be ideal to support negation in queries to these triplestores.
 
 In this paper, we show that it is possible to accommodate negation in an English NLQI to an event-based triplestore where the CWA holds.
@@ -198,7 +201,8 @@ Since the triples directly reference the event itself, adding more information a
 \subsection{The Function Defined by a Binary Relation (FDBR)}
 \label{webist2020conf:fdbr}
 
-The notion of a \textit{Function Defined by a Binary Relation} (FDBR) was first described in \cite{peelar2016accommodating} as useful datastructure for accommodating chained prepositional phrases in Natural Language Queries.  It was shown that the word ``by'', as in ``discovered by'', could be treated as a ``virtual preposition'' under this approach. In \cite{frostpeelar2019} it was shown that the FDBR can be used to answer many kinds of NL queries including superlatives (including those that occur in a prepositional phrase), and as a useful datastructure for memoizing the results of queries performed in the denotations.  This vastly improved query execution time and opened the door for offline computation of results.
+\abbreviation{NL}{Natural Language}
+The notion of a \textit{Function Defined by a Binary Relation} (FDBR) was first described in \cite{peelar2016accommodating} as useful datastructure for accommodating chained prepositional phrases in Natural Language Queries.  It was shown that the word ``by'', as in ``discovered by'', could be treated as a ``virtual preposition'' under this approach. In \cite{frostpeelar2019} it was shown that the FDBR can be used to answer many kinds of Natural Language (NL) queries including superlatives (including those that occur in a prepositional phrase), and as a useful datastructure for memoizing the results of queries performed in the denotations.  This vastly improved query execution time and opened the door for offline computation of results.
 The definition of the FDBR is as follows:
 \begin{equation*}
 		\FDBR{\rel} = \{(x, \image_x)\ | \ (\exists e)\ (x, e) \in \rel\ \& \ \image_x = \{ y\ |\ (x, y) \in \rel \}  \}
