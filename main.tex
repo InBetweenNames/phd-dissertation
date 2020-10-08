@@ -16,7 +16,7 @@
 %\setmonofont{CMU Typewriter Text}%{Consolas}
 \usepackage[top=1in, bottom=1in, left=1.5in, right=1in]{geometry}
 \usepackage{subfiles}
-\usepackage[nottoc,numbib,notlof]{tocbibind}
+\usepackage[nottoc,numbib,notlof,notlot]{tocbibind}
 \usepackage{listings}
 \usepackage{amsthm}
 \usepackage{thmtools}
@@ -50,6 +50,10 @@
 
 \newcommand{\listabbreviationsname}{List of Abbreviations}
 \newlistof{abbreviations}{abc}{\listabbreviationsname}
+
+\newcommand{\listnewtablesname}{List of Tables}
+\newlistof[chapter]{newtables}{ntb}{\listnewtablesname}
+
 
 %\usepackage{underscore}
 \graphicspath{ {images/} }
@@ -571,8 +575,12 @@
 
 \begin{uwindefaultspaceenv}
 
-%\clearpage
-%\listoftables
+%TODO: order in which these appear
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+
 \clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{List of Figures}
@@ -587,6 +595,7 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{List of Abbreviations}
 \listofabbreviations
+
 %\listoftheorems[ignoreall,show={definition}]
 
 %TODO: sort alphabetically

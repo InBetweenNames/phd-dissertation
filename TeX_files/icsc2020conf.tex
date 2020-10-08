@@ -322,26 +322,26 @@ It has been observed that different functions can be defined for a set of events
 thought of as a row in an $n$-ary relation, such as the 5-ary discover relation (Table \ref{icsc2020conf:discover}).
 %\setlength{\tabcolsep}{0.4em} % for the horizontal padding
 %\renewcommand{\arraystretch}{1}% for the vertical padding
-	\begin{table}
-		\caption{\footnotesize\normalfont\scshape\\The "Discover'' Relation}
-		\centering
-		%\vspace{-0,25cm}
-		\begin{tabular}{  c c c c c  }
-			\hline \hline
-			subject & object & date & implement & location \\
-			\hline
-			\dots & \dots & \dots & \dots & \dots \\
-			hall & phobos & 1877 & refractor\_telescope\_1 & us\_naval\_observatory \\
-			\dots & \dots & \dots & \dots & \dots \\
-			\hline \hline
-		\end{tabular}
-		\label{icsc2020conf:discover}
-	\end{table}
+\begin{table}
+	\caption{The ``Discover'' Relation}
+    \label{icsc2020conf:discover}
+	\centering
+    \addcontentsline{ntb}{section}{The ``Discover'' Relation}
+	\begin{tabular}{  c c c c c  }
+		\toprule
+		subject & object & date & implement & location \\
+		\midrule
+		\dots & \dots & \dots & \dots & \dots \\
+		hall & phobos & 1877 & refractor\_telescope\_1 & us\_naval\_observatory \\
+		\dots & \dots & \dots & \dots & \dots \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
-	The example in Section \ref{icsc2020conf:montytransitive} used the FDBR from subjects to
-	objects. However, there are $n^2-n = (25-5)$ functions that can be defined from the 5-ary relation above if the function from a column to itself is excluded:
-	subject to object, object to subject, subject to date, date to subject, date to subject, date to object etc.
-	These functions can be used to answer any query about the discover relation, including those containing chained complex prepositional phrases.
+The example in Section \ref{icsc2020conf:montytransitive} used the FDBR from subjects to
+objects. However, there are $n^2-n = (25-5)$ functions that can be defined from the 5-ary relation above if the function from a column to itself is excluded:
+subject to object, object to subject, subject to date, date to subject, date to subject, date to object etc.
+These functions can be used to answer any query about the discover relation, including those containing chained complex prepositional phrases.
 
 \section{Applicability to Relational Databases}
 

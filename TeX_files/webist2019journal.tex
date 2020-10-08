@@ -5,8 +5,8 @@
 \chapter{A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores}
 \begin{refsection}
 
-This paper has been submitted to the WEBIST 2020 Springer journal.
-We were invited to do so... %TODO
+This paper has been accepted to the WEBIST 2020 Springer journal.
+We were invited to submit... %TODO
 
 \label{chapter:webist2019journal}
 
@@ -87,7 +87,7 @@ In the paper by Frost and Peelar \cite{frostpeelar2019} we discuss how we accomm
 Our NLQI computes answers with respect to an \textit{event-based} Semantic Web triplestore containing data about the planets, the moons that orbit them, and the people who discovered those moons, and when, where and with what implement they were discovered.  Briefly, a triplestore is a database of 3-tuples, called triples, that have the form (\textit{subject}, \textit{predicate}, \textit{object}), where \textit{subject}, \textit{predicate} and \textit{object} are Uniform Resource Identifiers (URIs).
 
 An \textit{event-based triple} has a \textit{subject} that identifies an event rather than an entity \cite{peelar2016accommodating}. In these triples, the \textit{predicate} identifies a \textit{role} through which the \textit{object} participates in the event.  That is, an event-based triple $(e,r,o)$ expresses that $o$ participates in $e$ through role $r$.
-We call $o$ the event $e$'s ``$r$ \textit{property}''. For example, in \Cref{webist2019journal:evdiscover}, ``hall'' is event ``event1045'''s \textit{subject} property. Triplestores consisting of event-based triples are called \textit{event-based triplestores}.
+We call $o$ the event $e$'s ``$r$ \textit{property}''. For example, in \Cref{webist2019conf:evdiscover}, ``hall'' is event ``event1045'''s \textit{subject} property. Triplestores consisting of event-based triples are called \textit{event-based triplestores}.
 
 The advantage of event-based triplestores is that additional information about the events and entities participating in those events is immediately available. This is not the case in an entity-based triplestore, where some form of \textit{reification} is necessary to obtain additional information about a fact expressed in a triple.  For example, obtaining the location where ``hall discovered phobos'' in an entity-based triplestore, described by $(\hall, \discovered, \phobos)$, is not possible without reification.
 
@@ -96,64 +96,64 @@ This implies the existence of a schema that describes the types of roles that an
 
 Going forward, when we refer to the type of an event or set of events, we are referring to their \textit{ev\_type} property.  Likewise, when we refer to events of a particular type, we are referring to events whose \textit{ev\_type} property corresponds to that type.  As a shorthand, we use $t$-type events to refer to events with type $t$.  For example, ``discover'' events refers to events that have \textit{ev\_type} property ``discover''.
 
-The triplestore contains triples such as those in \Cref{webist2019journal:evdiscover} which represent the event in which \texttt{hall} (in the role of \textit{subject}) discovered \texttt{phobos} (in the role of \textit{object}) in 1877 (in the role of \textit{year}) with the \texttt{refractor\_telescope\_1} (in the role of \textit{implement})  at the \texttt{us\_naval\_observatory} (in the role of \textit{location}).  Events representing set membership are represented as shown in \Cref{webist2019journal:evmember}.
+The triplestore contains triples such as those in \Cref{webist2019conf:evdiscover} which represent the event in which \texttt{hall} (in the role of \textit{subject}) discovered \texttt{phobos} (in the role of \textit{object}) in 1877 (in the role of \textit{year}) with the \texttt{refractor\_telescope\_1} (in the role of \textit{implement})  at the \texttt{us\_naval\_observatory} (in the role of \textit{location}).  Events representing set membership are represented as shown in \Cref{webist2019conf:evmember}.
 
-\begin{table}
-	\caption{Triples describing an event of type ``discover'' \cite{frostpeelar2019}. The full URIs of the events, roles, and entities have been omitted here.}
-	\label{webist2019journal:evdiscover}
-	\centering
-	\begin{tabular}{|l|l|l|}
-		\hline
-		Event & Role & Entity \\
-		\hline
-		event1045 &
-		subject &
-		hall \\
-
-		event1045 &
-		object &
-		phobos \\
-
-		event1045 &
-		ev\_type &
-		discover\_ev \\
-
-		event1045 &
-		year &
-		1877 \\
-
-		event1045 &
-		location &
-		us\_naval\_observatory \\
-
-		event1045 &
-		implement &
-		refractor\_telescope\_1 \\
-		\hline
-	\end{tabular}
-\end{table}
-\begin{table}
-	\caption{Triples describing an event of type ``membership'' \cite{frostpeelar2019}.}
-	\label{webist2019journal:evmember}
-	\centering
-	\begin{tabular}{|l|l|l|}
-		\hline
-		Event & Role & Entity \\
-		\hline
-		event1128 &
-		subject &
-		galileo \\
-
-		event1128 &
-		object &
-		person \\
-
-		event1128 &
-		ev\_type &
-		membership \\
-		\hline
-	\end{tabular}
-\end{table}
+%\begin{table}
+%	\caption{Triples describing an event of type ``discover'' \cite{frostpeelar2019}. The full URIs of the events, roles, and entities have been omitted here.}
+%	\label{webist2019journal:evdiscover}
+%	\centering
+%	\begin{tabular}{|l|l|l|}
+%		\hline
+%		Event & Role & Entity \\
+%		\hline
+%		event1045 &
+%		subject &
+%		hall \\
+%
+%		event1045 &
+%		object &
+%		phobos \\
+%
+%		event1045 &
+%		ev\_type &
+%		discover\_ev \\
+%
+%		event1045 &
+%		year &
+%		1877 \\
+%
+%		event1045 &
+%		location &
+%		us\_naval\_observatory \\
+%
+%		event1045 &
+%		implement &
+%		refractor\_telescope\_1 \\
+%		\hline
+%	\end{tabular}
+%\end{table}
+%\begin{table}
+%	\caption{Triples describing an event of type ``membership'' \cite{frostpeelar2019}.}
+%	\label{webist2019journal:evmember}
+%	\centering
+%	\begin{tabular}{|l|l|l|}
+%		\hline
+%		Event & Role & Entity \\
+%		\hline
+%		event1128 &
+%		subject &
+%		galileo \\
+%
+%		event1128 &
+%		object &
+%		person \\
+%
+%		event1128 &
+%		ev\_type &
+%		membership \\
+%		\hline
+%	\end{tabular}
+%\end{table}
 The complete triplestore, which contains tens of thousands of triples, is hosted on a remote server using the Virtuoso software \cite{virtuoso} and can be accessed by following the link at the beginning of \Cref{webist2019journal:access}.
 
 \section{Example Queries}
@@ -551,7 +551,7 @@ We built our query processor as an executable attribute grammar using the {\em X
 The $\operatorname{collect}$ function which converts a binary relation to an FDBR is one of the most
 compute intensive parts of our implementation of the semantics. However, in Haskell, once a value is
 computed, it can be made available for future use. We have developed an algorithm to compute
-$\FDBR{\rel}$ in $O(n\ \opit{lg}\ n)$ time, where $n$ is the number of pairs in $\rel$.
+$\FDBR{\rel}$ in $O(n\ \operatorname{lg}\ n)$ time, where $n$ is the number of pairs in $\rel$.
 Alternatively, the FDBR functions can be computed and stored in a cache when the NLQI is offline.
 Our implementation is amenable to running on low power devices, enabling it for use with the Internet of Things. A version of our query processor exists that can run on a common consumer network router as a proof of concept for this application.
 The use of Haskell for the implementation of our NLQI has many advantages, including:
