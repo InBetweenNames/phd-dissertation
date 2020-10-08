@@ -237,18 +237,18 @@ As another example, consider $\meaningof{discover every moon}$:
 	\begin{split}
 		& \meaningof{discover every moon} \\
 		\implies & \meaningof{discover}\ (\meaningof{every moon}) \\
-		\implies & (\lambda t.\{(s, \opit{relevs})\ |\ (s, \evs)\ \in \FDBR{\relation{\discover}}\ \\
+		\implies & (\lambda t.\{(s, \opit{relevs})\ |\ (s, \evs)\ \in \FDBR{\relation{discover}}\ \\
 		& \qquad \&\ t\ \objfdbr{\evs} \neq \emptyset  \\
 		& \qquad \&\ \opit{relevs} = \gatherevs{\objfdbr{\evs}}\})\ \\
 		& \quad (\meaningof{every moon}) \\
-		\implies & \{(s, \opit{relevs})\ |\ (s, \evs)\ \in \FDBR{\relation{\discover}}\ \\
+		\implies & \{(s, \opit{relevs})\ |\ (s, \evs)\ \in \FDBR{\relation{discover}}\ \\
 		& \qquad \&\ \meaningof{every moon}\ \objfdbr{\evs} \neq \emptyset \\
 		& \qquad \&\ \opit{relevs} = \gatherevs{\objfdbr{\evs}} \} \\
 		\implies & \emptyset \qquad(\dmathrm{owing to the fact that no entity in the} \\
 		\phantom{\implies} & \phantom{\emptyset} \qquad \dmathrm{universe of discourse discovered every moon})
 	\end{split}
 \end{equation*}
-Specifically, observe how the pair $(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \}) \in \FDBR{\relation{\discover}}$ is treated above:
+Specifically, observe how the pair $(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \}) \in \FDBR{\relation{discover}}$ is treated above:
 \begin{equation*}
 	\begin{split}
 		&\meaningof{every moon}\ \objfdbr{\{\eventassoc{1045}, \eventassoc{1046}\}} \\
@@ -300,7 +300,7 @@ Here, $\opit{eventid}$ refers to the column of the relation that contains the ev
 The denotation for transitive verbs is augmented with the property $\opit{prop}$ used to form the binary relation from the $n$-ary relation, for example ``$\opit{subject}$'', ``$\opit{object}$'', or ``$\opit{implement}$'', replacing $\FDBR{r}$ with $\dmathrm{FDBR}_{\opit{prop}}(r)$.  With these revisions, it is possible to express a denotation for the passive voice of the verb ``\texttt{used}'' (as in ``\texttt{what was used by hall}''):
 \begin{equation*}
 	\begin{split}
-		\meaningof{used by} = \lambda t.\big\{ (s,\ \opit{relevs})\ |&\ (s, \evs)\ \in\ \dmathrm{FDBR}_{\opit{implement}}(\relation{\discover})\  \\
+		\meaningof{used by} = \lambda t.\big\{ (s,\ \opit{relevs})\ |&\ (s, \evs)\ \in\ \dmathrm{FDBR}_{\opit{implement}}(\relation{discover})\  \\
 		& \&\ t\ \propfdbr{\opit{subject}}{\evs} \neq \emptyset \\
 		& \&\ \opit{relevs} = \gatherevs{\objfdbr{\evs}} \big\}
 	\end{split}
