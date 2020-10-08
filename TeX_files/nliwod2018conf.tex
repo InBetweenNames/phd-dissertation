@@ -254,7 +254,7 @@ discovered a moon'' is processed analogously to the above, with the denotation o
 being applied to the set of objects from the set of events in every pair in $\relationone{discover}{subject}$,
 and if $\True$, the pair is added to the result.
 If no termphrase or PP follows the transitive verb, all pairs in $\relationone{discover}{subject}$
-are returned as the answer . For example, the answer to the query ``who discovered'' is the set of
+are returned as the answer . For example, the answer to the query ``\texttt{who discovered}'' is the set of
 all entities who discovered anything, paired with the set of events of type discovery in which
 they were the subject.
 
@@ -346,12 +346,12 @@ expected if the queries are treated as having leftmost, outermost quantifier sco
 
 \begin{enumerate}[before=\small, label=\alph*.]
 	\setlength\itemsep{0em}
-	\item every moon that orbits mars and was discovered with a telescope was discovered by a person – $\True$
+	\item \examplequery{every moon that orbits mars and was discovered with a telescope was discovered by a person}{True}
 \end{enumerate}
 The evaluation begins by retrieving all of the ``moon'' entities and then
 intersecting this set with the set returned by evaluating $\meaningof{orbits mars}$, which is obtained by use of the
 function $\operatorname{f\_orbit}_{\opit{subject} \rightarrow \opit{object}}$ from subjects to the set of objects which they orbit. The function that is the
-denotation of ``mars'' is then applied by the function denoted by ``orbit'' to all sets of objects that are in
+denotation of ``\texttt{mars}'' is then applied by the function denoted by ``orbit'' to all sets of objects that are in
 the range of the function $\operatorname{f\_orbit}_{\opit{subject} \rightarrow \opit{object}}$. This returns the set of subjects that orbit Mars. Then, This set is
 intersected with the set of all moons that were discovered with a telescope (which is computed using
 the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{implements}}$).The set resulting from this intersection is then passed as the first
@@ -365,13 +365,13 @@ our triplestore, this is the case.
 \begin{enumerate}[before=\small, label=\alph*.]
 	\setlength\itemsep{0em}
 	\setcounter{enumi}{1}
-	\item every moon that orbits mars and was discovered  by a person was discovered with a telescope – $\True$
+	\item \examplequery{every moon that orbits mars and was discovered  by a person was \linebreak discovered with a telescope}{True}
 \end{enumerate}
 \noindent Similar explanation to that for query a.
 \begin{enumerate}[before=\small, label=\alph*.]
 	\setlength\itemsep{0em}
 	\setcounter{enumi}{2}
-	\item every moon that orbits Neptune was discovered by a person or a team – $\True$
+	\item \examplequery{every moon that orbits Neptune was discovered by a person or a team}{True}
 \end{enumerate}
 \noindent Scoping does not require the person or the team to be the same for all discoveries of the moons that
 orbit Neptune. $\meaningof{discovered by a person or a team}$ returns everything that was discovered by any
@@ -380,26 +380,26 @@ $\meaningof{moon that orbits neptune}$.
 \begin{enumerate}[before=\small, label=\alph*.]
 	\setlength\itemsep{0em}
 	\setcounter{enumi}{3}
-	\item a telescope or voyager\_2 was used to discover every moon that orbits neptune – $\False$
+	\item \examplequery{a telescope or voyager\_2 was used to discover every moon that orbits neptune}{False}
 \end{enumerate}
 \noindent No single telescope nor Voyager 2 was used to discover every moon that orbits Neptune
 \begin{enumerate}[before=\small, label=\alph*.]
 	\setlength\itemsep{0em}
 	\setcounter{enumi}{4}
-	\item every moon that orbits neptune was discovered with a telescope or voyager\_2 – $\True$
+	\item \examplequery{every moon that orbits neptune was discovered with a telescope or voyager\_2}{True}
 \end{enumerate}
 \noindent Voyager 2 or at least one, not necessarily the same, telescope was used to discover each of the moons
 that orbit Neptune.
 \begin{enumerate}[before=\small, label=\alph*.]
 	\setlength\itemsep{0em}
 	\setcounter{enumi}{5}
-	\item every moon  that was discovered  with a telescope was discovered by hall – $\False$
+	\item \examplequery{every moon  that was discovered  with a telescope was discovered by hall}{False}
 \end{enumerate}
 \noindent  Some moons were discovered with a telescope but not discovered by Hall.
 \begin{enumerate}[before=\small, label=\alph*.]
 	\setlength\itemsep{0em}
 	\setcounter{enumi}{6}
-	\item every moon  that was discovered by hall was discovered with a telescope – $\True$
+	\item \examplequery{every moon  that was discovered by hall was discovered with a telescope}{True}
 \end{enumerate}
 \noindent Hall used a telescope in all of his discoveries of moons.
 

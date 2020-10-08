@@ -361,7 +361,7 @@ Transitive verbs are less straightforward to accommodate with negation.  Conside
 \begin{center}
     \texttt{ganymede discovered no moons}
 \end{center}
-\noindent This query should evaluate to $\True$, as \texttt{ganymede}, a \texttt{moon}, was not the subject of any discovery events -- however, \texttt{ganymede} is not the \textit{subject} of any events of type \textit{discover}.  Therefore, it is missing from $\FDBR{\relationone{discover}{subject}}$, where $\relationone{discover}{subject}$ is the relation from the \textit{subject}s of the \textit{discover} events to the events of type \textit{discover} that they participate in.
+\noindent This query should evaluate to \textit{True}, as \texttt{ganymede}, a \texttt{moon}, was not the subject of any discovery events -- however, \texttt{ganymede} is not the \textit{subject} of any events of type \textit{discover}.  Therefore, it is missing from $\FDBR{\relationone{discover}{subject}}$, where $\relationone{discover}{subject}$ is the relation from the \textit{subject}s of the \textit{discover} events to the events of type \textit{discover} that they participate in.
 
 A denotation is given in \cite{frostboulos2002} that accommodates this usage of transitive verbs; however it requires syntactic disambiguation at the grammar level to apply correctly.  The approach also does not scale well when other linguistic constructs are introduced, such as chained prepositional phrases and superlatives, requiring a new denotation to support each usage.  The examples given in that paper required 4 denotations for transitive verb depending on the context.
 
@@ -437,7 +437,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent The intersection of the \texttt{people} and \texttt{spins} FDBRs is empty, therefore \texttt{no} returns \texttt{spin}, which is non-empty and therefore $\True$.
+\noindent The intersection of the \texttt{people} and \texttt{spins} FDBRs is empty, therefore \texttt{no} returns \texttt{spin}, which is non-empty and therefore \textit{True}.
 
 \examplequery{a non person exists}{True}
 
@@ -451,7 +451,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This computes the intersection of the \texttt{person} FDBR with the complement of the \texttt{exists} FDBR, which is just the empty FDBR.  Therefore, the result is empty, and the result is $\False$.
+\noindent This computes the intersection of the \texttt{person} FDBR with the complement of the \texttt{exists} FDBR, which is just the empty FDBR.  Therefore, the result is empty, and the result is \textit{False}.
 
 \examplespacing
 
@@ -475,7 +475,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent The result of ``\texttt{discovered no moon at no places}'' is the complement of the FDBR returned from ``\texttt{discovered a moon at a place}''.  This includes entities that either discovered a moon at no known location, or discovered a non-moon at a known location.  Since \texttt{allen} does not appear in the FDBR returned by ``\texttt{discovered a moon at a place}'', the result is $\True$.
+\noindent The result of ``\texttt{discovered no moon at no places}'' is the complement of the FDBR returned from ``\texttt{discovered a moon at a place}''.  This includes entities that either discovered a moon at no known location, or discovered a non-moon at a known location.  Since \texttt{allen} does not appear in the FDBR returned by ``\texttt{discovered a moon at a place}'', the result is \textit{True}.
 
 \examplespacing
 
@@ -511,7 +511,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent ``not hall'' is a negated term-phrase.  The result is $\True$ because \texttt{galileo} discovered \texttt{ganymede}, not \texttt{hall}.
+\noindent ``not hall'' is a negated term-phrase.  The result is \textit{True} because \texttt{galileo} discovered \texttt{ganymede}, not \texttt{hall}.
 
 \examplespacing
 
@@ -530,7 +530,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This is $\False$ because the intersection of \texttt{thing} and \texttt{exists} is non-empty.
+\noindent This is \textit{False} because the intersection of \texttt{thing} and \texttt{exists} is non-empty.
 
 \examplespacing
 
@@ -538,7 +538,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This is $\True$ because \texttt{thing} and \texttt{exists} are both the complement of the empty FDBR, and the intersection of those results in the same.  Therefore ``\texttt{thing}'' is a subset of ``\texttt{exists}''.
+\noindent This is \textit{True} because \texttt{thing} and \texttt{exists} are both the complement of the empty FDBR, and the intersection of those results in the same.  Therefore ``\texttt{thing}'' is a subset of ``\texttt{exists}''.
 
 \examplespacing
 
@@ -554,7 +554,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This query features double negation and is equivalent to asking ``phobos and deimos were discovered by hall''.  The result is $\True$.
+\noindent This query features double negation and is equivalent to asking ``phobos and deimos were discovered by hall''.  The result is \textit{True}.
 
 \examplespacing
 
@@ -579,7 +579,7 @@ This is equivalent to the query \texttt{kuiper discovered nereid}.
 
 \examplespacing
 
-\noindent This query features a negated termphrase, which itself consists of the word ``no'' (entailing negation itself). ``\texttt{orbits mars}'' is the FDBR from the entities \texttt{phobos} and \texttt{deimos} to their orbit events, and ``\texttt{not no moon orbits mars}'' evaluates to ``\texttt{orbits mars}'' with the entities of ``\texttt{no moon orbits mars}'' removed.  Since ``\texttt{no moon orbits mars}'' is $\False$, it returns the empty FDBR, which is then removed from ``\texttt{orbits mars}'', giving a non-empty result.  Therefore, the query returns $\True$. This provides evidence that our NLQI correctly handles negation as a compositional construct.
+\noindent This query features a negated termphrase, which itself consists of the word ``no'' (entailing negation itself). ``\texttt{orbits mars}'' is the FDBR from the entities \texttt{phobos} and \texttt{deimos} to their orbit events, and ``\texttt{not no moon orbits mars}'' evaluates to ``\texttt{orbits mars}'' with the entities of ``\texttt{no moon orbits mars}'' removed.  Since ``\texttt{no moon orbits mars}'' is \textit{False}, it returns the empty FDBR, which is then removed from ``\texttt{orbits mars}'', giving a non-empty result.  Therefore, the query returns \textit{True}. This provides evidence that our NLQI correctly handles negation as a compositional construct.
 
 \examplespacing
 
