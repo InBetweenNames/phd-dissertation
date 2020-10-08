@@ -84,10 +84,10 @@ In the paper by Frost and Peelar \cite{frostpeelar2019} we discuss how we accomm
 
 \section{The Triplestore that is Queried}
 \label{webist2019journal:triplestore}
-Our NLQI computes answers with respect to an \textit{event-based} Semantic Web triplestore containing data about the planets, the moons that orbit them, and the people who discovered those moons, and when, where and with what implement they were discovered.  Briefly, a triplestore is a database of 3-tuples, called triples, that have the form (\textit{subject}, \textit{predicate}, \textit{object}), where \textit{subject}, \textit{predicate} and \textit{object} are Uniform Resource Identifiers (URIs).
+Our NLQI computes answers with respect to an \textit{event-based} Semantic Web triplestore containing data about the planets, the moons that orbit them, and the people who discovered those moons, and when, where and with what implement they were discovered.  Briefly, a triplestore is a database of 3-tuples, called triples, that have the form (\property{subject}, \textit{predicate}, \property{object}), where \property{subject}, \textit{predicate} and \property{object} are Uniform Resource Identifiers (URIs).
 
-An \textit{event-based triple} has a \textit{subject} that identifies an event rather than an entity \cite{peelar2016accommodating}. In these triples, the \textit{predicate} identifies a \textit{role} through which the \textit{object} participates in the event.  That is, an event-based triple $(e,r,o)$ expresses that $o$ participates in $e$ through role $r$.
-We call $o$ the event $e$'s ``$r$ \textit{property}''. For example, in \Cref{webist2019conf:evdiscover}, ``hall'' is event ``event1045'''s \textit{subject} property. Triplestores consisting of event-based triples are called \textit{event-based triplestores}.
+An \textit{event-based triple} has a \property{subject} that identifies an event rather than an entity \cite{peelar2016accommodating}. In these triples, the \textit{predicate} identifies a \textit{role} through which the \property{object} participates in the event.  That is, an event-based triple $(e,r,o)$ expresses that $o$ participates in $e$ through role $r$.
+We call $o$ the event $e$'s ``$r$ \textit{property}''. For example, in \Cref{webist2019conf:evdiscover}, ``hall'' is event ``event1045'''s \property{subject} property. Triplestores consisting of event-based triples are called \textit{event-based triplestores}.
 
 The advantage of event-based triplestores is that additional information about the events and entities participating in those events is immediately available. This is not the case in an entity-based triplestore, where some form of \textit{reification} is necessary to obtain additional information about a fact expressed in a triple.  For example, obtaining the location where ``\texttt{hall discovered phobos}'' in an entity-based triplestore, described by $(\hall, \discovered, \phobos)$, is not possible without reification.
 
@@ -96,7 +96,7 @@ This implies the existence of a schema that describes the types of roles that an
 
 Going forward, when we refer to the type of an event or set of events, we are referring to their \textit{ev\_type} property.  Likewise, when we refer to events of a particular type, we are referring to events whose \textit{ev\_type} property corresponds to that type.  As a shorthand, we use $t$-type events to refer to events with type $t$.  For example, ``discover'' events refers to events that have \textit{ev\_type} property ``discover''.
 
-The triplestore contains triples such as those in \Cref{webist2019conf:evdiscover} which represent the event in which \texttt{hall} (in the role of \textit{subject}) discovered \texttt{phobos} (in the role of \textit{object}) in 1877 (in the role of \textit{year}) with the \texttt{refractor\_telescope\_1} (in the role of \textit{implement})  at the \texttt{us\_naval\_observatory} (in the role of \textit{location}).  Events representing set membership are represented as shown in \Cref{webist2019conf:evmember}.
+The triplestore contains triples such as those in \Cref{webist2019conf:evdiscover} which represent the event in which \texttt{hall} (in the role of ``\property{subject}'') discovered \texttt{phobos} (in the role of ``\property{object}'') in 1877 (in the role of ``\property{year}'') with the \texttt{refractor\_telescope\_1} (in the role of ``\property{implement}'')  at the \texttt{us\_naval\_observatory} (in the role of ``\property{location}'').  Events representing set membership are represented as shown in \Cref{webist2019conf:evmember}.
 
 %\begin{table}
 %	\caption{Triples describing an event of type ``discover'' \cite{frostpeelar2019}. The full URIs of the events, roles, and entities have been omitted here.}
@@ -206,7 +206,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\noindent All of the events of type ``discover'' are collected together and are checked to see if $\entityassoc{phobos}$ is found as the \textit{object} role value of any of them. If so \textit{True} is returned.
+\noindent All of the events of type ``discover'' are collected together and are checked to see if $\entityassoc{phobos}$ is found as the \property{object} role value of any of them. If so \textit{True} is returned.
 
 \examplespacing
 
@@ -222,9 +222,9 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\noindent All of the events of type ``discover'' are collected together and are checked to create a pair $(s, \evs)$ for each value of the \textit{subject} property found in the set of events. $\evs$ is the set of events to which the \textit{subject} property is related through a discovery event.  Each pair is then examined to see if the function denoted by the object termphrase (in this case \texttt{phobos}) returns a non-empty set when applied to a set (called an \textit{FDBR}, which is described in \Cref{webist2019journal:album}) generated from the set of $\evs$ in the pair, and if so the subject of the pair is added to the set which is returned as the denotation of the verbphrase part of the query. The denotation of the termphrase at the beginning of the query is then applied to the denotation of the verbphrase to obtain the answer to the query. %(See \Cref{sec:album} for more detailed discussion of this process).
+\noindent All of the events of type ``discover'' are collected together and are checked to create a pair $(s, \evs)$ for each value of the \property{subject} property found in the set of events. $\evs$ is the set of events to which the \property{subject} property is related through a discovery event.  Each pair is then examined to see if the function denoted by the object termphrase (in this case \texttt{phobos}) returns a non-empty set when applied to a set (called an \textit{FDBR}, which is described in \Cref{webist2019journal:album}) generated from the set of $\evs$ in the pair, and if so the subject of the pair is added to the set which is returned as the denotation of the verbphrase part of the query. The denotation of the termphrase at the beginning of the query is then applied to the denotation of the verbphrase to obtain the answer to the query. %(See \Cref{sec:album} for more detailed discussion of this process).
 
-Owing to the fact that our semantics is compositional, the \textit{subject} and \textit{object} termphrases of the query above can be replaced by any termphrases, e.g.:
+Owing to the fact that our semantics is compositional, the \property{subject} and \property{object} termphrases of the query above can be replaced by any termphrases, e.g.:
 
 \examplespacing
 
@@ -234,7 +234,7 @@ Owing to the fact that our semantics is compositional, the \textit{subject} and 
 
 \examplespacing
 
-\noindent ``\texttt{who}'', ``\texttt{what}'', ``\texttt{where}'', ``\texttt{when}'' and ``\texttt{how}'' can be used in place of the \textit{subject} termphrase. Different role values are returned depending on which ``\textit{wh}''-word is used in the query:
+\noindent ``\texttt{who}'', ``\texttt{what}'', ``\texttt{where}'', ``\texttt{when}'' and ``\texttt{how}'' can be used in place of the \property{subject} termphrase. Different role values are returned depending on which ``\textit{wh}''-word is used in the query:
 
 \examplespacing
 
@@ -288,7 +288,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\noindent No \textit{subject}, \textit{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word \texttt{who} picks out the \textit{subjects} from those events.
+\noindent No \property{subject}, \property{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word \texttt{who} picks out the \textit{subjects} from those events.
 
 \examplespacing
 
@@ -296,7 +296,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\noindent No \textit{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \textit{object} termphrase \texttt{io} and then, those that pass the filter are returned by the verbphrase and the word \texttt{where} picks out the location from those events. %(See section $\Cref{sec:examples}$ for more details).
+\noindent No \property{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \property{object} termphrase \texttt{io} and then, those that pass the filter are returned by the verbphrase and the word \texttt{where} picks out the location from those events. %(See section $\Cref{sec:examples}$ for more details).
 
 \examplespacing
 
@@ -304,7 +304,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\noindent No \textit{subject} or \textit{object} is in the query so all events of type ``discover'' are considered and only those with the \textit{year} property equal to 1610 pass the filter and then the denotation of the word \texttt{who} selects the subject which is returned.
+\noindent No \property{subject} or \property{object} is in the query so all events of type ``discover'' are considered and only those with the \property{year} property equal to 1610 pass the filter and then the denotation of the word \texttt{who} selects the subject which is returned.
 
 \examplespacing
 
@@ -312,7 +312,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\noindent As shown above, in our semantics, the \textit{subject} and \textit{object} termphrases are treated as filters, as are all prepositional phrases. Note that several results are returned here because the query is syntactically ambiguous.  We discuss solutions on how to best present the results of ambiguous queries to the user in \Cref{webist2019journal:ambiguity}.
+\noindent As shown above, in our semantics, the \property{subject} and \property{object} termphrases are treated as filters, as are all prepositional phrases. Note that several results are returned here because the query is syntactically ambiguous.  We discuss solutions on how to best present the results of ambiguous queries to the user in \Cref{webist2019journal:ambiguity}.
 
 \examplespacing
 
@@ -320,7 +320,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplequery{how discovered in padua}{galilean\_telescope\_1}
 
-\noindent These queries retrieve the \textit{location} and \textit{implement} properties of the events of ``\texttt{discovered in 1610}'' and ``\texttt{discovered in padua}'' respectively.
+\noindent These queries retrieve the \property{location} and \property{implement} properties of the events of ``\texttt{discovered in 1610}'' and ``\texttt{discovered in padua}'' respectively.
 
 \subsection{Extensions to the Semantics}
 \label{webist2019journal:extend}
@@ -371,7 +371,7 @@ If ``\texttt{most}'' is treated as ``more than half'' then:
 
 \examplespacing
 
-\noindent It may be surprising that \textit{cassini} is returned in the answer since it is not a \texttt{telescope}, but is instead a \texttt{spacecraft}.  However, since it was used to discover at least one \texttt{moon} that orbits \texttt{saturn}, it is considered to have fulfilled the \textit{implement} role and is encoded as such in the triplestore.
+\noindent It may be surprising that \textit{cassini} is returned in the answer since it is not a \texttt{telescope}, but is instead a \texttt{spacecraft}.  However, since it was used to discover at least one \texttt{moon} that orbits \texttt{saturn}, it is considered to have fulfilled the \property{implement} role and is encoded as such in the triplestore.
 
 \section{The FDBR: A Novel Data Structure for Natural Language Queries}
 \label{webist2019journal:album}
@@ -445,7 +445,7 @@ Therefore,
 	\end{split}
 \end{equation*}
 
-\noindent Note that the events $\evs$ paired with the entities returned in the denotation of ``\texttt{was every moon that orbits saturn discovered}'' are a subset of the events of type ``discover'' where the \textit{object} property of those events are moons, since the result of \textit{intersect\_fdbr} takes the events of from its second argument. This enables additional data to be accessed from those events, as illustrated in the last example query in the previous section, where ``\texttt{how}'' retrieves the \textit{implement} property from those events.  This allows all ``\textit{wh}''-style questions to be handled compositionally, selecting the desired properties from the events as needed.
+\noindent Note that the events $\evs$ paired with the entities returned in the denotation of ``\texttt{was every moon that orbits saturn discovered}'' are a subset of the events of type ``discover'' where the \property{object} property of those events are moons, since the result of \textit{intersect\_fdbr} takes the events of from its second argument. This enables additional data to be accessed from those events, as illustrated in the last example query in the previous section, where ``\texttt{how}'' retrieves the \property{implement} property from those events.  This allows all ``\textit{wh}''-style questions to be handled compositionally, selecting the desired properties from the events as needed.
 
 \subsection{The FDBR}
 \label{webist2019journal:fdbr}
@@ -624,7 +624,7 @@ When querying remote triplestores, the NLQI requires only two conceptually simpl
 
 \examplespacing
 
-\noindent This would retrieve the triples of all ``discover'' events that contain a \textit{subject} property, including the triples describing the type of those events.  The second function is:
+\noindent This would retrieve the triples of all ``discover'' events that contain a \property{subject} property, including the triples describing the type of those events.  The second function is:
 
 \examplespacing
 
@@ -632,7 +632,7 @@ When querying remote triplestores, the NLQI requires only two conceptually simpl
 
 \examplespacing
 
-\noindent Here, \texttt{ev\_data} performs the same function as it did previously, and ``\texttt{set}'' indicates the name of a set, for example the moons or the set of things that spin.  This retrieves the triples of all ``membership'' events whose \textit{object} property corresponds to that set, including the triples describing the type of those events.
+\noindent Here, \texttt{ev\_data} performs the same function as it did previously, and ``\texttt{set}'' indicates the name of a set, for example the moons or the set of things that spin.  This retrieves the triples of all ``membership'' events whose \property{object} property corresponds to that set, including the triples describing the type of those events.
 
 Together, these two primitives can be used to retrieve triples from event-based triplestores, provided the names of the roles to be queried are known.  This would typically be described in a schema, but in simple cases may be feasible to hard-code into a program. To see how these two primitives work in action, consider the following complex query, featuring chained prepositional phrases:
 
@@ -715,8 +715,8 @@ As queries may be ambiguous, it's important that users see how their queries wer
 
 \examplespacing
 
-\noindent In the first case, the prepositional phrase ``\texttt{in 1877}'' is treated as though it applies to ``\texttt{orbits}''.  However, the result is ``\textit{none}'' because orbit events do not have a concept of time in our database.  If we were to add a \textit{year} role to the ``orbit'' relation, then all planets and moons in the solar system would be returned.
-In the second case, ``\texttt{in 1877}'' applies to ``\texttt{discovered}'', a relation which has the concept of a time of discovery (the \textit{year} role).  As \texttt{hall} is the only person that discovered anything in 1877, only they are included in the result.
+\noindent In the first case, the prepositional phrase ``\texttt{in 1877}'' is treated as though it applies to ``\texttt{orbits}''.  However, the result is ``\textit{none}'' because orbit events do not have a concept of time in our database.  If we were to add a \property{year} role to the ``orbit'' relation, then all planets and moons in the solar system would be returned.
+In the second case, ``\texttt{in 1877}'' applies to ``\texttt{discovered}'', a relation which has the concept of a time of discovery (the \property{year} role).  As \texttt{hall} is the only person that discovered anything in 1877, only they are included in the result.
 
 Our system permits highly ambiguous input, providing a result for each possible parse of that input.  However, it may be the case that a user has a clear understanding of how they want their query to be parsed and would gain no benefit from seeing other possible parses of their query.  Fortunately, this use case is easily accommodated with a simple extension to our NLQI: allowing the scoping syntax as presented above directly in the query interface itself.  For example, a user could directly query ``\texttt{what (discovered (a (moon `that` orbits)) [in 1877])}'', which would exclude the other parse as mentioned in the example above.  In fact, the query need not even be fully explicitly scoped to benefit from this.  A partial scoping such as ``\texttt{what discovered (a moon that orbits) in 1877}'' would be sufficient to exclude the other undesirable parses from the result.  We intend to implement this functionality in our NLQI in the very near future.
 

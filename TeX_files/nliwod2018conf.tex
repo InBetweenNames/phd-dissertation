@@ -190,8 +190,8 @@ In a simple version of our semantics, 2-place transitive verbs denote functions 
 at most one termphrase to a set of pairs of type $(e,\opit{es})$ where $e$ is an entity and $\opit{es}$
 is a set of entities. The function computes the answer by using data that is retrieved from the datastore
 as needed. Consider the verb ``discover'' which we use in our examples. In our triplestore, each
-discovery event has 5 roles: $\opit{subject}$ (agent), $\opit{object}$ (theme), $\opit{implement}$, $\opit{year}$
-and $\opit{location}$. The triplestore defines 20 binary relations between these 5 roles: $\opit{subject} \rightarrow \opit{object}$,
+discovery event has 5 roles: ``\property{subject}'' (agent), ``\property{object}'' (theme), ``\property{implement}'', ``\property{year}''
+and ``\property{location}''. The triplestore defines 20 binary relations between these 5 roles: $\opit{subject} \rightarrow \opit{object}$,
 $\opit{subject} \rightarrow \opit{implement}$, $\opit{subject} \rightarrow \opit{year}$, $\opit{subject} \rightarrow \opit{location}$, $\opit{object} \rightarrow \opit{subject}$, etc. For example,
 the facts that Hall discovered Phobos and Deimos and Kuiper discovered Miranda and Nereid,
 are represented as follows:

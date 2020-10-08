@@ -44,7 +44,7 @@ Our NL interface can be accessed at the following web site:
 \label{webist2019conf:triplestore}
 Our NLQI computes answers with respect to a triplestore containing data about the planets, the moons that orbit them, and the people who discovered those moons, and when, where and with what implement they were discovered. Note that each set of triples associated with an event could be equally well be represented by a row in a relational database.
 
-The triplestore contains triples such as the following which represent the event \#1045 in which \texttt{hall} (in the role of \textit{subject}) discovered \texttt{phobos} (in the role of \textit{object}) in 1877 (in the role of \textit{year}) with the \texttt{refractor\_telescope\_1} (in the role of \textit{implement})  at the \texttt{us\_naval\_observatory} (in the role of \textit{location}).
+The triplestore contains triples such as the following which represent the event \#1045 in which \texttt{hall} (in the role of ``\property{subject}'') discovered \texttt{phobos} (in the role of ``\property{object}'') in 1877 (in the role of ``\property{year}'') with the \texttt{refractor\_telescope\_1} (in the role of ``\property{implement}'')  at the \texttt{us\_naval\_observatory} (in the role of ``\property{location}'').
 
 \begin{table}[h]
 	\caption[Events of type ``Discover''.]{Events of type ``Discover''. The full URIs of the events, properties, and entities have been omitted here.}
@@ -136,7 +136,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\noindent The function denoted by `\texttt{a}' checks to see if the intersection of $\wordset{moon}$ and $\wordset{spins}$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of $\wordset{spins}$. The denotations of ``\texttt{a}'' and ``\texttt{every}'' that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
+\noindent The function denoted by ``\texttt{a}'' checks to see if the intersection of $\wordset{moon}$ and $\wordset{spins}$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of $\wordset{spins}$. The denotations of ``\texttt{a}'' and ``\texttt{every}'' that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
 The answer to the third query is obtained by checking if the intersection of $\wordset{atmospheric}$ and $\wordset{moon}$ is non-empty.
 
 \examplespacing
@@ -181,7 +181,7 @@ The answer to the third query is obtained by checking if the intersection of $\w
 
 \noindent All of the events of type ``discover'' are collected together and are checked to create a pair $(s, \evs)$ for each value of the subject attribute found in the set of events. $\evs$ is the set of events to which the subject attribute is related through a discovery event.  Each pair is then examined to see if the function denoted by the object termphrase (in this case \texttt{phobos}) returns a non-empty set when applied to a set (called an \textit{FDBR}, which is described later) generated from the set of $\evs$ in the pair, and if so the subject of the pair is added to the set which is returned as the denotation of the verbphrase part of the query. The denotation of the termphrase at the beginning of the query is then applied to the denotation of the verbphrase to obtain the answer to the query. %(See \Cref{sec:album} for more detailed discussion of this process).
 
-Owing to the fact that our semantics is compositional the \textit{subject} and \textit{object} termphrases of the query above can be replaced by any termphrases. For example:
+Owing to the fact that our semantics is compositional the \property{subject} and \property{object} termphrases of the query above can be replaced by any termphrases. For example:
 
 \examplespacing
 
@@ -254,7 +254,7 @@ Some researchers have provided examples of what they claim to be non-composition
 
 \examplespacing
 
-\noindent No \textit{subject}, \textit{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word ``\texttt{who}'' picks out the \textit{subjects} from those events.
+\noindent No \property{subject}, \property{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word ``\texttt{who}'' picks out the \property{subject}s from those events.
 
 \examplespacing
 
@@ -262,7 +262,7 @@ Some researchers have provided examples of what they claim to be non-composition
 
 \examplespacing
 
-\noindent No \textit{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \textit{object} termphrase ``\texttt{io}'' and then, those that pass the filter are returned by the verbphrase and the word ``\texttt{where}'' picks out the location from those events. %(See section $\Cref{sec:examples}$ for more details).
+\noindent No \property{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \property{object} termphrase ``\texttt{io}'' and then, those that pass the filter are returned by the verbphrase and the word ``\texttt{where}'' picks out the location from those events. %(See section $\Cref{sec:examples}$ for more details).
 
 \examplespacing
 
@@ -270,9 +270,9 @@ Some researchers have provided examples of what they claim to be non-composition
 
 \examplespacing
 
-\noindent No \textit{subject} or \textit{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``$\opit{year}$'' equal to 1610 pass the filter and then the denotation of the word ``\texttt{who}'' selects the subject which is returned.
+\noindent No \property{subject} or \property{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``$\opit{year}$'' equal to 1610 pass the filter and then the denotation of the word ``\texttt{who}'' selects the subject which is returned.
 
-In our semantics, the \textit{subject} and \textit{object} termphrases are treated as filters as are all prepositional phrases, as shown in the following example:
+In our semantics, the \property{subject} and \property{object} termphrases are treated as filters as are all prepositional phrases, as shown in the following example:
 
 \examplespacing
 
@@ -290,7 +290,7 @@ In our semantics, the \textit{subject} and \textit{object} termphrases are treat
 
 \examplespacing
 
-\noindent These queries retrieve the \textit{location} and \textit{implement} properties of the events of ``\texttt{discovered in 1610}'' and ``\texttt{discovered in padua}'' respectively.
+\noindent These queries retrieve the \property{location} and \property{implement} properties of the events of ``\texttt{discovered in 1610}'' and ``\texttt{discovered in padua}'' respectively.
 
 \subsection{Extensions to the Semantics}
 \label{webist2019conf:extend}
@@ -323,7 +323,7 @@ If ``\texttt{most}'' is treated as ``more than half'' then:
 
 \examplespacing
 
-\noindent Because our semantics currently allows only this reading. However, the answer to the alternate reading ``who discovered the most moons that orbit $P$'' – i.e. more than anyone else who discovered a moon that orbits $P$. Could be obtained in our semantics by comparing all of the $(\ent, \evs)$ pairs returned by the verbphrase to see which \textit{subject} is paired with most \textit{objects}. We are currently working on this and other extensions to our semantics. %(See \Cref{} for more explanation). \\
+\noindent Because our semantics currently allows only this reading. However, the answer to the alternate reading ``who discovered the most moons that orbit $P$'' – i.e. more than anyone else who discovered a moon that orbits $P$. Could be obtained in our semantics by comparing all of the $(\ent, \evs)$ pairs returned by the verbphrase to see which \property{subject} is paired with most \textit{objects}. We are currently working on this and other extensions to our semantics. %(See \Cref{} for more explanation). \\
 
 \examplespacing
 
@@ -331,7 +331,7 @@ If ``\texttt{most}'' is treated as ``more than half'' then:
 
 \examplespacing
 
-\noindent It may be surprising that \textit{cassini} is returned in the answer since it is not a \texttt{telescope}, but is instead a \texttt{spacecraft}.  However, since it was used to discover at least one \texttt{moon} that orbits \texttt{saturn}, it is considered to have fulfilled the \textit{implement} role and is encoded as such in the triplestore.
+\noindent It may be surprising that \textit{cassini} is returned in the answer since it is not a \texttt{telescope}, but is instead a \texttt{spacecraft}.  However, since it was used to discover at least one \texttt{moon} that orbits \texttt{saturn}, it is considered to have fulfilled the \property{implement} role and is encoded as such in the triplestore.
 
 \section{The FDBR: A Novel Data Structure for Natural Language Queries}
 \label{webist2019conf:album}
