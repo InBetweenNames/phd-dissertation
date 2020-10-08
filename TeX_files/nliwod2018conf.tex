@@ -132,9 +132,9 @@ Original MS \cite{Dowty:wall}:
 	\begin{split}
 		& \meaningof{every moon spins} \\
 		\implies&  (\meaningof{every moon}) \ \meaningof{spins} \\
-		\implies&  (\lambda p \ \lambda q \ \forall x (p \  x \Rightarrow q \  x) \  \wordpred{moon}) \  \wordpred{spins} \\
-		\implies&  (\lambda q \ \forall x \ (\wordpred{moon} \ x \Rightarrow q \ x)) \  \wordpred{spins} \\
-		\implies&  \forall x \ \wordpred{moon} \ x \Rightarrow \wordpred{spins} \ x \\
+		\implies&  (\lambda pq.(\forall x)\ (p \  x \Rightarrow q \  x) \  \wordpred{moon}) \  \wordpred{spins} \\
+		\implies&  (\lambda q.(\forall x)\ (\wordpred{moon} \ x \Rightarrow q \ x)) \  \wordpred{spins} \\
+		\implies&  (\forall x)\ \wordpred{moon} \ x \Rightarrow \wordpred{spins} \ x \\
 		\implies&  \True
 	\end{split}
 \end{equation*}
@@ -144,8 +144,8 @@ Montague's denotation of the word ``every'' is modified to:
 	\begin{split}
 		& \meaningof{every moon spins} \\
 		\implies&  (\meaningof{every moon}) \  \meaningof{spins} \\
-		\implies&  (\lambda s \ \lambda t \ s \subseteq t)\ \wordset{moon} \ \wordset{spin} \\
-		\implies&  (\lambda t \ \wordset{moon} \subseteq t)\ \wordset{spin} \\
+		\implies&  (\lambda st.s \subseteq t)\ \wordset{moon} \ \wordset{spin} \\
+		\implies&  (\lambda t.\wordset{moon} \subseteq t)\ \wordset{spin} \\
 		\implies&  \wordset{moon} \subseteq \wordset{spin} \\
 		\implies&  \True
 	\end{split}
@@ -153,13 +153,13 @@ Montague's denotation of the word ``every'' is modified to:
 Which is computationally tractable if the representations of sets of moons and things that spin can be readily retrieved.
 Proper nouns denote functions of type $\opit{es} \rightarrow \opit{Bool}$.
 \[
-\meaningof{phobos} = \lambda s\ \entityassoc{phobos} \in s
+\meaningof{phobos} = \lambda s.\entityassoc{phobos} \in s
 \]
 Then:
 \begin{equation*}
 	\begin{split}
 		& \meaningof{phobos spins} \\
-		\implies& (\lambda s\ \entityassoc{phobos} \in s) \\
+		\implies& (\lambda s.\entityassoc{phobos} \in s) \\
 		\implies& \entityassoc{phobos} \in \wordset{spin} \\
 		\implies& \True \qquad(\dmathrm{if Phobos spins.})
 	\end{split}
@@ -473,7 +473,7 @@ The use of Haskell for the implementation of our NLQI has many advantages, inclu
 	libraries to be built that can handle highly ambiguous left-recursive grammars in polynomial time. The accommodation of left recursive
 	grammars simplifies the integration of semantic and syntactic rules in the EAGs, enabling the query processor to be highly modular and extensible.
 	\item The higher-order functional capability of Haskell allows the direct definition of higher-order
-	functions that are the denotations of some English words and phrases. For example: $ \opit{termand}\ s\ t = (\lambda v)\ s\ v\ \&\ t\ v  $
+	functions that are the denotations of some English words and phrases. For example: $ \opit{termand}\ s\ t = \lambda v.s\ v\ \&\ t\ v  $
 	\item The ability to partially apply functions of $n$ arguments to 1 to $n$ arguments allows the
 	definition and manipulation of denotation of phrases such as ``\texttt{every moon}'', and ``\texttt{discover
 	phobos}''.

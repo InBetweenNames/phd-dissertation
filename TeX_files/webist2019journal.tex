@@ -411,7 +411,7 @@ We call this set of pairs of entities and events an \textit{FDBR}, and describe 
 In the following example, we show how the FDBR can be used to denote the quantifier \texttt{a}.  The function $\operatorname{intersect}$ computes the intersection of two FDBRs based on their entities, keeping the events of the second FDBR and discarding those of the first in the result.
 \begin{equation*}
 	\begin{split}
-		\operatorname{intersect} &= \lambda m \lambda s.\{(e_1,\evs_2)\ |\ (e_1,\evs_1) \in m\ \&\ (e_2,\evs_2) \in s\ \&\ e_1 = e_2\} \\
+		\operatorname{intersect} &= \lambda ms.\{(e_1,\evs_2)\ |\ (e_1,\evs_1) \in m\ \&\ (e_2,\evs_2) \in s\ \&\ e_1 = e_2\} \\
 		\meaningof{a} &= \operatorname{intersect}
 	\end{split}
 \end{equation*}
@@ -419,7 +419,7 @@ Therefore,
 \begin{equation*}
 	\begin{split}
 		&\meaningof{a\ moon\ spins} \\
-		\implies & \meaningof{a} \meaningof{moon} \meaningof{spins} \\
+		\implies & \meaningof{a}\ \meaningof{moon}\ \meaningof{spins} \\
 		\implies & \{(e_1,\evs_2)\ |\ (e_1,\evs_1) \in \meaningof{moon}\ \&\ (e_2,\evs_2) \in \meaningof{spins}\ \&\ e_1 = e_2\} \\
 		\implies & \{(\entityassoc{phobos}, \{\eventassoc{1360}\}), (\entityassoc{deimos}, \{\eventassoc{1332}\}),\ \etc\}
 	\end{split}
@@ -427,8 +427,8 @@ Therefore,
 We can define the denotations of other quantifiers in terms of $\operatorname{intersect}$ as well.  For example, consider the denotation of \texttt{every}, where $\operatorname{ents}\ m$ denotes the set of entities that appear in the first column of the FDBR $m$:
 \begin{equation*}
 	\begin{split}
-		\operatorname{ents} &= \lambda m. \{ \opit{ent}\ |\ (\exists \evs)\ (\opit{ent}, \evs) \in m \} \\
-		\meaningof{every} &= \lambda m \lambda s.
+		\operatorname{ents} &= \lambda m.\{ \opit{ent}\ |\ (\exists \evs)\ (\opit{ent}, \evs) \in m \} \\
+		\meaningof{every} &= \lambda ms.
 		\begin{cases}
 			\opit{intersect}\ m\ s, & \operatorname{ents}\ m \subseteq \operatorname{ents}\ s \\
 			\emptyset, & \text{otherwise}
@@ -439,7 +439,7 @@ Therefore,
 \begin{equation*}
 	\begin{split}
 		&\meaningof{every moon spins} \\
-		\implies & \meaningof{every} \meaningof{moon} \meaningof{spins} \\
+		\implies & \meaningof{every}\ \meaningof{moon}\ \meaningof{spins} \\
 		\implies & \operatorname{intersect}\ m\ s\quad\dmathrm{(since $\operatorname{ents}\ \meaningof{moon} \subseteq \operatorname{ents}\ \meaningof{spins}$)} \\
 		\implies & \{(\entityassoc{phobos}, \{\eventassoc{1360}\}), (\entityassoc{deimos}, \{\eventassoc{1332}\}),\ \etc\}
 	\end{split}
@@ -507,7 +507,7 @@ Superlatives can be placed nearly anywhere a determiner can exist.
 This makes it possible to nest superlatives inside chained prepositional phrases, a property we believe to be novel in our semantics.  For example, consider ``\texttt{what discovered at the most places using the most telescopes}'', where ``\texttt{the most}'' occurs inside both prepositional phrases ``\texttt{at the most places}'' and ``\texttt{using the most telescopes}''.  The query is always evaluated in left-to-right order, and results are sorted by each superlative phrase in the order they appear. In this case, the results are first sorted by the number of places, followed by the number of telescopes, both in descending order.
 First, the denotation for ``\texttt{most}'' (as in ``more than half'') is defined as follows:
 \begin{equation*}
-	\meaningof{most} = \lambda m \lambda s.
+	\meaningof{most} = \lambda ms.
 	\begin{cases}
 		\operatorname{intersect}\ m\ s, & \lvert\operatorname{intersect}\ m\ s\rvert > \lvert{s}\rvert/2 \\
 		\emptyset, & \text{otherwise}

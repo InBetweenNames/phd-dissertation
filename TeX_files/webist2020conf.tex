@@ -209,7 +209,7 @@ Where \textit{rel} is the name of a binary relation.
 The FDBR has been shown to be useful for the denotation of transitive verbs.  Consider the denotation for the active voice of ``\texttt{discover}'' given in \cite{peelar2020compositional}, for example:
 \begin{multline*}
 	\meaningof{discover} =
-	\lambda t\ \{ (s,\ \opit{relevs})\ |\ (s, \evs)\ \in\ \FDBR{\relation{discover}}\ \\
+	\lambda t.\{ (s,\ \opit{relevs})\ |\ (s, \evs)\ \in\ \FDBR{\relation{discover}}\ \\
 	\&\ (t\ \objfdbr{evs} \neq \emptyset)\ \&\ \opit{relevs} = \gatherevs{\objfdbr{evs}} \}
 \end{multline*}
 where $\objfdbr{evs}$ is the FDBR from the objects in the events of the set $\evs$ to the events they participate in within $\evs$.  ``\texttt{discover phobos}'', where \texttt{phobos} is a proper noun, results in the FDBR:
@@ -249,7 +249,7 @@ We then define the intersection of two \texttt{Result} types as follows:
 \end{code}
 Where \texttt{intersect\_fdbr} operates as it did previously, and a new function \linebreak \texttt{difference\_fdbr} is introduced as follows:
 \begin{multline*}
-\opit{difference\_fdbr} = \\ \lambda m \lambda s.\{(e_1,\evs_2)\ |\ (e_1,\evs_1) \in m\ \&\ \forall(e_2, \evs_2)\ ((e_2,\evs_2) \in s\ \Rightarrow e_1 \neq e_2)\}
+\opit{difference\_fdbr} = \\ \lambda ms.\{(e_1,\evs_2)\ |\ (e_1,\evs_1) \in m\ \&\ (\forall(e_2, \evs_2))\ ((e_2,\evs_2) \in s\ \Rightarrow e_1 \neq e_2)\}
 \end{multline*}
 That is, \textit{difference\_fdbr} removes all entities found in the left column of the second FDBR from the first FDBR.  This is a key function for performing negation, and plays a similar role to the ``\texttt{NOT EXISTS}'' operator in SPARQL.  A function is introduced for computing the union of \texttt{Results} as well:
 \begin{code}

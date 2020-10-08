@@ -86,8 +86,8 @@ built over a set of entities (the universe of discourse) and the Boolean values 
 example, the word ``\texttt{moon}'' denotes the characteristic function (logical predicate) which maps entities to
 $\True$ or $\False$. The result is $\True$ if the entity is a moon, and $\False$ otherwise. One of Montague's many insights was his recognition that proper nouns such as ``\texttt{phobos}'' do not denote entities; rather they
 denote functions that take characteristic functions as argument and return Boolean values as result. For
-example ``\texttt{phobos}'' denotes the function $\lambda f \  f \  \entityassoc{\phobos}$ where $\entityassoc{\phobos}$ represents the entity associated with
-the name Phobos. For readers not familiar with the Lambda Calculus, the expression $\lambda f \ \opit{expr}$ is the
+example ``\texttt{phobos}'' denotes the function $\lambda f.f \ \entityassoc{\phobos}$ where $\entityassoc{\phobos}$ represents the entity associated with
+the name Phobos. For readers not familiar with the Lambda Calculus, the expression $\lambda f.\opit{expr}$ is the
 name (and definition) of a function which, when applied to an argument $g$ returns as result the
 expression $\opit{expr}$ with all instances of $f$ in $\opit{expr}$ replaced by $g$. According to MS, the phrase ``\texttt{phobos
 spins}'' is interpreted as shown below, where $a \implies b$ indicates that $b$ is the result of evaluating $a$, $\meaningof{a}$
@@ -97,8 +97,8 @@ and $\lambda$ is the Lambda symbol.
 	\begin{split}
 		& \meaningof{phobos spins} \\
 		\implies&  \meaningof{phobos}\ \meaningof{spins} \\
-		\implies&  \lambda f\ f \ \entityassoc{phobos} \ \meaningof{spins} \\
-		\implies&  \lambda f\ f \ \entityassoc{phobos} \ \wordpred{spins} \\
+		\implies&  \lambda f.f \ \entityassoc{phobos} \ \meaningof{spins} \\
+		\implies&  \lambda f.f \ \entityassoc{phobos} \ \wordpred{spins} \\
 		\implies&  \wordpred{\spins} \ \entityassoc{phobos} \\
 		\implies&  \True
 	\end{split}
@@ -108,16 +108,16 @@ owing to the fact that Phobos does spin.
 Montague's treatment of quantifiers such as ``\texttt{a}'', ``\texttt{every}'', ``\texttt{some}'', ``\texttt{one}'' etc. is to treat their
 denotations as higher-order functions. For example, the word ``\texttt{every}'' denotes the following function:
 \begin{align*}
-	\meaningof{every} =& \lambda p \  \lambda q \  \forall x \  (p \  x \Rightarrow q \  x)
+	\meaningof{every} =& \lambda pq.(\forall x) \  (p \  x \Rightarrow q \  x)
 \end{align*}
 For example:
 \begin{equation*}
 	\begin{split}
 		& \meaningof{every moon spins} \\
 		\implies&  (\meaningof{every moon}) \  \meaningof{spins} \quad(\dmathrm{from syntactic parsing}) \\
-		\implies&  (\lambda p \  \lambda q \  \forall x (p \  x \Rightarrow q \  x) \  \wordpred{\moon}) \  \wordpred{\spins} \\
-		\implies&  (\lambda q \  \forall x \  (\wordpred{\moon} \   x \Rightarrow q \   x)) \  \wordpred{spins} \\
-		\implies&  \forall x \  \wordpred{\moon} \ x \Rightarrow \wordpred{spins} \   x \\
+		\implies&  (\lambda pq.(\forall x)\ (p \  x \Rightarrow q \  x) \  \wordpred{\moon}) \  \wordpred{\spins} \\
+		\implies&  (\lambda q.(\forall x)\  (\wordpred{\moon} \   x \Rightarrow q \   x)) \  \wordpred{spins} \\
+		\implies&  (\forall x)\  \wordpred{\moon} \ x \Rightarrow \wordpred{spins} \   x \\
 		\implies&  \True\ (\dmathrm{every moon in the universe of discourse spins})
 	\end{split}
 \end{equation*}
@@ -132,8 +132,8 @@ directly in denotations \cite{frost1989constructing, frost2002efficient}. For ex
 \[ \meaningof{moon} = \{\entityassoc{\phobos} , \entityassoc{\deimos}, \ldots\} \]
 All other denotations are modified accordingly. For example:
 \begin{align*}
-	\meaningof{phobos} &= \lambda s \ \entityassoc{\phobos} \in s\ \dmathrm{(where $\in$ is the set membership operator)} \\
-	\meaningof{every} &= \lambda s \  \lambda t \ (s \subseteq t)\ \dmathrm{(where $s \subseteq t$ returns $\True$ if $s$ is a subset of $t$)} \\
+	\meaningof{phobos} &= \lambda s.\entityassoc{\phobos} \in s\ \dmathrm{(where $\in$ is the set membership operator)} \\
+	\meaningof{every} &= \lambda st.(s \subseteq t)\ \dmathrm{(where $s \subseteq t$ returns $\True$ if $s$ is a subset of $t$)} \\
 	\meaningof{spins} &= \dmathrm{the set of entities that spin}
 \end{align*}
 
@@ -141,7 +141,7 @@ Thus the phrase ``\texttt{every moon spins}'' is interpreted as follows:
 \begin{equation*}
 	\begin{split}
 		&\meaningof{every moon spins}\\
-		\implies& (\lambda s \ \lambda t \ (s \subseteq t)) \ \meaningof{moon} \ \meaningof{spins} \\
+		\implies& (\lambda st.(s \subseteq t)) \ \meaningof{moon} \ \meaningof{spins} \\
 		\implies& \meaningof{moon}  \subseteq  \meaningof{spins} \\
 		\implies& \True \quad (\dmathrm{because all moons in the universe of} \\
 		&\dmathrm{\quad\qquad\ discourse are in the set of things that spin}) \\
@@ -152,7 +152,7 @@ The phrase ``\texttt{phobos spins}'' is interpreted as follows:
 \begin{equation*}
 	\begin{split}
 		&\meaningof{phobos spins}\\
-		\implies& (\lambda s \ \entityassoc{\phobos} \in s) \ \meaningof{spins}\\
+		\implies& (\lambda s.\entityassoc{\phobos} \in s) \ \meaningof{spins}\\
 		\implies& \entityassoc{\phobos} \in  \meaningof{spins} \\
 		\implies& \True \quad (\dmathrm{because Phobos, in the universe of} \\
 		&\dmathrm{\quad\qquad\ discourse, is in the set of entities that spin})
@@ -217,7 +217,7 @@ Similarly,
 \noindent The denotation of the transitive verb ``\texttt{discover}'' follows from the above:
 \begin{multline*}
 	\meaningof{discover} =
-	\lambda t\ \{ (s,\ \opit{relevs})\ |\ (s, \evs)\ \in\ \FDBR{\relation{discover}}\  \\
+	\lambda t.\{ (s,\ \opit{relevs})\ |\ (s, \evs)\ \in\ \FDBR{\relation{discover}}\  \\
 	\&\ (t\ \objfdbr{\evs} \neq \emptyset)
 	\&\ \opit{relevs} = \gatherevs{\objfdbr{\evs}} \}
 \end{multline*}
@@ -237,7 +237,7 @@ As another example, consider $\meaningof{discover every moon}$:
 	\begin{split}
 		& \meaningof{discover every moon} \\
 		\implies & \meaningof{discover}\ (\meaningof{every moon}) \\
-		\implies & (\lambda t\ \{(s, \opit{relevs})\ |\ (s, \evs)\ \in \FDBR{\relation{\discover}}\ \\
+		\implies & (\lambda t.\{(s, \opit{relevs})\ |\ (s, \evs)\ \in \FDBR{\relation{\discover}}\ \\
 		& \qquad \&\ t\ \objfdbr{\evs} \neq \emptyset  \\
 		& \qquad \&\ \opit{relevs} = \gatherevs{\objfdbr{\evs}}\})\ \\
 		& \quad (\meaningof{every moon}) \\
@@ -269,17 +269,17 @@ The above approach can be extended to support prepositional phrases in queries w
 The denotation for a preposition applied to a term-phrase is a pair  $(\opit{props},$ $\opit{tmph})$ where $\opit{props}$ is a set of properties that an FDBR should be constructed from (for example ``$\opit{implement}$'', ``$\opit{year}$'', or ``$\opit{location}$''), and $\opit{tmph}$ is the term-phrase that will be applied to that resulting FDBR.
 \begin{equation*}
 	\begin{split}
-		\meaningof{at} =&\ \lambda t\;(\{\opit{location}\}, t) \\
-		\meaningof{in} =&\ \lambda t\;(\{{\opit{location}}, {\opit{year}}\}, t) \\
-		\meaningof{with} =&\ \lambda t\;(\{\opit{implement}\}, t) \\
-		\meaningof{using} =&\ \lambda t\;(\{\opit{implement}\}, t) \\
-		\meaningof{to} =&\ \lambda t\;(\{\opit{subject}\}, t)
+		\meaningof{at} =&\ \lambda t.(\{\opit{location}\}, t) \\
+		\meaningof{in} =&\ \lambda t.(\{{\opit{location}}, {\opit{year}}\}, t) \\
+		\meaningof{with} =&\ \lambda t.(\{\opit{implement}\}, t) \\
+		\meaningof{using} =&\ \lambda t.(\{\opit{implement}\}, t) \\
+		\meaningof{to} =&\ \lambda t.(\{\opit{subject}\}, t)
 	\end{split}
 \end{equation*}
 Under this approach, a prepositional phrase is treated in the same way as the term-phrase following the verb \cite{peelar2016accommodating}.
 This approach is powerful enough that the word ``\texttt{by}'', as in ``\texttt{discovered by}'', can be treated in the same way as a preposition, enabling active and passive voices of transitive verbs to be treated in a uniform way.  This was one of the key contributions described in Peelar's Master's thesis \cite{peelar2016accommodating}.
 \[
-\meaningof{by} = \lambda t\ (\{\opit{subject}\}, t)
+\meaningof{by} = \lambda t.(\{\opit{subject}\}, t)
 \]
 The denotation of the transitive verb is filtered in the order that the prepositions appear.  To achieve this, the previous denotation for ``\texttt{discover}'' is modified such that $\objfdbr{\evs}$ is replaced with the more general $\propfdbr{\opit{prop}}{\evs}$, and the filtered FDBR from each applied termphrase is fed into the next preposition.  If the passive form of the transitive verb is used, then the relation is flipped and the same logic applies.
 
@@ -300,7 +300,7 @@ Here, $\opit{eventid}$ refers to the column of the relation that contains the ev
 The denotation for transitive verbs is augmented with the property $\opit{prop}$ used to form the binary relation from the $n$-ary relation, for example ``$\opit{subject}$'', ``$\opit{object}$'', or ``$\opit{implement}$'', replacing $\FDBR{r}$ with $\dmathrm{FDBR}_{\opit{prop}}(r)$.  With these revisions, it is possible to express a denotation for the passive voice of the verb ``\texttt{used}'' (as in ``\texttt{what was used by hall}''):
 \begin{equation*}
 	\begin{split}
-		\meaningof{used by} = \lambda t\ \big\{ (s,\ \opit{relevs})\ |&\ (s, \evs)\ \in\ \dmathrm{FDBR}_{\opit{implement}}(\relation{\discover})\  \\
+		\meaningof{used by} = \lambda t.\big\{ (s,\ \opit{relevs})\ |&\ (s, \evs)\ \in\ \dmathrm{FDBR}_{\opit{implement}}(\relation{\discover})\  \\
 		& \&\ t\ \propfdbr{\opit{subject}}{\evs} \neq \emptyset \\
 		& \&\ \opit{relevs} = \gatherevs{\objfdbr{\evs}} \big\}
 	\end{split}

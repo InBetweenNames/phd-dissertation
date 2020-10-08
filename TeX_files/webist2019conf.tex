@@ -353,14 +353,14 @@ Therefore,
 \begin{equation*}
 	\begin{split}
 		& \meaningof{phobos spins} = \meaningof{phobos}\ \meaningof{spins} \\
-		& = \lambda s.\ \{(e, \evs) | (e, \evs) \in s\ \&\ e = \entityassoc{phobos}\}
+		& = \lambda s.\{(e, \evs) | (e, \evs) \in s\ \&\ e = \entityassoc{phobos}\}
 		 \{(\entityassoc{phobos},{\eventassoc{1360}}), (\entityassoc{deimos}, \eventassoc{1332}), \ldots\} \\
 		& = \{(\entityassoc{phobos}, \eventassoc{1360})\}
 	\end{split}
 \end{equation*}
 \begin{equation*} %TODO: intersect_fdbr
-	\meaningof{a} = \lambda m \lambda s.\ \{(e_1,\evs_2)\ |\ (e_1,\evs_1) )\in m\
-	\&\ (e_2,\evs_2) \in s\ \&\ e_1 = e_2\})
+	\meaningof{a} = \lambda ms.\{(e_1,\evs_2)\ |\ (e_1,\evs_1) )\in m\
+	\&\ (e_2,\evs_2) \in s\ \&\ e_1 = e_2\}
 \end{equation*}
 \begin{equation*}
 	\meaningof{a\ moon\ spins} =
