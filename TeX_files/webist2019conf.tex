@@ -118,90 +118,120 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 \subsection{Queries Demonstrating the Range of NL Features that our NLQI can Accommodate}
 \label{webist2019conf:nlexamples}
 
-\texttt{phobos spins} $\Rightarrow \True$
+\examplequery{\indent phobos spins}{True}
 
-\noindent \texttt{phobos is a moon} $\Rightarrow \True$ \\
+\examplequery{phobos is a moon}{True}
 
-The function denoted by ``\texttt{phobos}'' checks to see if $\entityassoc{phobos}$ is a member of the $\spin$ set, and secondly if $\entityassoc{phobos}$ is a member of the $\moon$ set. \\
+\examplespacing
 
-\noindent \texttt{a moon spins} $\Rightarrow \True$
+\noindent The function denoted by ``\texttt{phobos}'' checks to see if $\entityassoc{phobos}$ is a member of $\wordset{spin}$, and secondly if $\entityassoc{phobos}$ is a member of $\wordset{moon}$.
 
-\noindent \texttt{every moon spins} $\Rightarrow \True$
+\examplespacing
 
-\noindent \texttt{an atmospheric moon exists} $\Rightarrow \True$ \\
+\examplequery{a moon spins}{True}
 
-The function denoted by `\texttt{a}' checks to see if the intersection of $\wordset{moon}$ and $\wordset{spins}$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of $\wordset{spins}$. The denotations of ``\texttt{a}'' and ``\texttt{every}'' that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
+\examplequery{every moon spins}{True}
 
-The answer to the third query is obtained by checking if the intersection of $\wordset{atmospheric}$ and $\wordset{moon}$ is non-empty. \\
+\examplequery{an atmospheric moon exists}{True}
 
-\noindent \texttt{hall discovered} $\Rightarrow \True$ \\
+\examplespacing
 
-All of the events of type ``discovered'' are collected together and are checked to see if $\entityassoc{hall}$ is found as the subject role value of any of them. If so, $\True$ is returned. \\
+\noindent The function denoted by `\texttt{a}' checks to see if the intersection of $\wordset{moon}$ and $\wordset{spins}$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of $\wordset{spins}$. The denotations of ``\texttt{a}'' and ``\texttt{every}'' that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
+The answer to the third query is obtained by checking if the intersection of $\wordset{atmospheric}$ and $\wordset{moon}$ is non-empty.
 
-\noindent \texttt{when did hall discover} $\Rightarrow 1877$ \\
+\examplespacing
 
-The ``year'' property of the  events returned by ``hall discover'' (treated as ``hall discovered'') are returned. \\
+\examplequery{hall discovered}{True}
 
-\noindent \texttt{phobos was discovered} $\Rightarrow \True$ \\
+\examplespacing
 
-All of the events of type ``discovered'' are collected together and are checked to see if $\entityassoc{phobos}$ is found as the object role value of any of them. If so $\True$ is returned. \\\
+\noindent All of the events of type ``discovered'' are collected together and are checked to see if $\entityassoc{hall}$ is found as the subject role value of any of them. If so, $\True$ is returned.
 
-\noindent \texttt{earth was discovered} $\Rightarrow \False$ \\
+\examplespacing
 
-Earth was not discovered by anyone, according to our data. \\
+\examplequery{when did hall discover}{1877}
 
-\noindent \texttt{did hall discover phobos} $\Rightarrow \True$ \\
+\examplespacing
+
+\noindent The ``year'' property of the  events returned by ``hall discover'' (treated as ``hall discovered'') are returned.
+
+\examplespacing
+
+\examplequery{phobos was discovered}{True}
+
+\examplespacing
+
+\noindent All of the events of type ``discovered'' are collected together and are checked to see if $\entityassoc{phobos}$ is found as the object role value of any of them. If so $\True$ is returned.
+
+\examplespacing
+
+\examplequery{earth was discovered}{False}
+
+\examplespacing
+
+\noindent Earth was not discovered by anyone, according to our data.
+
+\examplespacing
+
+\examplequery{did hall discover phobos}{True}
+
+\examplespacing
 
 %TODO: FIXUP BELOW
 
-All of the events of type ``discover'' are collected together and are checked to create a pair $(s, \evs)$ for each value of the subject attribute found in the set of events. $\evs$ is the set of events to which the subject attribute is related through a discovery event.  Each pair is then examined to see if the function denoted by the object termphrase (in this case \texttt{phobos}) returns a non-empty set when applied to a set (called an \textit{FDBR}, which is described later) generated from the set of $\evs$ in the pair, and if so the subject of the pair is added to the set which is returned as the denotation of the verbphrase part of the query. The denotation of the termphrase at the beginning of the query is then applied to the denotation of the verbphrase to obtain the answer to the query. %(See \Cref{sec:album} for more detailed discussion of this process).
+\noindent All of the events of type ``discover'' are collected together and are checked to create a pair $(s, \evs)$ for each value of the subject attribute found in the set of events. $\evs$ is the set of events to which the subject attribute is related through a discovery event.  Each pair is then examined to see if the function denoted by the object termphrase (in this case \texttt{phobos}) returns a non-empty set when applied to a set (called an \textit{FDBR}, which is described later) generated from the set of $\evs$ in the pair, and if so the subject of the pair is added to the set which is returned as the denotation of the verbphrase part of the query. The denotation of the termphrase at the beginning of the query is then applied to the denotation of the verbphrase to obtain the answer to the query. %(See \Cref{sec:album} for more detailed discussion of this process).
 
-Owing to the fact that our semantics is compositional the \textit{subject} and \textit{object} termphrases of the query above can be replaced by any termphrases. For example: \\
+Owing to the fact that our semantics is compositional the \textit{subject} and \textit{object} termphrases of the query above can be replaced by any termphrases. For example:
 
-\noindent \texttt{a person or a team  discovered every moon that orbits mars} $\Rightarrow \True$
+\examplespacing
 
-\noindent \texttt{who discovered 2 moons that orbit mars} $\Rightarrow \hall$ \\
+\examplequery{a person or a team  discovered every moon that orbits mars}{True}
 
-``who'', ``what'', ``where'', ``when'' and ``how'' can be used in place of the \textit{subject} termphrase. Different role values are returned depending on which ``wh..'' word is used in the query. \\
+\examplequery{who discovered 2 moons that orbit mars}{hall}
 
-\noindent \texttt{where discovered by galileo} $\Rightarrow \opit{padua}$
+\examplespacing
 
-\noindent \texttt{when discovered by galileo} $\Rightarrow 1610$
+\noindent ``\texttt{who}'', ``\texttt{what}'', ``\texttt{where}'', ``\texttt{when}'' and ``\texttt{how}'' can be used in place of the \textit{subject} termphrase. Different role values are returned depending on which ``wh..'' word is used in the query.
 
-\noindent \texttt{every telescope was used to discover a moon} $\Rightarrow \True$ (w.r.t.our data)
+\examplespacing
 
-\noindent \texttt{a moon was discovered by every telescope} $\Rightarrow \False$
+\examplequery{where discovered by galileo}{padua}
 
-\noindent \texttt{a telescope was used by hall to discover two moons} $\Rightarrow \True$
+\examplequery{when discovered by galileo}{1610}
 
-\noindent \texttt{which moons were discovered with two telescopes}
+\examplequery{every telescope was used to discover a moon}{True} (w.r.t.our data)
+
+\examplequery{a moon was discovered by every telescope}{False}
+
+\examplequery{a telescope was used by hall to discover two moons}{True}
+
+\texttt{which moons were discovered with two telescopes}
 
 $\Rightarrow$ \textit{halimede laomedeia sao themisto}
 
-\noindent \texttt{who discovered deimos with a telescope that was used to discover \\ every moon that orbits mars} $\Rightarrow \hall$
+\examplequery{who discovered deimos with a telescope that was used to discover every moon that orbits mars}{hall}
 
-\noindent \texttt{who discovered a moon with two telescopes}
+\texttt{who discovered a moon with two telescopes}
 
 $\Rightarrow$ \textit{nicholson science\_team\_18 science\_team\_2}
 
-\noindent \texttt{how was sao discovered} $\Rightarrow$ \textit{blanco\_telescope canada-france-hawaii\_telescope}
+\examplequery{how was sao discovered}{blanco\_telescope canada-france-hawaii\_telescope}
 
-\noindent \texttt{how discovered in 1877} $\Rightarrow$ \textit{refractor\_telescope\_1}
+\examplequery{how discovered in 1877}{refractor\_telescope\_1}
 
-\noindent \texttt{how many telescopes were used to discover sao} $\Rightarrow 2$
+\examplequery{how many telescopes were used to discover sao}{2}
 
-\noindent \texttt{who discovered sao}  $\Rightarrow$ \textit{science\_team\_18}
+\examplequery{who discovered sao}{science\_team\_18}
 
 \noindent \texttt{how did science\_team\_18 discover sao}
 
 $\Rightarrow$ \textit{blanco\_telescope canada-france-hawaii\_telescope}
 
-\noindent \texttt{which planet is orbited by every moon that was discovered by \\ two people}
-$\Rightarrow$ \textit{saturn; none}
+\examplequery{which planet is orbited by every moon that was discovered by two people}{saturn; none}
 
-\noindent \texttt{which person discovered a moon in 1877 with every telescope that was used to discover phobos} $\Rightarrow$ \textit{hall; none}
+\examplequery{which person discovered a moon in 1877 with every telescope that was used to discover phobos}{hall; none}
 
-\noindent \texttt{who discovered in 1948 and 1949 with a telescope} $\Rightarrow \opit{kuiper}$
+\examplequery{who discovered in 1948 and 1949 with a telescope}{kuiper}
 
 \subsection{Queries with ``Non-Compositional'' Structures}
 \label{webist2019conf:noncompositional}
@@ -216,54 +246,92 @@ The advantages of a using a compositional semantics include
 	\item the definition of syntax and semantics in the compositional semantics can be used as a blueprint for the implementation of the query processor.
 \end{inparaenum}
 
-Some researchers have provided examples of what they claim to be non-compositional structures in NL. For example, Hirst \cite{hirst1992semantic} gives the example of the verb ``depart'' which he states is not compositional because its meaning changes with the prepositional phrase(s) which follow it, and that the definition of compositionality needs to be modified to include the requirement that the function used to compose the meaning of parts must be systematic. We claim that our semantics for verbs is systematic as the denotations of subject and object termphrases, and the possibly empty list of prepositional phrases following the verb are treated equally and are all used in the same way to filter the set of events of the type associated with the verb, before that set is returned as the denotation of the verb phrase. This is illustrated in the following queries: \\
+Some researchers have provided examples of what they claim to be non-compositional structures in NL. For example, Hirst \cite{hirst1992semantic} gives the example of the verb ``depart'' which he states is not compositional because its meaning changes with the prepositional phrase(s) which follow it, and that the definition of compositionality needs to be modified to include the requirement that the function used to compose the meaning of parts must be systematic. We claim that our semantics for verbs is systematic as the denotations of subject and object termphrases, and the possibly empty list of prepositional phrases following the verb are treated equally and are all used in the same way to filter the set of events of the type associated with the verb, before that set is returned as the denotation of the verb phrase. This is illustrated in the following queries:
 
-\noindent \texttt{who discovered} $\Rightarrow$ \textit{bernard bond cassini cassini\_imaging\_science\_team christy dollfus galileo} $\etc$ \\
+\examplespacing
 
-No \textit{subject}, \textit{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word ``\texttt{who}'' picks out the \textit{subjects} from those events. \\
+\examplequery{who discovered}{bernard bond cassini cassini\_imaging\_science\_team christy dollfus galileo etc...}
 
-\noindent \texttt{where discovered io} $\Rightarrow \opit{padua}$ \\
+\examplespacing
 
-No \textit{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \textit{object} termphrase ``\texttt{io}'' and then, those that pass the filter are returned by the verbphrase and the word ``\texttt{where}'' picks out the location from those events. \\ %(See section $\Cref{sec:examples}$ for more details).
+\noindent No \textit{subject}, \textit{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word ``\texttt{who}'' picks out the \textit{subjects} from those events.
 
-\noindent \texttt{who discovered in 1610} $\Rightarrow \opit{galileo}$ \\
+\examplespacing
 
-No \textit{subject} or \textit{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``date'' equal to 1610 pass the filter and then the denotation of the word ``\texttt{who}'' selects the subject which is returned.
+\examplequery{where discovered io}{padua}
 
-In our semantics, the \textit{subject} and \textit{object} termphrases are treated as filters as are all prepositional phrases, as shown in the following example: \\
+\examplespacing
 
-\noindent \texttt{who discovered every moon that orbits mars with one telescope or a \\ moon that orbits Jupiter with a telescope} $\Rightarrow$ \textit{one. ; none. ; none. ; bernard galileo kowal melotte nicholson perrine science\_team\_1 science\_team\_2 ; hall ; hall ; none.} \\
+\noindent No \textit{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \textit{object} termphrase ``\texttt{io}'' and then, those that pass the filter are returned by the verbphrase and the word ``\texttt{where}'' picks out the location from those events. %(See section $\Cref{sec:examples}$ for more details).
 
-Several results are returned because the query is syntactically ambiguous. \\
+\examplespacing
 
-\noindent \texttt{where discovered in 1610} $\Rightarrow \opit{padua}$
+\examplequery{who discovered in 1610} {galileo}
 
-\noindent \texttt{how discovered in padua} $\Rightarrow$ \textit{galilean\_telescope\_1}
+\examplespacing
+
+\noindent No \textit{subject} or \textit{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``date'' equal to 1610 pass the filter and then the denotation of the word ``\texttt{who}'' selects the subject which is returned.
+
+In our semantics, the \textit{subject} and \textit{object} termphrases are treated as filters as are all prepositional phrases, as shown in the following example:
+
+\examplespacing
+
+\examplequery{who discovered every moon that orbits mars with one telescope or a moon that orbits Jupiter with a telescope}{one. ; none. ; none. ; bernard galileo kowal melotte nicholson perrine science\_team\_1 science\_team\_2 ; hall ; hall ; none.}
+
+\examplespacing
+
+\noindent Several results are returned because the query is syntactically ambiguous.
+
+\examplespacing
+
+\examplequery{where discovered in 1610}{padua}
+
+\examplequery{how discovered in padua}{galilean\_telescope\_1}
+
+\examplespacing
+
+\noindent These queries retrieve the \textit{location} and \textit{implement} properties of the events of ``\texttt{discovered in 1610}'' and ``\texttt{discovered in padua}'' respectively.
 
 \subsection{Extensions to the Semantics}
 \label{webist2019conf:extend}
 
-Some phrases containing nested quantifiers are given by some researchers, as examples of non-compositionality. For example: ``a US diplomat was sent to every capital'' is often read as having two meanings which can only be disambiguated by additional knowledge. We argue that the person posing a query can express the query unambiguously if they are familiar with quantifier scoping conventions used by our processor, as illustrated in the following: \\
+Some phrases containing nested quantifiers are given by some researchers, as examples of non-compositionality. For example: ``a US diplomat was sent to every capital'' is often read as having two meanings which can only be disambiguated by additional knowledge. We argue that the person posing a query can express the query unambiguously if they are familiar with quantifier scoping conventions used by our processor, as illustrated in the following:
 
-\noindent \texttt{christy or science\_team\_19 or science\_team\_20 or science\_team\_21 \\ discovered every moon that orbits pluto} $\Rightarrow \False$ \\
+\examplespacing
 
-In our semantics, quantifier scoping is always leftmost/outermost, and an unambiguous query can be formulated as follows: \\
+\examplequery{christy or science\_team\_19 or science\_team\_20 or science\_team\_21 discovered every moon that orbits pluto}{False}
 
-\noindent \texttt{every moon that orbits pluto was discovered by christy or \\ science\_team\_19 or science\_team\_20 or science\_team\_21} $\Rightarrow \True$ \\
+\examplespacing
 
-Some examples of non-compositionality involve polysemantic superlative words such as ``most'' in, for example:
+\noindent In our semantics, quantifier scoping is always leftmost/outermost, and an unambiguous query can be formulated as follows:
+
+\examplespacing
+
+\examplequery{every moon that orbits pluto was discovered by christy or science\_team\_19 or science\_team\_20 or science\_team\_21}{True}
+
+\examplespacing
+
+\noindent Some examples of non-compositionality involve polysemantic superlative words such as ``most'' in, for example:
 \begin{center}
 	\textit{``Who discovered most moons that orbit $P$. Where $P$ is a planet.''}
 \end{center}
-If ``most'' is treated as ``more than half'' then: \\
+If ``\texttt{most}'' is treated as ``more than half'' then:
 
-\noindent \texttt{who discovered most moons that orbit mars} $\Rightarrow \hall$ \\
+\examplespacing
 
-Because our semantics currently allows only this reading. However, the answer to the alternate reading ``who discovered the most moons that orbit $P$'' – i.e. more than anyone else who discovered a moon that orbits $P$. Could be obtained in our semantics by comparing all of the $(\ent, \evs)$ pairs returned by the verbphrase to see which \textit{subject} is paired with most \textit{objects}. We are currently working on this and other extensions to our semantics. \\ %(See \Cref{} for more explanation). \\
+\examplequery{who discovered most moons that orbit mars}{hall}
 
-\noindent \texttt{how was every moon that orbits saturn discovered} $\Rightarrow$ \textit{cassini \\ reflector\_telescope\_1 aerial\_telescope\_1 refractor\_telescope\_4} $\etc$ \\
+\examplespacing
 
-It may be surprising that \textit{cassini} is returned in the answer since it is not a \texttt{telescope}, but is instead a \texttt{spacecraft}.  However, since it was used to discover at least one \texttt{moon} that orbits \texttt{saturn}, it is considered to have fulfilled the \textit{implement} role and is encoded as such in the triplestore.
+\noindent Because our semantics currently allows only this reading. However, the answer to the alternate reading ``who discovered the most moons that orbit $P$'' – i.e. more than anyone else who discovered a moon that orbits $P$. Could be obtained in our semantics by comparing all of the $(\ent, \evs)$ pairs returned by the verbphrase to see which \textit{subject} is paired with most \textit{objects}. We are currently working on this and other extensions to our semantics. %(See \Cref{} for more explanation). \\
+
+\examplespacing
+
+\examplequery{how was every moon that orbits saturn discovered}{cassini reflector\_telescope\_1 aerial\_telescope\_1 refractor\_telescope\_4 etc...}
+
+\examplespacing
+
+\noindent It may be surprising that \textit{cassini} is returned in the answer since it is not a \texttt{telescope}, but is instead a \texttt{spacecraft}.  However, since it was used to discover at least one \texttt{moon} that orbits \texttt{saturn}, it is considered to have fulfilled the \textit{implement} role and is encoded as such in the triplestore.
 
 \section{The FDBR: A Novel Data Structure for Natural Language Queries}
 \label{webist2019conf:album}

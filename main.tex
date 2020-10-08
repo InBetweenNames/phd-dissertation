@@ -218,7 +218,7 @@
 \DeclareMathOperator{\moons}{moons}
 
 \newcommand{\meaningof}[1]{\lVert\dmathit{#1\hspace{0.1em}}\rVert} %this *is* text
-\newcommand{\eventassoc}[1]{\operatorname{\mathit{ev}}_{#1}}
+\newcommand{\eventassoc}[1]{\operatorname{ev}_{#1}}
 \newcommand{\event}[1]{\eventassoc{#1}}
 \newcommand{\entityassoc}[1]{\mathrm{e}_{\operatorname{#1}}}
 \newcommand{\entity}[1]{\entityassoc{#1}}
@@ -254,6 +254,26 @@
 \newcommand{\rel}{\operatorname{\mathit{rel}}}
 %\newcommand{\image}{\operatorname{\mathit{image}}}
 \DeclareMathOperator{\image}{image}
+
+\newcommand{\examplespacing}{\vspace{0.5em}}
+
+\newcommand{\examplequery}[2]{
+    \texttt{#1} $\Rightarrow$ \textit{#2}
+}
+
+\newcommand{\examplequerynl}[2]{
+    \texttt{#1} \\ $\Rightarrow$ \textit{#2}
+}
+
+\usepackage{environ}
+
+\NewEnviron{examples}[1]{
+\examplespacing
+
+    \BODY
+
+\examplespacing
+}
 
 \author{Shane Peelar}
 \newcommand{\dtitle}{Scalable, Efficient and Precise Natural Language Processing in the Semantic Web}
@@ -781,7 +801,8 @@ Peer reviewed Journal papers:
 
 		2020 IEEE. Reprinted, with permission, from Shane Peelar and Richard A. Frost, A Compositional Semantics for a Wide-Coverage Natural-Language Query Interface to a Semantic Web Triplestore, February 2020.}
 
-	\item {\Cref{chapter:webist2019journal} includes a paper that has been submitted for publication to the WEBIST Springer Journal:
+    %TODO: accepted
+	\item {\Cref{chapter:webist2019journal} includes a paper that has been accepted for publication to the WEBIST Springer Journal:
 
     \fullcite{peelar2020webistjournal}
 

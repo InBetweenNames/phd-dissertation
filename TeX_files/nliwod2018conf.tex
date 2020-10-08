@@ -92,22 +92,33 @@ queries.
 
 The following queries illustrate that quantifier scoping is leftmost-outermost:
 
-\begin{itemize}
-	\setlength\itemsep{0em}
-	\item every telescope was used to discover a moon: $\True$
-	\item a moon was discovered by every telescope: $\False$
-	\item a telescope was used by hall to discover two moons: $\True$
-	\item which moons were discovered with two telescopes: \\$\dmathit{halimede laomedeia sao themisto}$
-	\item hall discovered a moon with two telescopes: $\False$
-	\item who discovered deimos with a telescope that was used to discover every moon that orbits mars: $\hall;hall$
-	\item who discovered a moon with two telescopes: \\ $\dmathit{nicholson science\_team\_18\ science\_team\_2}$
-	\item how was sao discovered: $\dmathit{blanco\_telescope canada}$-$\dmathit{france}$-$\dmathit{hawaii\_telescope}$
-	\item how many telescopes were used to discover sao: $2$
-	\item who discovered sao: $\dmathit{science\_team\_18}$
-	\item how did science\_team\_18 discover sao: \\ $\dmathit{blanco\_telescope canada}$-$\dmathit{france}$-$\dmathit{hawaii\_telescope}$
-	\item which planet is orbited by every moon that was discovered by two people: $\dmathit{saturn; none}$ (multiple results are returned as the query is ambiguous)
-	\item which person discovered a moon in 1877 with every telescope that was used to discover phobos: $\dmathit{hall; none}$
-\end{itemize}
+\examplespacing
+
+\examplequery{every telescope was used to discover a moon}{True}
+
+\examplequery{a moon was discovered by every telescope}{False}
+
+\examplequery{a telescope was used by hall to discover two moons}{True}
+
+\examplequerynl{which moons were discovered with two telescopes}{halimede laomedeia sao themisto}
+
+\examplequery{hall discovered a moon with two telescopes}{False}
+
+\examplequery{who discovered deimos with a telescope that was used to discover every moon that orbits mars}{hall;hall}
+
+\examplequerynl{who discovered a moon with two telescopes}{nicholson science\_team\_18\ science\_team\_2}
+
+\examplequery{how was sao discovered}{blanco\_telescope canada-france-hawaii\_telescope}
+
+\examplequery{how many telescopes were used to discover sao}{2}
+
+\examplequery{who discovered sao}{science\_team\_18}
+
+\examplequerynl{how did science\_team\_18 discover sao}{blanco\_telescope canada-france-hawaii\_telescope}
+
+\examplequery{which planet is orbited by every moon that was discovered by two people}{saturn; none} (multiple results are returned as the query is ambiguous)
+
+\examplequery{which person discovered a moon in 1877 with every telescope that was used to discover phobos}{hall; none}
 
 \section{Our Modification to Montague Semantics}
 \label{ext:modification}
@@ -407,25 +418,40 @@ Themisto are the only moons that were discovered using two
 telescopes separately (see queries a to e) and that Nicholson used two telescopes to discover a total of 4
 moons, but did not discover any one moon with two telescopes (see queries g to i).
 
-\begin{enumerate}[label=\alph*.]
-	\setlength\itemsep{0em}
-	\item which moons were discovered with two telescopes: \\ $\dmathit{\qquad halimede laomedeia sao themisto}$
-	\item who used two telescopes to discover a moon: \\ $\dmathit{\qquad nicholson science\_team\_18 science\_team\_2}$
-	\item who discovered sao: $\dmathit{science\_team\_18}$
-	\item who discovered themisto: $\dmathit{science\_team\_2}$
-	\item which moon was discovered by science\_team\_18 with two telescopes: \\ $\dmathit{\qquad halimede laomedeia sao}$
-	\item what was used to discover sao: \\ $\dmathit{\qquad blanco\_telescope canada}$-$\dmathit{france}$-$\dmathit{hawaii\_telescope}$
-	\item what did nicholson discover with two telescopes: \\ $\dmathit{\qquad sinope lysithea carme ananke}$
-	\item which moon was discovered by nicholson with two telescopes: $\dmathit{none}$
-	\item which moon was discovered by nicholson with one telescope: \\ $\dmathit{\qquad ananke carme lysithea sinope}$
-	\item how was sinope discovered: $\dmathit{refractor\_telescope\_2}$
-	\item how was carme discovered: $\dmathit{hooker\_telescope}$
-	\item how was ananke discovered: $\dmathit{hooker\_telescope}$
-	\item how was lysithea discovered: $\dmathit{hooker\_telescope}$
-	\item what did nicholson discover with one telescope: $\dmathit{nothing}$
-	\item what did nicholson discover with a telescope: \\ $\dmathit{\qquad sinope lysithea carme ananke}$
-\end{enumerate}
-%
+\examplespacing
+
+\examplequerynl{which moons were discovered with two telescopes}{halimede laomedeia sao themisto}
+
+\examplequerynl{who used two telescopes to discover a moon}{nicholson science\_team\_18 science\_team\_2}
+
+\examplequery{who discovered sao}{science\_team\_18}
+
+\examplequery{who discovered themisto}{science\_team\_2}
+
+\examplequery{which moon was discovered by science\_team\_18 with two telescopes}{halimede laomedeia sao}
+
+\examplequerynl{what was used to discover sao}{blanco\_telescope canada-france-hawaii\_telescope}
+
+\examplequerynl{what did nicholson discover with two telescopes}{sinope lysithea carme ananke}
+
+\examplequery{which moon was discovered by nicholson with two telescopes}{none}
+
+\examplequerynl{which moon was discovered by nicholson with one telescope}{ananke carme lysithea sinope}
+
+\examplequery{how was sinope discovered}{refractor\_telescope\_2}
+
+\examplequery{how was carme discovered}{hooker\_telescope}
+
+\examplequery{how was ananke discovered}{hooker\_telescope}
+
+\examplequery{how was lysithea discovered}{hooker\_telescope}
+
+\examplequery{what did nicholson discover with one telescope}{nothing}
+
+\examplequerynl{what did nicholson discover with a telescope}{sinope lysithea carme ananke}
+
+\examplespacing
+
 Note that in the above queries, ``one'' and ``two'' are taken to mean ``exactly one'' and ``exactly two''. Since Nicholson used multiple telescopes to discover multiple objects, n) returns $\opit{nothing}$ (``discover with one telescope'' returns an FDBR of all discoverers that used exactly one telescope in all their discoveries, which excludes Nicholson). On the other hand o) relaxes this restriction, yielding the expected result (see Section \ref{ext:conclusion}).  Note that i) differs from n) because ``was discovered with one telescope'' returns an FDBR of all objects that were discovered each with exactly one telescope.
 %We shall review our approach to quantifier scoping in chained
 %propositional phrases in future work.

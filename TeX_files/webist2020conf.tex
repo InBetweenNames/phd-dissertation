@@ -82,8 +82,6 @@ where $\meaningof{x}$ represents the denotation (meaning) of $x$.
 
 The following are a list of example queries that demonstrate features supported by the interface.
 
-\newcommand{\examplespacing}{\vspace{0.5em}}
-
 \examplespacing
 
 \noindent $n$-ary Transitive verbs:
@@ -99,7 +97,7 @@ The following are a list of example queries that demonstrate features supported 
 \examplespacing
 
 %bold?
-\texttt{who used two telescopes to discover one moon} $\Rightarrow$ \texttt{science\_team\_2}
+\examplequery{who used two telescopes to discover one moon}{science\_team\_2}
 
 \examplespacing
 
@@ -107,13 +105,13 @@ The following are a list of example queries that demonstrate features supported 
 
 \examplespacing
 
-\texttt{which telescope was used by a person in 1877} $\Rightarrow$ \texttt{refractor\_telescope\_1}
+\examplequery{which telescope was used by a person in 1877}{refractor\_telescope\_1}
 
 \noindent Superlatives:
 
 \examplespacing
 
-\texttt{hall discovered the most moons that orbit mars} $\Rightarrow$ \texttt{True}
+\examplequery{hall discovered the most moons that orbit mars}{True}
 
 \examplespacing
 
@@ -121,7 +119,7 @@ The following are a list of example queries that demonstrate features supported 
 
 \examplespacing
 
-\texttt{a non-planet was discovered} $\Rightarrow$ \texttt{True}
+\examplequery{a non-planet was discovered}{True}
 
 \examplespacing
 
@@ -129,7 +127,7 @@ The following are a list of example queries that demonstrate features supported 
 
 \examplespacing
 
-\texttt{allen did not discover anything} $\Rightarrow$ \texttt{True}
+\examplequery{allen did not discover anything}{True}
 
 \examplespacing
 
@@ -137,7 +135,7 @@ The following are a list of example queries that demonstrate features supported 
 
 \examplespacing
 
-\texttt{not hall and galileo discovered phobos} $\Rightarrow$ \texttt{False}
+\examplequery{not hall and galileo discovered phobos}{False}
 
 \examplespacing
 
@@ -145,7 +143,7 @@ The following are a list of example queries that demonstrate features supported 
 
 \examplespacing
 
-\texttt{enceladus is a vacuumous moon} $\Rightarrow$ \texttt{True}
+\examplequery{enceladus is a vacuumous moon}{True}
 
 \examplespacing
 
@@ -154,7 +152,7 @@ For example, adjectives can be combined with negation:
 
 \examplespacing
 
-\texttt{mars is a non-blue planet} $\Rightarrow$ \texttt{True}
+\examplequery{mars is a non-blue planet}{True}
 
 \examplespacing
 
@@ -435,13 +433,13 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{no people spin} $\Rightarrow \True$
+\examplequery{no people spin}{True}
 
 \examplespacing
 
 \noindent The intersection of the \texttt{people} and \texttt{spins} FDBRs is empty, therefore \texttt{no} returns \texttt{spin}, which is non-empty and therefore $\True$.
 
-\texttt{a non person exists} $\Rightarrow \True$
+\examplequery{a non person exists}{True}
 
 \examplespacing
 
@@ -449,7 +447,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{a person does not exist} $\Rightarrow \False$
+\examplequery{a person does not exist}{False}
 
 \examplespacing
 
@@ -457,7 +455,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{what discovered no moon in 1877} $\Rightarrow$ \texttt{everything except: hall}
+\examplequery{what discovered no moon in 1877}{everything except: hall}
 
 \examplespacing
 
@@ -465,7 +463,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{what discovered a non moon} $\Rightarrow$ \texttt{nothing.}
+\examplequery{what discovered a non moon}{nothing.}
 
 \examplespacing
 
@@ -473,7 +471,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{allen discovered no moon at no places} $\Rightarrow$ $\True$
+\examplequery{allen discovered no moon at no places}{True}
 
 \examplespacing
 
@@ -481,7 +479,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{what discovered the most moons using no telescopes} \linebreak \indent \indent $\Rightarrow$ \texttt{voyager\_science\_team}
+\examplequerynl{what discovered the most moons using no telescopes}{voyager\_science\_team}
 
 \examplespacing
 
@@ -489,7 +487,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{what was discovered by no team in 1877} $\Rightarrow$ \texttt{everything.}
+\examplequery{what was discovered by no team in 1877}{everything.}
 
 \examplespacing
 
@@ -497,11 +495,11 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{how was something discovered using no telescope} $\Rightarrow$ \texttt{I can't perform this query because I would need to enumerate the entire triplestore.}
+\examplequery{how was something discovered using no telescope}{I can't perform this query because I would need to enumerate the entire triplestore.}
 
 \examplespacing
 
-\noindent This query is asking about which implements that are not telescopes were used in a discovery event.  However, \texttt{something} is defined as the complement of the empty FDBR, and \texttt{discovered using no telescope} is the complement of the FDBR of \texttt{discovered using a telescope}.  Since the intersection of the two complements is itself a complement, \texttt{how} receives the complement of an FDBR and is unable to enumerate the events to retrieve implements from directly.  Although it is possible to answer the query by fully evaluating the complement, we have not implemented this behaviour in our NLQI at this time.  However, a similar query, ``\texttt{which non telescope was used to discover something}'' is able to yield the result ``\texttt{cassini, voyager\_1, voyager\_2}''.
+\noindent This query is asking about which implements that are not telescopes were used in a discovery event.  However, \texttt{something} is defined as the complement of the empty FDBR, and \texttt{discovered using no telescope} is the complement of the FDBR of \texttt{discovered using a telescope}.  Since the intersection of the two complements is itself a complement, \texttt{how} receives the complement of an FDBR and is unable to enumerate the events to retrieve implements from directly.  Although it is possible to answer the query by fully evaluating the complement, we have not implemented this behaviour in our NLQI at this time.  However, a similar query, ``\texttt{which non telescope was used to discover something}'' is able to yield the result ``\textit{cassini, voyager\_1, voyager\_2}''.
 
 %\examplespacing
 
@@ -509,7 +507,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{not hall discovered ganymede} $\Rightarrow$ $\True$
+\examplequery{not hall discovered ganymede}{True}
 
 \examplespacing
 
@@ -517,19 +515,18 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{which person that does not spin discovered no planet in 1877 using a telescope and is a discoverer} $\Rightarrow$ \texttt{bernard, bond, cassini, christy, dollfus, galileo, hall, herschel, holman, huygens, karkoschka, kowal, kuiper, lassell, melotte, nicholson, perrine, pickering, sheppard, showalter}
+\examplequery{which person that does not spin discovered no planet in 1877 using a telescope and is a discoverer}{bernard, bond, cassini, christy, dollfus, galileo, hall, herschel, holman, huygens, karkoschka, kowal, kuiper, lassell, melotte, nicholson, perrine, pickering, sheppard, showalter}
 
 \examplespacing
 
 \noindent The result is all of the people that are \texttt{discoverers}, since none of the members of \texttt{person} \texttt{spin}, and none of them discovered a \texttt{planet} in 1877 using a \texttt{telescope}.  It may be helpful to examine the scoping of this query:
-
-\examplespacing
-
+\begin{center}
 \texttt{which (person `that` (does not spin)) ((discovered (no planet) [in 1877, using (a telescope)]) and (is a discoverer))}
+\end{center}
 
 \examplespacing
 
-\texttt{nothing exists} $\Rightarrow \False$
+\examplequery{nothing exists}{False}
 
 \examplespacing
 
@@ -537,7 +534,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{everything exists} $\Rightarrow$ $\True$
+\examplequery{everything exists}{True}
 
 \examplespacing
 
@@ -545,7 +542,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{what was not discovered by hall} $\Rightarrow$ \texttt{everything except: deimos, phobos}
+\examplequery{what was not discovered by hall}{everything except: deimos, phobos}
 
 \examplespacing
 
@@ -553,7 +550,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{phobos and deimos were not discovered by not hall} $\Rightarrow$ $\True$
+\examplequery{phobos and deimos were not discovered by not hall}{True}
 
 \examplespacing
 
@@ -561,7 +558,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\texttt{not not kuiper discovered not not nereid}
+\examplequery{not not kuiper discovered not not nereid}{True}
 
 \examplespacing
 
@@ -570,7 +567,7 @@ This is equivalent to the query \texttt{kuiper discovered nereid}.
 
 \examplespacing
 
-\texttt{which non vacuumous moon that orbits most planets that spin was not discovered by kuiper at two places using the most telescopes in 1942} $\Rightarrow$ \texttt{none.}
+\examplequery{which non vacuumous moon that orbits most planets that spin was not discovered by kuiper at two places using the most telescopes in 1942}{none.}
 
 \examplespacing
 
@@ -578,7 +575,7 @@ This is equivalent to the query \texttt{kuiper discovered nereid}.
 
 \examplespacing
 
-\texttt{not no moon orbits mars} $\Rightarrow \True$
+\examplequery{not no moon orbits mars}{True}
 
 \examplespacing
 
@@ -586,13 +583,11 @@ This is equivalent to the query \texttt{kuiper discovered nereid}.
 
 \examplespacing
 
-\texttt{who discovered no moons at no places} $\Rightarrow$ \texttt{allen, baum, buie, burns ...(full results omitted here)... weaver, young\_e\_f, young\_l\_a}
+\examplequery{who discovered no moons at no places}{allen, baum, buie, burns ...{\rm (full results omitted here)}... weaver, young\_e\_f, young\_l\_a}
 
 \examplespacing
 
 \noindent The result is everyone that is not known to have discovered a moon at a place.  This includes the discoverers that discovered a moon at no known location, or whose location property is not listed in the event, or discoverers that discovered a non moon at a known location.
-
-\examplespacing
 
 \section{Future Work}
 \label{webist2020conf:future}

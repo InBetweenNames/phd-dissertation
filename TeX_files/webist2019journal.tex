@@ -164,11 +164,9 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 \subsection{Queries Demonstrating the Range of NL Features that our NLQI can Accommodate}
 \label{webist2019journal:nlexamples}
 
-\newcommand{\examplespacing}{\vspace{0.5em}}
+\examplequery{\indent phobos spins}{True}
 
-\texttt{\indent phobos spins} $\Rightarrow \True$
-
-\texttt{phobos is a moon} $\Rightarrow \True$
+\examplequery{phobos is a moon}{True}
 
 \examplespacing
 
@@ -176,11 +174,11 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\texttt{a moon spins} $\Rightarrow \True$
+\examplequery{a moon spins}{True}
 
-\texttt{every moon spins} $\Rightarrow \True$
+\examplequery{every moon spins}{True}
 
-\texttt{an atmospheric moon exists} $\Rightarrow \True$
+\examplequery{an atmospheric moon exists}{True}
 
 \examplespacing
 
@@ -188,7 +186,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\texttt{hall discovered} $\Rightarrow \True$
+\examplequery{hall discovered}{True}
 
 \examplespacing
 
@@ -196,7 +194,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\texttt{when did hall discover} $\Rightarrow 1877$
+\examplequery{when did hall discover}{1877}
 
 \examplespacing
 
@@ -204,7 +202,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\texttt{phobos was discovered} $\Rightarrow \True$
+\examplequery{phobos was discovered}{True}
 
 \examplespacing
 
@@ -212,7 +210,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\texttt{earth was discovered} $\Rightarrow \False$
+\examplequery{earth was discovered}{False}
 
 \examplespacing
 
@@ -220,7 +218,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\texttt{did hall discover phobos} $\Rightarrow \True$
+\examplequery{did hall discover phobos}{True}
 
 \examplespacing
 
@@ -230,9 +228,9 @@ Owing to the fact that our semantics is compositional, the \textit{subject} and 
 
 \examplespacing
 
-\texttt{a person or a team  discovered every moon that orbits mars} $\Rightarrow \True$
+\examplequery{a person or a team  discovered every moon that orbits mars}{True}
 
-\texttt{who discovered 2 moons that orbit mars} $\Rightarrow \hall$
+\examplequery{who discovered 2 moons that orbit mars}{hall}
 
 \examplespacing
 
@@ -240,44 +238,37 @@ Owing to the fact that our semantics is compositional, the \textit{subject} and 
 
 \examplespacing
 
-\texttt{where discovered by galileo} $\Rightarrow \opit{padua}$
+\examplequery{where discovered by galileo}{padua}
 
-\texttt{when discovered by galileo} $\Rightarrow 1610$
+\examplequery{when discovered by galileo}{1610}
 
-\texttt{every telescope was used to discover a moon} $\Rightarrow \True$ (w.r.t.our data)
+\examplequery{every telescope was used to discover a moon}{True} (w.r.t.our data)
 
-\texttt{a moon was discovered by every telescope} $\Rightarrow \False$
+\examplequery{a moon was discovered by every telescope}{False}
 
-\texttt{a telescope was used by hall to discover two moons} $\Rightarrow \True$
+\examplequery{a telescope was used by hall to discover two moons}{True}
 
-\texttt{which moons were discovered with two telescopes}
+\examplequerynl{which moons were discovered with two telescopes}{halimede laomedeia sao themisto}
 
-\noindent $\Rightarrow$ \textit{halimede laomedeia sao themisto}
+\examplequery{who discovered deimos with a telescope that was used to discover every moon that orbits mars}{hall}
 
-\texttt{who discovered deimos with a telescope that was used to discover \linebreak every moon that orbits mars} $\Rightarrow \hall$
+\examplequerynl{who discovered a moon with two telescopes}{nicholson science\_team\_18 science\_team\_2}
 
-\texttt{who discovered a moon with two telescopes}
+\examplequery{how was sao discovered}{blanco\_telescope canada-france-hawaii\_telescope}
 
-\noindent $\Rightarrow$ \textit{nicholson science\_team\_18 science\_team\_2}
+\examplequery{how discovered in 1877}{refractor\_telescope\_1}
 
-\texttt{how was sao discovered} $\Rightarrow$ \textit{blanco\_telescope canada-france-hawaii\_telescope}
+\examplequery{how many telescopes were used to discover sao}{2}
 
-\texttt{how discovered in 1877} $\Rightarrow$ \textit{refractor\_telescope\_1}
+\examplequery{who discovered sao}{science\_team\_18}
 
-\texttt{how many telescopes were used to discover sao} $\Rightarrow 2$
+\examplequerynl{how did science\_team\_18 discover sao}{blanco\_telescope canada-france-hawaii\_telescope}
 
-\texttt{who discovered sao}  $\Rightarrow$ \textit{science\_team\_18}
+\examplequery{which planet is orbited by every moon that was discovered by two people}{saturn; none} (ambiguous because ``\texttt{by two people}'' could apply to ``\texttt{discovered}'' or ``\texttt{orbited}'')
 
-\texttt{how did science\_team\_18 discover sao}
+\examplequery{which person discovered a moon in 1877 with every telescope that was used to discover phobos}{hall; none} (ambiguous because ``\texttt{to discover phobos}'' could apply to ``\texttt{used}'' or ``\texttt{discovered}'')
 
-\noindent $\Rightarrow$ \textit{blanco\_telescope canada-france-hawaii\_telescope}
-
-\texttt{which planet is orbited by every moon that was discovered by \linebreak two people}
-$\Rightarrow$ \textit{saturn; none} (ambiguous because ``\texttt{by two people}'' could apply to ``\texttt{discovered}'' or ``\texttt{orbited}'')
-
-\texttt{which person discovered a moon in 1877 with every telescope \linebreak that was used to discover phobos} $\Rightarrow$ \textit{hall; none} (ambiguous because ``\texttt{to discover phobos}'' could apply to ``\texttt{used}'' or ``\texttt{discovered}'')
-
-\texttt{who discovered in 1948 and 1949 with a telescope} $\Rightarrow \opit{kuiper}$
+\examplequery{who discovered in 1948 and 1949 with a telescope}{kuiper}
 
 \subsection{Queries with ``Non-Compositional'' Structures}
 \label{webist2019journal:noncompositional}
@@ -293,7 +284,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\texttt{who discovered} $\Rightarrow$ \textit{bernard bond cassini cassini\_imaging\_science\_team \\ \indent \indent christy dollfus galileo} $\etc$
+\examplequery{who discovered}{bernard bond cassini cassini\_imaging\_science\_team christy dollfus galileo etc...}
 
 \examplespacing
 
@@ -301,7 +292,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\texttt{where discovered io} $\Rightarrow \opit{padua}$
+\examplequery{where discovered io}{padua}
 
 \examplespacing
 
@@ -309,7 +300,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\texttt{who discovered in 1610} $\Rightarrow \opit{galileo}$
+\examplequery{who discovered in 1610}{galileo}
 
 \examplespacing
 
@@ -317,7 +308,7 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\texttt{who discovered every moon that orbits mars with one telescope \linebreak or a moon that orbits jupiter with a telescope} $\Rightarrow$ \textit{one. ; none. ; \\ none. ; bernard galileo kowal melotte nicholson perrine science\_team\_1 \\ science\_team\_2 ; hall ; hall ; none.}
+\examplequery{who discovered every moon that orbits mars with one telescope or a moon that orbits jupiter with a telescope}{one. ; none. ; none. ; bernard galileo kowal melotte nicholson perrine science\_team\_1 science\_team\_2 ; hall ; hall ; none.}
 
 \examplespacing
 
@@ -325,9 +316,11 @@ Some researchers have provided examples of what they claim to be non-com-\allowb
 
 \examplespacing
 
-\texttt{where discovered in 1610} $\Rightarrow \opit{padua}$
+\examplequery{where discovered in 1610}{padua}
 
-\texttt{how discovered in padua} $\Rightarrow$ \textit{galilean\_telescope\_1}
+\examplequery{how discovered in padua}{galilean\_telescope\_1}
+
+\noindent These queries retrieve the \textit{location} and \textit{implement} properties of the events of ``\texttt{discovered in 1610}'' and ``\texttt{discovered in padua}'' respectively.
 
 \subsection{Extensions to the Semantics}
 \label{webist2019journal:extend}
@@ -336,7 +329,7 @@ Some phrases containing nested quantifiers are given by some researchers as exam
 
 \examplespacing
 
-\texttt{christy or science\_team\_19 or science\_team\_20 or science\_team\_21 \linebreak discovered every moon that orbits pluto} $\Rightarrow \False$
+\examplequery{christy or science\_team\_19 or science\_team\_20 or science\_team\_21 discovered every moon that orbits pluto}{False}
 
 \examplespacing
 
@@ -344,7 +337,7 @@ Some phrases containing nested quantifiers are given by some researchers as exam
 
 \examplespacing
 
-\texttt{every moon that orbits pluto was discovered by christy or \linebreak science\_team\_19 or science\_team\_20 or science\_team\_21} $\Rightarrow \True$
+\examplequery{every moon that orbits pluto was discovered by christy or science\_team\_19 or science\_team\_20 or science\_team\_21}{True}
 
 \examplespacing
 
@@ -358,7 +351,7 @@ If ``\texttt{most}'' is treated as ``more than half'' then:
 
 \examplespacing
 
-\texttt{who discovered most moons that orbit mars} $\Rightarrow \hall$
+\examplequery{who discovered most moons that orbit mars}{hall}
 
 \examplespacing
 
@@ -366,8 +359,7 @@ If ``\texttt{most}'' is treated as ``more than half'' then:
 
 \examplespacing
 
-\texttt{what discovered the most moons that orbit jupiter} \linebreak
-$\Rightarrow$ \textit{science\_team\_4}
+\examplequery{what discovered the most moons that orbit jupiter}{science\_team\_4}
 
 \examplespacing
 
@@ -375,7 +367,7 @@ $\Rightarrow$ \textit{science\_team\_4}
 
 \examplespacing
 
-\texttt{how was every moon that orbits saturn discovered} $\Rightarrow$ \textit{cassini \\ reflector\_telescope\_1 aerial\_telescope\_1 refractor\_telescope\_4} $\etc$
+\examplequery{how was every moon that orbits saturn discovered}{cassini reflector\_telescope\_1 aerial\_telescope\_1 refractor\_telescope\_4 etc...}
 
 \examplespacing
 
