@@ -153,7 +153,7 @@ The answer to the third query is obtained by checking if the intersection of $\w
 
 \examplespacing
 
-\noindent The ``year'' property of the  events returned by ``hall discover'' (treated as ``hall discovered'') are returned.
+\noindent The ``$\opit{year}$'' property of the  events returned by ``\texttt{hall discover}'' (treated as ``\texttt{hall discovered}'') are returned.
 
 \examplespacing
 
@@ -191,7 +191,7 @@ Owing to the fact that our semantics is compositional the \textit{subject} and \
 
 \examplespacing
 
-\noindent ``\texttt{who}'', ``\texttt{what}'', ``\texttt{where}'', ``\texttt{when}'' and ``\texttt{how}'' can be used in place of the \textit{subject} termphrase. Different role values are returned depending on which ``wh..'' word is used in the query.
+\noindent ``\texttt{who}'', ``\texttt{what}'', ``\texttt{where}'', ``\texttt{when}'' and ``\texttt{how}'' can be used in place of the $\opit{subject}$ termphrase. Different role values are returned depending on which ``wh..'' word is used in the query.
 
 \examplespacing
 
@@ -270,7 +270,7 @@ Some researchers have provided examples of what they claim to be non-composition
 
 \examplespacing
 
-\noindent No \textit{subject} or \textit{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``date'' equal to 1610 pass the filter and then the denotation of the word ``\texttt{who}'' selects the subject which is returned.
+\noindent No \textit{subject} or \textit{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``$\opit{year}$'' equal to 1610 pass the filter and then the denotation of the word ``\texttt{who}'' selects the subject which is returned.
 
 In our semantics, the \textit{subject} and \textit{object} termphrases are treated as filters as are all prepositional phrases, as shown in the following example:
 
@@ -338,7 +338,7 @@ If ``\texttt{most}'' is treated as ``more than half'' then:
 
 \subsection{Montague Semantics}
 
-All quantifiers, such as ``a'', ``every'' and ``more than two'' are treated in MS as functions which take two characteristic functions of sets as arguments and return a Boolean value as result. Our modifications to MS are to use sets of entities instead of predicates/characteristic functions of those sets, and to pair sets of events with each entity; the set of events paired with an entity justify the entity’s inclusion in the denotation. For example:
+All quantifiers, such as ``\texttt{a}'', ``\texttt{every}'' and ``\texttt{more than two}'' are treated in MS as functions which take two characteristic functions of sets as arguments and return a Boolean value as result. Our modifications to MS are to use sets of entities instead of predicates/characteristic functions of those sets, and to pair sets of events with each entity; the set of events paired with an entity justify the entity’s inclusion in the denotation. For example:
 \begin{multline*}
 	\meaningof{propernoun} = \\ \lambda p.
 	\{(e, \evs)\ |\ (e, \evs) \in p\ \&\ e = \dmathrm{the entity associated with the proper noun}\}
@@ -371,13 +371,13 @@ Therefore,
 
 %Similarly, the answer to ``who discovered every moon that orbits Saturn'' returns a non-empty set of pairs ${(\entityassoc{galileo}, \evs), \etc}$ where $\evs$ is a set of events which includes the events in which \texttt{galileo} discovered every moon that orbits mars.
 
-Note that the events $\evs$ paired with the entities returned in the denotation of ``was every moon that orbits Saturn discovered'' are the events representing membership of those entities of type moon in the object value of events of type discovery. This enables additional data to be accessed from those events, as illustrated in the last example query in the previous section.
+Note that the events $\evs$ paired with the entities returned in the denotation of ``\texttt{was every moon that orbits saturn discovered}'' are the events representing membership of those entities of type moon in the object value of events of type discovery. This enables additional data to be accessed from those events, as illustrated in the last example query in the previous section.
 
 %TODO: this is not consistent with our semantics
 %TODO: single role assumption?
 \subsection{The FDBR}
 
-In order to generate the  answer to ``hall discovered every moon that orbits mars'', $\meaningof{every}$ is applied to $\meaningof{moon\ that\ orbits\ mars}$ (i.e. the set of \texttt{moons} that orbit \texttt{mars}), as first argument, and  the set of entities  that were discovered by \texttt{hall}, as the second argument. Our semantics generates this set from the set of events of type ``discover'' where the subject role is the entity associated with \texttt{hall}, as discussed below:
+In order to generate the  answer to ``\texttt{hall discovered every moon that orbits mars}'', $\meaningof{every}$ is applied to $\meaningof{moon\ that\ orbits\ mars}$ (i.e. the set of \texttt{moons} that orbit \texttt{mars}), as first argument, and  the set of entities  that were discovered by \texttt{hall}, as the second argument. Our semantics generates this set from the set of events of type ``discover'' where the subject role is the entity associated with \texttt{hall}, as discussed below:
 
 \noindent Every set of $n$-ary events (i.e. events with $n$ roles) of a given type, e.g. discovery, defines $n^2 - n$ binary relations. For example, for discovery events: \\
 
@@ -395,7 +395,7 @@ If we collect all of the values from the range of a relation that are mapped to 
 \begin{multline*}
 	\FDBR{\relationn{discover}{subject}{object}} = \\ \{( \entity{hall}, \{(\entity{phobos}, \{\event{1045}\}),\ (\entity{deimos}, \{\event{1046}\}) \}),\etc\}
 \end{multline*}
-It is these functions that are created, and used, by the denotation of the transitive verb associated with the type of the events. For example in calculating the value of $\meaningof{who discovered every moon that orbits mars}$, $\meaningof{every}$ is applied to the set of entities which is the denotation of ``moon that orbits mars'' (i.e $\{ (\entity{phobos}, \{\event{1045}\}),\\ (\entity{deimos}, \{\event{1046}\})\}$) and all of the images that are in the second field of the pairs in $\FDBR{\relationn{discover}{subject}{object}}$.
+It is these functions that are created, and used, by the denotation of the transitive verb associated with the type of the events. For example in calculating the value of $\meaningof{who discovered every moon that orbits mars}$, $\meaningof{every}$ is applied to the set of entities which is the denotation of ``\texttt{moon that orbits mars}'' (i.e $\{ (\entity{phobos}, \{\event{1045}\}),\\ (\entity{deimos}, \{\event{1046}\})\}$) and all of the images that are in the second field of the pairs in $\FDBR{\relationn{discover}{subject}{object}}$.
 
 For the pair $(\entity{hall}, \{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\})$, $\meaningof{every}$ returns the non-empty set $\{(\entity{phobos}, \{\event{1045}\}), (\entity{deimos}, \{\event{1046}\})\}$, and the value in the first field, i.e. $\entity{hall}$, is subsequently returned with the answer to the query.
 
@@ -417,7 +417,7 @@ The various FDBRs are used to answer different types of queries. For example: \\
 
 \section{Handling Prepositional Phrases}
 
-Prepositional phrases (PPs) such as ``with a telescope'' are treated
+Prepositional phrases (PPs) such as ``\texttt{with a telescope}'' are treated
 similarly to the method above, except that the termphrase
 following the preposition is applied to the set of entities that are extracted from
 the set of events in the FDBR function, according to the role associated with
@@ -457,8 +457,8 @@ The use of Haskell for the implementation of our NLQI has many advantages, inclu
 	\item The higher-order functional capability of Haskell allows the direct definition of higher-order
 	functions that are the denotations of some English words and phrases.
 	\item The ability to partially apply functions of $n$ arguments to 1 to $n$ arguments allows the
-	definition and manipulation of denotation of phrases such as ``every moon'', and ``discover
-	phobos''.
+	definition and manipulation of denotation of phrases such as ``\texttt{every moon}'', and ``\texttt{discover
+	phobos}''.
 	\item The availability of the \textit{hsparql} \cite{hsparql} Haskell package enables a simple interface between our semantic processor and SPARQL endpoints to our triplestores.
 \end{enumerate}
 
@@ -472,7 +472,7 @@ YAGO2 \cite{hoffart2013yago2} is a semantic knowledge base containing reified tr
 
 Alexandria \cite{wendt2012linguistic} is an event-based triplestore, with 160 million triples (representing 13 million n-ary relationships), derived from FreeBase. Alexandria uses a neo-Davidsonian \cite{parsons1990events} event-based semantics. In Alexandria, queries are parsed to a syntactic dependency graph, mapped to a semantic description, and translated to SPARQL queries containing named graphs. Queries with simple PPs are accommodated. However, no mention is made of negation, nested quantification, or chained complex PPs.
 
-The systems referred to above have made substantial progress in handling ambiguity and matching NL query words to URIs. However, they appear to have hit a roadblock with respect to natural-language coverage. Most can handle simple PPs such as in ``who was born in 1918'' but none can handle chained complex PPs, containing quantifiers, such as ``in us\_naval\_observatory in 1877 or 1860''.
+The systems referred to above have made substantial progress in handling ambiguity and matching NL query words to URIs. However, they appear to have hit a roadblock with respect to natural-language coverage. Most can handle simple PPs such as in ``\texttt{who was born in 1918}'' but none can handle chained complex PPs, containing quantifiers, such as ``\texttt{in us\_naval\_observatory in 1877 or 1860}''.
 
 Blackburn and Bos \cite{blackburn2005representation} implemented lambda calculus with respect to natural language, in
 Prolog, and \cite{van2010computational} have extensively discussed such implementation in

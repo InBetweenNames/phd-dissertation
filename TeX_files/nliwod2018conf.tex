@@ -173,7 +173,7 @@ with MS using ideas from Davidson et al.\cite{davidson2012semantics}, Rothstein 
 Our basic idea is to modify the above to return sets of pairs (rather than sets of entities) as intermediate
 results from evaluating the denotations of phrases. Each pair contains an entity paired with a set of
 events. In some cases, the set of events can be thought of as justifying why the entity is in the result.
-For example the result of evaluating the phrase ``discover phobos'' contains the pair $(\entityassoc{\hall} , \{\eventassoc{1030}\})$.
+For example the result of evaluating the phrase ``\texttt{discover phobos}'' contains the pair $(\entityassoc{\hall} , \{\eventassoc{1030}\})$.
 
 \subsection{An Explicit Denotation for Transitive Verbs}
 
@@ -214,21 +214,21 @@ For example, the function defined by the $\relationn{discover}{subject}{object}$
 \end{multline*}
 In such functions, we shall refer to the first value in a pair as the ``subject'' and the value in
 the second place as the ``set of objects''.
-Consider the query ``who discovered phobos'': the function which is the denotation
-of ``discovered'' computes $\FDBR{\relationn{discover}{subject}{object}}$ and then applies the function which is the
-denotation of ``phobos'' to the set of objects in every pair $(\opit{subj}, \opit{objs})$ which is a member of
+Consider the query `\texttt{who discovered phobos}'': the function which is the denotation
+of ``\texttt{discovered}'' computes $\FDBR{\relationn{discover}{subject}{object}}$ and then applies the function which is the
+denotation of ``\texttt{phobos}'' to the set of objects in every pair $(\opit{subj}, \opit{objs})$ which is a member of
 $\FDBR{\relationn{discover}{subject}{object}}$. For every pair which returns a value of $\True$, the subject of the pair is added to
-the result. The final result of ``discovered
-phobos'' is a set of pairs, each consisting of every subject which was mapped by $\FDBR{\relationn{discover}{subject}{object}}$
+the result. The final result of ``\texttt{discovered
+phobos}'' is a set of pairs, each consisting of every subject which was mapped by $\FDBR{\relationn{discover}{subject}{object}}$
 to a set of objects which contains $\entityassoc{phobos}$. That is, every entity that discovered phobos paired with the set of events which justify that entity being in the answer. The
-answer to this example query includes $\entityassoc{hall}$. Similarly, the query ``who discovered a moon'' is
-processed analogously to the above, with the denotation of ``a moon'' being applied to the set of
+answer to this example query includes $\entityassoc{hall}$. Similarly, the query ``\texttt{who discovered a moon}'' is
+processed analogously to the above, with the denotation of ``\texttt{a moon}'' being applied to the set of
 objects in every pair in $\FDBR{\relationn{discover}{subject}{object}}$, and if $\True$, the associated subject is added to
 the result. Every entity that discovered a moon is in the result.
 
 If no termphrase follows the transitive verb, all subjects of pairs that are in
 $\FDBR{\relationn{discover}{subject}{object}}$ are returned as the answer. For example, the answer to the query
-``who discovered'' is the set of all entities who discovered anything.
+``\texttt{who discovered}'' is the set of all entities who discovered anything.
 
 \subsubsection{Denotation of transitive verbs with events}
 \label{ext:transevents}
@@ -243,14 +243,14 @@ The FDBR of this binary relation is then computed:
 \begin{equation*}
 	\FDBR{\relationone{discover}{subject}} = \{(\entityassoc{hall}, \{\eventassoc{1}, \eventassoc{2}\}), (\entityassoc{kuiper}, \{\eventassoc{3}, \eventassoc{4}\}), \etc \}
 \end{equation*}
-Consider the query ``who discovered phobos'': the function which is the denotation
-of ``discovered'' computes $\relationone{discover}{subject}$ and then applies the function which is the
-denotation of ``phobos'' to the set of objects of the events in every pair $(\opit{subj},\evs)$ which is a
+Consider the query ``\texttt{who discovered phobos}'': the function which is the denotation
+of ``\texttt{discovered}'' computes $\relationone{discover}{subject}$ and then applies the function which is the
+denotation of ``\texttt{phobos}'' to the set of objects of the events in every pair $(\opit{subj},\evs)$ which is a
 member of $\relationone{discover}{subject}$. For every pair which returns $\True$, the subject and set of events is
 added to the resulting denotation. The final resulting denotation of
-``discovered phobos'' is a set of pairs consisting of subjects which were mapped by
-$\relationone{discover}{subject}$ to a set of events whose objects contains $\entityassoc{phobos}$. The answer to this example query includes $(\entityassoc{hall}, \{\eventassoc{1030}\})$. Similarly, the query ``who
-discovered a moon'' is processed analogously to the above, with the denotation of ``a moon''
+``\texttt{discovered phobos}'' is a set of pairs consisting of subjects which were mapped by
+$\relationone{discover}{subject}$ to a set of events whose objects contains $\entityassoc{phobos}$. The answer to this example query includes $(\entityassoc{hall}, \{\eventassoc{1030}\})$. Similarly, the query ``\texttt{who
+discovered a moon}'' is processed analogously to the above, with the denotation of ``\texttt{a moon}''
 being applied to the set of objects from the set of events in every pair in $\relationone{discover}{subject}$,
 and if $\True$, the pair is added to the result.
 If no termphrase or PP follows the transitive verb, all pairs in $\relationone{discover}{subject}$
@@ -260,26 +260,26 @@ they were the subject.
 
 \subsubsection{Dealing with prepositional phrases}
 
-We begin by noting that we treat passive forms of verbs, such ``discovered by hall'' similarly to
-``discovered with a telescope'' \cite{peelar2016accommodating}. Prepositional phrases such as ``with a telescope'' are treated similarly to the method described in Section \ref{ext:transevents} except that
+We begin by noting that we treat passive forms of verbs, such ``\texttt{discovered by hall}'' similarly to
+``\texttt{discovered with a telescope}'' \cite{peelar2016accommodating}. Prepositional phrases such as ``\texttt{with a telescope}'' are treated similarly to the method described in Section \ref{ext:transevents} except that
 the termphrase following the preposition is applied to the set of entities that are extracted
 from the set of events in the FDBR function, according to the role associated with the preposition. The
 result is a ``filtered'' FDBR which is further filtered by subsequent PPs. For
 example, consider the query:
 
-``who discovered in 1948 and 1949 with a telescope'' $\rightarrow$ kuiper
+\examplequery{who discovered in 1948 and 1949 with a telescope}{kuiper}
 
-The calculation here involves computing $\relationone{discover}{subject}$, then filtering it with the denotation of ``in 1948 and 1949'', then finally filtering it with the denotation of ``with a telescope''. %(reference to be provided after review process) %Peelar's Master's Thesis \cite{peelar2016accommodating} explains this in more detail.
+The calculation here involves computing $\relationone{discover}{subject}$, then filtering it with the denotation of ``\texttt{in 1948 and 1949}'', then finally filtering it with the denotation of ``\texttt{with a telescope}''. %(reference to be provided after review process) %Peelar's Master's Thesis \cite{peelar2016accommodating} explains this in more detail.
 
 \subsubsection{Choosing the FDBR to compute}
 \label{ext:choosingfdbr}
 
-The denotation of a verb, for example ``discover'', needs to know which FDBR to compute
-before PPs are applied. For example, the query ``what was used to discover
-two moons'' needs $\relationone{discover}{implement}$, whereas ``who discovered two moons'' needs
+The denotation of a verb, for example ``\texttt{discover}'', needs to know which FDBR to compute
+before PPs are applied. For example, the query ``\texttt{what was used to discover
+two moons}'' needs $\relationone{discover}{implement}$, whereas ``\texttt{who discovered two moons}'' needs
 $\relationone{discover}{subject}$. In our approach, the choice is made depending on the context in
 which the verb appears. The denotation of a transitive verb contains the ``active'' and ``passive'' properties to be queried depending
-on the verb voice, along with the event type that corresponds to the underlying relation. The grammar determines whether a transitive verb is used in the active or passive voice and selects the corresponding property in the denotation to form the domain of the FDBR. In the above examples, when ``used'' is in the active voice, it selects the ``subject'' property, but if it is in the passive voice, it selects the ``implement'' property. In both cases, the ``type'' property of the events that the FDBR is built from is ``discover\_ev''.
+on the verb voice, along with the event type that corresponds to the underlying relation. The grammar determines whether a transitive verb is used in the active or passive voice and selects the corresponding property in the denotation to form the domain of the FDBR. In the above examples, when ``\texttt{used}'' is in the active voice, it selects the ``$\opit{subject}$'' property, but if it is in the passive voice, it selects the ``$\opit{implement}$'' property. In both cases, the ``$\opit{type}$'' property of the events that the FDBR is built from is ``discover\_ev''.
 
 %The first words of the query often determines the range of the FDBR;
 %e.g. How, who, when, ``used to discover'', ``which telescope'', etc. If the phrase following the
@@ -348,16 +348,16 @@ expected if the queries are treated as having leftmost, outermost quantifier sco
 	\setlength\itemsep{0em}
 	\item \examplequery{every moon that orbits mars and was discovered with a telescope was discovered by a person}{True}
 \end{enumerate}
-The evaluation begins by retrieving all of the ``moon'' entities and then
+The evaluation begins by retrieving all of the ``\texttt{moon}'' entities and then
 intersecting this set with the set returned by evaluating $\meaningof{orbits mars}$, which is obtained by use of the
 function $\operatorname{f\_orbit}_{\opit{subject} \rightarrow \opit{object}}$ from subjects to the set of objects which they orbit. The function that is the
-denotation of ``\texttt{mars}'' is then applied by the function denoted by ``orbit'' to all sets of objects that are in
+denotation of ``\texttt{mars}'' is then applied by the function denoted by ``\texttt{orbit}'' to all sets of objects that are in
 the range of the function $\operatorname{f\_orbit}_{\opit{subject} \rightarrow \opit{object}}$. This returns the set of subjects that orbit Mars. Then, This set is
 intersected with the set of all moons that were discovered with a telescope (which is computed using
 the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{implements}}$).The set resulting from this intersection is then passed as the first
-argument to the denotation of ``every''. The second argument to $\meaningof{every}$ is the set obtained by
-evaluating the phrase ``discovered by a person'' which is computed by use of the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{subject}}$ from objects discovered to subjects who discovered them. The function that is the denotation of ``a
-person'' is applied by the function denoted by ``discover'' to all sets of subjects that are in the range of
+argument to the denotation of ``\texttt{every}''. The second argument to $\meaningof{every}$ is the set obtained by
+evaluating the phrase ``\texttt{discovered by a person}'' which is computed by use of the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{subject}}$ from objects discovered to subjects who discovered them. The function that is the denotation of ``\texttt{a
+person}'' is applied by the function denoted by ``\texttt{discover}'' to all sets of subjects that are in the range of
 the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{subject}}$ This returns the set of objects that were discovered by a person.
 $\meaningof{every}$ applies the subset operator to the two arguments and returns $\True$ if and only if the set of objects
 $\meaningof{moon that orbits mars and was discovered with a telescope}$ is a subset of $\meaningof{discovered by a person}$. In
@@ -405,10 +405,10 @@ that orbit Neptune.
 
 Our approach appears to be consistent with the ``Scope Domain Principle'' described by Landman \cite{landman1996plurality}. That is, all
 quantificational noun phrases must take scope over the event argument. For example, in our semantics,
-the answer to the query ``hall discovered every moon'' is computed by checking to see if, for every moon
+the answer to the query ``\texttt{hall discovered every moon}'' is computed by checking to see if, for every moon
 $m$, there exists an event of type discovery, with subject Hall and object $m$. Our approach does not
-compute the answer to ``cumulative'' readings of queries such as ``which moons were discovered by two
-telescopes(used simultaneously)''.
+compute the answer to ``cumulative'' readings of queries such as ``\texttt{which moons were discovered by two
+telescopes(used simultaneously)}''.
 
 \subsection{Example Queries Illustrating the Scoping of Chained Prepositional Phrases}
 
@@ -452,7 +452,7 @@ moons, but did not discover any one moon with two telescopes (see queries g to i
 
 \examplespacing
 
-Note that in the above queries, ``one'' and ``two'' are taken to mean ``exactly one'' and ``exactly two''. Since Nicholson used multiple telescopes to discover multiple objects, n) returns $\opit{nothing}$ (``discover with one telescope'' returns an FDBR of all discoverers that used exactly one telescope in all their discoveries, which excludes Nicholson). On the other hand o) relaxes this restriction, yielding the expected result (see Section \ref{ext:conclusion}).  Note that i) differs from n) because ``was discovered with one telescope'' returns an FDBR of all objects that were discovered each with exactly one telescope.
+Note that in the above queries, ``\texttt{one}'' and ``\texttt{two}'' are taken to mean ``exactly one'' and ``exactly two''. Since Nicholson used multiple telescopes to discover multiple objects, n) returns $\opit{nothing}$ (``\texttt{discover with one telescope}'' returns an FDBR of all discoverers that used exactly one telescope in all their discoveries, which excludes Nicholson). On the other hand o) relaxes this restriction, yielding the expected result (see Section \ref{ext:conclusion}).  Note that i) differs from n) because ``\texttt{was discovered with one telescope}'' returns an FDBR of all objects that were discovered each with exactly one telescope.
 %We shall review our approach to quantifier scoping in chained
 %propositional phrases in future work.
 
@@ -475,8 +475,8 @@ The use of Haskell for the implementation of our NLQI has many advantages, inclu
 	\item The higher-order functional capability of Haskell allows the direct definition of higher-order
 	functions that are the denotations of some English words and phrases. For example: $ \opit{termand}\ s\ t = (\lambda v)\ s\ v\ \&\ t\ v  $
 	\item The ability to partially apply functions of $n$ arguments to 1 to $n$ arguments allows the
-	definition and manipulation of denotation of phrases such as ``every moon'', and ``discover
-	phobos''.
+	definition and manipulation of denotation of phrases such as ``\texttt{every moon}'', and ``\texttt{discover
+	phobos}''.
 	\item The availability of the \textit{hsparql} \cite{hsparql} Haskell package enables a simple interface between our
 	semantic processor and SPARQL endpoints to our triplestores.
 \end{enumerate}
@@ -554,32 +554,32 @@ A number of design decisions facilitate future extension of our NLQI:
 
 \subsection{Examples of extending the NLQI}
 
-We have given examples, in sub-section 6.1 of how we can add single words such as ``person'' and
-``discoverer'' to the query language by simply adding an entry to the in-program dictionary.
+We have given examples, in sub-section 6.1 of how we can add single words such as ``\texttt{person}'' and
+``\texttt{discoverer}'' to the query language by simply adding an entry to the in-program dictionary.
 The query Language can also be easily extended with new language constructs by adding new syntax
-rules to the EAG together with their associated attribute rules. For example, suppose that we want to be able to ask questions such as ``tell me all that you
-know about hall discovering a moon that orbits mars'' The phrase ``hall discovering a moon that orbits
-mars'' could be processed using the interpreter for questions which would return the set of two events
-where Hall discovered Phobos and Deimos. The meaning of the phrase ``tell me all that
-you know about'' could be designed so that, for each event, a string could be generated: ``hall discovered phobos with refractor\_telescope\_1 in 1987 at the us\_naval\_observatory''
+rules to the EAG together with their associated attribute rules. For example, suppose that we want to be able to ask questions such as ``\texttt{tell me all that you
+know about hall discovering a moon that orbits mars}'' The phrase ``\texttt{hall discovering a moon that orbits
+mars}'' could be processed using the interpreter for questions which would return the set of two events
+where Hall discovered Phobos and Deimos. The meaning of the phrase ``\texttt{tell me all that
+you know about}'' could be designed so that, for each event, a string could be generated: ``\texttt{hall discovered phobos with refractor\_telescope\_1 in 1987 at the us\_naval\_observatory}''
 and also any other data that had been added about $\eventassoc{1030}$
-Another type of question could be ``who discovered which moons''. The meaning of the word ``which''
-could be changed temporarily to that of ``a'' and the question ``who discovered a moon'' answered. The
+Another type of question could be ``\texttt{who discovered which moons}''. The meaning of the word ``\texttt{which}''
+could be changed temporarily to that of ``\texttt{a}'' and the question ``\texttt{who discovered a moon}'' answered. The
 resulting FDBR could be returned from the latter question and then used to generate pairs of people and
 the list of moons they discovered as answer to the original query.
 
 \subsubsection{Adding superlatives and graded quantifiers}
 The second contribution of this paper is to recognize that each FDBR contains more information than we
-have taken advantage of so far. For example, in computing the answer to the query ``who discovered
-every moon''. We consider each pair $(\opit{subj}, \opit{objs})$ in $\FDBR{\relationn{discover}{subject}{object}}$
-independently and apply the meaning of ``every moon'' to the set $\opit{objs}$ in order to determine if the
-subj should be in the answer. However, for a question such as ``who discovered the most moons that
-orbit mars'' the whole of the FDBR needs to be processed so that the result contains the subject with
+have taken advantage of so far. For example, in computing the answer to the query ``\texttt{who discovered
+every moon}''. We consider each pair $(\opit{subj}, \opit{objs})$ in $\FDBR{\relationn{discover}{subject}{object}}$
+independently and apply the meaning of ``\texttt{every moon}'' to the set $\opit{objs}$ in order to determine if the
+subj should be in the answer. However, for a question such as ``\texttt{who discovered the most moons that
+orbit mars}'' the whole of the FDBR needs to be processed so that the result contains the subject with
 the most events representing that subject discovering a moon that orbits mars. This requires the
-addition of ``the most'' to the set of quantifiers and the appropriate modification to the denotation of
+addition of ``\texttt{the most}'' to the set of quantifiers and the appropriate modification to the denotation of
 transitive verbs to take advantage of the information available in the appropriate FDBR. A similar
-modification could be made to accommodate queries containing the words ``earliest'' ``most recently'', using $\FDBR{\relationn{discover}{object}{year}}$ etc., and queries such as ``which telescope was used to discover most
-moons'' using $\FDBR{\relationn{discover}{implement}{object}}$ , etc.  Accommodating ``the least'' can be similarly achieved by introducing complements into the semantics \cite{peelarfrostwebist2020}.
+modification could be made to accommodate queries containing the words ``\texttt{earliest}'' ``\texttt{most recently}'', using $\FDBR{\relationn{discover}{object}{year}}$ etc., and queries such as ``\texttt{which telescope was used to discover most
+moons}'' using $\FDBR{\relationn{discover}{implement}{object}}$ , etc.  Accommodating ``\texttt{the least}'' can be similarly achieved by introducing complements into the semantics \cite{peelarfrostwebist2020}.
 
 \section{Related Work}
 \label{ext:relatedwork}
@@ -589,7 +589,7 @@ YAGO2 \cite{hoffart2013yago2} is a semantic knowledge base containing reified tr
 
 Alexandria \cite{wendt2012linguistic} is an event-based triplestore, with 160 million triples (representing 13 million n-ary relationships), derived from FreeBase. Alexandria uses a neo-Davidsonian \cite{parsons1990events} event-based semantics. In Alexandria, queries are parsed to a syntactic dependency graph, mapped to a semantic description, and translated to SPARQL queries containing named graphs. Queries with simple PPs are accommodated. However, no mention is made of negation, nested quantification, or chained complex PPs.
 
-The systems referred to above have made substantial progress in handling ambiguity and matching NL query words to URIs. However, they appear to have hit a roadblock with respect to natural-language coverage. Most can handle simple PPs such as in ``who was born in 1918'' but none can handle chained complex PPs, containing quantifiers, such as ``in us\_naval\_observatory in 1877 or 1860''. There appear to be three reasons for this: 1) those NLQIs that were designed for non-reified triplestores, such as DBpedia, do not appear to be easily extended to reified triplestores that are necessary for complex PPs. 2) those NLQIs that were designed for non-reified or reified triplestores, and which translate the NL queries to SPARQL, suffer from the fact that SPARQL was originally designed for non-reified triplestores.  Although SPARQL was extended to handle ``named graphs'' \cite{carroll2005named} which support a limited form of reification but appear to be suitable only for provenance data. SPARQL was also extended to accommodate triple identifiers. 3) The YAGO2 system is the only system that has an NLQI for a reified triplestore that does not translate to SPARQL. However, YAGO2 can only accommodate PPs related to time and location and does not support quantification.
+The systems referred to above have made substantial progress in handling ambiguity and matching NL query words to URIs. However, they appear to have hit a roadblock with respect to natural-language coverage. Most can handle simple PPs such as in ``\texttt{who was born in 1918}'' but none can handle chained complex PPs, containing quantifiers, such as ``\texttt{in us\_naval\_observatory in 1877 or 1860}''. There appear to be three reasons for this: 1) those NLQIs that were designed for non-reified triplestores, such as DBpedia, do not appear to be easily extended to reified triplestores that are necessary for complex PPs. 2) those NLQIs that were designed for non-reified or reified triplestores, and which translate the NL queries to SPARQL, suffer from the fact that SPARQL was originally designed for non-reified triplestores.  Although SPARQL was extended to handle ``named graphs'' \cite{carroll2005named} which support a limited form of reification but appear to be suitable only for provenance data. SPARQL was also extended to accommodate triple identifiers. 3) The YAGO2 system is the only system that has an NLQI for a reified triplestore that does not translate to SPARQL. However, YAGO2 can only accommodate PPs related to time and location and does not support quantification.
 
 \abbreviation{CNL}{Controlled Natural Language}
 \abbreviation{RDF}{Resource Description Framework}
@@ -624,7 +624,7 @@ software that we have developed; all of which is available through the links tha
 event-based triplestore is also available for remote access at the URL
 links that we have given.
 
-Our semantics could be easily extended to accommodate very simple negation as in the query ``no moon orbits two planets''. However, the query ``which person orbits no moons?'' would not return the correct answer. The reason is that list returned by evaluating the denotation corresponding to ``orbits no moons'' would only contain entities that orbits something but not a moon. It would not contain entities that orbit nothing. This problem is related to how the ``closed world assumption'' is implemented. To solve tis problem, we will begin by investigating the methods used in the experimental NLQIs Orakel \cite{cimiano:haase}, PANTO \cite{wang2007panto}, Pythia \cite{unger:cimiano}, and TBSL \cite{hoffner2013user}. We shall also consider theoretical computational linguistic approaches for dealing with negation and quantification in event-based semantics, e.g. \cite{champollion2010quantification}.
+Our semantics could be easily extended to accommodate very simple negation as in the query ``\texttt{no moon orbits two planets}''. However, the query ``\texttt{which person orbits no moons?}'' would not return the correct answer. The reason is that list returned by evaluating the denotation corresponding to ``\texttt{orbits no moons}'' would only contain entities that orbits something but not a moon. It would not contain entities that orbit nothing. This problem is related to how the ``closed world assumption'' is implemented. To solve tis problem, we will begin by investigating the methods used in the experimental NLQIs Orakel \cite{cimiano:haase}, PANTO \cite{wang2007panto}, Pythia \cite{unger:cimiano}, and TBSL \cite{hoffner2013user}. We shall also consider theoretical computational linguistic approaches for dealing with negation and quantification in event-based semantics, e.g. \cite{champollion2010quantification}.
 
 In this paper, we have not addressed the problems that result from the user's lack of knowledge of the URIs used in the triplestores. Significant progress has been made by others, e.g. \cite{walter:unger}, in tackling this problem.
 

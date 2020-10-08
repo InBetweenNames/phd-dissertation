@@ -89,7 +89,7 @@ Our NLQI computes answers with respect to an \textit{event-based} Semantic Web t
 An \textit{event-based triple} has a \textit{subject} that identifies an event rather than an entity \cite{peelar2016accommodating}. In these triples, the \textit{predicate} identifies a \textit{role} through which the \textit{object} participates in the event.  That is, an event-based triple $(e,r,o)$ expresses that $o$ participates in $e$ through role $r$.
 We call $o$ the event $e$'s ``$r$ \textit{property}''. For example, in \Cref{webist2019conf:evdiscover}, ``hall'' is event ``event1045'''s \textit{subject} property. Triplestores consisting of event-based triples are called \textit{event-based triplestores}.
 
-The advantage of event-based triplestores is that additional information about the events and entities participating in those events is immediately available. This is not the case in an entity-based triplestore, where some form of \textit{reification} is necessary to obtain additional information about a fact expressed in a triple.  For example, obtaining the location where ``hall discovered phobos'' in an entity-based triplestore, described by $(\hall, \discovered, \phobos)$, is not possible without reification.
+The advantage of event-based triplestores is that additional information about the events and entities participating in those events is immediately available. This is not the case in an entity-based triplestore, where some form of \textit{reification} is necessary to obtain additional information about a fact expressed in a triple.  For example, obtaining the location where ``\texttt{hall discovered phobos}'' in an entity-based triplestore, described by $(\hall, \discovered, \phobos)$, is not possible without reification.
 
 We assume that each event will at minimum contain a role \textit{ev\_type} that identifies the type of the event, with the general expectation that events of the same type will contain similar roles.
 This implies the existence of a schema that describes the types of roles that an event may contain.  As a consequence of this, each event could be equally well be represented by a row in a relational database.  We discuss this further in \Cref{webist2019journal:relationaldb}.
@@ -388,7 +388,7 @@ intuitive, systematic, and compositional.
 
 \subsection{Montague Semantics}
 
-All quantifiers, such as ``a'', ``every'' and ``more than two'' are treated in MS as functions which take two characteristic functions of sets as arguments and return a Boolean value as result. Our modifications to MS are to use sets of entities instead of predicates/characteristic functions of those sets, and to pair sets of events with each entity; the set of events paired with an entity justify the entity’s inclusion in the denotation. For example:
+All quantifiers, such as ``\texttt{a}'', ``\texttt{every}'' and ``\texttt{more than two}'' are treated in MS as functions which take two characteristic functions of sets as arguments and return a Boolean value as result. Our modifications to MS are to use sets of entities instead of predicates/characteristic functions of those sets, and to pair sets of events with each entity; the set of events paired with an entity justify the entity’s inclusion in the denotation. For example:
 \begin{equation*}
 	\begin{split}
 		\meaningof{propernoun} =&\ \lambda p.
@@ -554,8 +554,8 @@ The use of Haskell for the implementation of our NLQI has many advantages, inclu
 	\item The higher-order functional capability of Haskell allows the direct definition of higher-order
 	functions that are the denotations of some English words and phrases.
 	\item The ability to partially apply functions of $n$ arguments to 1 to $n$ arguments allows the
-	definition and manipulation of denotation of phrases such as ``every moon'', and ``discover
-	phobos''.
+	definition and manipulation of denotation of phrases such as ``\texttt{every moon}'', and ``\texttt{discover
+	phobos}''.
 	\item The availability of the \textit{hsparql} \cite{hsparql} Haskell package enables a simple interface between our semantic processor and SPARQL endpoints to our triplestores.
 \end{enumerate}
 
@@ -882,7 +882,7 @@ The SQUALL query language \cite{ferre:squall,ferre2013squall} is a controlled na
 answers directly from remote triplestores, as we do, using simple SPARQL-endpoint triple
 retrieval commands. It can also be translated to SPARQL queries which can be processed by
 SPARQL endpoints for faster computation of answers. SQUALL can handle
-quantification, aggregation, some forms of negation, and simple unchained prepositional phrases containing the word ``at'' and ``in''.  It can also handle superlative phrases as long as they are not nested under a prepositional phrase.  Notably, the scope of prepositional phrases in SQUALL are the entire sentence they reside in.
+quantification, aggregation, some forms of negation, and simple unchained prepositional phrases containing the word ``\texttt{at}'' and ``\texttt{in}''.  It can also handle superlative phrases as long as they are not nested under a prepositional phrase.  Notably, the scope of prepositional phrases in SQUALL are the entire sentence they reside in.
 It is also written in a functional language. However, some queries in SQUALL require the use of variables and low-level relational algebraic operators (see for example, the queries on page 118
 of \cite{ferre2013squall}).
 

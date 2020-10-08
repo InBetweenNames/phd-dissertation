@@ -200,7 +200,7 @@ Since the triples directly reference the event itself, adding more information a
 \label{webist2020conf:fdbr}
 
 \abbreviation{NL}{Natural Language}
-The notion of a \textit{Function Defined by a Binary Relation} (FDBR) was first described in \cite{peelar2016accommodating} as useful datastructure for accommodating chained prepositional phrases in Natural Language Queries.  It was shown that the word ``by'', as in ``discovered by'', could be treated as a ``virtual preposition'' under this approach. In \cite{frostpeelar2019} it was shown that the FDBR can be used to answer many kinds of Natural Language (NL) queries including superlatives (including those that occur in a prepositional phrase), and as a useful datastructure for memoizing the results of queries performed in the denotations.  This vastly improved query execution time and opened the door for offline computation of results.
+The notion of a \textit{Function Defined by a Binary Relation} (FDBR) was first described in \cite{peelar2016accommodating} as useful datastructure for accommodating chained prepositional phrases in Natural Language Queries.  It was shown that the word ``\texttt{by}'', as in ``\texttt{discovered by}'', could be treated as a ``virtual preposition'' under this approach. In \cite{frostpeelar2019} it was shown that the FDBR can be used to answer many kinds of Natural Language (NL) queries including superlatives (including those that occur in a prepositional phrase), and as a useful datastructure for memoizing the results of queries performed in the denotations.  This vastly improved query execution time and opened the door for offline computation of results.
 The definition of the FDBR is as follows:
 \begin{equation*}
 		\FDBR{\rel} = \{(x, \image_x)\ | \ (\exists e)\ (x, e) \in \rel\ \& \ \image_x = \{ y\ |\ (x, y) \in \rel \}  \}
@@ -511,7 +511,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent ``not hall'' is a negated term-phrase.  The result is \textit{True} because \texttt{galileo} discovered \texttt{ganymede}, not \texttt{hall}.
+\noindent ``\texttt{not hall}'' is a negated term-phrase.  The result is \textit{True} because \texttt{galileo} discovered \texttt{ganymede}, not \texttt{hall}.
 
 \examplespacing
 
@@ -546,7 +546,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This is the complement of the FDBR ``discovered by hall''.  The answer is the set of all things excluding those that \texttt{hall} discovered.
+\noindent This is the complement of the FDBR ``\texttt{discovered by hall}''.  The answer is the set of all things excluding those that \texttt{hall} discovered.
 
 \examplespacing
 
@@ -554,7 +554,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This query features double negation and is equivalent to asking ``phobos and deimos were discovered by hall''.  The result is \textit{True}.
+\noindent This query features double negation and is equivalent to asking ``\texttt{phobos and deimos were discovered by hall}''.  The result is \textit{True}.
 
 \examplespacing
 
@@ -571,7 +571,7 @@ This is equivalent to the query \texttt{kuiper discovered nereid}.
 
 \examplespacing
 
-\noindent This query features a variety of complex linguistic constructs, including nested $n$-ary transitive verbs, adjectives, negation, chained prepositional phrases, quantification and superlative phrases.  The result is ``none'' because ``\texttt{non vacuumous moon that orbits most planets that spin}'' returns the empty FDBR, and the intersection of the empty FDBR with any set is also the empty FDBR.
+\noindent This query features a variety of complex linguistic constructs, including nested $n$-ary transitive verbs, adjectives, negation, chained prepositional phrases, quantification and superlative phrases.  The result is ``\textit{none}'' because ``\texttt{non vacuumous moon that orbits most planets that spin}'' returns the empty FDBR, and the intersection of the empty FDBR with any set is also the empty FDBR.
 
 \examplespacing
 
@@ -579,7 +579,7 @@ This is equivalent to the query \texttt{kuiper discovered nereid}.
 
 \examplespacing
 
-\noindent This query features a negated termphrase, which itself consists of the word ``no'' (entailing negation itself). ``\texttt{orbits mars}'' is the FDBR from the entities \texttt{phobos} and \texttt{deimos} to their orbit events, and ``\texttt{not no moon orbits mars}'' evaluates to ``\texttt{orbits mars}'' with the entities of ``\texttt{no moon orbits mars}'' removed.  Since ``\texttt{no moon orbits mars}'' is \textit{False}, it returns the empty FDBR, which is then removed from ``\texttt{orbits mars}'', giving a non-empty result.  Therefore, the query returns \textit{True}. This provides evidence that our NLQI correctly handles negation as a compositional construct.
+\noindent This query features a negated termphrase, which itself consists of the word ``\texttt{no}'' (entailing negation itself). ``\texttt{orbits mars}'' is the FDBR from the entities \texttt{phobos} and \texttt{deimos} to their orbit events, and ``\texttt{not no moon orbits mars}'' evaluates to ``\texttt{orbits mars}'' with the entities of ``\texttt{no moon orbits mars}'' removed.  Since ``\texttt{no moon orbits mars}'' is \textit{False}, it returns the empty FDBR, which is then removed from ``\texttt{orbits mars}'', giving a non-empty result.  Therefore, the query returns \textit{True}. This provides evidence that our NLQI correctly handles negation as a compositional construct.
 
 \examplespacing
 

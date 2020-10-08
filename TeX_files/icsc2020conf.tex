@@ -22,8 +22,8 @@ convert the NL query to a formal query language such as SQL or SPARQL and then e
 query with respect to the relational database or semantic web triplestore respectively. One problem with
 these approaches is that the interface is restricted by the difficulty of translating complex NL phrases to
 the formal query language. In particular, queries with chained prepositional phrases containing
-quantifiers have been difficult to accommodate. Examples of such queries are: ``who discovered two
-moons with a telescope in 1877 at us\_naval\_observatory'', and ``where was a telescope used by hall to discover phobos''
+quantifiers have been difficult to accommodate. Examples of such queries are: ``\texttt{who discovered two
+moons with a telescope in 1877 at us\_naval\_observatory}'', and ``\texttt{where was a telescope used by hall to discover phobos}''
 
 An alternative approach is to treat the NL query as an expression of the lambda calculus, using an
 extended form of the denotational semantics of Richard Montague \cite{Dowty:wall}, and to calculate the answer directly
@@ -33,7 +33,7 @@ denotations of common nouns, adjectives and intransitive verbs, and the $n^2 - n
 associated with $n$-ary transitive verbs.
 
 Montague semantics can be easily implemented in a pure functional programming language such as
-Haskell. The higher-order functional capability of Haskell and the ability to partially apply higher-order functions enable Montague denotations of words such as ``every'' to be directly defined in the language. Furthermore, the availability of
+Haskell. The higher-order functional capability of Haskell and the ability to partially apply higher-order functions enable Montague denotations of words such as ``\texttt{every}'' to be directly defined in the language. Furthermore, the availability of
 parser combinator libraries enables the construction of Executable Attribute Grammars (EAGs) within the language.
 This lends itself to a direct implementation of Montague-style integration of syntax rules with semantic rules.
 
@@ -60,7 +60,7 @@ YAGO2 \cite{hoffart2013yago2} is a semantic knowledge base containing reified tr
 
 Alexandria \cite{wendt2012linguistic} is an event-based triplestore, with 160 million triples (representing 13 million n-ary relationships), derived from FreeBase. Alexandria uses a neo-Davidsonian \cite{parsons1990events} event-based semantics. In Alexandria, queries are parsed to a syntactic dependency graph, mapped to a semantic description, and translated to SPARQL queries containing named graphs. Queries with simple PPs are accommodated. However, no mention is made of negation, nested quantification, or chained complex PPs.
 
-The systems referred to above have made substantial progress in handling ambiguity and matching NL query words to URIs. However, they appear to have hit a roadblock with respect to natural-language coverage. Most can handle simple PPs such as in ``who was born in 1918'' but none can handle chained complex PPs, containing quantifiers, such as ``in us\_naval\_observatory in 1877 or 1860''. There appear to be three reasons for this: 1) those NLQIs that were designed for non-reified triplestores, such as DBpedia, do not appear to be easily extended to reified triplestores that are necessary for complex PPs. 2) those NLQIs that were designed for non-reified or reified triplestores, and which translate the NL queries to SPARQL, suffer from the fact that SPARQL was originally designed for non-reified triplestores.  Although SPARQL was extended to handle ``named graphs'' \cite{carroll2005named} which support a limited form of reification but appear to be suitable only for provenance data. SPARQL was also extended to accommodate triple identifiers. 3) The YAGO2 system is the only system that has an NLQI for a reified triplestore that does not translate to SPARQL. However, YAGO2 can only accommodate PPs related to time and location and does not support quantification.
+The systems referred to above have made substantial progress in handling ambiguity and matching NL query words to URIs. However, they appear to have hit a roadblock with respect to natural-language coverage. Most can handle simple PPs such as in ``\texttt{who was born in 1918}'' but none can handle chained complex PPs, containing quantifiers, such as ``\texttt{in us\_naval\_observatory in 1877 or 1860}''. There appear to be three reasons for this: 1) those NLQIs that were designed for non-reified triplestores, such as DBpedia, do not appear to be easily extended to reified triplestores that are necessary for complex PPs. 2) those NLQIs that were designed for non-reified or reified triplestores, and which translate the NL queries to SPARQL, suffer from the fact that SPARQL was originally designed for non-reified triplestores.  Although SPARQL was extended to handle ``named graphs'' \cite{carroll2005named} which support a limited form of reification but appear to be suitable only for provenance data. SPARQL was also extended to accommodate triple identifiers. 3) The YAGO2 system is the only system that has an NLQI for a reified triplestore that does not translate to SPARQL. However, YAGO2 can only accommodate PPs related to time and location and does not support quantification.
 
 Reference \cite{blackburn2005representation} implemented lambda calculus with repect to natural language, in
 Prolog, and \cite{van2010computational} have extensively discussed such implementation in
@@ -83,14 +83,14 @@ of \cite{ferre2013squall}).
 
 MS \cite{Dowty:wall} defines the meaning of words, phrases, sentences and queries in terms of a space of functions that is
 built over a set of entities (the universe of discourse) and the Boolean values $\True$ and $\False$. For
-example, the word ``moon'' denotes the characteristic function (logical predicate) which maps entities to
-$\True$ or $\False$. The result is $\True$ if the entity is a moon, and $\False$ otherwise. One of Montague's many insights was his recognition that proper nouns such as ``Phobos'' do not denote entities; rather they
+example, the word ``\texttt{moon}'' denotes the characteristic function (logical predicate) which maps entities to
+$\True$ or $\False$. The result is $\True$ if the entity is a moon, and $\False$ otherwise. One of Montague's many insights was his recognition that proper nouns such as ``\texttt{phobos}'' do not denote entities; rather they
 denote functions that take characteristic functions as argument and return Boolean values as result. For
-example ``Phobos'' denotes the function $\lambda f \  f \  \entityassoc{\phobos}$ where $\entityassoc{\phobos}$ represents the entity associated with
+example ``\texttt{phobos}'' denotes the function $\lambda f \  f \  \entityassoc{\phobos}$ where $\entityassoc{\phobos}$ represents the entity associated with
 the name Phobos. For readers not familiar with the Lambda Calculus, the expression $\lambda f \ \opit{expr}$ is the
 name (and definition) of a function which, when applied to an argument $g$ returns as result the
-expression $\opit{expr}$ with all instances of $f$ in $\opit{expr}$ replaced by $g$. According to MS, the phrase ``Phobos
-spins'' is interpreted as shown below, where $a \implies b$ indicates that $b$ is the result of evaluating $a$, $\meaningof{a}$
+expression $\opit{expr}$ with all instances of $f$ in $\opit{expr}$ replaced by $g$. According to MS, the phrase ``\texttt{phobos
+spins}'' is interpreted as shown below, where $a \implies b$ indicates that $b$ is the result of evaluating $a$, $\meaningof{a}$
 represents the denotation (meaning) of $a$, $\wordpred{w}$ is the logical predicate associated with the word $w$,
 and $\lambda$ is the Lambda symbol.
 \begin{equation*}
@@ -105,8 +105,8 @@ and $\lambda$ is the Lambda symbol.
 \end{equation*}
 owing to the fact that Phobos does spin.
 
-Montague's treatment of quantifiers such as ``a'', ``every'', ``some'', ``one'' etc. is to treat their
-denotations as higher-order functions. For example, the word ``every'' denotes the following function:
+Montague's treatment of quantifiers such as ``\texttt{a}'', ``\texttt{every}'', ``\texttt{some}'', ``\texttt{one}'' etc. is to treat their
+denotations as higher-order functions. For example, the word ``\texttt{every}'' denotes the following function:
 \begin{align*}
 	\meaningof{every} =& \lambda p \  \lambda q \  \forall x \  (p \  x \Rightarrow q \  x)
 \end{align*}
@@ -124,9 +124,9 @@ For example:
 \subsection{A Computationally Tractable Version of Montague Semantics} %Subsections 3.2 and 3.3 from TOCHI paper
 \label{icsc2020conf:frostmont}
 The direct implementation of MS is not practical for applications with a large universe of discourse
-owing to the use of characteristic functions. For example, the denotation of ``every'' given above is
-computationally intractable in a query such as ``does every moon spin'' as it would require the
-characteristic function that is the denotation of ``moon'' to be applied to every entity in the universe of
+owing to the use of characteristic functions. For example, the denotation of ``\texttt{every}'' given above is
+computationally intractable in a query such as ``\texttt{does every moon spin}'' as it would require the
+characteristic function that is the denotation of ``\texttt{moon}'' to be applied to every entity in the universe of
 discourse. A more efficient alternative approach is to use the sets defined by characteristic functions
 directly in denotations \cite{frost1989constructing, frost2002efficient}. For example:
 \[ \meaningof{moon} = \{\entityassoc{\phobos} , \entityassoc{\deimos}, \ldots\} \]
@@ -137,7 +137,7 @@ All other denotations are modified accordingly. For example:
 	\meaningof{spins} &= \dmathrm{the set of entities that spin}
 \end{align*}
 
-Thus the phrase ``every moon spins'' is interpreted as follows:
+Thus the phrase ``\texttt{every moon spins}'' is interpreted as follows:
 \begin{equation*}
 	\begin{split}
 		&\meaningof{every moon spins}\\
@@ -148,7 +148,7 @@ Thus the phrase ``every moon spins'' is interpreted as follows:
 	\end{split}
 \end{equation*}
 
-The phrase ``phobos spins'' is interpreted as follows:
+The phrase ``\texttt{phobos spins}'' is interpreted as follows:
 \begin{equation*}
 	\begin{split}
 		&\meaningof{phobos spins}\\
@@ -193,7 +193,7 @@ Transitive verbs in MS are handled using syntactic manipulation rather than with
 
 
 \subsection{An Alternative Treatment of Transitive Verbs I}
-In earlier work \cite {frost2006realization}, an explicit denotation for transitive verbs was developed that gives the same result as MS for some queries when their translations to lambda expressions are rewritten to their canonical forms. However, this approach does not work for queries such as ``hall discovered a moon'', since the denotation of the term-phrase ``a moon'' is more complex than the denotation of the term-phrase ``phobos''.
+In earlier work \cite {frost2006realization}, an explicit denotation for transitive verbs was developed that gives the same result as MS for some queries when their translations to lambda expressions are rewritten to their canonical forms. However, this approach does not work for queries such as ``\texttt{hall discovered a moon}'', since the denotation of the term-phrase ``\texttt{a moon}'' is more complex than the denotation of the term-phrase ``\texttt{phobos}''.
 
 \subsection{An Alternative Treatment of Transitive Verbs II}
 \label{icsc2020conf:altvbii}
@@ -207,14 +207,14 @@ Specifically, transitive verbs are denoted using the {\em function defined by th
 		&\FDBR{\rel} = \{(x, \image_x)\ | \ (\exists e)\ (x, e) \in \rel\ \& \ \image_x = \{ y\ |\ (x, y) \in \rel \}  \}
 	\end{split}
 \end{equation*}
-Briefly, $\FDBR{\rel}$ converts $\rel$ into a function without any loss of information by grouping together elements in the codomain that are related under the same element in the domain. For example, consider the relation underlying the active voice of ``discover'', $\relation{discover}$:
+Briefly, $\FDBR{\rel}$ converts $\rel$ into a function without any loss of information by grouping together elements in the codomain that are related under the same element in the domain. For example, consider the relation underlying the active voice of ``\texttt{discover}'', $\relation{discover}$:
 \[ \FDBR{\relation{discover}} = \{(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \} ),\ \dmathrm{etc} \ldots \} \]
-If the transitive verb is followed by a term-phrase such as ``phobos'' or ``a moon'', then
+If the transitive verb is followed by a term-phrase such as ``\texttt{phobos}'' or ``\texttt{a moon}'', then
 the function denoted by that term-phrase is used to ``filter'' the denotation of the transitive verb for relevant actors. For example:
 \[ \meaningof{discovered} \ \meaningof{phobos} \implies \{ (\entityassoc{\hall}, \{ \eventassoc{1045} \} ) \} \]
 Similarly,
 \[\meaningof{discovered} \ \meaningof{a\ moon} \implies \{ (\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \} ), \dots \} \]
-\noindent The denotation of the transitive verb ``discover'' follows from the above:
+\noindent The denotation of the transitive verb ``\texttt{discover}'' follows from the above:
 \begin{multline*}
 	\meaningof{discover} =
 	\lambda t\ \{ (s,\ \opit{relevs})\ |\ (s, \evs)\ \in\ \FDBR{\relation{discover}}\  \\
@@ -257,16 +257,16 @@ Specifically, observe how the pair $(\entityassoc{\hall}, \{ \eventassoc{1045}, 
 		\phantom{\implies}	& \phantom{\emptyset} \quad \dmathrm{other than $\entity{phobos}$ and\ $\entity{deimos}$ in\ $\wordset{moon}$})
 	\end{split}
 \end{equation*}
-In this event-based approach, the result of a verb-phrase such as ``discovered phobos'' is a list
+In this event-based approach, the result of a verb-phrase such as ``\texttt{discovered phobos}'' is a list
 of pairs, each pair consisting of an entity which discovered phobos, paired with the set of events of
 type {\em discover} in which that entity was the subject and $\entityassoc{phobos}$ was the object.
 In other words, the set of events in each pair can be thought of as a form of justification for the subject entity in the first field of that pair belonging in the result.
 
 \subsection{Accommodating Chained Prepositional Phrases}
 
-The above approach can be extended to support prepositional phrases in queries with only minor changes \cite{peelar2016accommodating, frost2013event}. Briefly, the denotations of the prepositions act as filters to the denotation of the transitive verb they apply to.  Consider, for example, the query ``discovered in 1877 with a telescope''.  In this query, the prepositions are ``in 1877'' and ``with a telescope''.  Performing this filtering is identical to the term-phrase filtering shown above, with some added logic to select columns other than the subject and object from the relation.
+The above approach can be extended to support prepositional phrases in queries with only minor changes \cite{peelar2016accommodating, frost2013event}. Briefly, the denotations of the prepositions act as filters to the denotation of the transitive verb they apply to.  Consider, for example, the query ``\texttt{discovered in 1877 with a telescope}''.  In this query, the prepositions are ``\texttt{in 1877}'' and ``\texttt{with a telescope}''.  Performing this filtering is identical to the term-phrase filtering shown above, with some added logic to select columns other than the subject and object from the relation.
 
-The denotation for a preposition applied to a term-phrase is a pair  $(\opit{props},$ $\opit{tmph})$ where $\opit{props}$ is a set of properties that an FDBR should be constructed from (for example ``implement'', ``year'', or ``location''), and $\opit{tmph}$ is the term-phrase that will be applied to that resulting FDBR.
+The denotation for a preposition applied to a term-phrase is a pair  $(\opit{props},$ $\opit{tmph})$ where $\opit{props}$ is a set of properties that an FDBR should be constructed from (for example ``$\opit{implement}$'', ``$\opit{year}$'', or ``$\opit{location}$''), and $\opit{tmph}$ is the term-phrase that will be applied to that resulting FDBR.
 \begin{equation*}
 	\begin{split}
 		\meaningof{at} =&\ \lambda t\;(\{\opit{location}\}, t) \\
@@ -277,16 +277,16 @@ The denotation for a preposition applied to a term-phrase is a pair  $(\opit{pro
 	\end{split}
 \end{equation*}
 Under this approach, a prepositional phrase is treated in the same way as the term-phrase following the verb \cite{peelar2016accommodating}.
-This approach is powerful enough that the word ``by'', as in ``discovered by'', can be treated in the same way as a preposition, enabling active and passive voices of transitive verbs to be treated in a uniform way.  This was one of the key contributions described in Peelar's Master's thesis \cite{peelar2016accommodating}.
+This approach is powerful enough that the word ``\texttt{by}'', as in ``\texttt{discovered by}'', can be treated in the same way as a preposition, enabling active and passive voices of transitive verbs to be treated in a uniform way.  This was one of the key contributions described in Peelar's Master's thesis \cite{peelar2016accommodating}.
 \[
 \meaningof{by} = \lambda t\ (\{\opit{subject}\}, t)
 \]
-The denotation of the transitive verb is filtered in the order that the prepositions appear.  To achieve this, the previous denotation for ``discover'' is modified such that $\objfdbr{\evs}$ is replaced with the more general $\propfdbr{\opit{prop}}{\evs}$, and the filtered FDBR from each applied termphrase is fed into the next preposition.  If the passive form of the transitive verb is used, then the relation is flipped and the same logic applies.
+The denotation of the transitive verb is filtered in the order that the prepositions appear.  To achieve this, the previous denotation for ``\texttt{discover}'' is modified such that $\objfdbr{\evs}$ is replaced with the more general $\propfdbr{\opit{prop}}{\evs}$, and the filtered FDBR from each applied termphrase is fed into the next preposition.  If the passive form of the transitive verb is used, then the relation is flipped and the same logic applies.
 
 \subsection{Formal Denotations of Transitive Verbs}
 
-While a denotation for transitive verbs that allows for chained prepositional phrases and a unified treatment of active and passive voices improves expressibility, there are still a number of queries with transitive verbs that are not possible with the above approach. For example, consider the transitive verb ``used'', as in the query ``refractor\_telescope\_1 was used to discover phobos''.  Here, the subject of the query is a refractor telescope, however it is neither the subject nor object of the relation underlying the denotation of ``used'', which here is the same relation underlying the denotation of ``discover'' -- it is an implement in that relation.
-A relation would need to be constructed from the ``implement'' property of the relation rather than the ``subject'' or ``object'' property as in the denotations in Section \ref{icsc2020conf:altvbii} in order to compute this.
+While a denotation for transitive verbs that allows for chained prepositional phrases and a unified treatment of active and passive voices improves expressibility, there are still a number of queries with transitive verbs that are not possible with the above approach. For example, consider the transitive verb ``\texttt{used}'', as in the query ``\texttt{refractor\_telescope\_1 was used to discover phobos}''.  Here, the subject of the query is a refractor telescope, however it is neither the subject nor object of the relation underlying the denotation of ``\texttt{used}'', which here is the same relation underlying the denotation of ``\texttt{discover}'' -- it is an implement in that relation.
+A relation would need to be constructed from the ``$\opit{implement}$'' property of the relation rather than the ``$\opit{subject}$'' or ``$\opit{object}$'' property as in the denotations in Section \ref{icsc2020conf:altvbii} in order to compute this.
 
 \newcommand{\mbinrel}[3]{\dmathrm{make\_binrel}({#1}, {#2}, {#3})}
 
@@ -297,7 +297,7 @@ This can be addressed with minor modifications to those denotations. Namely, the
 The FDBR is constructed from the underlying relation by using a new function that works on $n$-ary relations:
 \[\dmathrm{FDBR}_{\opit{prop}}(r) = \FDBR{\mbinrel{r}{\opit{prop}}{eventid}}\]
 Here, $\opit{eventid}$ refers to the column of the relation that contains the event.
-The denotation for transitive verbs is augmented with the property $\opit{prop}$ used to form the binary relation from the $n$-ary relation, for example ``subject'', ``object'', or ``implement'', replacing $\FDBR{r}$ with $\dmathrm{FDBR}_{\opit{prop}}(r)$.  With these revisions, it is possible to express a denotation for the passive voice of the verb ``used'' (as in ``what was used by hall''):
+The denotation for transitive verbs is augmented with the property $\opit{prop}$ used to form the binary relation from the $n$-ary relation, for example ``$\opit{subject}$'', ``$\opit{object}$'', or ``$\opit{implement}$'', replacing $\FDBR{r}$ with $\dmathrm{FDBR}_{\opit{prop}}(r)$.  With these revisions, it is possible to express a denotation for the passive voice of the verb ``\texttt{used}'' (as in ``\texttt{what was used by hall}''):
 \begin{equation*}
 	\begin{split}
 		\meaningof{used by} = \lambda t\ \big\{ (s,\ \opit{relevs})\ |&\ (s, \evs)\ \in\ \dmathrm{FDBR}_{\opit{implement}}(\relation{\discover})\  \\
@@ -310,11 +310,11 @@ Now, denotations for transitive verbs can be provided from any property to any o
 \section{The $n^2-n$ Functions Defined By An $n$-ary Relation}
 
 The major contribution of this paper is to use the approach described above to considerably broaden the coverage of English compared to other systems and earlier \cite{graphmqslide,peelar2016accommodating} query interfaces developed in this direct line of research.
-First, notice that the phrase ``discover x'' often appears in contexts where the result expected is
-the set of subjects who discovered ``x''. However the words ``discover'' and ``discovered''
-also appear in other contexts. For example, ``discover with a telescope'' (subjects expected), ``discovered by
-hall'' (objects expected), ``how was x discovered''  (implements expected), ``who used a telescope
-to discover something in 1877'' (subjects expected), and ``when was a telescope used to discover'' (years
+First, notice that the phrase ``\texttt{discover} $x$'' often appears in contexts where the result expected is
+the set of subjects who discovered ``$x$''. However the words ``\texttt{discover}'' and ``\texttt{discovered}''
+also appear in other contexts. For example, ``\texttt{discover with a telescope}'' (subjects expected), ``\texttt{discovered by
+hall}'' (objects expected), ``\texttt{how was} $x$ \texttt{discovered}''  (implements expected), ``\texttt{who used a telescope
+to discover something in 1877}'' (subjects expected), and ``\texttt{when was a telescope used to discover}'' (years
 expected).
 
 %TODO: keep this away from events for now
@@ -346,7 +346,7 @@ These functions can be used to answer any query about the discover relation, inc
 \section{Applicability to Relational Databases}
 
 An event-based triplestore can be thought
-of as a set of tables in a relational database where each event corresponds to a row in a table.  Each table corresponds to a relation in the event-based triplestore (e.g, the ``\textit{discover}'' relation).
+of as a set of tables in a relational database where each event corresponds to a row in a table.  Each table corresponds to a relation in the event-based triplestore (e.g, the ``discover'' relation).
 The event identifier, which is unique, becomes the row index.
 The only interface that the semantics has with the underlying database is through simple retrieval functions.  Currently, they are implemented using Triple Pattern Fragments \cite{verborgh2014web}, but they could also be implemented using simple SQL queries. Therefore, it is possible to use our approach with any relational database platform.
 
@@ -398,7 +398,7 @@ This approach currently is only viable for databases with tens of thousands of f
 
 \subsection{Negation}
 
-The semantics described in this paper use the Open World Assumption and hence do not support negation.  Work has been done on event-based semantics that support negation \cite{champollion2010quantification} in environments where the Closed World Assumption holds. It may be possible to use similar techniques to provide a drop-in denotation for ``not'' and ``no'', supporting negation in our semantics as well.
+The semantics described in this paper use the Open World Assumption and hence do not support negation.  Work has been done on event-based semantics that support negation \cite{champollion2010quantification} in environments where the Closed World Assumption holds. It may be possible to use similar techniques to provide a drop-in denotation for ``\texttt{not}'' and ``\texttt{no}'', supporting negation in our semantics as well.
 
 %%%
 
