@@ -44,7 +44,7 @@ Our NL interface can be accessed at the following web site:
 \label{webist2019conf:triplestore}
 Our NLQI computes answers with respect to a triplestore containing data about the planets, the moons that orbit them, and the people who discovered those moons, and when, where and with what implement they were discovered. Note that each set of triples associated with an event could be equally well be represented by a row in a relational database.
 
-The triplestore contains triples such as the following which represent the event \#1045 in which \texttt{hall} (in the role of ``\property{subject}'') discovered \texttt{phobos} (in the role of ``\property{object}'') in 1877 (in the role of ``\property{year}'') with the \texttt{refractor\_telescope\_1} (in the role of ``\property{implement}'')  at the \texttt{us\_naval\_observatory} (in the role of ``\property{location}'').
+The triplestore contains triples such as the following which represent the event \#1045 in which \textit{hall} (in the role of ``\property{subject}'') discovered \textit{phobos} (in the role of ``\property{object}'') in 1877 (in the role of ``\property{year}'') with the \texttt{refractor\_telescope\_1} (in the role of ``\property{implement}'')  at the \texttt{us\_naval\_observatory} (in the role of ``\property{location}'').
 
 \begin{table}[h]
 	\caption[Events of type ``Discover''.]{Events of type ``Discover''. The full URIs of the events, properties, and entities have been omitted here.}
@@ -124,7 +124,7 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\noindent The function denoted by ``\texttt{phobos}'' checks to see if $\entityassoc{phobos}$ is a member of $\wordset{spin}$, and secondly if $\entityassoc{phobos}$ is a member of $\wordset{moon}$.
+\noindent The function denoted by ``\texttt{phobos}'' checks to see if \textit{phobos} is a member of the \textit{spin} set, and secondly if \textit{phobos} is a member of the \textit{moon} set.
 
 \examplespacing
 
@@ -136,8 +136,8 @@ Our NLQI can answer millions of queries with respect to the triplestore discusse
 
 \examplespacing
 
-\noindent The function denoted by ``\texttt{a}'' checks to see if the intersection of $\wordset{moon}$ and $\wordset{spins}$ is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of moons is a subset of $\wordset{spins}$. The denotations of ``\texttt{a}'' and ``\texttt{every}'' that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
-The answer to the third query is obtained by checking if the intersection of $\wordset{atmospheric}$ and $\wordset{moon}$ is non-empty.
+\noindent The function denoted by ``\texttt{a}'' checks to see if the intersection of the \textit{moon} set and \textit{spin} set is non-empty. The function denoted by ``\texttt{every}'' checks to see if the set of the \textit{moon} set is a subset of the \textit{spins} set. The denotations of ``\texttt{a}'' and ``\texttt{every}'' that we use are set-theoretic event-based versions of the denotations from MS which uses characteristic functions.
+The answer to the third query is obtained by checking if the intersection of the \textit{atmospheric} set and the \textit{moon} set is non-empty.
 
 \examplespacing
 
@@ -145,7 +145,7 @@ The answer to the third query is obtained by checking if the intersection of $\w
 
 \examplespacing
 
-\noindent All of the events of type ``discovered'' are collected together and are checked to see if $\entityassoc{hall}$ is found as the subject role value of any of them. If so, \textit{True} is returned.
+\noindent All of the events of type ``$\opit{discover}$'' are collected together and are checked to see if $\entityassoc{hall}$ is found as the subject role value of any of them. If so, \textit{True} is returned.
 
 \examplespacing
 
@@ -161,7 +161,7 @@ The answer to the third query is obtained by checking if the intersection of $\w
 
 \examplespacing
 
-\noindent All of the events of type ``discovered'' are collected together and are checked to see if $\entityassoc{phobos}$ is found as the object role value of any of them. If so \textit{True} is returned.
+\noindent All of the events of type ``$\opit{discover}$'' are collected together and are checked to see if $\entityassoc{phobos}$ is found as the object role value of any of them. If so \textit{True} is returned.
 
 \examplespacing
 
@@ -179,7 +179,7 @@ The answer to the third query is obtained by checking if the intersection of $\w
 
 %TODO: FIXUP BELOW
 
-\noindent All of the events of type ``discover'' are collected together and are checked to create a pair $(s, \evs)$ for each value of the subject attribute found in the set of events. $\evs$ is the set of events to which the subject attribute is related through a discovery event.  Each pair is then examined to see if the function denoted by the object termphrase (in this case \texttt{phobos}) returns a non-empty set when applied to a set (called an \textit{FDBR}, which is described later) generated from the set of $\evs$ in the pair, and if so the subject of the pair is added to the set which is returned as the denotation of the verbphrase part of the query. The denotation of the termphrase at the beginning of the query is then applied to the denotation of the verbphrase to obtain the answer to the query. %(See \Cref{sec:album} for more detailed discussion of this process).
+\noindent All of the events of type ``$\opit{discover}$'' are collected together and are checked to create a pair $(s, \evs)$ for each value of the subject attribute found in the set of events. $\evs$ is the set of events to which the subject attribute is related through a discovery event.  Each pair is then examined to see if the function denoted by the object termphrase (in this case \textit{phobos}) returns a non-empty set when applied to a set (called an \textit{FDBR}, which is described later) generated from the set of $\evs$ in the pair, and if so the subject of the pair is added to the set which is returned as the denotation of the verbphrase part of the query. The denotation of the termphrase at the beginning of the query is then applied to the denotation of the verbphrase to obtain the answer to the query. %(See \Cref{sec:album} for more detailed discussion of this process).
 
 Owing to the fact that our semantics is compositional the \property{subject} and \property{object} termphrases of the query above can be replaced by any termphrases. For example:
 
@@ -254,7 +254,7 @@ Some researchers have provided examples of what they claim to be non-composition
 
 \examplespacing
 
-\noindent No \property{subject}, \property{object} or prepositional phrase is given in the query, and so all events of type ``discover'' are returned by the verbphrase and the denotation of the word ``\texttt{who}'' picks out the \property{subject}s from those events.
+\noindent No \property{subject}, \property{object} or prepositional phrase is given in the query, and so all events of type ``$\opit{discover}$'' are returned by the verbphrase and the denotation of the word ``\texttt{who}'' picks out the \property{subject}s from those events.
 
 \examplespacing
 
@@ -262,7 +262,7 @@ Some researchers have provided examples of what they claim to be non-composition
 
 \examplespacing
 
-\noindent No \property{subject}, or prepositional phrase is given in the query, and so all events of type ``discover'' are considered and filtered by the denotation of the \property{object} termphrase ``\texttt{io}'' and then, those that pass the filter are returned by the verbphrase and the word ``\texttt{where}'' picks out the location from those events. %(See section $\Cref{sec:examples}$ for more details).
+\noindent No \property{subject}, or prepositional phrase is given in the query, and so all events of type ``$\opit{discover}$'' are considered and filtered by the denotation of the \property{object} termphrase ``\texttt{io}'' and then, those that pass the filter are returned by the verbphrase and the word ``\texttt{where}'' picks out the location from those events. %(See section $\Cref{sec:examples}$ for more details).
 
 \examplespacing
 
@@ -270,7 +270,7 @@ Some researchers have provided examples of what they claim to be non-composition
 
 \examplespacing
 
-\noindent No \property{subject} or \property{object} is in the query so all events of type ``discover'' are considered and only those with attribute ``$\opit{year}$'' equal to 1610 pass the filter and then the denotation of the word ``\texttt{who}'' selects the subject which is returned.
+\noindent No \property{subject} or \property{object} is in the query so all events of type ``$\opit{discover}$'' are considered and only those with attribute ``$\opit{year}$'' equal to 1610 pass the filter and then the denotation of the word ``\texttt{who}'' selects the subject which is returned.
 
 In our semantics, the \property{subject} and \property{object} termphrases are treated as filters as are all prepositional phrases, as shown in the following example:
 
@@ -331,7 +331,7 @@ If ``\texttt{most}'' is treated as ``more than half'' then:
 
 \examplespacing
 
-\noindent It may be surprising that \textit{cassini} is returned in the answer since it is not a \texttt{telescope}, but is instead a \texttt{spacecraft}.  However, since it was used to discover at least one \texttt{moon} that orbits \texttt{saturn}, it is considered to have fulfilled the \property{implement} role and is encoded as such in the triplestore.
+\noindent It may be surprising that \textit{cassini} is returned in the answer since it is not a \textit{telescope}, but is instead a \textit{spacecraft}.  However, since it was used to discover at least one \textit{moon} that orbits \textit{saturn}, it is considered to have fulfilled the \property{implement} role and is encoded as such in the triplestore.
 
 \section{The FDBR: A Novel Data Structure for Natural Language Queries}
 \label{webist2019conf:album}
@@ -354,8 +354,8 @@ Therefore,
 	\begin{split}
 		& \meaningof{phobos spins} = \meaningof{phobos}\ \meaningof{spins} \\
 		& = \lambda s.\{(e, \evs) | (e, \evs) \in s\ \&\ e = \entityassoc{phobos}\}
-		 \{(\entityassoc{phobos},{\eventassoc{1360}}), (\entityassoc{deimos}, \eventassoc{1332}), \ldots\} \\
-		& = \{(\entityassoc{phobos}, \eventassoc{1360})\}
+		 \{(\entityassoc{phobos},\{\eventassoc{1360}\}), (\entityassoc{deimos}, \{\eventassoc{1332}\}), \ldots\} \\
+		& = \{(\entityassoc{phobos}, \{\eventassoc{1360}\})\}
 	\end{split}
 \end{equation*}
 \begin{equation*} %TODO: intersect_fdbr
@@ -364,20 +364,20 @@ Therefore,
 \end{equation*}
 \begin{equation*}
 	\meaningof{a\ moon\ spins} =
-	\{(\entityassoc{phobos}, \eventassoc{1360}),\ (\entityassoc{deimos}, \eventassoc{1332}),\ \etc\}
+	\{(\entityassoc{phobos}, \{\eventassoc{1360}\}),\ (\entityassoc{deimos}, \{\eventassoc{1332}\}),\ \etc\}
 \end{equation*}
 
 %TODO every
 
 %Similarly, the answer to ``who discovered every moon that orbits Saturn'' returns a non-empty set of pairs ${(\entityassoc{galileo}, \evs), \etc}$ where $\evs$ is a set of events which includes the events in which \texttt{galileo} discovered every moon that orbits mars.
 
-Note that the events $\evs$ paired with the entities returned in the denotation of ``\texttt{was every moon that orbits saturn discovered}'' are the events representing membership of those entities of type moon in the object value of events of type discovery. This enables additional data to be accessed from those events, as illustrated in the last example query in the previous section.
+Note that the events $\evs$ paired with the entities returned in the denotation of ``\texttt{was every moon that orbits saturn discovered}'' are the events representing membership of those entities of type ``$\opit{moon}$'' in the object value of events of type ``$\opit{discover}$''. This enables additional data to be accessed from those events, as illustrated in the last example query in the previous section.
 
 %TODO: this is not consistent with our semantics
 %TODO: single role assumption?
 \subsection{The FDBR}
 
-In order to generate the  answer to ``\texttt{hall discovered every moon that orbits mars}'', $\meaningof{every}$ is applied to $\meaningof{moon\ that\ orbits\ mars}$ (i.e. the set of \texttt{moons} that orbit \texttt{mars}), as first argument, and  the set of entities  that were discovered by \texttt{hall}, as the second argument. Our semantics generates this set from the set of events of type ``discover'' where the subject role is the entity associated with \texttt{hall}, as discussed below:
+In order to generate the  answer to ``\texttt{hall discovered every moon that orbits mars}'', $\meaningof{every}$ is applied to $\meaningof{moon\ that\ orbits\ mars}$ (i.e. the set of \textit{moons} that orbit \textit{mars}), as first argument, and  the set of entities  that were discovered by \textit{hall}, as the second argument. Our semantics generates this set from the set of events of type ``$\opit{discover}$'' where the subject role is the entity associated with \textit{hall}, as discussed below:
 
 \noindent Every set of $n$-ary events (i.e. events with $n$ roles) of a given type, e.g. discovery, defines $n^2 - n$ binary relations. For example, for discovery events: \\
 

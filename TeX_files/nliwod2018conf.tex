@@ -521,9 +521,8 @@ A number of design decisions facilitate future extension of our NLQI:
 	The code contains a dictionary consisting of entries such as the following:
 	\begin{center} \texttt{(``person'', Cnoun, [NOUNCLA\_VAL \$ get\_members ``person''])} \end{center}
 	Which defines the word ``person'' to be a common noun (\texttt{cnoun}) whose meaning is a
-	list of attributes, comprising one attribute of type NOUNCLA\_VAL whose value is a list of
-	entities extracted from the triplestore by the \texttt{get\_members} function which returns all entities
-	that are subjects of events of type \texttt{member} and whose object is a ``\texttt{person}''. Our parser
+	list of attributes, comprising one attribute of type NOUNCLA\_VAL whose value is an FDBR extracted from the triplestore by the \texttt{get\_members} function which returns an FDBR of all entities
+	that are \property{subject}s of events of type ``$\opit{member}$'' whose object is ``$\opit{person}$''. Our parser
 	combinators include a combinator that creates interpreters for different categories of terminals.
 	For example:
 	\begin{center} \texttt{cnoun = memoize\_terminals\_from\_dictionary Cnoun} \end{center}

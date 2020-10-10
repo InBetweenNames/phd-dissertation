@@ -212,7 +212,7 @@ The FDBR has been shown to be useful for the denotation of transitive verbs.  Co
 	\lambda t.\{ (s,\ \opit{relevs})\ |\ (s, \evs)\ \in\ \FDBR{\relation{discover}}\ \\
 	\&\ (t\ \objfdbr{evs} \neq \emptyset)\ \&\ \opit{relevs} = \gatherevs{\objfdbr{evs}} \}
 \end{multline*}
-where $\objfdbr{evs}$ is the FDBR from the objects in the events of the set $\evs$ to the events they participate in within $\evs$.  ``\texttt{discover phobos}'', where \texttt{phobos} is a proper noun, results in the FDBR:
+where $\objfdbr{evs}$ is the FDBR from the objects in the events of the set $\evs$ to the events they participate in within $\evs$.  ``\texttt{discover phobos}'', where ``\texttt{phobos}'' is a proper noun, results in the FDBR:
 \begin{equation*}
 	\{(\entityassoc{\hall}, \{ \eventassoc{1045}, \eventassoc{1046} \})\}
 \end{equation*}
@@ -336,7 +336,7 @@ of negating termphrases, such as ``\texttt{hall}'', ``\texttt{a moon}'', ``\text
 \begin{center}
 	\texttt{who discovered in 1877 not one moon that orbits mars}
 \end{center}
-Where ``\texttt{one}'' denotes ``exactly one''.  This query explicitly is excluding any discoverers that discovered exactly one \texttt{moon} that orbits \texttt{mars}.  It results in \texttt{hall}, because \texttt{hall} discovered two \texttt{moons} that orbit \texttt{mars} in 1877.
+Where ``\texttt{one}'' denotes ``exactly one''.  This query explicitly is excluding any discoverers that discovered exactly one \textit{moon} that orbits \textit{mars}.  It results in \textit{hall}, because \textit{hall} discovered two \textit{moons} that orbit \textit{mars} in 1877.
 ``\texttt{not}'' when applied to a term-phrase, such as ``\texttt{hall}'' or ``\texttt{a moon}'' is denoted as follows:
 \begin{code}
     termnot tmph vbph = intersect_result (not (tmph vbph)) vbph
@@ -361,22 +361,22 @@ Transitive verbs are less straightforward to accommodate with negation.  Conside
 \begin{center}
     \texttt{ganymede discovered no moons}
 \end{center}
-\noindent This query should evaluate to \textit{True}, as \texttt{ganymede}, a \texttt{moon}, was not the subject of any discovery events -- however, \texttt{ganymede} is not the \textit{subject} of any events of type \textit{discover}.  Therefore, it is missing from $\FDBR{\relationone{discover}{subject}}$, where $\relationone{discover}{subject}$ is the relation from the \textit{subject}s of the \textit{discover} events to the events of type \textit{discover} that they participate in.
+\noindent This query should evaluate to \textit{True}, as \textit{ganymede}, a \textit{moon}, was not the subject of any discovery events -- however, \textit{ganymede} is not the \property{subject} of any events of type ``$\opit{discover}$''.  Therefore, it is missing from $\FDBR{\relationone{discover}{subject}}$, where $\relationone{discover}{subject}$ is the relation from the \textit{subject}s of the $\opit{discover}$ events to the events of type ``$\opit{discover}$'' that they participate in.
 
 A denotation is given in \cite{frostboulos2002} that accommodates this usage of transitive verbs; however it requires syntactic disambiguation at the grammar level to apply correctly.  The approach also does not scale well when other linguistic constructs are introduced, such as chained prepositional phrases and superlatives, requiring a new denotation to support each usage.  The examples given in that paper required 4 denotations for transitive verb depending on the context.
 
 The denotation we introduce expands on the denotation introduced in \cite{frostpeelar2019}, where we described how superlative phrases can also be accommodated.  This new denotation evaluates the list of prepositional phrases (including superlatives) in leftmost-outermost order, which is consistent with other work in the area \cite{champollion2010quantification}, \cite{ferre2014squall}.  For example, the query ``\texttt{discovered a moon in 1877 with a telescope}'' would be evaluated with scoping as though it were as follows:
-``\texttt{discovered (a moon (in 1877 (with a telescope)))} -- that is, ``\texttt{with a telescope}'' takes precedence over ''\texttt{in 1877}, which in turn takes precedence over \texttt{a moon}''.
+``\texttt{discovered (a moon (in 1877 (with a telescope)))}'' -- that is, ``\texttt{with a telescope}'' takes precedence over ``\texttt{in 1877}'', which in turn takes precedence over ``\texttt{a moon}''.
 
 Only one denotation for transitive verbs is required for all cases (rather than 4 as in \cite{frostboulos2002}). In particular, the word ``\texttt{no}'' can be handled compositionally rather than syntactically in the query.
 
-We modify the denotation for transitive verbs given in \cite{peelar2020webistjournal} to evaluate the list of prepositional phrases in leftmost-outermost order.  The \texttt{filter\_ev} function, described in \cite{peelar2016accommodating}, is modified to operate on one prepositional phrase at a time: a new FDBR is computed for each prepositional phrase applied.  This allows superlatives to be neatly evaluated in the order they appear rather than in a separate stage after the prepositions are evaluated as denoted in \cite{frostpeelar2019}.  \texttt{filter\_ev} also is modified to account for negation in the query: first, the current prepositional phrase is evaluated against the empty FDBR (\texttt{FDBR[]}).  If the result is not an FDBR, then it is a \texttt{no} termphrase:
+We modify the denotation for transitive verbs given in \cite{peelar2020webistjournal} to evaluate the list of prepositional phrases in leftmost-outermost order.  The \texttt{filter\_ev} function, described in \cite{peelar2016accommodating}, is modified to operate on one prepositional phrase at a time: a new FDBR is computed for each prepositional phrase applied.  This allows superlatives to be neatly evaluated in the order they appear rather than in a separate stage after the prepositions are evaluated as denoted in \cite{frostpeelar2019}.  \texttt{filter\_ev} also is modified to account for negation in the query: first, the current prepositional phrase is evaluated against the empty FDBR (\texttt{FDBR []}).  If the result is not an FDBR, then it is a ``\texttt{no}'' termphrase:
 \begin{code}
     in no place (FDBR []) => ComplementFDBR []
 \end{code}
-This is owing to the denotation of \texttt{no} used in \Cref{webist2020conf:quantifiers}.  Indeed, the only way to obtain a non-empty FDBR from applying an empty FDBR is through negation.  When this is the case, \texttt{filter\_ev} returns a complement in the same fashion as \cite{frostboulos2002}.
+This is owing to the denotation of ``\texttt{no}'' used in \Cref{webist2020conf:quantifiers}.  Indeed, the only way to obtain a non-empty FDBR from applying an empty FDBR is through negation.  When this is the case, \texttt{filter\_ev} returns a complement in the same fashion as \cite{frostboulos2002}.
 
-Since \texttt{filter\_ev} can also receive the complement of an FDBR, as in the case when negation is present in the query, applying term-phrases can be difficult.  The complement operation is reversed by taking the FDBR of the transitive verb itself and performing the intersection of it with the complement passed into \texttt{filter\_ev}.  Whether negation is present in the current prepositional phrase or not, this FDBR is passed in to the termphrase of that preposition.  If no negation is present in the current preposition, the result is returned as-is, unless it contains a superlative.  Otherwise, if negation is present, then if a complement of an FDBR was passed into \texttt{filter\_ev}, the FDBR used in the denotation of the transitive verb itself is used to compute the complement, otherwise the FDBR passed into \texttt{filter\_ev} is used directly. This allows for \texttt{discover no moon in 1948} to work as expected. This can neatly handle the following cases:
+Since \texttt{filter\_ev} can also receive the complement of an FDBR, as in the case when negation is present in the query, applying term-phrases can be difficult.  The complement operation is reversed by taking the FDBR of the transitive verb itself and performing the intersection of it with the complement passed into \texttt{filter\_ev}.  Whether negation is present in the current prepositional phrase or not, this FDBR is passed in to the termphrase of that preposition.  If no negation is present in the current preposition, the result is returned as-is, unless it contains a superlative.  Otherwise, if negation is present, then if a complement of an FDBR was passed into \texttt{filter\_ev}, the FDBR used in the denotation of the transitive verb itself is used to compute the complement, otherwise the FDBR passed into \texttt{filter\_ev} is used directly. This allows for ``\texttt{discover no moon in 1948}'' to work as expected. This can neatly handle the following cases:
 
 \examplespacing
 
@@ -422,7 +422,7 @@ In some cases, the user may want to force evaluation of the complement.  It is p
 In \cite{frostpeelar2019} we described how to accommodate superlative phrases compositionally by
 delegating their evaluation to the transitive verb they are arguments of.  This allows them to appear in chained prepositional phrases.
 
-One problem described with that approach was answering queries with superlatives such as ``the least'' or ``the lowest number of''.  The main reason for this was owing to the OWA underlying the semantics.  Under that approach, ``\texttt{which planets are orbited by the least number of moons}'' would return \texttt{earth}, despite both \texttt{venus} and \texttt{mercury} having a lower number of moons than Earth.  The semantics had no concept of \textit{zero} and could only report about what was observable.  Since there were no events explicitly stating that \texttt{venus} and \texttt{mercury} had no moons, it could not assume that it was not the case.
+One problem described with that approach was answering queries with superlatives such as ``the least'' or ``the lowest number of''.  The main reason for this was owing to the OWA underlying the semantics.  Under that approach, ``\texttt{which planets are orbited by the least number of moons}'' would return \textit{earth}, despite both \textit{venus} and \textit{mercury} having a lower number of moons than Earth.  The semantics had no concept of \textit{zero} and could only report about what was observable.  Since there were no events explicitly stating that \textit{venus} and \textit{mercury} had no moons, it could not assume that it was not the case.
 
 We propose an alternative approach in this paper, where ``\texttt{the least}'' is handled similarly to the word ``\texttt{no}''.  The denotation for ``\texttt{the least}'' first checks that the complement of the FDBR is non-empty.  If so, ``\texttt{the least}'' returns the complement of that FDBR -- this allows for ``venus'' and ``mercury'' to appear in the result set while removing all non-candidates.  If the complement of the FDBR is empty, however, then it performs the same cardinality partitioning that the ``\texttt{the most}'' does \cite{frostpeelar2019}, except it chooses the lowest {\em object cardinality} entities to form the result rather than the greatest.
 
@@ -437,13 +437,13 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent The intersection of the \texttt{people} and \texttt{spins} FDBRs is empty, therefore \texttt{no} returns \texttt{spin}, which is non-empty and therefore \textit{True}.
+\noindent The intersection of $\wordfdbr{people}$ and $\wordfdbr{spins}$ is empty, therefore \texttt{no} returns \texttt{spin}, which is non-empty and therefore \textit{True}.
 
 \examplequery{a non person exists}{True}
 
 \examplespacing
 
-\noindent ``\texttt{non person}'' is the complement of the \texttt{person} set, and the intersection of this complement with the \texttt{exists} set (which is the complement of the empty set) is the same as the complement of the union of the \texttt{person} set with the \texttt{empty} set.  The answer is characterized in terms of the cardinality, which for the complement of an FDBR is defined as the cardinality of the number of set of entities in the triplestore minus the cardinality of the FDBR itself.  This is greater than 0, and therefore there is at least one entity that is both a non-person and exists.
+\noindent ``\texttt{non person}'' is the complement of $\wordfdbr{person}$, and the intersection of this complement with $\wordfdbr{exists}$ (which is the complement of the empty FDBR) is the same as the complement of the union of $\wordfdbr{person}$ with the empty FDBR.  The answer is characterized in terms of the cardinality, which for the complement of an FDBR is defined as the cardinality of the number of set of entities in the triplestore minus the cardinality of the FDBR itself.  This is greater than 0, and therefore there is at least one entity that is both a non-person and exists.
 
 \examplespacing
 
@@ -451,7 +451,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This computes the intersection of the \texttt{person} FDBR with the complement of the \texttt{exists} FDBR, which is just the empty FDBR.  Therefore, the result is empty, and the result is \textit{False}.
+\noindent This computes the intersection of $\wordfdbr{person}$ with the complement of $\wordfdbr{exists}$, which is just the empty FDBR.  Therefore, the result is empty, and the answer is \textit{False}.
 
 \examplespacing
 
@@ -459,7 +459,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This sentence is treated similarly to \texttt{what did not discover a moon in 1877}.  The result is the complement of the set of entities that discovered a moon in 1877, in this case, \texttt{hall}.
+\noindent This sentence is treated similarly to ``\texttt{what did not discover a moon in 1877}''.  The result is the complement of the set of entities that discovered a moon in 1877, in this case, \textit{hall}.
 
 \examplespacing
 
@@ -475,7 +475,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent The result of ``\texttt{discovered no moon at no places}'' is the complement of the FDBR returned from ``\texttt{discovered a moon at a place}''.  This includes entities that either discovered a moon at no known location, or discovered a non-moon at a known location.  Since \texttt{allen} does not appear in the FDBR returned by ``\texttt{discovered a moon at a place}'', the result is \textit{True}.
+\noindent The result of ``\texttt{discovered no moon at no places}'' is the complement of the FDBR returned from ``\texttt{discovered a moon at a place}''.  This includes entities that either discovered a moon at no known location, or discovered a non-moon at a known location.  Since \textit{allen} does not appear in the FDBR returned by ``\texttt{discovered a moon at a place}'', the result is \textit{True}.
 
 \examplespacing
 
@@ -491,7 +491,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This query is handled the same as ``\texttt{what was not discovered by a team in 1877}'', which returns the complement of the empty FDBR, since no \texttt{teams} discovered anything in 1877.
+\noindent This query is handled the same as ``\texttt{what was not discovered by a team in 1877}'', which returns the complement of the empty FDBR, since no \textit{teams} discovered anything in 1877.
 
 \examplespacing
 
@@ -499,7 +499,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This query is asking about which implements that are not telescopes were used in a discovery event.  However, \texttt{something} is defined as the complement of the empty FDBR, and \texttt{discovered using no telescope} is the complement of the FDBR of \texttt{discovered using a telescope}.  Since the intersection of the two complements is itself a complement, \texttt{how} receives the complement of an FDBR and is unable to enumerate the events to retrieve implements from directly.  Although it is possible to answer the query by fully evaluating the complement, we have not implemented this behaviour in our NLQI at this time.  However, a similar query, ``\texttt{which non telescope was used to discover something}'' is able to yield the result ``\textit{cassini, voyager\_1, voyager\_2}''.
+\noindent This query is asking about which implements that are not telescopes were used in a discovery event.  However, ``\texttt{something}'' is defined as the complement of the empty FDBR, and ``\texttt{discovered using no telescope}'' is the complement of the FDBR of ``\texttt{discovered using a telescope}''.  Since the intersection of the two complements is itself a complement, ``\texttt{how}'' receives the complement of an FDBR and is unable to enumerate the events to retrieve implements from directly.  Although it is possible to answer the query by fully evaluating the complement, we have not implemented this behaviour in our NLQI at this time.  However, a similar query, ``\texttt{which non telescope was used to discover something}'' is able to yield the result ``\textit{cassini, voyager\_1, voyager\_2}''.
 
 %\examplespacing
 
@@ -511,7 +511,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent ``\texttt{not hall}'' is a negated term-phrase.  The result is \textit{True} because \texttt{galileo} discovered \texttt{ganymede}, not \texttt{hall}.
+\noindent ``\texttt{not hall}'' is a negated term-phrase.  The result is \textit{True} because \textit{galileo} discovered \textit{ganymede}, not \textit{hall}.
 
 \examplespacing
 
@@ -519,7 +519,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent The result is all of the people that are \texttt{discoverers}, since none of the members of \texttt{person} \texttt{spin}, and none of them discovered a \texttt{planet} in 1877 using a \texttt{telescope}.  It may be helpful to examine the scoping of this query:
+\noindent The result is all of the people that are \textit{discoverers}, since none of the members of \textit{person} \textit{spin}, and none of them discovered a \textit{planet} in 1877 using a \textit{telescope}.  It may be helpful to examine the scoping of this query:
 \begin{center}
 \texttt{which (person `that` (does not spin)) ((discovered (no planet) [in 1877, using (a telescope)]) and (is a discoverer))}
 \end{center}
@@ -530,7 +530,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This is \textit{False} because the intersection of \texttt{thing} and \texttt{exists} is non-empty.
+\noindent This is \textit{False} because the intersection of \textit{thing} and \textit{exists} is non-empty.
 
 \examplespacing
 
@@ -538,7 +538,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This is \textit{True} because \texttt{thing} and \texttt{exists} are both the complement of the empty FDBR, and the intersection of those results in the same.  Therefore ``\texttt{thing}'' is a subset of ``\texttt{exists}''.
+\noindent This is \textit{True} because \textit{thing} and \textit{exists} are both the complement of the empty FDBR, and the intersection of those results in the same.  Therefore \textit{thing} is a subset of \textit{exists}.
 
 \examplespacing
 
@@ -546,7 +546,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This is the complement of the FDBR ``\texttt{discovered by hall}''.  The answer is the set of all things excluding those that \texttt{hall} discovered.
+\noindent This is the complement of the FDBR ``\texttt{discovered by hall}''.  The answer is the set of all things excluding those that \textit{hall} discovered.
 
 \examplespacing
 
@@ -562,7 +562,7 @@ we explain the result and how it was evaluated.
 
 \examplespacing
 
-\noindent This query also features double negation on the termphrases \texttt{kuiper} and \texttt{nereid}.
+\noindent This query also features double negation on the termphrases \textit{kuiper} and \textit{nereid}.
 This is equivalent to the query \texttt{kuiper discovered nereid}.
 
 \examplespacing
@@ -571,7 +571,7 @@ This is equivalent to the query \texttt{kuiper discovered nereid}.
 
 \examplespacing
 
-\noindent This query features a variety of complex linguistic constructs, including nested $n$-ary transitive verbs, adjectives, negation, chained prepositional phrases, quantification and superlative phrases.  The result is ``\textit{none}'' because ``\texttt{non vacuumous moon that orbits most planets that spin}'' returns the empty FDBR, and the intersection of the empty FDBR with any set is also the empty FDBR.
+\noindent This query features a variety of complex linguistic constructs, including nested $n$-ary transitive verbs, adjectives, negation, chained prepositional phrases, quantification and superlative phrases.  The result is ``\textit{none}'' because ``\texttt{non vacuumous moon that orbits most planets that spin}'' returns the empty FDBR, and the intersection of the empty FDBR with any FDBR is also the empty FDBR.
 
 \examplespacing
 
@@ -579,7 +579,7 @@ This is equivalent to the query \texttt{kuiper discovered nereid}.
 
 \examplespacing
 
-\noindent This query features a negated termphrase, which itself consists of the word ``\texttt{no}'' (entailing negation itself). ``\texttt{orbits mars}'' is the FDBR from the entities \texttt{phobos} and \texttt{deimos} to their orbit events, and ``\texttt{not no moon orbits mars}'' evaluates to ``\texttt{orbits mars}'' with the entities of ``\texttt{no moon orbits mars}'' removed.  Since ``\texttt{no moon orbits mars}'' is \textit{False}, it returns the empty FDBR, which is then removed from ``\texttt{orbits mars}'', giving a non-empty result.  Therefore, the query returns \textit{True}. This provides evidence that our NLQI correctly handles negation as a compositional construct.
+\noindent This query features a negated termphrase, which itself consists of the word ``\texttt{no}'' (entailing negation itself). ``\texttt{orbits mars}'' is the FDBR from the entities \textit{phobos} and \textit{deimos} to their orbit events, and ``\texttt{not no moon orbits mars}'' evaluates to ``\texttt{orbits mars}'' with the entities of ``\texttt{no moon orbits mars}'' removed.  Since ``\texttt{no moon orbits mars}'' is \textit{False}, it returns the empty FDBR, which is then removed from ``\texttt{orbits mars}'', giving a non-empty result.  Therefore, the query returns \textit{True}. This provides evidence that our NLQI correctly handles negation as a compositional construct.
 
 \examplespacing
 
