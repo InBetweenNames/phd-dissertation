@@ -6,20 +6,33 @@
 \chapter{Preface}
 \begin{refsection}
     My involvement in the SpeechWeb project began in 2009 when I had begun my Undergraduate
-    degree in Computer Science at the University of Windsor.  Back then, I worked with Dr. Frost as part of my Outstanding Scholars scholarship and became familiar with developing SpeechWeb applications in Haskell.
+    degree in Computer Science at the University of Windsor.  Back then, I worked with Dr. Frost as part of my Outstanding Scholars scholarship and became familiar with developing SpeechWeb applications in the Haskell programming language.
 
     Dr. Frost and Dr. Rahmatullah Hafiz had successfully shown in 2012 that it was possible to parse highly ambiguous left-recursive context-free grammars using functional combinators as part of Dr. Hafiz's doctoral dissertation. This opened the doors to a larger NSERC project
     that was intended to demonstrate that Compositional Semantics is an appropriate choice
     for building a Natural Language Query Interface to the Semantic Web.
 
-    In 2014, although I wasn't formally credited, I helped contribute to a paper that was published at the ESWC \cite{frost2014demonstration}.
+    In 2013, I published my Undergraduate thesis with my colleagues at the ASONAM'13 conference \cite{donais2013system}.
 
+    In 2014, although I wasn't formally credited, I helped contribute to a paper that was published at the ESWC \cite{frost2014demonstration}.
 
     In 2016, I completed my Master's degree with Dr. Frost as my supervisor.  My task was to extend the English coverage of the NLQI with prepositional phrases.  In doing so, I discovered that the word ``by'' as in ``discovered by'' could be treated in the same way as a preposition, simplifying the grammar and the semantics while also allowing more flexible queries.
 
     In 2017, I began my Doctoral studies aiming at bringing the SpeechWeb to the Semantic Web.
-    This would require both improving the time complexity of query evaluation within the semantics, and also enhancing the query interface with an even broader coverage of English.  It would also require allowing the NLQI to run on a wide variety of devices, including those with low power requirements and using the semantics with non-event based triplestores.  Throughout the course of my studies, Dr. Frost and I published %TODO
-    papers.  My contributions to those papers are as follows:
+    This would require both improving the time complexity of query evaluation within the semantics, and also enhancing the query interface with an even broader coverage of English.  It would also require allowing the NLQI to run on a wide variety of devices, including those with low power requirements and using the semantics with non-event based triplestores.  Throughout the course of my studies, Dr. Frost and I published
+    papers.  My contributions to those papers are as follows: %TODO
+
+    I explored multiple avenues towards solving the problem.  I learned about heterogeneous computing and became involved with the Khronos Group OpenCL Working Group with Paul Preney at the University of Windsor.  We published a poster paper at IWOCL 2017 that dealt with build systems for OpenCL applications.  We were both credited in the OpenCL 2.2 specification released that year.
+    %TODO: add citation?
+
+    At the end of 2017, I obtained an OCE TalentEdge Academic Internship for developing a simulator for Additive Manufacturing processes.  I published a paper on leveraging heterogeneous computing for accelerating simulations for these applications in 2018 at CAD Conference in Paris.  At that conference, I was invited to submit a full journal paper which was published in 2019. %TODO: make sure both are referenced
+
+    I began looking for ways to accelerate the SpeechWeb project using Heterogeneous Programming.
+    Using the knowledge I obtained from low-level microarchitectural programming, I was able to successfully get the Haskell demo from my Master's thesis running on a low level consumer network router and I realized that the work would be appropriate for Internet of Things (IoT) applications.
+
+    In 2018, Dr. Frost and I published our first paper together at NLIWoD, a satellite event of the ISWC, seeking to re-awaken interest in Compositional Semantics as an approach for creating Natural Language Query Interfaces.  In 2019, we published at WEBIST and were invited to submit to the WEBIST Springer Journal.  In 2020, we published at IEEE ICSC and again at WEBIST.
+
+    In 2020, I successfully ported the application over to WebAssembly such that it could be run directly in web browsers.
 
 
 
@@ -74,15 +87,13 @@
 
 \section{Thesis Statement}
 
-This dissertation contains five papers that address...
-
-This dissertation proves the following statement:
+This dissertation contains five papers that address the problem of creating Natural Language Query Interfaces to the Semantic Web.  It proves the following statement:
 
 \textit{``A scalable, efficient, expressive and precise method for processing natural-language queries to the Semantic Web can be built using a Compositional Semantics.''}
 
 This dissertation describes research that proves the thesis. The research was originally published in refereed conference and journal papers that are summarized in Chapters \ref{chapter:nliwod2018conf} through \ref{chapter:webist2020conf}.
 
-The rest of this introduction will introduce the papers...
+The rest of this chapter introduces the papers above with related background information and the contributions that I made to them. %TODO: should that be in preface?
 
 %TODO
 Please see \hyperref[appendix:b]{Appendix B} for a list of all papers related to this Thesis that I authored or co-authored. \cite{peelar2016accommodating}
@@ -93,9 +104,9 @@ Please see \hyperref[appendix:b]{Appendix B} for a list of all papers related to
 Rather than prove the thesis statement mathematically, I have chosen to build an interface that
 proves that the thesis is correct.
 
-\section{Structure of Dissertation}
-
-The remainder of this Dissertation is structured as follows:
+%\section{Structure of Dissertation}
+%
+%The remainder of this Dissertation is structured as follows:
 
 %\begin{enumerate}
 %	\item An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore
