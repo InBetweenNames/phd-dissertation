@@ -25,6 +25,8 @@
     I explored multiple avenues towards solving the problem.  I learned about heterogeneous computing and became involved with the Khronos Group OpenCL Working Group with Paul Preney at the University of Windsor.  We published a poster paper at IWOCL 2017 that dealt with build systems for OpenCL applications.  We were both credited in the OpenCL 2.2 specification released that year.
     %TODO: add citation?
 
+    In 2017, Eric Matthews, a fellow graduate student at the University of Windsor, thanked me in his Master's Thesis for helping him write his Thesis Report.
+
     At the end of 2017, I obtained an OCE TalentEdge Academic Internship for developing a simulator for Additive Manufacturing processes.  I published a paper on leveraging heterogeneous computing for accelerating simulations for these applications in 2018 at CAD Conference in Paris.  At that conference, I was invited to submit a full journal paper which was published in 2019. %TODO: make sure both are referenced
 
     I began looking for ways to accelerate the SpeechWeb project using Heterogeneous Programming.
@@ -34,6 +36,9 @@
 
     In 2020, I successfully ported the application over to WebAssembly such that it could be run directly in web browsers.
 
+    As of October 2020, my Master's thesis has been cited 4 times according to Google Scholar and my 2013 ASONAM paper has been cited 8 times according to Microsoft Academic.
+
+    % * State number of citations for each paper
 
 
 %TODO explain:
@@ -63,13 +68,13 @@
 
 %TODO: Add more here?  Tie in Semantic Web with Natural Language, and talk about how NLP interfaces could be used to control IoT devices
 
-% * State that Eric Matthews thanked me for helping him with his Thesis
-% * State number of citations for each paper
-% * Move acronyms to a separate page in the Thesis (NLQI, MS, ML, etc)
-
 \section {The Problem}
 
-
+\begin{itemize}
+    \item NLQIs to the Semantic Web
+    \item Internet of Things
+    \item Accessibility
+\end{itemize}
 
 
 %SUMMARY OF EXISTING APPROACHES:
@@ -104,6 +109,22 @@ Please see \hyperref[appendix:b]{Appendix B} for a list of all papers related to
 Rather than prove the thesis statement mathematically, I have chosen to build an interface that
 proves that the thesis is correct.
 
+\section{Notation}
+
+In addition to standard Lambda Calculus and set notation, the following notation is used in this dissertation:
+\begin{itemize}
+    \item $\entity{x}$ denotes the entity $x$
+    \item $\event{1234}$ denotes the event \#1234
+    \item $\meaningof{x}$ is the mathematical denotation of the phrase $x$
+    \item $\wordset{x}$ is the set of all entities that are members of $x$
+    \item $\wordpred{x}$ the logical predicate associated with the word $x$
+    \item $\wordfdbr{x}$ is the FDBR of all entities that are members of $x$ (a datastructure first introduced in \Cref{chapter:nliwod2018conf})
+    \item Queries are written in ``\texttt{monospaced}'' font
+    \item \property{property} is used to denote a property, role, or type of an event.
+    \item \textit{name} is used to indicate query results and objects in the real world.
+\end{itemize}
+For example, $\entity{phobos}$ is the mathematical object representing \textit{phobos}, a moon that orbits Mars.
+
 %\section{Structure of Dissertation}
 %
 %The remainder of this Dissertation is structured as follows:
@@ -118,15 +139,33 @@ proves that the thesis is correct.
 
 \section{An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore}
 
+In this paper we discuss:
+
+\begin{itemize}
+    \item the Function Defined by a Binary Relation (FDBR)
+\end{itemize}
+
 \Cref{chapter:nliwod2018conf}
 
 \section{A New Data Structure for Processing Natural Language Database Queries}
 
 \Cref{chapter:webist2019conf}
 
-Invited to submit to journal, nominated for Best Student Paper Award
+This paper was published at WEBIST 2019.  We were to submit to the WEBIST Springer Journal, and at the conference we were nominated for Best Student Paper Award.  In this paper we discuss:
+
+\begin{itemize}
+    \item How the FDBR generalizes to other linguistic constructs such as superlatives
+    \item How our semantics can be readily adapted to relational databases
+\end{itemize}
 
 \section{A Compositional Semantics for a Wide-coverage Natural-Language Query Interface to a Semantic Web Triplestore}
+
+This conference was published at IEEE ICSC 2020.  In this paper we discuss:
+
+\begin{itemize}
+    \item The $n^2 - n$ functions defined by an $n$-ary relation
+    \item Accommodating transitive verbs with $n$-ary relations
+\end{itemize}
 
 \Cref{chapter:icsc2020conf}
 
@@ -134,13 +173,27 @@ Invited to submit to journal, nominated for Best Student Paper Award
 
 \Cref{chapter:webist2019journal}
 
-Accepted to WEBIST Journal
+We were invited to submit this paper to the WEBIST Journal and it has been accepted.
+
+In this paper we discuss:
+
+\begin{itemize}
+    \item A full treatment of how to adapt our semantics to relational databases
+    \item How to improve the computational complexity of the semantics through memoization
+    \item Strategies for handling both syntactic and semantic ambiguity in returned results
+\end{itemize}
 
 \section{Accommodating Negation in an Efficient Event-Based Natural Language Query Interface to the Semantic Web}
 
 \Cref{chapter:webist2020conf}
 
-Accepted at WEBIST 2020
+This paper was accepted at WEBIST 2020.
+
+In this paper we discuss:
+
+\begin{itemize}
+    \item How to handle negation in the semantics
+\end{itemize}
 
 %TODO: notation
 
