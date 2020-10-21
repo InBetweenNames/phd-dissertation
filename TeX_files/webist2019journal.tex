@@ -45,7 +45,7 @@ Compositionality is a useful property of any system as it facilitates understand
 \subsection{The Compositionality of our Syntactic Processor}
 \label{webist2019journal:compositionality-syntax}
 
-Our parser is designed and built using the Haskell programming language, using parser combinators \cite{frost2008parser}. The approach enables parsers to be constructed as executable specifications of context-free grammars with explicit and implicit left-recursive productions, which is useful for defining grammars for NL. The result of applying our parser is the set of all parse trees for ambiguous grammars. The trees are represented efficiently using a Tomita-style \cite{tomita1985} compact graph in which trees share common components.
+Our parser is designed and built using the Haskell programming language, using parser combinators \cite{frosthafiz2008}. The approach enables parsers to be constructed as executable specifications of context-free grammars with explicit and implicit left-recursive productions, which is useful for defining grammars for NL. The result of applying our parser is the set of all parse trees for ambiguous grammars. The trees are represented efficiently using a Tomita-style \cite{tomita1985} compact graph in which trees share common components.
 
 \noindent In 2008, Frost and Hafiz \cite{frosthafiz2008} demonstrated that it is possible to efficiently implement context-free parsing using combinators, with their approach having $O(n^4)$ complexity in the worst case and $O(n^3)$ complexity in the average case.
 
@@ -57,7 +57,7 @@ The following example was featured in Frost and Hafiz \cite{frosthafiz2008}. To 
 	verb ::= "saw"           prep ::= "in"  | "with"
 \end{code}
 In this grammar, the non-terminal \texttt{s} stands for sentence, \texttt{np} for nounphrase, \texttt{vp} for verbphrase, \texttt{det} for determiner, \texttt{pp} for prepositional phrase, and \texttt{prep} for preposition.  It is left recursive in the rules for \texttt{s} and \texttt{np}.
-The Haskell code below defines a parser for the above grammar using our combinators \texttt{term} (terminal), \texttt{<+>} (alternative), and \texttt{*>} (sequence) \cite{frost2008parser}:
+The Haskell code below defines a parser for the above grammar using our combinators \texttt{term} (terminal), \texttt{<+>} (alternative), and \texttt{*>} (sequence) \cite{frosthafiz2008}:
 \begin{code}
 	data Label = S | ... | PREP
 	s    = memoize S    $ np *> vp <+> s *> pp
@@ -79,7 +79,7 @@ The semantics on which our system is based is similar to Montague Semantics. All
 
 \subsection{The Compositionality of the Whole NL Processor}
 
-Our processor is built as an executable specification of a fully general attribute grammar. Compositional semantic rules are added to each syntactic production using the technique of Frost, Hafiz and Callaghan \cite{frost2008parser}. The attribute grammar is fully general as it can accommodate left recursive context-free grammars and fully-general dependencies between inherited and synthesized attributes. Haskell allows any computational dependency between attributes to be defined. Also, Haskell’s lazy evaluation strategy enables our language processor to be efficient. For example, no attribute computation is carried out until a successful parse has been obtained. We have also developed a variation of memoization using monads \cite{frost2008parser} in order to reduce the complexity of syntactic and semantic evaluation.
+Our processor is built as an executable specification of a fully general attribute grammar. Compositional semantic rules are added to each syntactic production using the technique of Frost, Hafiz and Callaghan \cite{frosthafiz2008}. The attribute grammar is fully general as it can accommodate left recursive context-free grammars and fully-general dependencies between inherited and synthesized attributes. Haskell allows any computational dependency between attributes to be defined. Also, Haskell’s lazy evaluation strategy enables our language processor to be efficient. For example, no attribute computation is carried out until a successful parse has been obtained. We have also developed a variation of memoization using monads \cite{frosthafiz2008} in order to reduce the complexity of syntactic and semantic evaluation.
 In the paper by Frost and Peelar \cite{frostpeelar2019} we discuss how we accommodate, using our compositional approach, various English phrases that are often given as examples of non-compositional constructs.
 
 \section{The Triplestore that is Queried}

@@ -60,7 +60,7 @@ The motivation for this work is to rekindle an interest in Montague-like Composi
 \abbreviation{SPARQL}{SPARQL Protocol and RDF Query Language}
 We have built a small ``Solarman'' triplestore containing approximately 22,000 facts about the moons in
 our solar system, the planets they orbit, and the people who discovered them, when, where and with
-which telescope. Our NLQI can answer many questions with respect to the ``Solarman'' triplestore, but no other questions yet. We
+which telescope or other device. Our NLQI can answer many questions with respect to the ``Solarman'' triplestore, but no other questions yet. We
 have installed our NLQI to Solarman on a server and also on a home wireless router to ensure that our
 approach requires only minimal computing power (the answer time on the router is as fast as on the
 server.) The triplestore is stored using the Virtuoso semantic web software which supports a SPARQL Protocol and RDF Query Language (SPARQL)
@@ -96,7 +96,7 @@ The following queries illustrate that quantifier scoping is leftmost-outermost:
 
 \examplequery{every telescope was used to discover a moon}{True}
 
-\examplequery{a moon was discovered by every telescope}{False}
+\examplequery{a moon was discovered with every telescope}{False} (No single moon was discovered using every telescope in our database)
 
 \examplequery{a telescope was used by hall to discover two moons}{True}
 
@@ -420,35 +420,37 @@ moons, but did not discover any one moon with two telescopes (see queries g to i
 
 \examplespacing
 
-\examplequerynl{which moons were discovered with two telescopes}{halimede laomedeia sao themisto}
+\begin{enumerate}[label=\alph*.]
+\item \examplequerynl{which moons were discovered with two telescopes}{halimede laomedeia sao themisto}
 
-\examplequerynl{who used two telescopes to discover a moon}{nicholson science\_team\_18 science\_team\_2}
+\item \examplequerynl{who used two telescopes to discover a moon}{nicholson science\_team\_18 science\_team\_2}
 
-\examplequery{who discovered sao}{science\_team\_18}
+\item \examplequery{who discovered sao}{science\_team\_18}
 
-\examplequery{who discovered themisto}{science\_team\_2}
+\item \examplequery{who discovered themisto}{science\_team\_2}
 
-\examplequery{which moon was discovered by science\_team\_18 with two telescopes}{halimede laomedeia sao}
+\item \examplequery{which moon was discovered by science\_team\_18 with two telescopes}{halimede laomedeia sao}
 
-\examplequerynl{what was used to discover sao}{blanco\_telescope canada-france-hawaii\_telescope}
+\item \examplequerynl{what was used to discover sao}{blanco\_telescope canada-france-hawaii\_telescope}
 
-\examplequerynl{what did nicholson discover with two telescopes}{sinope lysithea carme ananke}
+\item \examplequerynl{what did nicholson discover with two telescopes}{sinope lysithea carme ananke}
 
-\examplequery{which moon was discovered by nicholson with two telescopes}{none}
+\item \examplequery{which moon was discovered by nicholson with two telescopes}{none}
 
-\examplequerynl{which moon was discovered by nicholson with one telescope}{ananke carme lysithea sinope}
+\item \examplequerynl{which moon was discovered by nicholson with one telescope}{ananke carme lysithea sinope}
 
-\examplequery{how was sinope discovered}{refractor\_telescope\_2}
+\item \examplequery{how was sinope discovered}{refractor\_telescope\_2}
 
-\examplequery{how was carme discovered}{hooker\_telescope}
+\item \examplequery{how was carme discovered}{hooker\_telescope}
 
-\examplequery{how was ananke discovered}{hooker\_telescope}
+\item \examplequery{how was ananke discovered}{hooker\_telescope}
 
-\examplequery{how was lysithea discovered}{hooker\_telescope}
+\item \examplequery{how was lysithea discovered}{hooker\_telescope}
 
-\examplequery{what did nicholson discover with one telescope}{nothing}
+\item \examplequery{what did nicholson discover with one telescope}{nothing}
 
-\examplequerynl{what did nicholson discover with a telescope}{sinope lysithea carme ananke}
+\item \examplequerynl{what did nicholson discover with a telescope}{sinope lysithea carme ananke}
+\end{enumerate}
 
 \examplespacing
 
@@ -461,7 +463,7 @@ Note that in the above queries, ``\texttt{one}'' and ``\texttt{two}'' are taken 
 We built our query processor as an executable attribute grammar using the X-SAIGA Haskell parser-
 combinator library package. %\cite{xsaiga}.
 The $\operatorname{collect}$ function which converts a binary relation to an FDBR is one of the most
-compute intensive parts of our implementation of the semantics. However, in Haskell, once a value is
+compute intensive parts of our implementation of the semantics \cite{xsaiga}. However, in Haskell, once a value is
 computed, it can be made available for future use. We have developed an algorithm to compute
 $\FDBR{\rel}$ in $O(n\ \operatorname{lg}\ n)$ time, where $n$ is the number of pairs in $\rel$.
 Alternatively, the FDBR functions can be computed and stored in a cache when the NLQI is offline.
