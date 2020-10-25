@@ -10,33 +10,42 @@
 
     Dr. Frost and Dr. Rahmatullah Hafiz had successfully shown in 2012 that it was possible to parse highly ambiguous left-recursive context-free grammars using functional combinators as part of Dr. Hafiz's doctoral dissertation. This opened the doors to a larger NSERC project
     that was intended to demonstrate that Compositional Semantics is an appropriate choice
-    for building a Natural Language Query Interface to the Semantic Web.
+    for building a Natural Language Query Interface to the Semantic Web.  At the same time, I set out
+    to work on my Undergraduate thesis, and in 2013, it was presented at ASONAM'13 \cite{donais2013system}.
 
-    In 2013, I published my Undergraduate thesis with my colleagues at the ASONAM'13 conference \cite{donais2013system}.
+    In 2014, although I wasn't formally credited, I helped contribute to a paper that was published at the ESWC \cite{frost2014demonstration}.  I developed the query program that Dr. Frost used in his demonstration at the conference.  The main reason I wasn't credited was that I joined the research group after the paper itself had been submitted.
 
-    In 2014, although I wasn't formally credited, I helped contribute to a paper that was published at the ESWC \cite{frost2014demonstration}.
-
-    In 2016, I completed my Master's degree with Dr. Frost as my supervisor.  My task was to extend the English coverage of the NLQI with prepositional phrases.  In doing so, I discovered that the word ``by'' as in ``discovered by'' could be treated in the same way as a preposition, simplifying the grammar and the semantics while also allowing more flexible queries.
+    In 2016, I completed my Master's degree with Dr. Frost as my supervisor.  My task was to extend the English coverage of the NLQI with chained prepositional phrases.  In doing so, I discovered that the word ``by'' as in ``discovered by'' could be treated in the same way as a preposition, simplifying the grammar and the semantics while also allowing more flexible queries.
 
     In 2017, I began my Doctoral studies aiming at bringing the SpeechWeb to the Semantic Web.
-    This would require both improving the time complexity of query evaluation within the semantics, and also enhancing the query interface with an even broader coverage of English.  It would also require allowing the NLQI to run on a wide variety of devices, including those with low power requirements and using the semantics with non-event based triplestores.  Throughout the course of my studies, Dr. Frost and I published
-    papers.  My contributions to those papers are as follows: %TODO
+    This would require both improving the time complexity of query evaluation within the semantics, and also enhancing the query interface with an even broader coverage of English.  It would also require allowing the NLQI to run on a wide variety of devices, including those with low power requirements and using the semantics with non-event based triplestores.  During this year, Eric Matthews, a fellow graduate student at the University of Windsor, completed his Master's degree thanked me in his This Report for helping him write his thesis \cite{matthews2017passive}.
 
-    I explored multiple avenues towards solving the problem.  I learned about heterogeneous computing and became involved with the Khronos Group OpenCL Working Group with Paul Preney at the University of Windsor.  We published a poster paper at IWOCL 2017 that dealt with build systems for OpenCL applications.  We were both credited in the OpenCL 2.2 specification released that year.
-    %TODO: add citation?
+    I explored multiple avenues towards solving the problem.  I learned about heterogeneous computing and became involved with the Khronos Group OpenCL Working Group with my colleague Paul Preney at the University of Windsor.  We published a poster paper at IWOCL 2017 that dealt with extending build systems for heterogeneous OpenCL applications.  We were both credited in the OpenCL 2.2 specification released that year \cite{khronos2018opencl}.
 
-    In 2017, Eric Matthews, a fellow graduate student at the University of Windsor, thanked me in his Master's Thesis for helping him write his Thesis Report.
+    Pursuing heterogeneous computing, at the end of 2017, I obtained an OCE TalentEdge Academic Internship to develop a simulator for Additive Manufacturing processes.  I published a paper on leveraging heterogeneous computing for accelerating simulations for these applications in 2018 at CAD Conference in Paris \cite{peelar2018toolpath}.  There, I was invited to submit a full paper to the CAD and Applications Journal which was subsequently published in 2019 \cite{peelar2019real}.  The work is featured in the software APlus which is used by companies around the world for Additive Manufacturing applications.
 
-    At the end of 2017, I obtained an OCE TalentEdge Academic Internship for developing a simulator for Additive Manufacturing processes.  I published a paper on leveraging heterogeneous computing for accelerating simulations for these applications in 2018 at CAD Conference in Paris.  At that conference, I was invited to submit a full journal paper which was published in 2019. %TODO: make sure both are referenced
+    The mathematics behind developing 3D Printing simulations and Natural Language processing are dissimilar, however, many of the techniques for accelerating computations those applications using devices such as GPUs are the same.  In particular, I learned a lot about making programs efficient at the microarchitectural level using techniques such as SIMD vectorization and using efficient data layouts. Although no papers in this dissertation use heterogeneous computing themselves, notes are made in the Future Work sections of each paper presented where specialized hardware could be used to accelerate certain computations required by the semantics.  In particular, FPGAs, a form of reprogrammable hardware, could be used to accelerate the construction of the FDBR, a datastructure central to the thesis.
 
-    I began looking for ways to accelerate the SpeechWeb project using Heterogeneous Programming.
-    Using the knowledge I obtained from low-level microarchitectural programming, I was able to successfully get the Haskell demo from my Master's thesis running on a low level consumer network router and I realized that the work would be appropriate for Internet of Things (IoT) applications.
+    Using the microarchitectural-level insight I had gained from this research track, I was able to successfully get the Haskell demo from my Master's thesis running on a low power consumer network router and I realized that the work would be appropriate for Internet of Things (IoT) applications.
+    As we pursued this avenue in the course of my studies, Dr. Frost and I published in both conferences and journals.  My contributions to those papers are described as follows:
 
-    In 2018, Dr. Frost and I published our first paper together at NLIWoD, a satellite event of the ISWC, seeking to re-awaken interest in Compositional Semantics as an approach for creating Natural Language Query Interfaces.  In 2019, we published at WEBIST and were invited to submit to the WEBIST Springer Journal.  In 2020, we published at IEEE ICSC and again at WEBIST.
+    In 2018, Dr. Frost and I published our first paper in this line of research together at NLIWoD \cite{frost2018extensible}, a satellite event of the ISWC, seeking to re-awaken interest in Compositional Semantics as an approach for creating Natural Language Query Interfaces.  We also discussed how certain superlatives and graded quantifiers could be handled within the semantics.  My contributions to this paper included the implementation of the demonstration program, including the website, as well as the discussion of the FDBR, a fundamental datastructure used in this thesis, and how prepositional phrases are handled.
 
-    In 2020, I successfully ported the application over to WebAssembly such that it could be run directly in web browsers.
+    In 2019, we presented at WEBIST \cite{frostpeelar2019}, where our paper was nominated for the Best Student Paper Award.  Our paper dealt with how our semantics can accommodate ``non-compositional'' features of English such as superlatives.  In particular, we give mention to the $n^2 - n$ binary relations that can be obtained from $n$-ary events such as those that underlie $n$-ary transitive verbs.  We were subsequently invited to submit a full paper to the WEBIST Springer Journal.
+    My contribution to this paper included the discussion of how our approach could be used with traditional relational databases, the demonstration program and implementation, and some of the examples and discussion around them.
 
-    As of October 2020, my Master's thesis has been cited 4 times according to Google Scholar and my 2013 ASONAM paper has been cited 8 times according to Microsoft Academic.
+    In February 2020, we presented at IEEE ICSC \cite{peelar2020compositional}.  In our IEEE ICSC 2020 paper, we described how to handle transitive verbs with $n$-ary relations in the semantics and gave a full treatment of the semantics in the Lambda Calculus.  We also had the beginnings of an idea how to adapt the semantics to relational databases.  My contributions to this paper include the discussion of how to generate FDBRs from $n$-ary relations, the formal denotations for chained prepositional phrases, as well as parts of the denotation used for transitive verbs and the examples shown. We were invited to submit to the ASTESJ journal for a special issue, but we did not submit a paper.
+
+    In March 2020, we submitted our WEBIST Springer Journal \cite{peelar2020webistjournal} paper dealing with improving the computational complexity of our approach by showing how a Compositional Semantics can be memoized.  A complete application architecture is presented that permits both online and offline computation of the FDBR datastructures that are fundamental to the semantics.  We also show how superlative phrases such as ``the most'' can be accommodated.  My contributions to this paper were all aspects related to memoization, implementation, demonstration, discussion of syntactic and semantic ambiguity, description of the application architecture, denotation for the superlative phrase ``the most'' including nesting superlatives phrases within chained prepositional phrases, discussion regarding accommodating negation, and the discussion for how to use the approach with relational databases.  As of October 2020, our paper has been accepted for inclusion in the journal.
+
+    In November 2020, we will present our latest paper at WEBIST \cite{peelarfrostwebist2020}.  Our WEBIST 2020 paper describes how to accommodate negation in our semantics for applications where the Closed World Assumption holds.  Denotations for words entailing negation, such as ``not'', ``non'' and ``no'', are presented along with a denotation for transitive verbs that can handle negated expressions.  Notably, the denotations for ``no'', ``non'' and ``not'' can be omitted to restore the Open World Assumption where appropriate.
+    My contributions to this paper include the modifications to the semantics to accommodate negation, including integrating negation with the architecture presented in the WEBIST Springer Journal paper, the denotation for ``not'', and the example queries given.
+
+    As of October 2020, we have successfully compiled the Haskell implementation the semantics to WebAssembly such that it can be run directly in web browsers without any intermediary servers.  The goal of this is to allow your web browser to communicate directly with Semantic Web triplestores as though they were ordinary websites served over HTTP.  Currently, a version of the query interface is available that does this with event-based triplestores.  We aim to publish our approach in a functional programming conference as we believe it to be a useful method to create Natural Language Query Interfaces directly in the web browser.
+
+    We have also gained industry interest in crossing the gap to non event-based triplestores using Machine Learning approaches \cite{timbr}.  Our next goal is to combine the techniques developed above to query DBPedia with our semantics by leveraging a Machine Learning approach to perform reification on the non-event based triples.  This will allow us to directly benchmark our approach against other query interfaces.
+
+    As of October 2020, my Master's thesis \cite{peelar2016accommodating} has been cited 4 times according to Google Scholar and my ASONAM'13 paper has been cited 8 times according to Microsoft Academic.
 
     % * State number of citations for each paper
 
@@ -52,9 +61,7 @@
 % * Explain the papers we produced
 % * Explain my contributions to those papers
 % * State my thesis statement here and how the papers prove it
-% * Change formatting to be consistent across all papers
 % * Explain how the result of the work is more general, and the approach could be used to solve similar problems...
-% This is all to help the readers understand my contributions
 \end{refsection}
 
 \chapter{Introduction}
@@ -64,29 +71,53 @@
 
 %INTRODUCTION:
 
-\section{Motivation}
+%TODO
 
-%TODO: Add more here?  Tie in Semantic Web with Natural Language, and talk about how NLP interfaces could be used to control IoT devices
+%TODO: need to mention WebAssembly-powered interface
 
-\section {The Problem}
+The Internet of Things (IoT) is an emerging phenomenon in the public space.  Remotely controlled lights,
+voice assistants connected directly to powerful search engines, and refrigerators that can predict
+when you'll run out of food are just some examples of where IoT is entering the lives of people around the world.  Users with accessibility needs could especially benefit from these ``smart'' devices if they were able to interact with them through speech.
 
-\begin{itemize}
-    \item NLQIs to the Semantic Web
-    \item Internet of Things
-    \item Accessibility
-\end{itemize}
+Privacy is a particular concern about voice assistants that are currently in use.  They send
+their queries directly to a remote server for processing and then return their results.
+This architecture makes their use in confidential environments problematic.
+
+The approach described in this thesis processes all queries directly on the local device,
+only sending...
+
+Another concern about the black-box approach is the trustworthiness of the returned results.
+The architecture presented in this thesis is auditable -- that is, information is available
+for the returned results that justifies their inclusion in the result.  This can be used to
+verify that the retrieved information indeed exists within the triplestore or database it was
+retrieved from.
+
+This thesis addresses these concerns by...
+
+Our approach relies on a memoized event-based Compositional Semantics supporting complex linguistic structures such as prepositional phrases, superlatives, and negation.
+
+
+%\section{Motivation}
+
+%\section {The Problem}
+%
+%\begin{itemize}
+%    \item NLQIs to the Semantic Web
+%    \item Internet of Things
+%    \item Accessibility
+%\end{itemize}
 
 
 %SUMMARY OF EXISTING APPROACHES:
-\section {Existing approaches}
+%\section {Existing approaches}
 
 
 %THE PROBLEM WITH EXISTING APPROACHES:
 
-\section {Shortcomings of previous approaches}
+%\section {Shortcomings of previous approaches}
 
 
-\section {New approach}
+%\section {New approach}
 %OVERVIEW OF NEW APPROACH:
 
 
@@ -100,18 +131,64 @@ This dissertation describes research that proves the thesis. The research was or
 
 The rest of this chapter introduces the papers above with related background information and the contributions that I made to them. %TODO: should that be in preface?
 
-%TODO
-Please see \hyperref[appendix:b]{Appendix B} for a list of all papers related to this Thesis that I authored or co-authored. \cite{peelar2016accommodating}
+Please see \hyperref[appendix:b]{Appendix B} for a list of all 10 papers related to this Thesis that I authored or co-authored.
 
 \section{Proof of Concept}
 
-%TODO
 Rather than prove the thesis statement mathematically, I have chosen to build an interface that
-proves that the thesis is correct.
+proves that the thesis is correct.  It can be found at the following URL:
+
+\begin{center}
+    \url{https://speechweb2.cs.uwindsor.ca/solarman4/demo_sparql.html}
+\end{center}
+Additionally, a version that runs entirely within the web browser is available at
+the following URL:
+\begin{center}
+    \url{https://speechweb2.cs.uwindsor.ca/solarman-wasm/}
+\end{center}
+A list of example queries is provided on the website and in the papers presented in this report.
+Both interfaces are speech enabled -- simply click on the microphone icon to activate it.
+
+\section{An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore}
+
+\textbf{\Cref{chapter:nliwod2018conf}} contains a paper that describes the Function Defined by a Binary Relation (FDBR) and how it can be used to answer Natural Language queries to event-based Semantic Web Triplestores.
+
+This paper was presented at NLIWOD 2018, a satellite event of the ISWC.
+
+\section{A New Data Structure for Processing Natural Language Database Queries}
+
+\textbf{\Cref{chapter:webist2019conf}} contains a paper that describes how the FDBR is used
+to create denotations of other linguistic constructs such as superlatives.  It also discusses
+how the semantics can be readily adapted to relational databases.
+
+This paper was published at WEBIST 2019.  We were invited to submit an extended paper to the WEBIST Springer Journal, and at the conference we were nominated for Best Student Paper Award.
+
+\section{A Compositional Semantics for a Wide-coverage Natural-Language Query Interface to a Semantic Web Triplestore}
+
+\textbf{\Cref{chapter:icsc2020conf}} contains a paper that describes the $n^2 - n$ functions defined by an $n$-ary relation and how these can be used to accommodate transitive verbs in the semantics with $n$-ary relations.
+
+This paper was presented at IEEE ICSC 2020.
+
+\section{A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores}
+
+\textbf{\Cref{chapter:webist2019journal}} contains a paper that describes how to adapt our semantics
+to relational databases.  It provides a full treatment of the application architecture of our query interface, and discusses strategies for handling both syntactic and semantic ambiguity in the returned results over both speech and text modalities.  It also describes how the semantics are memoized to improve their computational complexity and discusses that framework enables FDBRs to be precomputed and cached offline for fast retrieval.
+
+%TODO: the final hurdles for scaling down AND scaling up... Linksys router
+
+We were invited to submit this paper to the WEBIST Springer Journal and it has been accepted for publication.
+
+\section{Accommodating Negation in an Efficient Event-Based Natural Language Query Interface to the Semantic Web}
+
+\textbf{\Cref{chapter:webist2020conf}} contains a paper that describes how to accommodate negation
+within the semantics.
+
+This conference paper was accepted for presentation at WEBIST 2020.
+
 
 \section{Notation}
 
-In addition to standard Lambda Calculus and set notation, the following notation is used in this dissertation:
+In addition to standard Lambda Calculus and set-theory notation, the following notation is used in this dissertation:
 \begin{itemize}
     \item $\entity{x}$ denotes the entity $x$
     \item $\event{1234}$ denotes the event \#1234
@@ -125,80 +202,9 @@ In addition to standard Lambda Calculus and set notation, the following notation
 \end{itemize}
 For example, $\entity{phobos}$ is the mathematical object representing \textit{phobos}, a moon that orbits Mars.
 
-%\section{Structure of Dissertation}
-%
-%The remainder of this Dissertation is structured as follows:
-
-%\begin{enumerate}
-%	\item An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore
-%	\item A New Data Structure for Processing Natural Language Database Queries
-%	\item A Compositional Semantics for a Wide-coverage Natural-Language Query Interface to a Semantic Web Triplestore
-%	\item Accepted: A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores (Journal)
-%    \item Accepted for publication: Accommodating Negation in an Efficient Event-Based Natural Language Query Interface to the Semantic Web (WEBIST 2020)
-%\end{enumerate}
-
-\section{An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore}
-
-In this paper we discuss:
-
-\begin{itemize}
-    \item the Function Defined by a Binary Relation (FDBR)
-\end{itemize}
-
-\Cref{chapter:nliwod2018conf}
-
-\section{A New Data Structure for Processing Natural Language Database Queries}
-
-\Cref{chapter:webist2019conf}
-
-This paper was published at WEBIST 2019.  We were invited to submit an extended paper to the WEBIST Springer Journal, and at the conference we were nominated for Best Student Paper Award.  In this paper we discuss:
-
-\begin{itemize}
-    \item How the FDBR is used to create denotations of other linguistic constructs such as superlatives
-    \item How our semantics can be readily adapted to relational databases
-\end{itemize}
-
-\section{A Compositional Semantics for a Wide-coverage Natural-Language Query Interface to a Semantic Web Triplestore}
-
-This conference paper was published at IEEE ICSC 2020.  In this paper we discuss:
-
-\begin{itemize}
-    \item The $n^2 - n$ functions defined by an $n$-ary relation
-    \item Accommodating transitive verbs with $n$-ary relations
-\end{itemize}
-
-\Cref{chapter:icsc2020conf}
-
-\section{A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores}
-
-\Cref{chapter:webist2019journal}
-
-We were invited to submit this paper to the WEBIST Springer Journal and it has been accepted for publication.
-
-In this paper we discuss:
-
-\begin{itemize}
-    \item A full treatment of how to adapt our semantics to relational databases
-    \item How to improve the computational complexity of the semantics through memoization
-    \item Strategies for handling both syntactic and semantic ambiguity in returned results
-\end{itemize}
-
-\section{Accommodating Negation in an Efficient Event-Based Natural Language Query Interface to the Semantic Web}
-
-\Cref{chapter:webist2020conf}
-
-This conference paper was accepted for presentation at WEBIST 2020.
-
-In this paper we discuss:
-
-\begin{itemize}
-    \item How to handle negation in the semantics
-\end{itemize}
-
-%TODO: notation
+%TODO: definitions?  perhaps get them up front
 
 %\pagebreak
-%TODO: these need to be numbered from 1 each time
 \printbibliography[heading=subbibintoc]
 \end{refsection}
 
