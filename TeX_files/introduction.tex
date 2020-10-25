@@ -79,22 +79,30 @@ The Internet of Things (IoT) is an emerging phenomenon in the public space.  Rem
 voice assistants connected directly to powerful search engines, and refrigerators that can predict
 when you'll run out of food are just some examples of where IoT is entering the lives of people around the world.  Users with accessibility needs could especially benefit from these ``smart'' devices if they were able to interact with them through speech.
 
-Privacy is a particular concern about voice assistants that are currently in use.  They send
-their queries directly to a remote server for processing and then return their results.
-This architecture makes their use in confidential environments problematic.
+Privacy is a particular concern about popular voice assistants that are currently in use.
+They function by sending their queries directly to a remote server for processing which then
+return results to the user.  This architecture makes their use in confidential environments problematic,
+such as in a medical or law office.
 
-The approach described in this thesis processes all queries directly on the local device,
-only sending...
+Another concern is about the trustworthiness of the returned results.  In expert systems,
+it's not enough to just have the answer to a query -- users need to be confident that the
+result is indeed correct.
 
-Another concern about the black-box approach is the trustworthiness of the returned results.
-The architecture presented in this thesis is auditable -- that is, information is available
-for the returned results that justifies their inclusion in the result.  This can be used to
-verify that the retrieved information indeed exists within the triplestore or database it was
-retrieved from.
+This thesis describes a framework for building NLQIs using Compositional Semantics that addresses these concerns.  In particular, the use of a Compositional Semantics
+guarantees that the results returned will be as correct as the data in the database.
+It is also auditable: information is available for the returned results that justifies their inclusion in the result.  This can be used to verify that the retrieved information indeed exists within the triplestore or database it was retrieved from.
 
-This thesis addresses these concerns by...
+The NLQIs produced with this framework are able to be run directly on the user's own devices,
+such as their own computer, smartphone, or even internet router.  The actual queries the user
+makes never leave the device -- the only time information leaves the device is when a query to
+a Semantic Web triplestore needs to be made to satisfy it.  For domain-specific applications
+where confidentiality is important, the server can be maintained entirely within that environment
+under the user's control.
 
-Our approach relies on a memoized event-based Compositional Semantics supporting complex linguistic structures such as prepositional phrases, superlatives, and negation.
+Our approach relies on a memoized event-based Compositional Semantics supporting complex linguistic structures such as prepositional phrases, superlatives, and negation.  It is \textit{scalable}, in that
+the architecture can scale from both small to very large triplestores.  It is \textit{efficient}, in that
+it can run on low power hardware.  It is \textit{expressive}, capable of handling queries with many complex linguistic features, and finally it is \textit{precise}, as it is based on a Compositional Semantics,
+where the answers returned are as correct as the information retrieved from the triplestore.
 
 
 %\section{Motivation}
@@ -125,11 +133,15 @@ Our approach relies on a memoized event-based Compositional Semantics supporting
 
 This dissertation contains five papers that address the problem of creating Natural Language Query Interfaces to the Semantic Web.  It proves the following statement:
 
+\vspace{0.5em}
+
 \textit{``A scalable, efficient, expressive and precise method for processing natural-language queries to the Semantic Web can be built using a Compositional Semantics.''}
+
+\vspace{0.5em}
 
 This dissertation describes research that proves the thesis. The research was originally published in refereed conference and journal papers that are summarized in Chapters \ref{chapter:nliwod2018conf} through \ref{chapter:webist2020conf}.
 
-The rest of this chapter introduces the papers above with related background information and the contributions that I made to them. %TODO: should that be in preface?
+The rest of this chapter introduces the papers above with related background information.
 
 Please see \hyperref[appendix:b]{Appendix B} for a list of all 10 papers related to this Thesis that I authored or co-authored.
 
@@ -151,28 +163,61 @@ Both interfaces are speech enabled -- simply click on the microphone icon to act
 
 \section{An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore}
 
-\textbf{\Cref{chapter:nliwod2018conf}} contains a paper that describes the Function Defined by a Binary Relation (FDBR) and how it can be used to answer Natural Language queries to event-based Semantic Web Triplestores.
+\textbf{\Cref{chapter:nliwod2018conf}} contains a paper that describes the Function Defined by a Binary Relation (FDBR) and how it can be used to answer Natural Language queries to event-based Semantic Web Triplestores.  It was presented at NLIWOD 2018, a satellite event of the ISWC.
 
-This paper was presented at NLIWOD 2018, a satellite event of the ISWC.
+Briefly, Semantic Web Triplestores are databases that contain \textit{Resource Description Framework (RDF) triples} that describe facts about \textit{entities}.  Each component of a triple is a Uniform Resource Identifier (URI) that uniquely identifies an entity within that triplestore.  As an example for how these are used, consider the following:
+
+\begin{code}
+    <hall> <discover> <phobos> .
+    <hall> <discover> <deimos> .
+\end{code}
+
+The triples above can be read as ``\textit{subject-predicate-object}''.
+
+Triplestores are accessible via a query method using an endpoint.  The most common query method in use for Semantic Web triplestores is \textit{SPARQL} \cite{sparql}, however, increasingly users are turning to other query methods as well, such as Linked Data Fragments \cite{verborgh2014web} being the recommended choice for querying DBPedia \cite{dbpedia}.
+
+One problem with entity-based triples such as the example above is that it is difficult to add contextual information to a set of triples.  In the example above, it is not clear if Asaph Hall discovered both Phobos and Deimos at the same time or if these were separate events, and it is not clear what year those discoveries took place.  The triples must be \textit{reified} \cite{antoniou2004semantic} to obtain the contextual information.
+
+One method for reification is to use \textit{event-based triplestores}, where the \textit{subject} of each triple identifies an \textit{event} rather than an entity.  The example above could be expressed as:
+
+\begin{code}
+    <event1045> <type> <discovery> .
+    <event1045> <subject> <hall> .
+    <event1045> <object> <phobos> .
+    <event1045> <year> <1877> .
+    <event1046> <type> <discovery> .
+    <event1046> <subject> <hall> .
+    <event1046> <object> <deimos> .
+    <event1046> <year> <1877> .
+\end{code}
+
+Event-based triplestores allow additional contextual information about an event to be expressed
+expressed by simply adding additional triples with that event as the subject.  In the example
+above, it is clear that both discovery events for Deimos and Phobos took place within the same year.
+
+We present a Natural Language Query Interface to event-based triplestores using the Function Defined
+by a Binary Relation (FDBR), a datastructure first used by Frost in \cite{frost1989constructing}
+to provide a denotation for binary transitive verbs in a set-theoretic version of Montague Semantics \cite{Dowty:wall}.  In 2016, Peelar showed that the FDBR can be used to accommodate chained
+prepositional phrases in a Compositional Semantics \cite{peelar2016accommodating}.  In this paper,
+we discuss how the FDBR can be used to answer other types of Natural Language queries as well, including
+those with superlatives and graded quantifiers.
 
 \section{A New Data Structure for Processing Natural Language Database Queries}
 
 \textbf{\Cref{chapter:webist2019conf}} contains a paper that describes how the FDBR is used
 to create denotations of other linguistic constructs such as superlatives.  It also discusses
-how the semantics can be readily adapted to relational databases.
-
-This paper was published at WEBIST 2019.  We were invited to submit an extended paper to the WEBIST Springer Journal, and at the conference we were nominated for Best Student Paper Award.
+how the semantics can be readily adapted to relational databases.  This paper was published at WEBIST 2019.  We were invited to submit an extended paper to the WEBIST Springer Journal, and at the conference we were nominated for Best Student Paper Award.
 
 \section{A Compositional Semantics for a Wide-coverage Natural-Language Query Interface to a Semantic Web Triplestore}
 
-\textbf{\Cref{chapter:icsc2020conf}} contains a paper that describes the $n^2 - n$ functions defined by an $n$-ary relation and how these can be used to accommodate transitive verbs in the semantics with $n$-ary relations.
-
-This paper was presented at IEEE ICSC 2020.
+\textbf{\Cref{chapter:icsc2020conf}} contains a paper that describes the $n^2 - n$ functions defined by an $n$-ary relation and how these can be used to accommodate transitive verbs in the semantics with $n$-ary relations.  This paper was presented at IEEE ICSC 2020.  We were invited to submit to the ASTESJ journal for a special issue, but we did not submit a paper.
 
 \section{A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores}
 
 \textbf{\Cref{chapter:webist2019journal}} contains a paper that describes how to adapt our semantics
 to relational databases.  It provides a full treatment of the application architecture of our query interface, and discusses strategies for handling both syntactic and semantic ambiguity in the returned results over both speech and text modalities.  It also describes how the semantics are memoized to improve their computational complexity and discusses that framework enables FDBRs to be precomputed and cached offline for fast retrieval.
+
+One of the key ideas behind this paper is to memoize the semantics by using the expression tree obtained from the query itself.  Each expression is uniquely named and the results cached from the triplestore, drastically reducing the number of calculations that need to be performed during a query.  The same architecture can be used to cache and generate FDBRs offline for fast retrieval later.  It addresses both the efficiency and scalability aspects of the thesis statement.
 
 %TODO: the final hurdles for scaling down AND scaling up... Linksys router
 
@@ -181,10 +226,12 @@ We were invited to submit this paper to the WEBIST Springer Journal and it has b
 \section{Accommodating Negation in an Efficient Event-Based Natural Language Query Interface to the Semantic Web}
 
 \textbf{\Cref{chapter:webist2020conf}} contains a paper that describes how to accommodate negation
-within the semantics.
-
-This conference paper was accepted for presentation at WEBIST 2020.
-
+within the semantics.  This conference paper was accepted for presentation at WEBIST 2020.
+The key idea behind this paper is to track cardinality throughout the semantics by introducing
+a new triplestore querying primitive to obtain the cardinality of the triplestore.  Negation
+in general only holds if the Closed World Assumption can be satisfied.  Where it cannot, the
+denotations for ``not'', ``non'', and ``no'' can be omitted, restoring the Open World Assumption
+that underlies the Semantic Web.  This allows our approach to be used in expert systems and domain-specific applications where Semantic Web technologies are in use and where the Closed World Assumption holds.
 
 \section{Notation}
 
