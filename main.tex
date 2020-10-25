@@ -450,91 +450,74 @@
 \addcontentsline{toc}{chapter}{Declaration of Co-Authorship / Previous Publication}
 %TODO: separate into two sections
 \begin{uwindefaultspaceenv}
-	\begin{enumerate}
+	\begin{enumerate}[label=\Roman*.]
 		\item Co-Authorship Declaration
 
 			I hereby declare that this thesis incorporates material that is result of joint research undertaken under the supervision of Dr. Richard A. Frost.  The collaboration is covered
-            in Chapters 2 through 6 of the dissertation.
+            in Chapters \ref{chapter:nliwod2018conf} through \ref{chapter:webist2020conf} of the dissertation.  In all cases, the key ideas, primary contributions and writing were performed by
+            Shane Peelar (the candidate) and Dr. Richard A. Frost (the supervisor) as primary authors
+            and contributors.
+
+           	I am aware of the University of Windsor Senate Policy on Authorship and I certify that I have properly acknowledged the contribution of other researchers to my thesis, and have obtained written permission from each of the co-author(s) to include the above material(s) in my thesis.
+
+            I certify that, with the above qualification, this thesis, and the research to which it refers, is the product of my own work.
 
 		\item Declaration of Previous Publication
+
+        This thesis includes 5 original papers that have been previously
+        published/submitted for publication in peer reviewed journals, as follows:
+
+        \begin{table}[h!]
+            \centering
+            \begin{tabular}{ |  l | l | l | }
+                \hline
+                Thesis Chapter & Publication title/full citation & Publication Status \\
+                \hline
+                \Cref{chapter:nliwod2018conf} & An Extensible Natural-Language & \\
+                                              & Query Interface to an Event-Based & \\
+                                              & Semantic Web Triplestore & Published \\
+                \hline
+                \Cref{chapter:webist2019conf} & A New Data Structure for Processing & \\
+                                              & Natural Language Database Queries & Published \\
+                \hline
+                \Cref{chapter:icsc2020conf} & A Compositional Semantics for a Wide-& \\
+                                            & Coverage Natural-Language Query & \\
+                                            & Interface to a Semantic Web Triplestore & Published \\
+                \hline
+                \Cref{chapter:webist2019journal} & A New Approach for Processing Natural-& \\
+                                                 & Language Queries to Semantic Web & \\
+                                                 & Triplestores & In press \\
+                \hline
+                \Cref{chapter:webist2020conf} & Accommodating Negation in an Efficient & Accepted for \\
+                                              & Event-Based Natural Language Query  & publication \\
+                                              & Interface to the Semantic Web & \\
+                \hline
+            \end{tabular}
+        \end{table}
+
+    I certify that I have obtained a written permission from the copyright owner(s) to include the above
+    published material(s) in my thesis. I certify that the above material describes work completed during my
+    registration as graduate student at the University of Windsor.
+
+    \item General
+
+    I declare that, to the best of my knowledge, my thesis does not infringe upon anyone's copyright nor
+    violate any proprietary rights and that any ideas, techniques, quotations, or any other material from the work
+    of other people included in my thesis, published or otherwise, are fully acknowledged in accordance with the
+    standard referencing practices. Furthermore, to the extent that I have included copyrighted material that
+    surpasses the bounds of fair dealing within the meaning of the Canada Copyright Act, I certify that I have
+    obtained a written permission from the copyright owner(s) to include such material(s) in my thesis.
+
+    I declare that this is a true copy of my thesis, including any final revisions, as approved by my thesis
+    committee and the Graduate Studies office, and that this thesis has not been submitted for a higher degree to
+    any other University or Institution.
+
 	\end{enumerate}
-\end{uwindefaultspaceenv}
 
-\begin{uwindefaultspaceenv}
-
-
-	Some of the material in this thesis is derived from the following research
-	papers:
-
-%	\begin{center}
-
-%		\begin{tabular}{ | c | c | c | }
-
-%			\hline
-%			\parbox{0.6in}{Thesis Chapter} & \parbox{3in}{Publication title/full citation} & \parbox{1in}{Publication Status} \\
-
-%			\hline
-%			2 & \parbox{3.5in}{\fullcite{frost2018extensible}} & Published \\
-
-%			\hline
-%			3 & cell8 & Published \\
-%			\hline
-
-%			4 & cell8 & Published \\
-%			\hline
-
-%			5 & cell8 & Submitted \\
-%			\hline
-
-%		\end{tabular}
-
-%	\end{center}
-
-\end{uwindefaultspaceenv}
-
-
-%\fullcite{frosthafiz2008}
-
-%\fullcite{frostagboola2014}
-
-%\fullcite{frost2014demonstration}
-
-\begin{enumerate}
-    \item \fullcite{frost2018extensible}
-
-    \item \fullcite{frostpeelar2019}
-
-    \item \fullcite{peelar2020compositional}
-
-    \item A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores (ACCEPTED) %TODO
-
-    \item Accommodating Negation in an Efficient Event-Based Natural Language Query Interface to the Semantic Web (ACCEPTED) %TODO
-\end{enumerate}
-
-\begin{uwindefaultspaceenv}
 	%TODO
 %	Paper \cite{frosthafiz2008} (Frost, Hafiz, and Callaghan) describes a set of functional parser combinators developed by Frost and Hafiz as part of Hafiz's doctoral thesis work, which enables language processors to be built as executable specifications of fully-general attribute grammars, including ambiguous left-recursive grammars.  The processors use a polynomial time complexity top-down parsing strategy which enables a natural specification of the grammars and the associated semantic rules.  This was previously thought to be impossible, and was stated as such in many textbooks on parsing.
 
 %	Paper \cite{frostagboola2014} (Frost, Agboola, Matthews, and Donais) describes an event based semantics developed by Dr. Frost and his research team and includes extracts from a Haskell program which demonstrated the viability of the semantics with respect to an in-program database of triples coded as part of the program.
-
-	I am aware of the University of Windsor Senate Policy on Authorship and I certify that I have properly acknowledged the contribution of other researchers to my thesis, and have obtained written permission from each of the co-author(s) to include the above material(s) in my thesis.
-
-	I certify that, with the above qualification, this thesis, and the research to which it refers, is the product of my own work.
-
-	I certify that I have obtained a written permission from the copyright owner(s) to include the above
-	published material(s) in my thesis. I certify that the above material describes work completed during my
-	registration as graduate student at the University of Windsor.
-
-	I declare that, to the best of my knowledge, my thesis does not infringe upon anyone's copyright nor
-	violate any proprietary rights and that any ideas, techniques, quotations, or any other material from the work
-	of other people included in my thesis, published or otherwise, are fully acknowledged in accordance with the
-	standard referencing practices. Furthermore, to the extent that I have included copyrighted material that
-	surpasses the bounds of fair dealing within the meaning of the Canada Copyright Act, I certify that I have
-	obtained a written permission from the copyright owner(s) to include such material(s) in my thesis.
-
-	I declare that this is a true copy of my thesis, including any final revisions, as approved by my thesis
-	committee and the Graduate Studies office, and that this thesis has not been submitted for a higher degree to
-	any other University or Institution.
 
 \end{uwindefaultspaceenv}
 
