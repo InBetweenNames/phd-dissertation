@@ -36,7 +36,7 @@
 
     In February 2020, we presented at IEEE ICSC \cite{peelar2020compositional}.  In our IEEE ICSC 2020 paper, we described how to handle transitive verbs with $n$-ary relations in the semantics and gave a full treatment of the semantics in the Lambda Calculus.  We also had the beginnings of an idea how to adapt the semantics to relational databases.  My contributions to this paper include the discussion of how to generate FDBRs from $n$-ary relations, the formal denotations for chained prepositional phrases, as well as parts of the denotation used for transitive verbs and the examples shown. We were invited to submit to the ASTESJ journal for a special issue, but we did not submit a paper.
 
-    In March 2020, we submitted our WEBIST Springer Journal \cite{peelar2020webistjournal} paper dealing with improving the computational complexity of our approach by showing how a Compositional Semantics can be memoized.  A complete application architecture is presented that permits both online and offline computation of the FDBR datastructures that are fundamental to the semantics.  We also show how superlative phrases such as ``the most'' can be accommodated.  My contributions to this paper were all aspects related to memoization, implementation, demonstration, discussion of syntactic and semantic ambiguity, description of the application architecture, denotation for the superlative phrase ``the most'' including nesting superlatives phrases within chained prepositional phrases, discussion regarding accommodating negation, and the discussion for how to use the approach with relational databases.  As of October 2020, our paper has been accepted for inclusion in the journal.
+    In March 2020, we submitted our WEBIST Springer Journal \cite{peelar2020webistjournal} paper dealing with improving the computational complexity of our approach by showing how a Compositional Semantics can be memoized.  A complete application architecture is presented that permits both online and offline computation of the FDBR datastructures that are fundamental to the semantics.  We also show how superlative phrases such as ``the most'' can be accommodated.  My contributions to this paper were all aspects related to memoization, implementation, demonstration, discussion of syntactic and semantic ambiguity, description of the application architecture, denotation for the superlative phrase ``the most'' including nesting superlatives phrases within chained prepositional phrases, discussion regarding accommodating negation, and the discussion for how to use the approach with relational databases.  As of November 2020, our paper is now available via Springer.
 
     In November 2020, we will present our latest paper at WEBIST \cite{peelarfrostwebist2020}.  Our WEBIST 2020 paper describes how to accommodate negation in our semantics for applications where the Closed World Assumption holds.  Denotations for words entailing negation, such as ``not'', ``non'' and ``no'', are presented along with a denotation for transitive verbs that can handle negated expressions.  Notably, the denotations for ``no'', ``non'' and ``not'' can be omitted to restore the Open World Assumption where appropriate.
     My contributions to this paper include the modifications to the semantics to accommodate negation, including integrating negation with the architecture presented in the WEBIST Springer Journal paper, the denotation for ``not'', and the example queries given.
@@ -140,9 +140,7 @@ This dissertation contains five papers that address the problem of creating Natu
 
 \vspace{0.5em}
 
-This dissertation describes research that proves the thesis. The research was originally published in refereed conference and journal papers that are summarized in Chapters \ref{chapter:nliwod2018conf} through \ref{chapter:webist2020conf}.
-
-The rest of this chapter introduces the papers above with related background information.
+This dissertation describes research that proves the thesis. The research was originally published in refereed conference and journal papers that are summarized in Chapters \ref{chapter:nliwod2018conf} through \ref{chapter:webist2020conf}. The rest of this chapter introduces the papers above with related background information.
 
 Please see \hyperref[appendix:b]{Appendix B} for a list of all 10 papers related to this Thesis that I authored or co-authored.
 
@@ -159,7 +157,7 @@ the following URL:
 \begin{center}
     \url{https://speechweb2.cs.uwindsor.ca/solarman-wasm/}
 \end{center}
-A list of example queries is provided on the website and in the papers presented in this report.
+A list of example queries is provided on both websites and in the papers presented in this report.
 Both interfaces are speech enabled -- simply click on the microphone icon to activate it.
 
 \section{An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore}
@@ -238,6 +236,7 @@ that underlies the Semantic Web.  This allows our approach to be used in expert 
 
 In addition to standard Lambda Calculus and set-theory notation, the following notation is used in this dissertation:
 \begin{itemize}
+    \item ``\texttt{<subject> <predicate> <object> .}'' denotes an RDF triple
     \item $\entity{x}$ denotes the entity $x$
     \item $\event{1234}$ denotes the event \#1234
     \item $\meaningof{x}$ is the mathematical denotation of the phrase $x$
