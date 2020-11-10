@@ -38,14 +38,14 @@
 
     In March 2020, we submitted our WEBIST Springer Journal \cite{peelar2020webistjournal} paper dealing with improving the computational complexity of our approach by showing how a Compositional Semantics can be memoized.  A complete application architecture is presented that permits both online and offline computation of the FDBR datastructures that are fundamental to the semantics.  We also show how superlative phrases such as ``the most'' can be accommodated.  My contributions to this paper were all aspects related to memoization, implementation, demonstration, discussion of syntactic and semantic ambiguity, description of the application architecture, denotation for the superlative phrase ``the most'' including nesting superlatives phrases within chained prepositional phrases, discussion regarding accommodating negation, and the discussion for how to use the approach with relational databases.  As of November 2020, our paper is now available via Springer.
 
-    In November 2020, we will present our latest paper at WEBIST \cite{peelarfrostwebist2020}.  Our WEBIST 2020 paper describes how to accommodate negation in our semantics for applications where the Closed World Assumption holds.  Denotations for words entailing negation, such as ``not'', ``non'' and ``no'', are presented along with a denotation for transitive verbs that can handle negated expressions.  Notably, the denotations for ``no'', ``non'' and ``not'' can be omitted to restore the Open World Assumption where appropriate.
+    In November 2020, we presented our latest paper at WEBIST \cite{peelarfrostwebist2020}.  Our WEBIST 2020 paper describes how to accommodate negation in our semantics for applications where the Closed World Assumption holds.  Denotations for words entailing negation, such as ``not'', ``non'' and ``no'', are presented along with a denotation for transitive verbs that can handle negated expressions.  Notably, the denotations for ``no'', ``non'' and ``not'' can be omitted to restore the Open World Assumption where appropriate.
     My contributions to this paper include the modifications to the semantics to accommodate negation, including integrating negation with the architecture presented in the WEBIST Springer Journal paper, the denotation for ``not'', and the example queries given.
 
     As of October 2020, we have successfully compiled the Haskell implementation the semantics to WebAssembly such that it can be run directly in web browsers without any intermediary servers.  The goal of this is to allow your web browser to communicate directly with Semantic Web triplestores as though they were ordinary websites served over HTTP.  Currently, a version of the query interface is available that does this with event-based triplestores.  We aim to publish our approach in a functional programming conference as we believe it to be a useful method to create Natural Language Query Interfaces directly in the web browser.
 
     We have also gained industry interest in crossing the gap to non event-based triplestores using Machine Learning approaches \cite{timbr}.  Our next goal is to combine the techniques developed above to query DBPedia with our semantics by leveraging a Machine Learning approach to perform reification on the non-event based triples.  This will allow us to directly benchmark our approach against other query interfaces.
 
-    As of October 2020, my Master's thesis \cite{peelar2016accommodating} has been cited 4 times according to Google Scholar and my ASONAM'13 paper has been cited 8 times according to Microsoft Academic.
+    As of November 2020, my Master's thesis \cite{peelar2016accommodating} has been cited 4 times according to Google Scholar and my ASONAM'13 paper has been cited 8 times according to Microsoft Academic.
 
     % * State number of citations for each paper
 
@@ -225,7 +225,7 @@ We were invited to submit this paper to the WEBIST Springer Journal and it has b
 \section{Accommodating Negation in an Efficient Event-Based Natural Language Query Interface to the Semantic Web}
 
 \textbf{\Cref{chapter:webist2020conf}} contains a paper that describes how to accommodate negation
-within the semantics.  This conference paper was accepted for presentation at WEBIST 2020.
+within the semantics.  This conference paper was presented at WEBIST 2020.
 The key idea behind this paper is to track cardinality throughout the semantics by introducing
 a new triplestore querying primitive to obtain the cardinality of the triplestore.  Negation
 in general only holds if the Closed World Assumption can be satisfied.  Where it cannot, the
