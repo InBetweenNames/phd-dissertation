@@ -1,0 +1,630 @@
+% !TeX spellcheck = en-US
+% !TeX encoding = utf8
+% !TeX program = xelatex
+% !BIB program = biber
+
+%\documentclass[logoontitle,logoonpages,tabu,supertabular,aspectratio=169]{preney-uwindsor-beamer}
+\documentclass[logoontitle,tabu,supertabular,aspectratio=43]{preney-uwindsor-beamer}
+%
+% NOTE: "Iosevka" and "Charis SIL" fonts are set in main.sty!
+%
+\usepackage[
+bibstyle=numeric-comp,
+sorting=nyvt,
+natbib=true,
+mcite=true,
+maxnames=100,
+url=true,
+isbn=false,
+doi=false,
+uniquename=init,
+giveninits=true,
+hyperref=true,
+backref=true,
+sortcites,
+backend=biber
+]{biblatex}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{main}
+
+\usepackage{booktabs}
+\addbibresource{../frostpaper.bib}
+
+
+\newcommand{\phobos}{\mathit{phobos}}
+\newcommand{\deimos}{\mathit{deimos}}
+\newcommand{\every}{\mathit{every}}
+\newcommand{\spins}{\mathit{spins}}
+\newcommand{\spin}{\mathit{spin}}
+\newcommand{\moon}{\mathit{moon}}
+
+\newcommand{\meaningof}[1]{\lVert #1 \rVert}
+\newcommand{\eventassoc}[1]{ev_{\mathrm{#1}}}
+\newcommand{\entityassoc}[1]{e_{#1}}
+\newcommand{\wordpred}[1]{\mathit{#1\_pred}}
+\newcommand{\wordset}[1]{\mathit{#1\_set}}
+\newcommand{\True}{\mathit{True}}
+\newcommand{\False}{\mathit{False}}
+
+
+\newcommand{\discover}{\mathit{discover}}
+\newcommand{\discovered}{\mathit{discovered}}
+\newcommand{\discoveredby}{\mathit{discovered\ by}}
+\newcommand{\discoveredwith}{\mathit{discovered\ with}}
+\newcommand{\used}{\mathit{used}}
+\newcommand{\hall}{\mathit{hall}}
+
+\newcommand{\relation}[1]{\mathit{#1\_rel}}
+\newcommand{\collect}{\mathit{collect}}
+
+\newcommand{\FDBR}[1]{\mathrm{FDBR}({#1})}
+\newcommand{\objfdbr}[1]{\mathrm{obj\_fdbr}(\mathit{#1})}
+\newcommand{\gatherevs}[1]{\mathrm{gather}({#1})}
+\newcommand{\propfdbr}[2]{\mathrm{prop\_fdbr}(\mathit{#1, #2})}
+\newcommand{\relationn}[3]{\mathit{#1\_rel_{#2 \rightarrow #3}}}
+
+% Hack to make mintinline work in tabu tables...
+% URL: https://tex.stackexchange.com/questions/372053/using-mintinline-inside-tabu/372054
+\tabuDisableCommands{%
+	\renewcommand\mintinline[2]{\texttt{\detokenize{#2}}}%
+}
+
+\providecommand{\emailshane}{peelar@uwindsor.ca}
+\title{Scalable, Efficient and Precise Natural Language Processing in the Semantic Web}
+%\subtitle{Traditional Software Development}
+\date[December 17 2020]{December 17 2020}
+\author[]{\small Shane Peelar \texorpdfstring{\\}{} {\scriptsize\href{mailto:\emailshane}{peelar@uwindsor.ca}}}
+
+%\institute[WEBIST 2020 Conference]{
+%	\Large WEBIST 2020 Conference\\ \vspace{1em}
+%	\footnotesize Funded by NSERC of Canada
+%}
+
+\newcommand{\makesubsectionslide}{
+\begin{frame}
+	\centering
+	\huge
+	\insertsubsection
+\end{frame}
+}
+
+%
+% The presentation slide content follows...
+%
+\begin{document}
+	% Set all tabu tables to have 1pt linesep by default...
+	\tabulinesep=1pt
+
+	%\partwithoutpage{\inserttitle}
+	\section*{Title Page}
+	\begin{frame}
+	\titlepage
+	\end{frame}
+
+    \section{The Committee} %TODO: proper name for this slide
+    %TODO: spruce this up with a table?
+    \begin{frame}{\insertsection}
+        \begin{itemize}
+            \item External Examiner: Dr. Diana Zaiu Inkpen %TODO: pronunciation
+            \item External Reader: Dr. Richard Caron
+            \item Internal Reader: Dr. Pooya Moradian Zadeh
+            \item Internal Reader: Dr. Jianguo Lu
+            \item Advisor: Dr. Richard A. Frost
+        \end{itemize}
+    \end{frame}
+
+	\section{Introduction}
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item ...
+		\end{itemize}
+	\end{frame}
+
+    %NOTE: 15-25 minutes!!!
+    %TODO: sections:
+    %Intro (brief)
+    % - The problem!!! <-- borrow this from proposal
+    % - Why important <-- borrow this from proposal
+    % - Why non-trivial <-- borrow this from proposal
+    % - Previous work
+    % 	- Montagovian/Neo-Davidsonian...
+    % 	- FLMS
+    %   - UEV-FLMS
+    % - Shortcomings of previous work
+    % - The new idea
+    %Demo (sooner? later?)
+    %The five papers
+    % - New idea of each paper
+    % - How it contributes towards solving the problem
+    %Conclusions
+    % - We've shown...
+    %Future work/next steps
+    % - Need an empirical evaluation of the system in a real world setting
+    % - QALD/DBPedia
+
+    %SLIDES TO BORROW FROM
+    % - MsC
+
+
+	\section{Demonstration}
+	\begin{frame}{\insertsection}
+		A live demonstration of our approach is available at this URL:
+		\begin{center}
+			\url{http://speechweb2.cs.uwindsor.ca/solarman4/demo_sparql.html}
+		\end{center}
+		Some example queries that can be handled include:
+        %TODO: negation examples
+		\begin{itemize}
+			\item \texttt{what discovered no moon in 1877}
+			\item \texttt{what discovered a non moon}
+			\item \texttt{allen discovered no moon at no places}
+			\item \texttt{what discovered the most moons using no telescopes}
+			\item \texttt{phobos and deimos were not discovered by not hall}
+			\item \texttt{a person does not exist}
+		\end{itemize}
+	\end{frame}
+
+	\section{The Semantic Web}
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item Commonly referred to as ``Web 3.0''
+			\item First coined by Tim Berners-Lee in 2001 \cite{berners2001semantic}
+			\item A set of standards by the W3C for interacting with remote {\em triplestores} \cite{w3csemanticweb}
+			\begin{itemize}
+				\item Triples typically described as {\em subject} - {\em predicate} - {\em object}
+				\item Traditionally entity based
+				\item Example: \texttt{<hall> <discovered> <phobos> .}
+				\item Requires {\em reification} for cross referencing
+			\end{itemize}
+			\item Advantages:
+			\begin{itemize}
+				\item Simple representation facilitates processing (RDF) \cite{w3c}
+				\item No web scraping required, all machine readable
+				\item Hierarchy of information an be described in OWL \cite{mcguinness2004owl}
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{\insertsection}
+	\begin{itemize}
+		\item Event-based triplestores:
+		\begin{itemize}
+			\item The {\em subject} of a triple is the URI of an event in which something took place
+			\item Data is already {\em reified}, extra information directly accessible
+			\item Can add new columns and rows to a relation easily
+		\end{itemize}
+	\end{itemize}
+
+	Example (N-Triples format \cite{w3cntriples}, full URI omitted):
+
+	\hspace{5em}\texttt{<event1045> <subject>\phantom{qqq}<hall> .}
+
+	\hspace{5em}\texttt{<event1045> <object>\phantom{qqqq}<phobos> .}
+
+	\hspace{5em}\texttt{<event1045> <type>\phantom{qqqqqq}<discover\_ ev> .}
+
+	\hspace{5em}\texttt{<event1045> <year>\phantom{qqqqqq}<1877> .}
+
+	\hspace{5em}\texttt{<event1045> <location>\phantom{qq}<us\_naval\_observatory> .}
+
+	\hspace{5em}\texttt{<event1045> <implement>\phantom{q}<refractor\_telescope\_1> .}
+
+	%TODO: send Richard paper, Tiffany Chien, Jugal Kalita Adversarial Analysis of NLIS.  We may be able to handle some of these.  IDEA: P => Q, P generates data (assumes it) and Q consumes it via query
+	\end{frame}
+
+	\section{Natural Language is inherently difficult}
+
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item NL is inherently syntactically ambiguous:
+			\begin{itemize}
+				\item \texttt{discover a moon that spins in 1877}
+				\item \texttt{discover (a (moon that spins)) [in 1877]}
+				\item \texttt{discover (a (moon that (spins [in 1877])))}
+			\end{itemize}
+			\item Semantic ambiguity also exists: consider the word ``depart''
+			\item Users may not enter grammatically correct sentences
+			\item Users may misspell words
+			\item Users may not clearly state what they mean
+            \item \textbf{How to handle negation?}
+			\item The situation does not look good for arbitrary user input!
+		\end{itemize}
+	\end{frame}
+
+	\section{Constraining the Problem}
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item But for NLQIs, the situation isn't as bad as it seems
+			\item The set of possible inputs are constrained to Q\&A-type sentences
+			\item A full understanding of the underlying NL is not needed
+			\item NLQIs may be {\em wide} or {\em narrow} in scope
+			\item Machine Learning is effective at dealing with {\em wide}-scoped interfaces
+			\item But how can we handle highly specific queries, such as: \texttt{how many moons that orbit a red planet were discovered by nicholson}?
+			\item The goal of this research is to produce a framework for NLQIs that can be used with expert systems and highly domain specific databases for precise {\em narrow} queries
+		\end{itemize}
+	\end{frame}
+
+
+%TODO: do I really want to try to categorize this stuff?
+%	\begin{frame}{\insertsection}
+%		\begin{itemize}
+%			\item The most popular approaches when dealing with NL involve using Machine Learning (ML)
+%			\item Many libraries and frameworks available to facilitate this
+%			\item ML is effective at dealing with a wide scope of queries %TODO
+%			\item But ML approaches have trouble when things get specific:
+%			\begin{itemize}
+%				\item \texttt{which person discovered a moon that spins in 1877 with a shiny telescope}
+%			\end{itemize}
+%			\item Various metrics to evaluate ML approaches: precision, accuracy, recall.. %TODO
+%			\item ML approaches try to classify the intent behind a query and present relevant information %TODO, need a citation for that
+%		\end{itemize}
+%	\end{frame}
+
+	\section{Compositional Semantics}
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item One way to handle NL is to use a {\em Compositional Semantics} (CS)
+			\item The idea: each word in the query has a corresponding mathematical {\em denotation} that allows the query to be treated as a mathematical expression
+			\begin{itemize}
+				\item \texttt{who discovered a moon} $\Rightarrow$ \texttt{who discovered (a moon)}
+				\item \texttt{hall discovered a vacuumous moon in 1877} \\ $\Rightarrow$ \texttt{hall (discovered (a (vacuumous moon)) [in 1877])}
+			\end{itemize}
+			\item First described by Richard Montague \cite{Dowty:wall}
+			\begin{itemize}
+				\item ``I reject the contention that an important theoretical difference exists between formal and natural languages.'' (Montague, 1970)
+				\item The denotations are formally described in the Typed Lambda Calculus
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item When dealing with structured queries, CS has a few advantages:
+			\begin{itemize}
+				\item Extensible -- new denotations able to be added without modifying existing ones
+				\item Syntactic categories can be type checked: ``\texttt{hall}'' and ``\texttt{a person}'' have the same type and can be substituted
+				\item Expressive -- small set of rules define an infinite language
+				\item Can be used directly with an Executable Attribute Grammar \cite{frost1989constructing} to ``execute'' NL as if it were code
+				\item Proofs directly in the language itself
+				\item The result of the query is as correct as the underlying database
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\section{The FDBR}
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item The {\em Function Defined by a Binary Relation}
+			\item The idea: convert an arbitrary BR into a function by grouping items in the domain together with the sets of entities they map to in the codomain
+			\item For example:
+			\begin{equation*}
+			\relationn{discover}{subject}{object} = \{(\entityassoc{hall}, \entityassoc{phobos}),(\entityassoc{hall},\entityassoc{deimos}),\ldots\}
+			\end{equation*}
+			\begin{equation*}
+			\FDBR{\relationn{discover}{subject}{object}} = \big\{(\entityassoc{hall}, \{\entityassoc{phobos}, \entityassoc{deimos}\}), \ldots\big\}
+			\end{equation*}
+			\item First used by Frost et. al in 1989 \cite{frost1989constructing} to provide a denotation for binary transitive verbs in MS
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item Much later, it was realized by Peelar and Frost that it could be used to answer many kinds of queries in NL
+			\item In 2016, Peelar showed that it is possible to unify the treatment of complex English constructs (UEV-FLMS) using the FDBR \cite{peelar2016accommodating}
+			\begin{itemize}
+				\item A query can be thought of as a filter over the underlying database
+			\end{itemize}
+			\item In particular, it could be used to accommodate chained Prepositional Phrases, which was a common critique of MS approaches
+			\item We have recently shown it can be used to handle superlative phrases as well
+			\begin{itemize}
+				\item To our knowledge, no other CS-based systems have been able to do this
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\section{Our Approach}
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item The scoping for the denotations is determined by parsing
+			\begin{itemize}
+				\item Ambiguous queries will have multiple valid parses
+				\item Semantic ambiguity is permitted -- a word may have multiple possible denotations
+			\end{itemize}
+			\item Let users decide what they mean, rather than try to guess it
+			\begin{itemize}
+				\item Expose the possible meanings/parses through the interface
+			\end{itemize}
+			\item Use an {\em event-based} view of information \cite{frost:eswcposter2014}
+			\begin{itemize}
+				\item Results are {\em auditable} since the resulting FDBR will contain the events that justify their inclusion
+			\end{itemize}
+			\item Constrain the problem to expert systems for domain-specific problems
+			\begin{itemize}
+				\item Let the {\em wide}-scoped interfaces delegate to {\em narrow} systems where appropriate
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+    \section{Negation}
+    \begin{frame}{\insertsection}
+        \begin{itemize}
+            \item RDF is based on the Open World Assumption, which can be summarized as: \linebreak
+            ``\textit{The absence of evidence cannot be construed as being evidence of absence.}''
+            \item This makes negation tricky to work with:
+            \begin{itemize}
+                \item Obtaining the cardinality of a set may not be possible
+                \item Or it may be so large that it is not practical to work with
+            \end{itemize}
+            \item But the Closed World Assumption may still hold for domain specific applications
+            \item \textbf{How can we support use cases where the CWA holds?}
+        \end{itemize}
+    \end{frame}
+
+	\section{Our Contribution}
+    \begin{frame}{\insertsection}
+        \begin{itemize}
+            \item The new contribution of this paper is that we can now accommodate negation in the semantics where the CWA holds.
+            \item The new idea: The notion of the complement of an FDBR
+            \begin{itemize}
+                \item Track the cardinality of FDBRs and the cardinality of the set of all entities during a query
+                \item Extend the FDBR operations (union, intersect) to support \texttt{ComplementFDBR}s
+                \item Requires only the cardinality, not the actual complement, to evaluate many queries
+                \item ``drop-in'' denotations for ``not'', ``no'', and ``non''
+                \item Denotation for transitive verbs supporting superlatives, prepositional phrases, and negation
+            \end{itemize}
+            \item Integrates seamlessly with memoization framework described by Peelar in \cite{peelar2020webistjournal}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{\insertsection}
+    \begin{itemize}
+        \item This makes it possible, where the Closed World Assumption holds, to evaluate Natural Language queries to triplestores having the words ``\texttt{no}'', ``\texttt{not}'', and ``\texttt{non-}''
+        \item Our approach also supports the negation of term-phrases, such as ``\texttt{hall}'', which was missing in previous work
+        \item Double negation: ``\texttt{not not hall discovered not not phobos}''
+        \item ``drop-in'' support: remove the denotations to revert to the OWA
+        \item SQUALL\cite{ferre2013squall}: ``\textit{Which author of Paper42 has not affiliation Salford University?}''
+        \item Our approach: ``\textit{Which author of Paper42 is not affiliated with Salford University?}''
+    \end{itemize}
+    \end{frame}
+%	\begin{frame}{\insertsection}
+%		\begin{itemize}
+%			\item The new contribution of this paper is that we can now handle $N$-ary transitive verbs in a compositional manner
+%			\begin{itemize}
+%				\item The new idea: Convert $N$-ary relations to binary relations, then apply the existing FDBR machinery
+%			\end{itemize}
+%			\item This makes it possible to query from subject to object, subject to implement, object to year, etc. $N(N -1) = N^2 - N$ choices.
+%			\item We also note that there is a direct correspondence between event-based triplestores and relational databases:
+%			\begin{itemize}
+%				\item Event identifier corresponds to the Primary Key
+%				\item Event type corresponds to the relation or table
+%				\item Event roles correspond to the columns of the relation
+%			\end{itemize}
+%		\end{itemize}
+%	\setlength{\tabcolsep}{0.4em} % for the horizontal padding
+%	\renewcommand{\arraystretch}{1}% for the vertical padding
+%		\vspace{-1.5em}
+%		\begin{table}
+%			\caption{\footnotesize\normalfont\scshape\\The "Discover'' Relation}
+%			\centering
+%			\vspace{-0.25cm}
+%			\begin{tabular}{  c c c c c  }
+%				\hline \hline
+%				subject & object & date & implement & location \\
+%				\hline
+%				\dots & \dots & \dots & \dots & \dots \\
+%				hall & phobos & 1877 & refractor\_telescope\_1 & us\_naval\_observatory \\
+%				\dots & \dots & \dots & \dots & \dots \\
+%				\hline \hline
+%			\end{tabular}
+%			\vspace{-1em}
+%			\label{tab:discover}
+%		\end{table}
+%	\end{frame}
+
+
+%	\begin{frame}{\insertsection}
+%		\begin{itemize}
+%
+%			\item This allows us to handle complex linguistic constructs such as chained prepositional phrases
+%			%\item This would be far too limiting -- in SPARQL for example, we would not be able to handle chained prepositional phrases
+%			\item Instead, gather smaller queries and batch these into larger queries where possible
+%			\item The individual denotations are directly derived using set theory, and the answer is as correct as the data
+%		\end{itemize}
+%	\end{frame}
+
+	\section{Future Work}
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item Non-event based triplestores (Timbr.ai)
+            \item Applications
+            \item Working directly within the browser with WebAssembly*
+            \begin{itemize}
+                \item Prototype: \url{https://speechweb2.cs.uwindsor.ca/solarman-wasm/}
+            \end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\section{Thank you!}
+	\begin{frame}{\insertsection}
+		\begin{center}
+			\huge Thank you for attending!  Questions/comments?
+		\end{center}
+	\end{frame}
+
+%	\section{Appendix}
+%	\subsection{Overview}
+%	\begin{frame}{\insertsection: \insertsubsection}
+%	%\begin{block}{Overview}
+%	%	Semantics $\leftrightarrow$ Event bridge $\leftrightarrow \{\textit{ML}, \textit{Schemas}\} \leftrightarrow$ Triplestore
+%	%\end{block}
+%
+%	\begin{itemize}
+%		\item Must discuss event-based and non-event-based triplestores
+%		\item Must discuss reification methods and why they are needed
+%		\item Provide motivating examples adding facts to existing info
+%	\end{itemize}
+%
+%
+%	\end{frame}
+
+%	\subsection{Previous Work}
+%	\begin{frame}{\insertsection: \insertsubsection}
+%	Two dominant approaches in NL:
+%	\begin{itemize}
+%		\item Denotational Semantics: good for \textit{narrow} and \textit{precise} queries (precise answers but requires precise semantics)
+%		\item Machine Learning: good for \textit{broad} queries (it finds relevant sections of web pages, but it is only a guess)
+%	\end{itemize}
+%	Both approaches attempt to translate NL queries into SPARQL\cite{sparql}
+%	It is non-trivial because:
+%	\begin{itemize}
+%		\item Many people are working on the problem
+%		\item It is not solved yet
+%	\end{itemize}
+%	\end{frame}
+
+%	\subsection{Why is it useful? Examples}
+%	\begin{frame}{\insertsection: \insertsubsection}
+%	\begin{itemize}
+%		\item Querying the periodic table (want narrow)
+%		\item Querying a wide variety of information (want broad)
+%		\item Querying a legal database (want narrow)
+%	\end{itemize}
+%	\end{frame}
+
+%	\subsection{Hardware acceleration}
+%	\begin{frame}{\insertsection: \insertsubsection}
+%	I need a section on hardware acceleration, including FPGAs, CUDA, and OpenCL
+%	\end{frame}
+
+%	\subsection{Planned publications}
+%	\begin{frame}{\insertsection: \insertsubsection}
+%	\begin{itemize}
+%		\item Spoke in Paris 45 mins seminar
+%		\item Spoke during Colloquium Seminars last year for OpenCL
+%	\end{itemize}
+%	\end{frame}
+
+%	\subsection{FDBR and Goals}
+%	\begin{frame}{\insertsection: \insertsubsection}
+%	\begin{itemize}
+%		\item DBPedia
+%		%TODO: must mention SQUALL
+%		\item \textbf{No one can do superlatives or compartives} -- quote from 2014 Ferre p.37
+%		\item We can do:
+%		\begin{itemize}
+%			\item Superlative
+%			\item Negation
+%			\item Preposition
+%			\item Comparative
+%		\end{itemize}
+%		\item FDBR ($n^2 - n$) -- this to be mentioned when going over NLIWoD
+%		\item Transitive verbs explicit denotation
+%		\item Discuss shortcomings with direct SPARQL translation.
+%		%\item Ferre discusses precision in conclusions.
+%		%\item Research how SQUALL translates prepositional phrases and the limitations
+%	\end{itemize}
+%	\end{frame}
+%
+%	\subsection{ISWC}
+%	\begin{frame}{\insertsection: \insertsubsection}
+%	\begin{itemize}
+%		%\item NLIWoD is a specific workshop, was absorbed into ISWC
+%		\item The paper deals with the main shortcomings of MS
+%		\item Reawakening interest in MS
+%		%\item Why did MS fall out of favour? go over this?  was it mentioned in Squall 2014?
+%		%\item Richard will send citation for Ferre Squall 2014
+%	\end{itemize}
+%	\end{frame}
+
+
+
+	%\part{Introduction}
+	%==========================================================================
+
+	%\part{References}
+	%\sectionwithouttoc{Questions}
+	%\begin{frame}{\insertsection}
+	%  Questions\par
+	%\end{frame}
+
+	\section{References}
+	\begin{frame}[allowframebreaks]{References}
+	\printbibliography
+	\end{frame}
+
+	\section{Appendix}
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item So, why aren't CS used more?  Several reasons:
+			\begin{itemize}
+				\item Complex linguistic constructs have been traditionally hard to handle
+				\item The CS as described by Montague is computationally intractable
+				\item Montague's denotation for transitive verbs is very complicated
+				\item Not robust with respect to user input
+				\item Need to translate the NL query to some kind of structured query language \cite{hoffart2013yago2}
+				\begin{itemize}
+					\item Underlying query language needs to be complex enough to support NL
+				\end{itemize}
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item There have been major advancements to address these shortcomings:
+			\begin{itemize}
+			\item In 1989, Frost et. al described FLMS, a tractable version of Montague's semantics, along with a denotation for $2$-ary transitive verbs \cite{frost1989constructing}
+			\item In 2014, it was shown that direct translation to an underlying query language is not required (EV-FLMS) \cite{frost2014denotational}
+			\item In 2016, Peelar showed that chained prepositional phrases can be handled in a CS (Masters Thesis) \cite{peelar2016accommodating}
+			%\item In YEAR, Frost and Peelar showed that superlatives can also be handled %TODO
+			\item In 2020, we showed that $N$-ary transitive verbs can be handled compositionally \cite{peelar2020compositional}
+            \item In 2020, we showed it is possible to memoize the semantics to improve the asymptotic complexity significantly \cite{peelar2020webistjournal}
+            \item In 2020, we now show it is possible to accommodate negation efficiently as well
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item We have shown that it is not necessary to directly translate the query to an underlying query language \cite{frost2014demonstration}
+			\begin{itemize}
+				\item The denotation itself contains a small set of queries for the information they need
+				\item Batch these smaller queries together
+			\end{itemize}
+			\item Three simple ``query'' functions used, can be implemented in any query language
+			\begin{itemize}
+				\item Implementable directly in SPARQL, Triple Pattern Fragments (LDF), and even SQL
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{\insertsection}
+		\begin{itemize}
+			\item Our implementation is written entirely in Haskell
+			\item It is able to be used even on low power devices, such as consumer routers
+			\begin{itemize}
+				\item \url{https://solarman.inbetweennames.net}
+			\end{itemize}
+			\item The FDBRs are able to be generated offline or on the fly
+			\item The semantics are completely memoized for efficient computation
+			\item The code is completely open source, available on Hackage \cite{xsaiga}
+            \item Now can run entirely within the web browser:
+            \begin{itemize}
+                \item \url{https://speechweb2.cs.uwindsor.ca/solarman-wasm/}
+            \end{itemize}
+		\end{itemize}
+	\end{frame}
+
+%   \appendix
+%   \section{An Appendix Title}
+%   \begin{frame}{\insertsection}
+%     This is the first section.
+%   \end{frame}
+%
+%   \section{Another Appendix Title}
+%   \begin{frame}{\insertsection}
+%     This is the second section.
+%   \end{frame}
+\end{document}

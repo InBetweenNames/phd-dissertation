@@ -1,0 +1,199 @@
+%============================================================================
+% The listings package is used for black-and-white highlighting AND to
+% emit highlighting in section/frame titles as the minted package has
+% issues with this (i.e., \mintedinline).
+%
+% For all other code uses, the minted package is used to produce nicely
+% colour, syntax-highlighted source code listings.
+%
+% TODO: This style file requires \texorpdfstring from hyperref
+%============================================================================
+\usepackage{listings}
+\usepackage[outputdir={./build}]{minted}
+%\usepackage{fancyvrb}
+%\usepackage{xparse}
+
+%
+% For listings, define some additions to C++...
+%
+\lstset {
+  %basicstyle=\footnotesize\ttfamily,
+  language=C++,
+  basicstyle=\ttfamily,
+  %keywordstyle=\color{CBasis},
+  %stringstyle=\color{CTitleBasis},
+  %commentstyle=\color{CBlockBasis},
+  %morecomment=[l][\color{CExampleBasis}]{\#},
+  numbers=left,
+  numberstyle=\tiny,
+  %columns=fullflexible,
+  columns=spaceflexible,
+  morekeywords={alignas,alignof,char16_t,char32_t,constexpr,decltype,noexcept,nullptr,static_assert,thread_local,final,override},
+  % Next lines for appearance to be like algorithmicx
+  numbersep=4pt,
+  xleftmargin=20pt,
+  frame=tb,
+  framexleftmargin=20pt,
+  framerule=0.5pt,
+  breaklines=true
+}
+
+%
+% Environment: longlisting
+%
+% Enables longer listings can have captions.
+%
+% NOTE: This is more important for listings as minted can output the
+%       name of the file on its own.
+%
+\newenvironment{longlisting}{%
+  \captionsetup{%
+    type=listing,%
+    font=scriptsize%
+}}{}
+
+%
+% \codeinlineplain{language}{code}
+% Outputs code inline as-is.
+% TODO: Figure out a way to use \texorpdfstring with this.
+% TODO: For now use \mintinline{language}{code} if there are characters to 
+%       escape as something special in LaTeX needs to be done to pass the
+%       code verbatim with respect to this definition.
+%
+\newcommand{\codeinlineplain}[2]{#2}%
+%\renewcommand{\codeinlineplain}[2]{%
+%  \texorpdfstring{%
+%    \lstset{language=#1}%
+%    \lstinline[]{#2}%
+%  }{#2}%
+%}
+
+%
+% \codeinline{language}{code}
+% Outputs code inline in colour.
+%
+\newcommand{\codeinline}[2]{%
+  \texorpdfstring{%
+    \mintinline{#1}{#2}%
+  }{#2}%
+}
+
+%
+% \codelistinginline{dir}{language}{file}
+% Outputs the code using minted in dir/file with highlighting for language.
+%
+\providecommand{\codelistinginline}[3]{%
+  \begin{longlisting}%
+    %\caption{#3}%
+    \inputminted[%
+      fontfamily=tt,%
+      fontsize=\scriptsize,%
+      numbersep=4pt,
+      frame=lines,%
+      framesep=0.5em,%
+      breaklines=true,%
+      breakanywhere=true,%
+      breakautoindent=true,%
+      linenos
+    ]{#2}{#1/#3}%
+  \end{longlisting}%
+}
+
+%
+% \codelisting{dir}{language}{file}
+% Outputs the code using minted in dir/file with highlighting for language.
+%
+\providecommand{\codelisting}[3]{%
+  \begin{longlisting}%
+    %\caption{#3}%
+    \inputminted[%
+      fontfamily=tt,%
+      fontsize=\scriptsize,%
+      label={#3},
+      labelposition=topline,
+      numbersep=4pt,
+      frame=lines,%
+      framesep=0.5em,%
+      breaklines=true,%
+      breakanywhere=true,%
+      breakautoindent=true,%
+      linenos
+    ]{#2}{#1/#3}%
+  \end{longlisting}%
+}
+
+%
+% \codelisting{dir}{language}{file}{startline}{stopline}
+% Outputs the code using minted in dir/file with highlighting for language.
+% The code output is from line startline to line stopline.
+%
+\providecommand{\codelistingpartial}[5]{%
+  \begin{longlisting}%
+    %\caption{#3}%
+    \inputminted[%
+      fontfamily=tt,%
+      fontsize=\scriptsize,%
+      label={#3},
+      labelposition=topline,
+      numbersep=4pt,
+      frame=lines,%
+      framesep=0.5em,%
+      breaklines=true,%
+      breakanywhere=true,%
+      breakautoindent=true,%
+      firstline=#4,%
+      lastline=#5,%
+      linenos
+    ]{#2}{#1/#3}%
+  \end{longlisting}%
+}
+
+%
+% \codelisting{dir}{language}{file}{stopline}
+% Outputs the code using minted in dir/file with highlighting for language.
+% The code output is from line 1 to line stopline.
+%
+\providecommand{\codelistinghead}[4]{%
+  \begin{longlisting}%
+    %\caption{#3}%
+    \inputminted[%
+      fontfamily=tt,%
+      fontsize=\scriptsize,%
+      label={#3},
+      labelposition=topline,
+      numbersep=4pt,
+      frame=lines,%
+      framesep=0.5em,%
+      breaklines=true,%
+      breakanywhere=true,%
+      breakautoindent=true,%
+      lastline=#4,%
+      linenos
+    ]{#2}{#1/#3}%
+  \end{longlisting}%
+}
+
+%
+% \codelisting{dir}{language}{file}{startline}
+% Outputs the code using minted in dir/file with highlighting for language.
+% The code output is from line startline to the end of the file.
+%
+\providecommand{\codelistingtail}[4]{%
+  \begin{longlisting}%
+    %\caption{#3}%
+    \inputminted[%
+      fontfamily=tt,%
+      fontsize=\scriptsize,%
+      label={#3},
+      labelposition=topline,
+      numbersep=4pt,
+      frame=lines,%
+      framesep=0.5em,%
+      breaklines=true,%
+      breakanywhere=true,%
+      breakautoindent=true,%
+      firstline=#4,%
+      linenos
+    ]{#2}{#1/#3}%
+  \end{longlisting}%
+}
