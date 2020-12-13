@@ -1,0 +1,108 @@
+\usepackage{rerunfilecheck}
+
+\usepackage{caption}
+\usepackage{code}
+
+%
+% Use TrueType fonts (i.e., xelatex).
+%
+% Use "Charis SIL" font even though it is not sans-serif as
+% it is easy-to-read, has all Unicode characters, is under
+% the open SIL font licence, and is free.
+%
+% As SIL does not have a monospaced font, Iosevka
+% is used instead.
+%
+\usepackage{xltxtra,fontspec,xunicode}
+\defaultfontfeatures{Scale=MatchLowercase}
+\setromanfont{Charis SIL}
+\setsansfont{Charis SIL}
+\setmainfont{Charis SIL}
+%\setmonofont[Scale=0.70]{Liberation Mono}
+\setmonofont{Iosevka Term}
+
+%% Typeset C++ decently...
+\newcommand{\Rplus}{\texorpdfstring{\texttt{+}}{+}}
+\newcommand{\Cpp}[1]{\texorpdfstring{C\Rplus\Rplus{#1}}{C\Rplus\Rplus#1}}
+
+\newcommand{\sic}{\textit{sic}}
+
+%
+% Define slide show and presenter-specific globals...
+%
+
+% Turn off the navigation bar...
+\beamertemplatenavigationsymbolsempty
+%\renewcommand{\subtitlepunct}{\addcolon\addspace}
+
+% Support arithmetic with numbers...
+\usepackage{fp}
+
+\usepackage{csquotes}
+%
+% Make it easy to output a number in roman numeral form...
+%
+\makeatletter
+\newcommand*{\asroman}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+%
+% Redefine the part page to subtract one from the part # since the first
+% part of this document represents the document title page and overview
+% preamble...
+%
+\setbeamertemplate{part page}
+{
+  \begin{centering}
+    \FPeval{\result}{clip(\insertpartnumber-1)}
+    {\usebeamerfont{part name}\usebeamercolor[fg]{part name}\partname~\asroman{\result}}
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=16pt,center,shadow=true,rounded=true]{part title}
+      \usebeamerfont{part title}\insertpart\par
+    \end{beamercolorbox}
+  \end{centering}
+}
+
+%
+% Define how beamer shows auto-generated pages...
+%
+\makeatletter
+\newcommand*{\resetsectioncount}{
+  \beamer@tocsectionnumber=0\relax%
+  \setcounter{section}{0}%
+}
+\makeatother
+
+\makeatletter
+\AtBeginPart{%
+  % Restart section numbering within each part...
+  \resetsectioncount%
+  % And output (if applicable) the part page...
+  \ifthenelse{\boolean{showpartpage}}{%
+    \frame{\partpage}%
+  }{}%
+}
+\makeatother
+
+\AtBeginSection[]{%
+  \ifthenelse{\value{section}=1}{%
+    \ifthenelse{\boolean{showsectiontoc}}{%
+      \begin{frame}{Table of Contents}%
+        %\vspace*{\fill}%
+        %\begin{multicols}{2}%
+          %\vspace*{-1em}%
+          %\raggedcolumns%
+          %\flushcolumns%
+          %\interlinepenalty=10000%
+        %%\begin{minipage}[c][\textheight][c]{\textwidth}%
+          %\noindent%
+          \tableofcontents[part=\insertpartnumber,sectionstyle=show/show,subsectionstyle=hide/hide/hide,subsubsectionstyle=hide/hide]%
+          %\vspace*{\fill}%
+          %\vfill%
+        %%\end{minipage}%
+        %\end{multicols}%
+        %\vspace*{\fill}%
+      \end{frame}%
+    }{}%
+  }{}%
+}
