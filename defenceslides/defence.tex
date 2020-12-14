@@ -145,70 +145,46 @@ backend=biber
 
 	\section{Introduction}
 
-%FROM ICSC 2020
-\subsection{The Semantic Web}
-\begin{frame}{\insertsection: \insertsubsection}
-    \begin{itemize}
-        \item Commonly referred to as ``Web 3.0''
-        \item First coined by Tim Berners-Lee in 2001 \cite{berners2001semantic}
-        \item A set of standards by the W3C for interacting with remote {\em triplestores} \cite{w3csemanticweb}
-        \begin{itemize}
-            \item Triples typically described as {\em subject} - {\em predicate} - {\em object}
-            \item Example: \texttt{<hall> <discovered> <phobos> .}
-            \item Traditionally entity based %TODO: move to event-based slide?
-            \item Requires {\em reification} for cross referencing
-        \end{itemize}
-        \item Advantages:
-        \begin{itemize}
-            \item No web scraping required, all machine readable
-            \item Simple representation facilitates processing (RDF) \cite{w3c}
-            \item Hierarchy of information an be described in OWL \cite{mcguinness2004owl}
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
-%TODO: discuss SPARQL?  perhaps in aux slide...
-
-\subsection{Motivation}
-\begin{frame}{\insertsection: \insertsubsection}
-    \begin{itemize}
-        %			\item The Internet of Things (IoT) has become an established presence in everyday life
-        %            \begin{itemize}
-        %                \item lightbulbs, televisions, refrigerators ...
-        %            \end{itemize}
-        \item The Semantic Web offers a unique opportunity for ...
-        \item It also offers a platform for storing curated domain-specific information
-        \item However, there aren't many expressive user-friendly ways of interacting with the Semantic Web
-
-        \item Voice Assistants are now commonplace, especially on smartphones
-        \item It would be ideal if we could query the Semantic Web using speech...
-    \end{itemize}
-\end{frame}
-
-    %FROM PROPOSAL
-    \subsection{The Problem}
+    \subsection{Motivation}
     \begin{frame}{\insertsection: \insertsubsection}
-
-        \begin{block}{Problem Statement}
-            There is a strong need for expressive user-friendly modes of interaction to the Semantic Web.  SPARQL is too low-level and not user-friendly.
-        \end{block}
-
-        Why is this problem important?
         \begin{itemize}
-            \item Accessibility -- people who have disabilities should be able to use the Semantic Web
-            %TODO: should be possible for someone to ask their smartphone to start the coffee maker in the kitchen and not have the data ever leave their home.
-            \item Ease of Interaction -- users should not need to be experts in software
+            %			\item The Internet of Things (IoT) has become an established presence in everyday life
+            %            \begin{itemize}
+            %                \item lightbulbs, televisions, refrigerators ...
+            %            \end{itemize}
+            \item The Semantic Web offers a unique opportunity for ...
+            \item It also offers a platform for storing curated domain-specific information
+            \item However, there aren't many expressive user-friendly ways of interacting with the Semantic Web
 
-            %TODO: how to express the following?
-            \item Verifiability -- should augment an expert's ability to look for information with provable results
+            \item Voice Assistants are now commonplace, especially on smartphones
+            \item It would be ideal if we could query the Semantic Web using speech...
         \end{itemize}
-
     \end{frame}
 
-%TODO: single role assumption?
+    %FROM ICSC 2020
+    \subsection{The Semantic Web}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item Commonly referred to as ``Web 3.0''
+            \item First coined by Tim Berners-Lee in 2001 \cite{berners2001semantic}
+            \item A set of standards by the W3C for interacting with remote {\em triplestores} \cite{w3csemanticweb}
+            \begin{itemize}
+                \item Triples typically described as {\em subject} - {\em predicate} - {\em object}
+                \item Traditionally entity-based
+                \item Example: \texttt{<hall> <discovered> <phobos> .}
+                \item Requires {\em reification} for cross referencing
+            \end{itemize}
+            \item Advantages:
+            \begin{itemize}
+                \item No web scraping required, all machine readable
+                \item Simple representation facilitates processing (RDF) \cite{w3c}
+                \item Hierarchy of information an be described in OWL \cite{mcguinness2004owl}
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
 
     %FROM ICSC 2020
-    \subsection{Event-based triplestores}
+    \subsection{Semantic Web Triplestores}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
             \item Event-based triplestores:
@@ -237,14 +213,64 @@ backend=biber
     \end{frame}
 
 
-    %TODO: NL is one way of solving this
+    \subsection{Querying the Semantic Web}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item Many ways to query Semantic Web triplestores
+            \begin{itemize}
+            \item SPARQL, Triple Pattern Fragments (Linked Data), even SQL...
+            \end{itemize}
+            \item However, these query languages are not suitable for user-interfaces
+            \item Example SPARQL query:
+        \end{itemize}
+    \begin{block}
 
+        \ttfamily
+
+        PREFIX sol: <http://solarman.richard.myweb.cs.uwindsor.ca\#>
+
+        SELECT ?ev ?ent WHERE \{
+
+        \hspace{5em}    ?ev sol:type sol:membership .
+
+        \hspace{5em}    ?ev sol:subject ?ent .
+
+        \hspace{5em}    ?ev sol:object sol:moon .
+
+        \}
+    \end{block}
+    \end{frame}
+
+%TODO: discuss SPARQL?  perhaps in aux slide...
+
+    %FROM PROPOSAL
+    \subsection{The Problem}
+    \begin{frame}{\insertsection: \insertsubsection}
+
+        \begin{block}{Problem Statement}
+            There is a strong need for expressive user-friendly modes of interaction to the Semantic Web.  SPARQL is too low-level and not user-friendly.
+        \end{block}
+
+        Why is this problem important?
+        \begin{itemize}
+            \item Accessibility -- people who have disabilities should be able to use the Semantic Web
+            %TODO: should be possible for someone to ask their smartphone to start the coffee maker in the kitchen and not have the data ever leave their home.
+            \item Ease of Interaction -- users should not need to be experts in software
+
+            %TODO: how to express the following?
+            \item Verifiability -- should augment an expert's ability to look for information with provable results
+        \end{itemize}
+
+    \end{frame}
+
+%TODO: single role assumption?
 
     %FROM ICSC 2020
     \subsection{Compositional Semantics}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
-            \item One way to handle NL is to use a {\em Compositional Semantics} (CS)
+            %TODO: NL is one way of solving this
+            \item One approach is to use a Natural Language Query Interface (NLQI) based on a {\em Compositional Semantics} (CS)
             \item The idea: each word in the query has a corresponding mathematical {\em denotation} that allows the query to be treated as a mathematical expression
             \begin{itemize}
                 \item \texttt{who discovered a moon} $\Rightarrow$ \texttt{who discovered (a moon)}
@@ -414,6 +440,13 @@ backend=biber
 
     \section{The New Idea}
     \begin{frame}{\insertsection}
+        \begin{itemize}
+            \item In the process of researching the problem, Dr. Frost and I published papers in various conferences addressing aspects of the thesis statement
+
+            \item The rest of this presentation will summarize the key ideas behind
+            these papers
+
+        \end{itemize}
     \end{frame}
 
      %FROM ICSC 2020
@@ -440,10 +473,53 @@ backend=biber
         \end{itemize}
     \end{frame}
 
-    \subsection{System Architecture}
+    %TODO: is this background?
+    %FROM ICSC 2020
+    \subsection{The FDBR}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
-            \item Architecture diagram
+            \item The {\em Function Defined by a Binary Relation}
+            \item The idea: convert an arbitrary BR into a function by grouping items in the domain together with the sets of entities they map to in the codomain
+            \item For example:
+            \begin{equation*}
+                \relationn{discover}{subject}{object} = \{(\entityassoc{hall}, \entityassoc{phobos}),(\entityassoc{hall},\entityassoc{deimos}),\ldots\}
+            \end{equation*}
+            \begin{equation*}
+                \FDBR{\relationn{discover}{subject}{object}} = \big\{(\entityassoc{hall}, \{\entityassoc{phobos}, \entityassoc{deimos}\}), \ldots\big\}
+            \end{equation*}
+            \item First used by Frost et. al in 1989 \cite{frost1989constructing} to provide a denotation for binary transitive verbs in MS
+        \end{itemize}
+    \end{frame}
+
+    %FROM ICSC 2020
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item Much later, it was realized by Peelar and Frost that it could be used to answer many kinds of queries in NL
+            \item In 2016, Peelar showed that it is possible to unify the treatment of complex English constructs (UEV-FLMS) using the FDBR \cite{peelar2016accommodating}
+            \begin{itemize}
+                \item A query can be thought of as a filter over the underlying database
+            \end{itemize}
+            \item In particular, it could be used to accommodate chained Prepositional Phrases, which was a common critique of MS approaches
+            %TODO: move to Superlative slide?
+            \item We have recently shown it can be used to handle superlative phrases as well
+            \begin{itemize}
+                \item To our knowledge, no other CS-based systems have been able to do this
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+
+    \subsection{Superlatives}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item Our approach can accommodate superlative phrases such as ``most'' and ``the most'', including within chained prepositional phrases
+            \item We take ``most'' to mean ``greater than half''
+            \item We take ``the most'' to mean ``more than anything else''
+            \item For example:
+            \begin{itemize}
+                \item ``\texttt{who discovered most moons that orbit mars}''
+                \item ``\texttt{who discovered the most moons that orbit jupiter}''
+            \end{itemize}
+            \item According to Ferre, no other NLQIs can handle this yet
             %TODO
         \end{itemize}
     \end{frame}
@@ -451,11 +527,14 @@ backend=biber
     %TODO: ensure consistent with paper
     \newcommand\biapply{\ensuremath{\mathbin{\ll\mkern-8mu*\mkern-8mu\gg}}}
     \subsection{Query Evaluation}
-    \begin{frame}{\insertsubsection}
+    \begin{frame}{\insertsection: \insertsubsection}
         %How does $\mathtt{evaluate}$ work?
         How are queries evaluated?
         \begin{itemize}
-            \item The event semantics define a filter over the triplestore (they take in a triplestore as an argument and return relevant triples as a result)
+            \item The event semantics define a filter over the triplestore
+            \begin{itemize}
+                \item They take in a triplestore as an argument and return answers with respect to those triples
+            \end{itemize}
             %\item The notion of event relevance is discussed in my Master's thesis \cite{peelar2016accommodating}
             \item The ``Getts'' semantics:
             \begin{enumerate}
@@ -467,6 +546,28 @@ backend=biber
         \begin{block}{}
             $\mathtt{evaluate}$ takes the queries formed by the Getts semantics and executes them on the triplestore, passing the results into the event semantics in order to obtain an answer.
         \end{block}
+    \end{frame}
+
+    \subsection{System Architecture}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{figure}[h]
+            \centering
+            \label{fig1}
+            \includegraphics[height=7.3cm]{../images/queryprocess.pdf}
+            \caption{System Architecture}
+        \end{figure}
+    \end{frame}
+
+    %FROM WEBIST 2019 BOOK SERIES:
+    \subsection{Memoization}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item We've shown that it is possible to apply memoization to the query evaluation process itself
+            \item The ``Getts'' semantics assigns a unique name to each subexpression of a query
+            \item This can be used to re-use results from already evaluated sub-expressions, including in highly ambiguous queries
+            \item Can also be used to compute and store FDBRs offline for faster retrieval
+            %TODO
+        \end{itemize}
     \end{frame}
 
     \subsection{Flow of NL query process}
@@ -499,72 +600,48 @@ backend=biber
         hall
     \end{frame}
 
-    %TODO: is this background?
-    %FROM ICSC 2020
-	\subsection{The FDBR}
-	\begin{frame}{\insertsection: \insertsubsection}
-		\begin{itemize}
-			\item The {\em Function Defined by a Binary Relation}
-			\item The idea: convert an arbitrary BR into a function by grouping items in the domain together with the sets of entities they map to in the codomain
-			\item For example:
-			\begin{equation*}
-			\relationn{discover}{subject}{object} = \{(\entityassoc{hall}, \entityassoc{phobos}),(\entityassoc{hall},\entityassoc{deimos}),\ldots\}
-			\end{equation*}
-			\begin{equation*}
-			\FDBR{\relationn{discover}{subject}{object}} = \big\{(\entityassoc{hall}, \{\entityassoc{phobos}, \entityassoc{deimos}\}), \ldots\big\}
-			\end{equation*}
-			\item First used by Frost et. al in 1989 \cite{frost1989constructing} to provide a denotation for binary transitive verbs in MS
-		\end{itemize}
-	\end{frame}
-
-    %FROM ICSC 2020
-	\begin{frame}{\insertsection: \insertsubsection}
-		\begin{itemize}
-			\item Much later, it was realized by Peelar and Frost that it could be used to answer many kinds of queries in NL
-			\item In 2016, Peelar showed that it is possible to unify the treatment of complex English constructs (UEV-FLMS) using the FDBR \cite{peelar2016accommodating}
-			\begin{itemize}
-				\item A query can be thought of as a filter over the underlying database
-			\end{itemize}
-			\item In particular, it could be used to accommodate chained Prepositional Phrases, which was a common critique of MS approaches
-            %TODO: move to Superlative slide?
-			\item We have recently shown it can be used to handle superlative phrases as well
-			\begin{itemize}
-				\item To our knowledge, no other CS-based systems have been able to do this
-			\end{itemize}
-		\end{itemize}
-	\end{frame}
-
-    \subsection{The $n^2 - n$ binary relations}
+    \subsection{The $n^2 - n$ Functions Defined by an $n$-ary relation}
     \begin{frame}{\insertsection: \insertsubsection}
     \begin{itemize}
-            \item TODO %TODO
-    \end{itemize}
-    \end{frame}
-
-    %FROM WEBIST 2019 BOOK SERIES:
-    \subsection{Memoization}
-    \begin{frame}{\insertsection: \insertsubsection}
-    \begin{itemize}
-        \item We've shown that it is possible to apply memoization to the query evaluation process itself
         %TODO
+        \item The new contribution of this paper is that we can now handle $N$-ary transitive verbs in a compositional manner
+        \begin{itemize}
+            \item The new idea: Convert $N$-ary relations to binary relations, then apply the existing FDBR machinery
+        \end{itemize}
+        \item This makes it possible to query from subject to object, subject to implement, object to year, etc. $N(N -1) = N^2 - N$ choices.
     \end{itemize}
-    \end{frame}
+    \setlength{\tabcolsep}{0.4em} % for the horizontal padding
+    \renewcommand{\arraystretch}{1}% for the vertical padding
+    \vspace{-1.5em}
+    \begin{table}
+        \caption{The "Discover'' Relation}
+        \centering
+        \begin{tabular}{  c c c c c  }
+            \hline \hline
+            subject & object & date & implement & location \\
+            \hline
+            \dots & \dots & \dots & \dots & \dots \\
+            hall & phobos & 1877 & refractor\_telescope\_1 & us\_naval\_observatory \\
+            \dots & \dots & \dots & \dots & \dots \\
+            \hline \hline
+        \end{tabular}
+        \vspace{-1em}
+        \label{tab:discover}
+    \end{table}
+\end{frame}
 
     \subsection{Applicability to Relational Databases}
     \begin{frame}{\insertsection: \insertsubsection}
     \begin{itemize}
-        \item Our approach can also be readily adapted to work with relational databases
-        \item Triplestore querying primitives...
+        \item We also note that there is a direct correspondence between event-based triplestores and relational databases:
+        \begin{itemize}
+            \item Event identifier corresponds to the Primary Key
+            \item Event type corresponds to the relation or table
+            \item Event roles correspond to the columns of the relation
+        \end{itemize}
+        \item This is owing to the triplestore querying primitives used by the Getts semantics allowing for independence from the triplestore query language itself
         %TODO
     \end{itemize}
-    \end{frame}
-
-    \subsection{Superlatives}
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
-            \item Most and The Most
-            %TODO
-        \end{itemize}
     \end{frame}
 
     %FROM WEBIST 2020
@@ -580,6 +657,21 @@ backend=biber
             \end{itemize}
             \item But the Closed World Assumption may still hold for domain specific applications
             \item \textbf{How can we support use cases where the CWA holds?}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item The new contribution of this paper is that we can now accommodate negation in the semantics where the CWA holds.
+            \item The new idea: The notion of the complement of an FDBR
+            \begin{itemize}
+                \item Track the cardinality of FDBRs and the cardinality of the set of all entities during a query
+                \item Extend the FDBR operations (union, intersect) to support \texttt{ComplementFDBR}s
+                \item Requires only the cardinality, not the actual complement, to evaluate many queries
+                \item ``drop-in'' denotations for ``not'', ``no'', and ``non''
+                \item Denotation for transitive verbs supporting superlatives, prepositional phrases, and negation
+            \end{itemize}
+            \item Integrates seamlessly with memoization framework described in \cite{peelar2020webistjournal}
         \end{itemize}
     \end{frame}
 
@@ -657,17 +749,34 @@ backend=biber
 
     \section{Conclusions}
     \begin{frame}{\insertsection}
-
+        \begin{itemize}
+            \item Our approach is now ready to be directly benchmarked against other approaches
+            \begin{itemize}
+                \item Question Answering over Linked Data (QALD)
+                \item TREK %TODO
+                \item DBPedia as a knowledge store
+            \end{itemize}
+            \item Working directly within the browser with WebAssembly* is one large step towards making the web browser a first class citizen of the Semantic Web
+            \begin{itemize}
+                \item Prototype: \url{https://speechweb2.cs.uwindsor.ca/solarman-wasm/}
+            \end{itemize}
+            %\item Imagine browsing the Semantic Web similarly to browsing the WWW
+        \end{itemize}
     \end{frame}
 
 	\section{Future Work}
 	\begin{frame}{\insertsection}
 		\begin{itemize}
-            \item Evaluation %TODO: add an appendix slide for this
-			\item Non-event based triplestores (Timbr.ai)
-            \item Working directly within the browser with WebAssembly*
+            \item Non-event based triplestores (Timbr.ai, OWL approaches)
             \begin{itemize}
-                \item Prototype: \url{https://speechweb2.cs.uwindsor.ca/solarman-wasm/}
+                \item We have obtained industry interest in our approach
+                \item Want to use DBPedia directly as a knowledge store
+            \end{itemize}
+            \item Evaluation %TODO: add an appendix slide for this
+            \begin{itemize}
+                \item Need to conduct a study involving users for evaluation
+                \item Ideally benchmarking using established metrics
+                \item Aimed for ISWC 2021
             \end{itemize}
 		\end{itemize}
 	\end{frame}
