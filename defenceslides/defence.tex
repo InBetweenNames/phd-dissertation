@@ -141,26 +141,31 @@ backend=biber
        \tableofcontents[subsectionstyle=hide/hide/hide]
     \end{frame}
 
-    %TODO: need to discuss privacy
 
 	\section{Introduction}
 
     \subsection{Motivation}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
-            %			\item The Internet of Things (IoT) has become an established presence in everyday life
-            %            \begin{itemize}
-            %                \item lightbulbs, televisions, refrigerators ...
-            %            \end{itemize}
-            \item The Semantic Web offers a unique opportunity for ...
-            \item It also offers a platform for storing curated domain-specific information
-            \item However, there aren't many expressive user-friendly ways of interacting with the Semantic Web
-
-            \item Voice Assistants are now commonplace, especially on smartphones
-            \item It would be ideal if we could query the Semantic Web using speech...
+            \item The Internet of Things (IoT) has become an established presence in everyday life
+            \begin{itemize}
+                \item lightbulbs, televisions, refrigerators, etc \ldots
+            \end{itemize}
+            \item The Semantic Web offers an opportunity to unify interaction with these devices
+            \begin{itemize}
+                \item  A platform for storing curated domain-specific information
+            \end{itemize}
+            \item However, there are a lack of expressive user-friendly ways of interacting with the Semantic Web
+            \begin{itemize}
+                \item Existing query languages are too low level
+            \end{itemize}
+            %\item Natural Language is one way of approaching this
+%            \item Voice Assistants are now commonplace, especially on smartphones
+%            \item It would be ideal if we could query the Semantic Web using speech...
         \end{itemize}
     \end{frame}
 
+    %TODO
     %FROM ICSC 2020
     \subsection{The Semantic Web}
     \begin{frame}{\insertsection: \insertsubsection}
@@ -169,7 +174,7 @@ backend=biber
             \item First coined by Tim Berners-Lee in 2001 \cite{berners2001semantic}
             \item A set of standards by the W3C for interacting with remote {\em triplestores} \cite{w3csemanticweb}
             \begin{itemize}
-                \item Triples typically described as {\em subject} - {\em predicate} - {\em object}
+                \item Triples typically described as {\em subject} - {\em predicate} - {\em object}, all Uniform Resource Identifiers (URIs)
                 \item Traditionally entity-based
                 \item Example: \texttt{<hall> <discovered> <phobos> .}
                 \item Requires {\em reification} for cross referencing
@@ -178,77 +183,18 @@ backend=biber
             \begin{itemize}
                 \item No web scraping required, all machine readable
                 \item Simple representation facilitates processing (RDF) \cite{w3c}
-                \item Hierarchy of information an be described in OWL \cite{mcguinness2004owl}
+                \item Hierarchy of information can be described in OWL \cite{mcguinness2004owl}
             \end{itemize}
         \end{itemize}
     \end{frame}
-
-    %FROM ICSC 2020
-    \subsection{Semantic Web Triplestores}
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
-            \item Event-based triplestores:
-            \begin{itemize}
-                \item The {\em subject} of a triple is the URI of an \textit{event} in which something took place
-                \item Data is already {\em reified}, extra information directly accessible
-                \item Can add new columns and rows to a relation easily
-            \end{itemize}
-        \end{itemize}
-
-        Example (N-Triples format \cite{w3cntriples}, full URI omitted):
-        \begin{block}{}
-            \hspace{5em}\texttt{<event1045> <subject>\phantom{qqq}<hall> .}
-
-            \hspace{5em}\texttt{<event1045> <object>\phantom{qqqq}<phobos> .}
-
-            \hspace{5em}\texttt{<event1045> <type>\phantom{qqqqqq}<discover\_ ev> .}
-
-            \hspace{5em}\texttt{<event1045> <year>\phantom{qqqqqq}<1877> .}
-
-            \hspace{5em}\texttt{<event1045> <location>\phantom{qq}<us\_naval\_observatory> .}
-
-            \hspace{5em}\texttt{<event1045> <implement>\phantom{q}<refractor\_telescope\_1> .}
-        \end{block}
-
-    \end{frame}
-
-
-    \subsection{Querying the Semantic Web}
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
-            \item Many ways to query Semantic Web triplestores
-            \begin{itemize}
-            \item SPARQL, Triple Pattern Fragments (Linked Data), even SQL...
-            \end{itemize}
-            \item However, these query languages are not suitable for user-interfaces
-            \item Example SPARQL query:
-        \end{itemize}
-    \begin{block}
-
-        \ttfamily
-
-        PREFIX sol: <http://solarman.richard.myweb.cs.uwindsor.ca\#>
-
-        SELECT ?ev ?ent WHERE \{
-
-        \hspace{5em}    ?ev sol:type sol:membership .
-
-        \hspace{5em}    ?ev sol:subject ?ent .
-
-        \hspace{5em}    ?ev sol:object sol:moon .
-
-        \}
-    \end{block}
-    \end{frame}
-
-%TODO: discuss SPARQL?  perhaps in aux slide...
 
     %FROM PROPOSAL
+    %TODO: the problem statement should be moved up maybe?
     \subsection{The Problem}
     \begin{frame}{\insertsection: \insertsubsection}
 
         \begin{block}{Problem Statement}
-            There is a strong need for expressive user-friendly modes of interaction to the Semantic Web.  SPARQL is too low-level and not user-friendly.
+            There is a strong need for expressive user-friendly modes of interaction to the Semantic Web %  SPARQL is too low-level and not user-friendly.
         \end{block}
 
         Why is this problem important?
@@ -256,100 +202,61 @@ backend=biber
             \item Accessibility -- people who have disabilities should be able to use the Semantic Web
             %TODO: should be possible for someone to ask their smartphone to start the coffee maker in the kitchen and not have the data ever leave their home.
             \item Ease of Interaction -- users should not need to be experts in software
-
+            \begin{itemize}
+                \item Should augment an expert's ability to look for information with provable results
+            \end{itemize}
             %TODO: how to express the following?
-            \item Verifiability -- should augment an expert's ability to look for information with provable results
+            %\item Verifiability --
         \end{itemize}
 
     \end{frame}
 
-%TODO: single role assumption?
+    \begin{frame}{\insertsection: \insertsubsection}
+    \begin{itemize}
+        \item One approach: use a Natural Language Query Interface (NLQI)
+        \item Users with certain disabilities particularly stand to benefit from a NL approach
+        \begin{itemize}
+            \item Modalities: speech, text
+        \end{itemize}
+        \item Voice Assistants are now commonplace, especially on smartphones
+        %TODO: should we discuss the following?
+        \begin{itemize}
+            \item Find related information (Machine Learning)
+            \item Privacy concerns due to centralization
+            \item Can't be used in confidential settings
+        \end{itemize}
+    \end{itemize}
+    \end{frame}
+
+    \begin{frame}{\insertsection: \insertsubsection}
+        A NLQI approach should:
+        \begin{itemize}
+            \item Give users control of their data
+            \begin{itemize}
+                \item Support local knowledge-bases
+            \end{itemize}
+            \item Work locally using commodity low-power hardware
+            \begin{itemize}
+                \item NL queries should not need a powerful server for evaluation
+            \end{itemize}
+            \item Accommodate highly sophisticated queries
+            \item Be tolerant of ambiguity
+            \item Give the user confidence in the correctness of the result
+            %TODO: \item Not be tied to a particular database query language (SPARQL)
+        \end{itemize}
+    \end{frame}
 
     %FROM ICSC 2020
-    \subsection{Compositional Semantics}
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
-            %TODO: NL is one way of solving this
-            \item One approach is to use a Natural Language Query Interface (NLQI) based on a {\em Compositional Semantics} (CS)
-            \item The idea: each word in the query has a corresponding mathematical {\em denotation} that allows the query to be treated as a mathematical expression
-            \begin{itemize}
-                \item \texttt{who discovered a moon} $\Rightarrow$ \texttt{who discovered (a moon)}
-                \item \texttt{hall discovered a vacuumous moon in 1877} \\ $\Rightarrow$ \texttt{hall (discovered (a (vacuumous moon)) [in 1877])}
-            \end{itemize}
-            \item First described by Richard Montague \cite{Dowty:wall}
-            \begin{itemize}
-                \item ``\textit{I reject the contention that an important theoretical difference exists between formal and natural languages.}'' (Montague, 1970)
-                \item The denotations are formally described in the Typed Lambda Calculus
-            \end{itemize}
-        \end{itemize}
-    \end{frame}
-
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
-            \item When dealing with structured queries, CS has a few advantages:
-            \begin{itemize}
-                \item Extensible: new denotations able to be added without modifying existing ones
-                \item Syntactic categories can be type checked: ``\texttt{hall}'' and ``\texttt{a person}'' have the same type and can be substituted
-                \item Expressive: small set of rules define an infinite language
-                \item Can be used directly with an Executable Attribute Grammar \cite{frost1989constructing} to ``execute'' NL as if it were code
-                \item Proofs directly in the language itself
-                \item The result of the query is as correct as the underlying database
-            \end{itemize}
-        \end{itemize}
-    \end{frame}
-
-
-\subsection{Related work}
-\begin{frame}{\insertsection: \insertsubsection}
-    Previous attempts at building expressive Natural Language Query Interfaces:
-    \begin{itemize}
-        \item ORAKEL\cite{cimiano2007orakel} --- First attempt at integrating Montague Semantics with the Semantic Web
-        \item QuestIO\cite{tablan2008natural} --- Keyword oriented, matches against concepts in ontology
-        \item AutoSPARQL\cite{lehmann2011autosparql} -- Keyword oriented, uses supervised machine learning with ontology, feedback oriented
-        \item SQUALL\cite{ferre2014squall} --- Montague Semantics, converts queries directly to SPARQL
-        %TODO
-%        \begin{itemize}
-%            \item Interestingly, according to Ferr{\'e}, no systems exist that can handle superlatives %TODO
-%            \item Supports limited prepositions (may pick graph and filter by count: ``in graph'', ``at least 10'')
-%        \end{itemize}
-    \end{itemize}
-\end{frame}
-
-%TODO: SHORTCOMINGS OF PREVIOUS APPROACHES
-
-    %FROM PROPOSAL
-    \subsection{Thesis Statement}
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{block}{Thesis Statement}
-            A scalable, efficient, expressive and precise method for processing natural-language queries to the semantic web can be built using a compositional semantics.
-        \end{block}
-
-        Need to address:
-        \begin{itemize}
-            \item Scalability: needs to be able to query very large triplestores
-            \item Efficiency: needs to be able to run on low power hardware and take advantage of all computing resources
-            \item Expressiveness: handle superlatives, prepositions, comparatives, negation...
-            \item Precision: verification of result
-        \end{itemize}
-
-    %TODO: is this not covered by the NL is Inherently Difficult slide?
-        Why the thesis is non-obvious:
-        \begin{itemize}
-            \item Because of criticisms and examples of non-compositionality in language
-%            \item However, these criticisms do not apply to NLQIs
-%            \item Compositionality is possible for a semantics of queries, which has advantages of modularity and extensibility
-        \end{itemize}
-    \end{frame}
-
-     %FROM ICSC 2020
-    \subsection{Natural Language is inherently difficult}
+    %\subsection{Natural Language is inherently difficult}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
             \item NL is inherently syntactically ambiguous:
+            \vspace{0.3em}
+
+            {\hspace{4em} ``\texttt{discovered a moon that spins in 1877}''}
             \begin{itemize}
-                \item \texttt{discover a moon that spins in 1877}
-                \item \texttt{discover (a (moon that spins)) [in 1877]}
-                \item \texttt{discover (a (moon that (spins [in 1877])))}
+                \item \texttt{discovered (a (moon that spins)) [in 1877]}
+                \item \texttt{discovered (a (moon that (spins [in 1877])))}
             \end{itemize}
             \item Semantic ambiguity also exists: consider the word ``depart''
             \item Users may not enter grammatically correct sentences
@@ -364,12 +271,84 @@ backend=biber
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
             \item But for NLQIs, the situation isn't as bad as it seems
+            \begin{itemize}
             \item The set of possible inputs are constrained to Q\&A-type sentences
             \item A full understanding of the underlying NL is not needed
+            \end{itemize}
+            %TODO: do we even want to mention this stuff?
             \item NLQIs may be {\em wide} or {\em narrow} in scope
-            \item Machine Learning is effective at dealing with {\em wide}-scoped interfaces
+            %TODO: wide: finding related information, narrow: answering the question
+            \item Machine Learning is effective for {\em wide}-scoped interfaces
             \item But how can we handle highly specific queries, such as: \texttt{how many moons that orbit a red planet were discovered by nicholson}?
             \item The goal of this research is to produce a framework for NLQIs that can be used with expert systems and highly domain specific databases for precise {\em narrow} queries
+        \end{itemize}
+    \end{frame}
+
+     %FROM ICSC 2020
+    \subsection{Compositional Semantics}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item One approach is to use a NLQI based on a {\em Compositional Semantics} (CS)
+            \item The idea: each word in the query has a corresponding mathematical {\em denotation} that allows the query to be treated as a mathematical expression
+            \begin{itemize}
+                \item \texttt{who discovered a moon} $\Rightarrow$ \texttt{who (discovered (a moon))}
+                \item \texttt{hall discovered a vacuumous moon in 1877} \\ $\Rightarrow$ \texttt{hall (discovered (a (vacuumous moon)) [in 1877])}
+            \end{itemize}
+            \item First described by Richard Montague \cite{Dowty:wall}
+            \begin{itemize}
+                \item ``\textit{I reject the contention that an important theoretical difference exists between formal and natural languages.}'' (Montague, 1970)
+                \item The denotations are formally described in the Typed Lambda Calculus
+            \end{itemize}
+            %TODO: can use the structure of the query itself to provide insight...
+        \end{itemize}
+    \end{frame}
+
+    \subsection{Related work}
+    \begin{frame}{\insertsection: \insertsubsection}
+        Previous attempts at building expressive Natural Language Query Interfaces:
+        \begin{itemize}
+            \item ORAKEL (2004) \cite{cimiano2007orakel}
+            \item QuestIO (2008) \cite{tablan2008natural}
+            \item AutoSPARQL (2011) \cite{lehmann2011autosparql}
+            \item SQUALL (2014) \cite{ferre2014squall}
+            %TODO
+            %        \begin{itemize}
+            %            \item Interestingly, according to Ferr{\'e}, no systems exist that can handle superlatives %TODO
+            %            \item Supports limited prepositions (may pick graph and filter by count: ``in graph'', ``at least 10'')
+            %        \end{itemize}
+            %TODO: UEV-FLMS
+        \end{itemize}
+    \end{frame}
+
+%TODO: discuss SPARQL?  perhaps in aux slide...
+
+%TODO: single role assumption?
+
+
+
+%TODO: SHORTCOMINGS OF PREVIOUS APPROACHES
+
+    %FROM PROPOSAL
+    \subsection{Thesis Statement}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{block}{Thesis Statement}
+            A scalable, efficient, expressive and precise method for processing natural-language queries to the semantic web can be built using a compositional semantics.
+        \end{block}
+
+        Need to address:
+        \begin{itemize}
+            \item Scalability: needs to be able to query very large triplestores
+            \item Efficiency: needs to be able to run on low power hardware
+            \item Expressiveness: handle superlatives, prepositions, comparatives, negation...
+            \item Precision: verification of result
+        \end{itemize}
+
+    %TODO: is this not covered by the NL is Inherently Difficult slide?
+        Why the thesis is non-obvious:
+        \begin{itemize}
+            \item Because of criticisms and examples of non-compositionality in language
+%            \item However, these criticisms do not apply to NLQIs
+%            \item Compositionality is possible for a semantics of queries, which has advantages of modularity and extensibility
         \end{itemize}
     \end{frame}
 
@@ -423,6 +402,49 @@ backend=biber
 	\end{frame}
 
 
+   \section{Our Approach}
+    \begin{frame}{\insertsection}
+        \begin{itemize}
+            \item The scoping for the denotations is determined by parsing
+            \begin{itemize}
+                \item Ambiguous queries will have multiple valid parses
+                \item Semantic ambiguity is permitted -- a word may have multiple possible denotations
+            \end{itemize}
+            \item Let users decide what they mean, rather than try to guess it
+            \begin{itemize}
+                \item Expose the possible meanings/parses through the interface
+            \end{itemize}
+            \item Use an {\em event-based} view of information \cite{frost:eswcposter2014}
+            \begin{itemize}
+                \item Results are {\em auditable} since the result contains the events that justify their inclusion
+            \end{itemize}
+            \item Constrain the problem to expert systems for domain-specific applications
+            \begin{itemize}
+                \item Let the {\em wide}-scoped interfaces delegate to {\em narrow} systems where appropriate
+            \end{itemize}
+            \item Query is an expression in lambda calculus which we then evaluate formally
+        \end{itemize}
+    \end{frame}
+
+    %TODO: is this background?
+    %FROM ICSC 2020
+    \subsection{The FDBR}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item The {\em Function Defined by a Binary Relation}
+            \item The idea: convert an arbitrary BR into a function by grouping items in the domain together with the sets of elements they map to in the codomain
+            \item For example:
+            \begin{equation*}
+                \relationn{discover}{subject}{object} = \{(\entityassoc{hall}, \entityassoc{phobos}),(\entityassoc{hall},\entityassoc{deimos}),\ldots\}
+            \end{equation*}
+            \begin{equation*}
+                \FDBR{\relationn{discover}{subject}{object}} = \big\{(\entityassoc{hall}, \{\entityassoc{phobos}, \entityassoc{deimos}\}), \ldots\big\}
+            \end{equation*}
+            \item First used by Frost et. al in 1989 \cite{frost1989constructing} to provide a denotation for binary transitive verbs in MS
+        \end{itemize}
+    \end{frame}
+
+
 %TODO: do I really want to try to categorize this stuff?
 %	\begin{frame}{\insertsection}
 %		\begin{itemize}
@@ -438,88 +460,35 @@ backend=biber
 %		\end{itemize}
 %	\end{frame}
 
-    \section{The New Idea}
+    %FROM ICSC 2020
+    \section{Original Contributions}
+
     \begin{frame}{\insertsection}
+        In the process of researching the problem, Dr. Frost and I published papers addressing aspects of the thesis statement:
         \begin{itemize}
-            \item In the process of researching the problem, Dr. Frost and I published papers in various conferences addressing aspects of the thesis statement
-
-            \item The rest of this presentation will summarize the key ideas behind
-            these papers
-
+            \item ``An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore'' \cite{frost2018extensible}
+            \item ``A New Data Structure for Processing Natural Language Database Queries'' \cite{frostpeelar2019}
+            \item ``A Compositional Semantics for a Wide-Coverage Natural-Language Query Interface to a Semantic Web Triplestore'' \cite{peelar2020compositional}
+            \item ``A New Approach for Processing Natural-Language Queries to Semantic Web Triplestores'' \cite{peelar2020webistjournal}
+            \item ``Accommodating Negation in an Efficient Event-Based Natural Language Query Interface to the Semantic Web'' \cite{peelarfrostwebist2020}
         \end{itemize}
-    \end{frame}
 
-     %FROM ICSC 2020
-    \subsection{Our Approach}
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
-            \item The scoping for the denotations is determined by parsing
-            \begin{itemize}
-                \item Ambiguous queries will have multiple valid parses
-                \item Semantic ambiguity is permitted -- a word may have multiple possible denotations
-            \end{itemize}
-            \item Let users decide what they mean, rather than try to guess it
-            \begin{itemize}
-                \item Expose the possible meanings/parses through the interface
-            \end{itemize}
-            \item Use an {\em event-based} view of information \cite{frost:eswcposter2014}
-            \begin{itemize}
-                \item Results are {\em auditable} since the resulting FDBR will contain the events that justify their inclusion
-            \end{itemize}
-            \item Constrain the problem to expert systems for domain-specific problems
-            \begin{itemize}
-                \item Let the {\em wide}-scoped interfaces delegate to {\em narrow} systems where appropriate
-            \end{itemize}
-        \end{itemize}
-    \end{frame}
-
-    %TODO: is this background?
-    %FROM ICSC 2020
-    \subsection{The FDBR}
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
-            \item The {\em Function Defined by a Binary Relation}
-            \item The idea: convert an arbitrary BR into a function by grouping items in the domain together with the sets of entities they map to in the codomain
-            \item For example:
-            \begin{equation*}
-                \relationn{discover}{subject}{object} = \{(\entityassoc{hall}, \entityassoc{phobos}),(\entityassoc{hall},\entityassoc{deimos}),\ldots\}
-            \end{equation*}
-            \begin{equation*}
-                \FDBR{\relationn{discover}{subject}{object}} = \big\{(\entityassoc{hall}, \{\entityassoc{phobos}, \entityassoc{deimos}\}), \ldots\big\}
-            \end{equation*}
-            \item First used by Frost et. al in 1989 \cite{frost1989constructing} to provide a denotation for binary transitive verbs in MS
-        \end{itemize}
-    \end{frame}
-
-    %FROM ICSC 2020
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
-            \item Much later, it was realized by Peelar and Frost that it could be used to answer many kinds of queries in NL
-            \item In 2016, Peelar showed that it is possible to unify the treatment of complex English constructs (UEV-FLMS) using the FDBR \cite{peelar2016accommodating}
-            \begin{itemize}
-                \item A query can be thought of as a filter over the underlying database
-            \end{itemize}
-            \item In particular, it could be used to accommodate chained Prepositional Phrases, which was a common critique of MS approaches
-            %TODO: move to Superlative slide?
-            \item We have recently shown it can be used to handle superlative phrases as well
-            \begin{itemize}
-                \item To our knowledge, no other CS-based systems have been able to do this
-            \end{itemize}
-        \end{itemize}
     \end{frame}
 
     \subsection{Superlatives}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
             \item Our approach can accommodate superlative phrases such as ``most'' and ``the most'', including within chained prepositional phrases
-            \item We take ``most'' to mean ``greater than half''
-            \item We take ``the most'' to mean ``more than anything else''
+            \begin{itemize}
+                \item We take ``most'' to mean ``greater than half''
+                \item We take ``the most'' to mean ``more than anything else''
+            \end{itemize}
             \item For example:
             \begin{itemize}
                 \item ``\texttt{who discovered most moons that orbit mars}''
                 \item ``\texttt{who discovered the most moons that orbit jupiter}''
             \end{itemize}
-            \item According to Ferre, no other NLQIs can handle this yet
+            \item Ferré (SQUALL) in 2014 stated no other NLQIs can handle this \cite{ferre2014squall}
             %TODO
         \end{itemize}
     \end{frame}
@@ -541,14 +510,14 @@ backend=biber
                 \item Determine exactly what information is required from the triplestore%, in the form of aggregating the information queried for each ???
                 \item Optimize those into as few queries as possible
             \end{enumerate}
-            \item These are joined into a 2-tuple, using {\em biapplicative bifunctor} application (operator $\biapply$)
+            \item These are joined into a 2-tuple, using {\em biapplicative bifunctor} application (operator $\biapply$) to evaluate both semantics in parallel
         \end{itemize}
         \begin{block}{}
             $\mathtt{evaluate}$ takes the queries formed by the Getts semantics and executes them on the triplestore, passing the results into the event semantics in order to obtain an answer.
         \end{block}
     \end{frame}
 
-    \subsection{System Architecture}
+    %\subsection{System Architecture}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{figure}[h]
             \centering
@@ -559,7 +528,7 @@ backend=biber
     \end{frame}
 
     %FROM WEBIST 2019 BOOK SERIES:
-    \subsection{Memoization}
+    %\subsection{Memoization}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
             \item We've shown that it is possible to apply memoization to the query evaluation process itself
@@ -570,45 +539,15 @@ backend=biber
         \end{itemize}
     \end{frame}
 
-    \subsection{Flow of NL query process}
-    \begin{frame}{\insertsubsection}
-        \centering
-        ``who used a telescope in 1877''
-        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
-        \[ \mathtt{evaluate} \left( \mathtt{who} \biapply \left(\mathtt{used''} \biapply \left(\mathtt{a} \biapply \mathtt{telescope}\right) \biapply \mathtt{gatherPreps} \left[ \mathtt{in'} \biapply \mathtt{make\_year}\ \mathtt{1877}\right] \right)\right)  \]
-        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
-        %mention that an NL query is fundamentally a filter over a dataset
-        %\[\mathtt{evaluate} \left(\mathtt{who}\ \left(\mathtt{used''}\ \left(\mathtt{a}\ \mathtt{telescope}\right)\ \left[ \mathtt{in'}\ \mathtt{1877}\right] \right),getts...\right) \]
-        \[\mathtt{evaluate} \left(\mathtt{filter},\mathtt{getts}\right) \]
-        %expand on biapplicative bifunctor
-        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
-        \[\mathtt{retrieve}\ \mathtt{getts} \longleftrightarrow \mathtt{triplestore} \]
-        %should an FDBR be a set? check the literature.  NO: evaluate is not math, it is algorithm.
-
-        %\texttt{...(event1045, subject, hall), (event1045, year, 1877), (event1045, type, discover\_ev)...}
-    \end{frame}
-
-    \begin{frame}{\insertsubsection\ (con't)}
-        \centering
-        \[\mathtt{retrieve}\ \mathtt{getts} \longleftrightarrow \mathtt{triplestore} \]
-        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
-        %\[\left[\ldots\left(hall, \left[event1045\right]\right)\ldots\right]\]
-        \texttt{...(event1045, subject, hall), (event1045, year, 1877), (event1045, type, discover\_ev)...}
-        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
-        \[\mathtt{filter} \longrightarrow \left[\ldots\left(hall, \left[event1045\right]\right)\ldots\right]\ \mathrm{(FDBR)}\]
-        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
-        hall
-    \end{frame}
-
     \subsection{The $n^2 - n$ Functions Defined by an $n$-ary relation}
     \begin{frame}{\insertsection: \insertsubsection}
     \begin{itemize}
         %TODO
-        \item The new contribution of this paper is that we can now handle $N$-ary transitive verbs in a compositional manner
+        \item We've shown how to accommodate $n$-ary transitive verbs in a compositional manner
         \begin{itemize}
-            \item The new idea: Convert $N$-ary relations to binary relations, then apply the existing FDBR machinery
+            \item The new idea: Convert $n$-ary relations to binary relations, then apply the existing FDBR machinery
         \end{itemize}
-        \item This makes it possible to query from subject to object, subject to implement, object to year, etc. $N(N -1) = N^2 - N$ choices.
+        \item This makes it possible to query from subject to object, subject to implement, object to year, etc. $n(n - 1) = n^2 - n$ choices.
     \end{itemize}
     \setlength{\tabcolsep}{0.4em} % for the horizontal padding
     \renewcommand{\arraystretch}{1}% for the vertical padding
@@ -633,45 +572,32 @@ backend=biber
     \subsection{Applicability to Relational Databases}
     \begin{frame}{\insertsection: \insertsubsection}
     \begin{itemize}
-        \item We also note that there is a direct correspondence between event-based triplestores and relational databases:
+        \item We've shown how our approach can be adapted to relational databases in addition to Semantic Web triplestores
+        \item There is a direct correspondence between event-based triplestores and relational databases:
         \begin{itemize}
             \item Event identifier corresponds to the Primary Key
             \item Event type corresponds to the relation or table
             \item Event roles correspond to the columns of the relation
         \end{itemize}
         \item This is owing to the triplestore querying primitives used by the Getts semantics allowing for independence from the triplestore query language itself
+        %\item Single Role Assumption
         %TODO
     \end{itemize}
     \end{frame}
 
-    %FROM WEBIST 2020
     \subsection{Negation}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
-            \item RDF is based on the Open World Assumption, which can be summarized as: \linebreak
-            ``\textit{The absence of evidence cannot be construed as being evidence of absence.}''
-            \item This makes negation tricky to work with:
-            \begin{itemize}
-                \item Obtaining the cardinality of a set may not be possible
-                \item Or it may be so large that it is not practical to work with
-            \end{itemize}
-            \item But the Closed World Assumption may still hold for domain specific applications
-            \item \textbf{How can we support use cases where the CWA holds?}
-        \end{itemize}
-    \end{frame}
-
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
-            \item The new contribution of this paper is that we can now accommodate negation in the semantics where the CWA holds.
+            \item We've shown how to accommodate negation with our approach in cases where the Closed World Assumption holds
             \item The new idea: The notion of the complement of an FDBR
             \begin{itemize}
                 \item Track the cardinality of FDBRs and the cardinality of the set of all entities during a query
-                \item Extend the FDBR operations (union, intersect) to support \texttt{ComplementFDBR}s
+                \item Extend the FDBR operations (union, intersect) to support complements
                 \item Requires only the cardinality, not the actual complement, to evaluate many queries
                 \item ``drop-in'' denotations for ``not'', ``no'', and ``non''
                 \item Denotation for transitive verbs supporting superlatives, prepositional phrases, and negation
             \end{itemize}
-            \item Integrates seamlessly with memoization framework described in \cite{peelar2020webistjournal}
+            %\item Integrates seamlessly with memoization framework described in \cite{peelar2020webistjournal}
         \end{itemize}
     \end{frame}
 
@@ -753,13 +679,15 @@ backend=biber
             \item Our approach is now ready to be directly benchmarked against other approaches
             \begin{itemize}
                 \item Question Answering over Linked Data (QALD)
-                \item TREK %TODO
+                \item TREC %TODO
+                \item YAGO QA benchmark
                 \item DBPedia as a knowledge store
             \end{itemize}
             \item Working directly within the browser with WebAssembly* is one large step towards making the web browser a first class citizen of the Semantic Web
             \begin{itemize}
                 \item Prototype: \url{https://speechweb2.cs.uwindsor.ca/solarman-wasm/}
             \end{itemize}
+            \item Works on low power consumer routers as well: \url{https://solarman.inbetweennames.net/}
             %\item Imagine browsing the Semantic Web similarly to browsing the WWW
         \end{itemize}
     \end{frame}
@@ -772,10 +700,11 @@ backend=biber
                 \item We have obtained industry interest in our approach
                 \item Want to use DBPedia directly as a knowledge store
             \end{itemize}
-            \item Evaluation %TODO: add an appendix slide for this
+            \item Evaluation
             \begin{itemize}
                 \item Need to conduct a study involving users for evaluation
                 \item Ideally benchmarking using established metrics
+                \item Want to know what kinds of questions will be people be asking
                 \item Aimed for ISWC 2021
             \end{itemize}
 		\end{itemize}
@@ -885,30 +814,139 @@ backend=biber
 	%  Questions\par
 	%\end{frame}
 
-    \sectionwithouttoc{References}
+    \section{References}
 	%\section*{References}
 	\begin{frame}[allowframebreaks]{References}
 	\printbibliography
 	\end{frame}
 
     %\appendix
-    \sectionwithouttoc{Appendix}
+    \section{Appendix}
 	%\section*{Appendix}
-    \begin{frame}{\insertsection}
+    \subsection{Example query}
+    \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
             %TODO: want a slide showing 3 moons discovered with 2 telescopes
             % and nicholson's discoveries
             % want to walk through how they work
 
             \item Example: the moons that were discovered by Nicholson
-            \item moons: lysithea, ananke, carme, sinope
-            \item implements: hooker\_telescope, refractor\_telescope\_2
-            \item ananke, carme, lysithea - hooker\_telescope
-            \item sinope - refractor\_telescope\_2 (also used to discover almathea)
+            \item moons: \texttt{lysithea, ananke, carme, sinope}
+            \item implements: \texttt{hooker\_telescope, refractor\_telescope\_2}
+            \item \texttt{ananke, carme, lysithea-hooker\_telescope}
+            \item \texttt{sinope-refractor\_telescope\_2} (also used to discover \texttt{almathea})
         \end{itemize}
     \end{frame}
 
-	\begin{frame}{\insertsection}
+    \subsection{Contributions to the SpeechWeb project}
+    \begin{frame}{\insertsection: \insertsubsection}
+    \begin{itemize}
+		\item Joined the SpeechWeb project in 2014
+        \begin{itemize}
+            \item Other students also working on it at that time: the parser, ``Gangster'' semantics
+            \item Wrote the demonstration program used by Frost at ESWC
+        \end{itemize}
+        \item Showed that chained prepositional phrases can be handled in a CS (Masters Thesis) \cite{peelar2016accommodating}
+        \item Showed how the word ``by'' can be treated like a preposition
+        \item Showed how to accommodate $n$-ary transitive verbs in an event semantics
+        \item Showed how the FDBR can be used to answer other ``non-compositional'' queries (superlatives, comparatives)
+    \end{itemize}
+    \end{frame}
+
+    \begin{frame}{\insertsection: \insertsubsection}
+    \begin{itemize}
+        \item Showed it is possible to memoize the semantics to improve the asymptotic complexity of evaluation significantly \cite{peelar2020webistjournal}
+        \item Showed that it is possible to accommodate negation efficiently
+        \item Improved X-SAIGA parser so that it can be used in the browser
+        \item Showed that the approach works on low power hardware (consumer routers)
+        \item Voice-enabled interface supporting speech input and output
+        \item Tackled every non-compositional feature that has been raised by others
+    \end{itemize}
+    \end{frame}
+
+    %FROM ICSC 2020
+    \subsection{Master's thesis contributions}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item It was realized by Peelar and Frost that the FDBR could be used to answer many kinds of queries in NL
+            \item In 2016, Peelar showed that it is possible to unify the treatment of complex English constructs (UEV-FLMS) using the FDBR \cite{peelar2016accommodating}
+            \begin{itemize}
+                \item A query can be thought of as a filter over the underlying database
+            \end{itemize}
+            \item In particular, it could be used to accommodate chained Prepositional Phrases, which was a common critique of MS approaches
+        \end{itemize}
+    \end{frame}
+
+        %FROM ICSC 2020
+    \subsection{Event-based triplestores}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item The {\em subject} of a triple is the URI of an \textit{event} in which something took place
+            \item Data is already {\em reified}, extra information directly accessible
+            \item Can add new columns and rows to a relation easily
+        \end{itemize}
+
+        Example (N-Triples format \cite{w3cntriples}, full URI omitted):
+        \begin{block}{}
+            \hspace{5em}\texttt{<event1045> <subject>\phantom{qqq}<hall> .}
+
+            \hspace{5em}\texttt{<event1045> <object>\phantom{qqqq}<phobos> .}
+
+            \hspace{5em}\texttt{<event1045> <type>\phantom{qqqqqq}<discover\_ev> .}
+
+            \hspace{5em}\texttt{<event1045> <year>\phantom{qqqqqq}<1877> .}
+
+            \hspace{5em}\texttt{<event1045> <location>\phantom{qq}<us\_naval\_observatory> .}
+
+            \hspace{5em}\texttt{<event1045> <implement>\phantom{q}<refractor\_telescope\_1> .}
+        \end{block}
+
+    \end{frame}
+
+    \subsection{Querying the Semantic Web}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item Many ways to query Semantic Web triplestores
+            \begin{itemize}
+                \item SPARQL, Triple Pattern Fragments (Linked Data), SQL, etc \ldots
+            \end{itemize}
+            \item However, these query languages are not suitable for user-interfaces
+            \item Example SPARQL query:
+        \end{itemize}
+        \begin{block}
+
+            \ttfamily
+
+            PREFIX sol: <http://solarman.richard.myweb.cs.uwindsor.ca\#>
+
+            SELECT ?ev ?ent WHERE \{
+
+            \hspace{5em}    ?ev sol:type sol:membership .
+
+            \hspace{5em}    ?ev sol:subject ?ent .
+
+            \hspace{5em}    ?ev sol:object sol:moon .
+
+            \}
+        \end{block}
+    \end{frame}
+
+    \subsection{Advantages of Compositional Semantics}
+    \begin{frame}{\insertsection: \insertsubsection}
+        CS has a few advantages when dealing with structured queries:
+        \begin{itemize}
+            \item Extensible: new denotations able to be added without modifying existing ones
+            \item Syntactic categories can be type checked: ``\texttt{hall}'' and ``\texttt{a person}'' have the same type and can be substituted
+            \item Expressive: small set of rules define an infinite language
+            \item Can be used directly with an Executable Attribute Grammar \cite{frost1989constructing} to ``execute'' NL as if it were a programming language
+            %TODO: want a slide for this!
+            \item Derivations directly in the language itself
+            \item The result of the query is as correct as the underlying database
+        \end{itemize}
+    \end{frame}
+
+    \subsection{Why CS isn't used more}
+	\begin{frame}{\insertsection: \insertsubsection}
 		\begin{itemize}
 			\item So, why aren't CS used more?  Several reasons:
 			\begin{itemize}
@@ -924,7 +962,7 @@ backend=biber
 		\end{itemize}
 	\end{frame}
 
-	\begin{frame}{\insertsection}
+	\begin{frame}{\insertsection: \insertsubsection}
 		\begin{itemize}
 			\item There have been major advancements to address these shortcomings:
 			\begin{itemize}
@@ -939,8 +977,8 @@ backend=biber
 		\end{itemize}
 	\end{frame}
 
-
-	\begin{frame}{\insertsection}
+    \subsection{Query Evaluation}
+	\begin{frame}{\insertsection: \insertsubsection}
 		\begin{itemize}
 			\item We have shown that it is not necessary to directly translate the query to an underlying query language \cite{frost2014demonstration}
 			\begin{itemize}
@@ -954,7 +992,8 @@ backend=biber
 		\end{itemize}
 	\end{frame}
 
-	\begin{frame}{\insertsection}
+    \subsection{Implementation}
+	\begin{frame}{\insertsection: \insertsubsection}
 		\begin{itemize}
 			\item Our implementation is written entirely in Haskell
 			\item It is able to be used even on low power devices, such as consumer routers
@@ -971,20 +1010,8 @@ backend=biber
 		\end{itemize}
 	\end{frame}
 
-    \subsectionwithouttoc{Blackburn and Bos approach to Transitive Verbs}
-    %\subsection*{Blackburn and Bos approach to Transitive Verbs}
-    \begin{frame}{\insertsubsection}
-        \begin{equation*}
-            \meaningof{discover} = \lambda z. z(\lambda x. \lambda y. \wordpred{\discover}(y, x))
-        \end{equation*}
-
-        \centering
-        Works for 2-place transitive verbs (see \textit{Frost ACM Surveys}\cite{frost2006realization})
-    \end{frame}
-
-    \subsectionwithouttoc{Lambda Calculus}
-    \subsection*{Lambda Calculus}
-    \begin{frame}{\insertsubsection}
+    \subsection{Lambda Calculus}
+    \begin{frame}{\insertsection: \insertsubsection}
     \begin{itemize}
         \item Universal model of computation
         \item Consider the function: $\mathrm{add} = (\lambda x.(\lambda y.x + y))$
@@ -1006,9 +1033,23 @@ backend=biber
     \end{equation*}
     \end{frame}
 
-    \subsectionwithouttoc{Montague Semantics}
+    \subsection{Montague Semantics}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item Montague was the first person to propose that two phrases of the same class were of the same type
+            \item Also first to propose that a proper noun denotes a function, not an entity
+            \item Described semantics in the Typed Lambda Calculus
+            \item Common Nouns are denoted by sets of entities
+            \item Term-phrases take a set of entities and return a boolean value
+            \begin{itemize}
+                \item Proper Nouns
+                \item Determiner Phrases (e.g, ``\texttt{a moon}'')
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+
     %\subsection*{Montague Semantics}
-    \begin{frame}{\insertsubsection}
+    \begin{frame}{\insertsection: \insertsubsection}
         \centering
         Note: $\meaningof{w}$ is the denotation of $w$
 
@@ -1031,7 +1072,7 @@ backend=biber
 
     \end{frame}
 
-    \begin{frame}{\insertsubsection\ (con't)}
+    \begin{frame}{\insertsection: \insertsubsection\ (con't)}
 
         \begin{equation*}
             \meaningof{\every} = \lambda p.\lambda q. \  \forall x \  (p \  x \Rightarrow q \  x) \\
@@ -1053,7 +1094,46 @@ backend=biber
 
     \end{frame}
 
-    \begin{frame}{\insertsubsection\ (con't)}
+    \subsection{Montague’s treatment of transitive verbs}
+    \begin{frame}{\insertsection: \insertsubsection}
+        Transitive verbs are left uninterpreted until the rest of the phrase has been interpreted and reduced as far as possible.
+
+        The expression is then rewritten to another lambda expression using a syntactic
+        sigma σ rule. See page 216 of \textit{Dowty, Wall and Peters 1981}\cite{Dowty:wall} .
+
+        \begin{itemize}
+            \item Complicated and difficult to implement
+
+            \item No explicit denotation for transitive verbs
+
+            \item Therefore no denotation, for example, for ``discovered phobos''
+        \end{itemize}
+    \end{frame}
+
+
+    \subsection{SQUALL}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item A Constrained Natural Language (CNL) for the Semantic Web
+            \item Translates NL queries directly to SPARQL using a CS
+            \item Limited support for prepositions, superlatives
+            \item Coverage of English is limited to non-chained constructs
+            \item ``Which author has affiliation...'', ``Which author is affiliated with...''
+        \end{itemize}
+    \end{frame}
+
+    \subsection{Blackburn and Bos approach to Transitive Verbs}
+    %\subsection*{Blackburn and Bos approach to Transitive Verbs}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{equation*}
+            \meaningof{discover} = \lambda z. z(\lambda xy. \wordpred{\discover}(y, x))
+        \end{equation*}
+
+        \centering
+        Works for 2-place transitive verbs (see \textit{Frost ACM Surveys}\cite{frost2006realization})
+    \end{frame}
+
+    \begin{frame}{\insertsection: \insertsubsection\ (con't)}
         \centering
 
         MS: Direct Evaluation of NL Queries w.r.t. Datastore
@@ -1084,23 +1164,116 @@ backend=biber
         }
     \end{frame}
 
-    \subsectionwithouttoc{Montague’s treatment of transitive verbs: syntactic manipulation}
-    %\subsection*{Montague’s treatment of transitive verbs: syntactic manipulation}
-    \begin{frame}{\insertsubsection}
-        Transitive verbs are left uninterpreted until the rest of the phrase has been interpreted and
-        reduced as far as possible.
+    \subsection{Flow of NL query process}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \small
+        \centering
+        ``who used a telescope in 1877''
+        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
+        \[ \mathtt{evaluate} ( \mathtt{who} \biapply (\mathtt{used''} \biapply \left(\mathtt{a} \biapply \mathtt{telescope}\right) \biapply \]
+        \[ \mathtt{gatherPreps} \left[ \mathtt{in'} \biapply \mathtt{make\_year}\ \mathtt{1877}\right] ))  \]
+        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
+        %mention that a NL query is fundamentally a filter over a dataset
+        %\[\mathtt{evaluate} \left(\mathtt{who}\ \left(\mathtt{used''}\ \left(\mathtt{a}\ \mathtt{telescope}\right)\ \left[ \mathtt{in'}\ \mathtt{1877}\right] \right),getts...\right) \]
+        \[\mathtt{evaluate}\ \mathtt{triplestore} \left(\mathtt{filter},\mathtt{getts}\right) \]
+        %expand on biapplicative bifunctor
+        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
+        \[\mathtt{retrieve}\ \mathtt{getts} \longleftrightarrow \mathtt{triplestore} \]
+        %should an FDBR be a set? check the literature.  NO: evaluate is not math, it is algorithm.
 
-        The expression is then rewritten to another lambda expression using a syntactic
-        sigma σ rule. See page 216 of \textit{Dowty, Wall and Peters 1981}\cite{Dowty:wall} .
+        %\texttt{...(event1045, subject, hall), (event1045, year, 1877), (event1045, type, discover\_ev)...}
+    \end{frame}
 
+    %TODO: neo-davidsonian, davidsonian, Montague's approach
+
+    \begin{frame}{\insertsubsection\ (con't)}
+        \centering
+        \[\mathtt{retrieve}\ \mathtt{getts} \longleftrightarrow \mathtt{triplestore} \]
+        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
+        %\[\left[\ldots\left(hall, \left[event1045\right]\right)\ldots\right]\]
+        \texttt{...(event1045, subject, hall), (event1045, year, 1877), (event1045, type, discover\_ev)...}
+        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
+        \[\mathtt{filter} \longrightarrow \left[\ldots\left(hall, \left[event1045\right]\right)\ldots\right]\ \mathrm{(FDBR)}\]
+        \[\Downarrow \qquad \Downarrow \qquad \Downarrow \]
+        hall
+    \end{frame}
+
+    %FROM WEBIST 2020
+    \subsection{Negation}
+    \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
-            \item Complicated and difficult to implement
-
-            \item No explicit denotation for transitive verbs
-
-            \item Therefore no denotation, for example, for ``discovered phobos''
+            \item RDF is based on the Open World Assumption, which can be summarized as: \linebreak
+            ``\textit{The absence of evidence cannot be construed as being evidence of absence.}''
+            \item This makes negation tricky to work with:
+            \begin{itemize}
+                \item Obtaining the cardinality of a set may not be possible
+                \item Or it may be so large that it is not practical to work with
+            \end{itemize}
+            \item But the Closed World Assumption may still hold for domain specific applications
+            \item \textbf{How can we support use cases where the CWA holds?}
         \end{itemize}
     \end{frame}
+
+    \subsection{Bi-functors}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item In Category Theory, a Functor is a map between categories
+            \item A bi-functor is a functor from a product category to another category (like a cartesian product e.g, $\mathbb{Q} \times \mathbb{Q} \rightarrow \mathbb{R}$)
+            \item In Functional Programming, a Functor is something that can be ``mapped'' over
+            \begin{itemize}
+                \item \texttt{fmap :: (Functor p) => (a -> b) -> p a -> p b}
+                \item e.g, the elements of a list, or the nodes of a tree, or a stream of input
+            \end{itemize}
+            \item A Bi-Functor takes on a similar meaning:
+            \begin{itemize}
+                \item \texttt{bimap :: (Bifunctor p) => (a -> b) -> (c -> d) -> p a c -> p b d}
+                \item e.g, to map over a pair of values \texttt{(a,b)}, where \texttt{p = (,)}
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+
+    \subsection{Applicative Functors}
+    \begin{frame}{\insertsection: \insertsubsection}
+            In Functional Programming, an Applicative Functor wraps function application
+            \begin{itemize}
+                \item \texttt{(<*>) :: Applicative p => p (a -> b) -> p a -> p b}
+                \item \texttt{pure :: Applicative p => a -> p a}
+            \end{itemize}
+            E.g., useful for error handling:
+            \texttt{maybe\_function <*> maybe\_value} could evaluate to either another value or a special error value \texttt{Nothing}
+            \begin{itemize}
+                \item Note that it must satisfy the Applicative Laws
+            \end{itemize}
+    \end{frame}
+
+    \subsection{Bi-Applicative Bi-Functors}
+    \begin{frame}{\insertsection: \insertsubsection}
+            A Bi-applicative Bi-functor is the same concept applied to a Bi-Functor:
+            \begin{itemize}
+            \item \texttt{(<<*>>) :: Biapplicative p => p (a -> b) (c -> d) -> p a c -> p b d}
+            \item \texttt{bipure :: Biapplicative p => a -> b -> p a b}
+            \end{itemize}
+            E.g., one could write: \texttt{(+2, +3) <<*>> (10, 20)} which evaluates to \texttt{(12, 23)}
+            \begin{itemize}
+                \item Note that it must satisfy the Bi-Applicative Laws
+            \end{itemize}
+    \end{frame}
+
+    \subsection{Monads}
+    \begin{frame}{\insertsection: \insertsubsection}
+        Instances of Monads in Functional Programming follow these laws:
+        \begin{itemize}
+            \item Left-identity: \texttt{return a >>= f $\equiv$ f a}
+            \item Right-identity: \texttt{m >>= return $\equiv$ m}
+            \item Associativity: \texttt{(m >>= f) >>= g $\equiv$ m >>= ($\lambda$x -> f x >>= g)}
+        \end{itemize}
+        Intuitively: a Monad ``wraps'' a computation within another one
+        \begin{itemize}
+            \item ``For a monad \texttt{M}, a value of type \texttt{M a} represents having access to a value of type a within the context of the monad.'' \\ -- C. A. McCann
+        \end{itemize}
+        Many uses, including memoization, managing pure/impure computations, handling errors...
+    \end{frame}
+
 
 %   \section{Another Appendix Title}
 %   \begin{frame}{\insertsection}
