@@ -138,7 +138,7 @@ backend=biber
     \end{frame}
 
     \begin{frame}[allowframebreaks]{Outline}
-       \tableofcontents[subsectionstyle=hide/hide/hide]
+       \tableofcontents[hideallsubsections]
     \end{frame}
 
 
@@ -177,7 +177,6 @@ backend=biber
                 \item Triples typically described as {\em subject} - {\em predicate} - {\em object}, all Uniform Resource Identifiers (URIs)
                 \item Traditionally entity-based
                 \item Example: \texttt{<hall> <discovered> <phobos> .}
-                \item Requires {\em reification} for cross referencing
             \end{itemize}
             \item Advantages:
             \begin{itemize}
@@ -185,6 +184,7 @@ backend=biber
                 \item Simple representation facilitates processing (RDF) \cite{w3c}
                 \item Hierarchy of information can be described in OWL \cite{mcguinness2004owl}
             \end{itemize}
+            \item Requires {\em reification} for cross referencing
         \end{itemize}
     \end{frame}
 
@@ -488,7 +488,7 @@ backend=biber
                 \item ``\texttt{who discovered most moons that orbit mars}''
                 \item ``\texttt{who discovered the most moons that orbit jupiter}''
             \end{itemize}
-            \item Ferré (SQUALL) in 2014 stated no other NLQIs can handle this \cite{ferre2014squall}
+            \item Ferré (SQUALL) in 2014 stated no NLQIs can handle this \cite{ferre2014squall}
             %TODO
         \end{itemize}
     \end{frame}
@@ -676,18 +676,18 @@ backend=biber
     \section{Conclusions}
     \begin{frame}{\insertsection}
         \begin{itemize}
-            \item Our approach is now ready to be directly benchmarked against other approaches
+            \item We've tackled many features of English that are non-compositional including superlatives, chained prepositional phrases, comparatives, etc... (Expressiveness and Precision)
+            \item We've improved our query evaluation computational complexity to polynomial time (Scalability)
+            \item Works on low power consumer routers (Efficiency):
             \begin{itemize}
-                \item Question Answering over Linked Data (QALD)
-                \item TREC %TODO
-                \item YAGO QA benchmark
-                \item DBPedia as a knowledge store
+                \item Prototype: \url{https://solarman.inbetweennames.net/}
             \end{itemize}
-            \item Working directly within the browser with WebAssembly* is one large step towards making the web browser a first class citizen of the Semantic Web
+            \item Works directly within the browser with WebAssembly*
             \begin{itemize}
                 \item Prototype: \url{https://speechweb2.cs.uwindsor.ca/solarman-wasm/}
+                \item Goal: make the web browser a first class citizen of the Semantic Web
             \end{itemize}
-            \item Works on low power consumer routers as well: \url{https://solarman.inbetweennames.net/}
+
             %\item Imagine browsing the Semantic Web similarly to browsing the WWW
         \end{itemize}
     \end{frame}
@@ -695,6 +695,12 @@ backend=biber
 	\section{Future Work}
 	\begin{frame}{\insertsection}
 		\begin{itemize}
+            \item Our approach is now ready to be directly benchmarked against other NLQIs
+            \begin{itemize}
+                \item Question Answering over Linked Data (QALD)
+                \item TREC %TODO
+                \item YAGO QA benchmark
+            \end{itemize}
             \item Non-event based triplestores (Timbr.ai, OWL approaches)
             \begin{itemize}
                 \item We have obtained industry interest in our approach
@@ -710,7 +716,7 @@ backend=biber
 		\end{itemize}
 	\end{frame}
 
-    \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+    %\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
 
 	\section*{Thank you!}
 	\begin{frame}
@@ -814,14 +820,13 @@ backend=biber
 	%  Questions\par
 	%\end{frame}
 
-    \section{References}
-	%\section*{References}
+    \section*{References}
 	\begin{frame}[allowframebreaks]{References}
 	\printbibliography
 	\end{frame}
 
     %\appendix
-    \section{Appendix}
+    \section*{Appendix}
 	%\section*{Appendix}
     \subsection{Example query}
     \begin{frame}{\insertsection: \insertsubsection}
@@ -1274,6 +1279,7 @@ backend=biber
         Many uses, including memoization, managing pure/impure computations, handling errors...
     \end{frame}
 
+    %\setcounter{tocdepth}{1}
 
 %   \section{Another Appendix Title}
 %   \begin{frame}{\insertsection}
