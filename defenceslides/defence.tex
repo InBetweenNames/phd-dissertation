@@ -221,7 +221,7 @@ backend=biber
         \item Voice Assistants are now commonplace, especially on smartphones
         %TODO: should we discuss the following?
         \begin{itemize}
-            \item Find related information (Machine Learning)
+            %\item Find related information (Machine Learning)
             \item Privacy concerns due to centralization
             \item Can't be used in confidential settings
         \end{itemize}
@@ -229,7 +229,7 @@ backend=biber
     \end{frame}
 
     \begin{frame}{\insertsection: \insertsubsection}
-        A NLQI approach should:
+        NLQIs should:
         \begin{itemize}
             \item Give users control of their data
             \begin{itemize}
@@ -240,14 +240,16 @@ backend=biber
                 \item NL queries should not need a powerful server for evaluation
             \end{itemize}
             \item Accommodate highly sophisticated queries
-            \item Be tolerant of ambiguity
+            \begin{itemize}
+                \item Be tolerant of ambiguity
+            \end{itemize}
             \item Give the user confidence in the correctness of the result
             %TODO: \item Not be tied to a particular database query language (SPARQL)
         \end{itemize}
     \end{frame}
 
     %FROM ICSC 2020
-    %\subsection{Natural Language is inherently difficult}
+    \subsection{Constraining the Problem}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
             \item NL is inherently syntactically ambiguous:
@@ -262,25 +264,11 @@ backend=biber
             \item Users may not enter grammatically correct sentences
             \item Users may misspell words
             \item Users may not clearly state what they mean
-            \item The situation does not look good for arbitrary user input!
-        \end{itemize}
-    \end{frame}
-
-    %FROM ICSC 2020
-    \subsection{Constraining the Problem}
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
             \item But for NLQIs, the situation isn't as bad as it seems
             \begin{itemize}
-            \item The set of possible inputs are constrained to Q\&A-type sentences
-            \item A full understanding of the underlying NL is not needed
+                \item The set of possible inputs are constrained to Q\&A-type sentences
+                \item A full understanding of the underlying NL is not needed
             \end{itemize}
-            %TODO: do we even want to mention this stuff?
-            \item NLQIs may be {\em wide} or {\em narrow} in scope
-            %TODO: wide: finding related information, narrow: answering the question
-            \item Machine Learning is effective for {\em wide}-scoped interfaces
-            \item But how can we handle highly specific queries, such as: \texttt{how many moons that orbit a red planet were discovered by nicholson}?
-            \item The goal of this research is to produce a framework for NLQIs that can be used with expert systems and highly domain specific databases for precise {\em narrow} queries
         \end{itemize}
     \end{frame}
 
@@ -288,7 +276,7 @@ backend=biber
     \subsection{Compositional Semantics}
     \begin{frame}{\insertsection: \insertsubsection}
         \begin{itemize}
-            \item One approach is to use a NLQI based on a {\em Compositional Semantics} (CS)
+            \item One approach for building a NLQI is to use a {\em Compositional Semantics} (CS)
             \item The idea: each word in the query has a corresponding mathematical {\em denotation} that allows the query to be treated as a mathematical expression
             \begin{itemize}
                 \item \texttt{who discovered a moon} $\Rightarrow$ \texttt{who (discovered (a moon))}
@@ -305,22 +293,14 @@ backend=biber
 
     \subsection{Related work}
     \begin{frame}{\insertsection: \insertsubsection}
-        Previous attempts at building expressive Natural Language Query Interfaces:
+        Previous attempts at building expressive NLQIs to the Semantic Web:
         \begin{itemize}
             \item ORAKEL (2004) \cite{cimiano2007orakel}
             \item QuestIO (2008) \cite{tablan2008natural}
             \item AutoSPARQL (2011) \cite{lehmann2011autosparql}
             \item SQUALL (2014) \cite{ferre2014squall}
-            %TODO
-            %        \begin{itemize}
-            %            \item Interestingly, according to Ferr{\'e}, no systems exist that can handle superlatives %TODO
-            %            \item Supports limited prepositions (may pick graph and filter by count: ``in graph'', ``at least 10'')
-            %        \end{itemize}
-            %TODO: UEV-FLMS
         \end{itemize}
     \end{frame}
-
-%TODO: discuss SPARQL?  perhaps in aux slide...
 
 %TODO: single role assumption?
 
@@ -426,7 +406,6 @@ backend=biber
         \end{itemize}
     \end{frame}
 
-    %TODO: is this background?
     %FROM ICSC 2020
     \subsection{The FDBR}
     \begin{frame}{\insertsection: \insertsubsection}
@@ -443,22 +422,6 @@ backend=biber
             \item First used by Frost et. al in 1989 \cite{frost1989constructing} to provide a denotation for binary transitive verbs in MS
         \end{itemize}
     \end{frame}
-
-
-%TODO: do I really want to try to categorize this stuff?
-%	\begin{frame}{\insertsection}
-%		\begin{itemize}
-%			\item The most popular approaches when dealing with NL involve using Machine Learning (ML)
-%			\item Many libraries and frameworks available to facilitate this
-%			\item ML is effective at dealing with a wide scope of queries %TODO
-%			\item But ML approaches have trouble when things get specific:
-%			\begin{itemize}
-%				\item \texttt{which person discovered a moon that spins in 1877 with a shiny telescope}
-%			\end{itemize}
-%			\item Various metrics to evaluate ML approaches: precision, accuracy, recall.. %TODO
-%			\item ML approaches try to classify the intent behind a query and present relevant information %TODO, need a citation for that
-%		\end{itemize}
-%	\end{frame}
 
     %FROM ICSC 2020
     \section{Original Contributions}
@@ -489,11 +452,9 @@ backend=biber
                 \item ``\texttt{who discovered the most moons that orbit jupiter}''
             \end{itemize}
             \item Ferré (SQUALL) in 2014 stated no NLQIs can handle this \cite{ferre2014squall}
-            %TODO
         \end{itemize}
     \end{frame}
 
-    %TODO: ensure consistent with paper
     \newcommand\biapply{\ensuremath{\mathbin{\ll\mkern-8mu*\mkern-8mu\gg}}}
     \subsection{Query Evaluation}
     \begin{frame}{\insertsection: \insertsubsection}
@@ -535,14 +496,12 @@ backend=biber
             \item The ``Getts'' semantics assigns a unique name to each subexpression of a query
             \item This can be used to re-use results from already evaluated sub-expressions, including in highly ambiguous queries
             \item Can also be used to compute and store FDBRs offline for faster retrieval
-            %TODO
         \end{itemize}
     \end{frame}
 
     \subsection{The $n^2 - n$ Functions Defined by an $n$-ary relation}
     \begin{frame}{\insertsection: \insertsubsection}
     \begin{itemize}
-        %TODO
         \item We've shown how to accommodate $n$-ary transitive verbs in a compositional manner
         \begin{itemize}
             \item The new idea: Convert $n$-ary relations to binary relations, then apply the existing FDBR machinery
@@ -581,7 +540,6 @@ backend=biber
         \end{itemize}
         \item This is owing to the triplestore querying primitives used by the Getts semantics allowing for independence from the triplestore query language itself
         %\item Single Role Assumption
-        %TODO
     \end{itemize}
     \end{frame}
 
@@ -601,21 +559,6 @@ backend=biber
         \end{itemize}
     \end{frame}
 
-%	\section{Our Contribution}
-%    \begin{frame}{\insertsection}
-%        \begin{itemize}
-%            \item The new contribution of this paper is that we can now accommodate negation in the semantics where the CWA holds.
-%            \item The new idea: The notion of the complement of an FDBR
-%            \begin{itemize}
-%                \item Track the cardinality of FDBRs and the cardinality of the set of all entities during a query
-%                \item Extend the FDBR operations (union, intersect) to support \texttt{ComplementFDBR}s
-%                \item Requires only the cardinality, not the actual complement, to evaluate many queries
-%                \item ``drop-in'' denotations for ``not'', ``no'', and ``non''
-%                \item Denotation for transitive verbs supporting superlatives, prepositional phrases, and negation
-%            \end{itemize}
-%            \item Integrates seamlessly with memoization framework described by Peelar in \cite{peelar2020webistjournal}
-%        \end{itemize}
-%    \end{frame}
 
 %    \begin{frame}{\insertsection}
 %    \begin{itemize}
@@ -695,10 +638,10 @@ backend=biber
 	\section{Future Work}
 	\begin{frame}{\insertsection}
 		\begin{itemize}
-            \item Our approach is now ready to be directly benchmarked against other NLQIs
+            \item Our approach is now ready to be directly evaluated against other NLQIs
             \begin{itemize}
                 \item Question Answering over Linked Data (QALD)
-                \item TREC %TODO
+                \item TREC
                 \item YAGO QA benchmark
             \end{itemize}
             \item Non-event based triplestores (Timbr.ai, OWL approaches)
@@ -880,32 +823,6 @@ backend=biber
             \end{itemize}
             \item In particular, it could be used to accommodate chained Prepositional Phrases, which was a common critique of MS approaches
         \end{itemize}
-    \end{frame}
-
-        %FROM ICSC 2020
-    \subsection{Event-based triplestores}
-    \begin{frame}{\insertsection: \insertsubsection}
-        \begin{itemize}
-            \item The {\em subject} of a triple is the URI of an \textit{event} in which something took place
-            \item Data is already {\em reified}, extra information directly accessible
-            \item Can add new columns and rows to a relation easily
-        \end{itemize}
-
-        Example (N-Triples format \cite{w3cntriples}, full URI omitted):
-        \begin{block}{}
-            \hspace{5em}\texttt{<event1045> <subject>\phantom{qqq}<hall> .}
-
-            \hspace{5em}\texttt{<event1045> <object>\phantom{qqqq}<phobos> .}
-
-            \hspace{5em}\texttt{<event1045> <type>\phantom{qqqqqq}<discover\_ev> .}
-
-            \hspace{5em}\texttt{<event1045> <year>\phantom{qqqqqq}<1877> .}
-
-            \hspace{5em}\texttt{<event1045> <location>\phantom{qq}<us\_naval\_observatory> .}
-
-            \hspace{5em}\texttt{<event1045> <implement>\phantom{q}<refractor\_telescope\_1> .}
-        \end{block}
-
     \end{frame}
 
     \subsection{Querying the Semantic Web}
@@ -1099,6 +1016,18 @@ backend=biber
 
     \end{frame}
 
+    %FROM ICSC 2020
+    \subsection{Project Goal}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            %TODO: do we even want to mention this stuff?
+            \item NLQIs may be {\em wide} or {\em narrow} in scope
+            \item Machine Learning is effective for {\em wide}-scoped interfaces
+            \item But how can we handle highly specific queries, such as: \texttt{how many moons that orbit a red planet were discovered by nicholson}?
+            \item The goal of this research is to produce a framework for NLQIs that can be used with expert systems and highly domain specific databases for precise {\em narrow} queries
+        \end{itemize}
+    \end{frame}
+
     \subsection{Montague’s treatment of transitive verbs}
     \begin{frame}{\insertsection: \insertsubsection}
         Transitive verbs are left uninterpreted until the rest of the phrase has been interpreted and reduced as far as possible.
@@ -1125,6 +1054,32 @@ backend=biber
             \item Coverage of English is limited to non-chained constructs
             \item ``Which author has affiliation...'', ``Which author is affiliated with...''
         \end{itemize}
+    \end{frame}
+
+    %FROM ICSC 2020
+    \subsection{Event-based triplestores}
+    \begin{frame}{\insertsection: \insertsubsection}
+        \begin{itemize}
+            \item The {\em subject} of a triple is the URI of an \textit{event} in which something took place
+            \item Data is already {\em reified}, extra information directly accessible
+            \item Can add new columns and rows to a relation easily
+        \end{itemize}
+
+        Example (N-Triples format \cite{w3cntriples}, full URI omitted):
+        \begin{block}{}
+            \hspace{5em}\texttt{<event1045> <subject>\phantom{qqq}<hall> .}
+
+            \hspace{5em}\texttt{<event1045> <object>\phantom{qqqq}<phobos> .}
+
+            \hspace{5em}\texttt{<event1045> <type>\phantom{qqqqqq}<discover\_ev> .}
+
+            \hspace{5em}\texttt{<event1045> <year>\phantom{qqqqqq}<1877> .}
+
+            \hspace{5em}\texttt{<event1045> <location>\phantom{qq}<us\_naval\_observatory> .}
+
+            \hspace{5em}\texttt{<event1045> <implement>\phantom{q}<refractor\_telescope\_1> .}
+        \end{block}
+
     \end{frame}
 
     \subsection{Blackburn and Bos approach to Transitive Verbs}
