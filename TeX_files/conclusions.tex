@@ -1,0 +1,28 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Conclusions}
+
+\section{Future Work}
+
+In the future we aim to support non event-based triplestores in addition
+to event-based triplestores and relational databases. In particular,
+we are interested in building a NLQI to DBPedia to directly evaluate
+our approach against other NLQIs to the Semantic Web.  We intend to
+conduct a formal user study to meet this goal, including using established
+benchmarks such as QALD-9 \cite{qald9} to conduct quantitative comparisons.
+
+
+\section{Conclusions}
+
+We have shown that a scalable, efficient, expressive and precise method for processing natural-language queries to the Semantic Web can be built using a Compositional Semantics (CS).  We have shown many features of English that are non-compositional can in fact be handled compositionally within a NLQI, addressing the Expressiveness and Precision aspects of the thesis statement.  This is owing to the use of a datastructure called the Function Defined by a Binary Relation (FDBR).  We have shown how it can be used to answer queries with traditionally ``non-compositional'' features in a CS such as those including superlatives, comparatives, $n$-ary transitive verbs and chained prepositional phrases.  Our approach is highly tolerant of both syntactic and semantic ambiguity.  We have also addressed how to accommodate negation in queries to triplestores where the Closed World Assumption holds.  As these features of our query processor are implemented compositionally, they can be combined in queries arbitrarily.
+
+We have described a framework for evaluating CS efficiently through the use of memoization, drastically improving query evaluation computational complexity.  This same framework provides a means to efficiently form a minimal set of queries of information needed from a triplestore to answer a query, critically keeping the event semantics distinct from the triplestore querying process itself.  This  allows the event semantics to be used with a wide variety of database query languages and paradigms such as SPARQL, Triple Pattern Fragments, and even SQL with relational databases.  This satisfies the Scalability and Efficiency aspects of the thesis statement.
+
+We have shown our approach can be used in highly power constrained environments.
+One area where our approach could be useful is in constructing NLQIs to the Internet of Things.
+This could substantially benefit users with certain disabilities, providing modalities such as speech and text to common household items that otherwise may not be very accessible.  We have also shown
+that our approach is able to be used directly in the web browser, where there are no intermediate servers required to process a Semantic Web NL query.  This could be seen as a first step towards treating the Semantic Web as an accessible extension of the World Wide Web.
+
+\end{document}

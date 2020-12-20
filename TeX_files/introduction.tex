@@ -15,16 +15,16 @@
 
     In 2014, although I wasn't formally credited, I helped contribute to a paper that was published at the ESWC \cite{frost2014demonstration}.  I developed the query program that Dr. Frost used in his demonstration at the conference.  The main reason I wasn't credited was that I joined the research group after the paper itself had been submitted.
 
-    In 2016, I completed my Master's degree with Dr. Frost as my supervisor.  My task was to extend the English coverage of the NLQI with chained prepositional phrases.  In doing so, I discovered that the word ``by'' as in ``discovered by'' could be treated in the same way as a preposition, simplifying the grammar and the semantics while also allowing more flexible queries.
+    In 2016, I completed my Master's degree with Dr. Frost as my supervisor.  My task was to extend the English coverage of the NLQI with chained prepositional phrases.  In doing so, I discovered that the word ``by'' as in ``discovered by'' could be treated in the same way as a preposition, simplifying the grammar and the semantics while also allowing for more flexible queries.
 
     In 2017, I began my Doctoral studies aiming at bringing the SpeechWeb to the Semantic Web.
-    This would require both improving the time complexity of query evaluation within the semantics, and also enhancing the query interface with an even broader coverage of English.  It would also require allowing the NLQI to run on a wide variety of devices, including those with low power requirements and using the semantics with non-event based triplestores.  During this year, Eric Matthews, a fellow graduate student at the University of Windsor, completed his Master's degree thanked me in his This Report for helping him write his thesis \cite{matthews2017passive}.
+    This would require both improving the time complexity of query evaluation within the semantics, and also enhancing the query interface with an even broader coverage of English.  It would also require allowing the NLQI to run on a wide variety of devices, including those with low power requirements and using the semantics with non-event based triplestores.  During this year, Eric Matthews, a fellow graduate student at the University of Windsor, completed his Master's degree thanked me in his Thesis Report for helping him write his thesis \cite{matthews2017passive}.
 
     I explored multiple avenues towards solving the problem.  I learned about heterogeneous computing and became involved with the Khronos Group OpenCL Working Group with my colleague Paul Preney at the University of Windsor.  We published a poster paper at IWOCL 2017 that dealt with extending build systems for heterogeneous OpenCL applications.  We were both credited in the OpenCL 2.2 specification released that year \cite{khronos2018opencl}.
 
     Pursuing heterogeneous computing, at the end of 2017, I obtained an OCE TalentEdge Academic Internship to develop a simulator for Additive Manufacturing processes.  I published a paper on leveraging heterogeneous computing for accelerating simulations for these applications in 2018 at CAD Conference in Paris \cite{peelar2018toolpath}.  There, I was invited to submit a full paper to the CAD and Applications Journal which was subsequently published in 2019 \cite{peelar2019real}.  The work is featured in the software APlus which is used by companies around the world for Additive Manufacturing applications.
 
-    The mathematics behind developing 3D Printing simulations and Natural Language processing are dissimilar, however, many of the techniques for accelerating computations those applications using devices such as GPUs are the same.  In particular, I learned a lot about making programs efficient at the microarchitectural level using techniques such as SIMD vectorization and using efficient data layouts. Although no papers in this dissertation use heterogeneous computing themselves, notes are made in the Future Work sections of each paper presented where specialized hardware could be used to accelerate certain computations required by the semantics.  In particular, FPGAs, a form of reprogrammable hardware, could be used to accelerate the construction of the FDBR, a datastructure central to the thesis.
+    The mathematics behind developing 3D Printing simulations and Natural Language processing are dissimilar, however, many of the techniques for accelerating computations those applications using devices such as GPUs are the same.  In particular, I learned a lot about making programs efficient at the microarchitectural level using techniques such as SIMD vectorization and using efficient data layouts. Although none of the papers in this dissertation use heterogeneous computing, notes are made in the Future Work sections of each paper presented where specialized hardware could be used to accelerate certain computations required by the semantics.  In particular, FPGAs, a form of reprogrammable hardware, could be used to accelerate the construction of the FDBR, a datastructure central to the thesis.
 
     Using the microarchitectural-level insight I had gained from this research track, I was able to successfully get the Haskell demo from my Master's thesis running on a low power consumer network router and I realized that the work would be appropriate for Internet of Things (IoT) applications.
     As we pursued this avenue in the course of my studies, Dr. Frost and I published in both conferences and journals.  My contributions to those papers are described as follows:
@@ -71,10 +71,6 @@
 \label{chapter:intro}
 
 %INTRODUCTION:
-
-%TODO
-
-%TODO: need to mention WebAssembly-powered interface
 
 The Internet of Things (IoT) is an emerging phenomenon in the public space.  Remotely controlled lights,
 voice assistants connected directly to powerful search engines, and refrigerators that can predict
@@ -140,7 +136,7 @@ This dissertation contains five papers that address the problem of creating Natu
 
 \vspace{0.5em}
 
-This dissertation describes research that proves the thesis. The research was originally published in refereed conference and journal papers that are summarized in Chapters \ref{chapter:nliwod2018conf} through \ref{chapter:webist2020conf}. The rest of this chapter introduces the papers above with related background information.
+This dissertation describes research that proves the thesis. The research was originally published in refereed conference and journal papers that are reproduced in Chapters \ref{chapter:nliwod2018conf} through \ref{chapter:webist2020conf}. The rest of this chapter introduces the papers above along with their novel contributions and related background information.
 
 Please see \hyperref[appendix:b]{Appendix B} for a list of all 10 papers related to this Thesis that I authored or co-authored.
 
@@ -150,7 +146,7 @@ Rather than prove the thesis statement mathematically, I have chosen to build an
 proves that the thesis is correct.  It can be found at the following URL:
 
 \begin{center}
-    \url{https://speechweb2.cs.uwindsor.ca/solarman4/demo_sparql.html}
+    \url{https://speechweb2.cs.uwindsor.ca/solarman/demo_sparql.html}
 \end{center}
 Additionally, a version that runs entirely within the web browser is available at
 the following URL:
@@ -159,6 +155,13 @@ the following URL:
 \end{center}
 A list of example queries is provided on both websites and in the papers presented in this report.
 Both interfaces are speech enabled -- simply click on the microphone icon to activate it.
+
+\section{Limitations}
+
+Our approach is currently geared towards expert systems and domain-specific applications. Although it
+maintains a very wide coverage of English in queries, it is intended to be used in curated knowledge bases where there is a high degree of certainty about the correctness of the contained information.  One property of our approach is that the answer is as correct as what is contained within the databases themselves.  Our approach has not yet been formally evaluated against other NLQIs -- we provide only qualitative comparisons with other NLQIs in this dissertation.
+
+Note that while our demonstration uses our ``Solarman'' knowledge base to answer NL queries about the solar system, the semantics as presented are highly general and could be adapted to many different types of knowledge bases.  One would need to understand the domain-specific aspects of those knowledge bases and provide a vocabulary to facilitate this.  For example, with respect to a medical knowledge base, one could answer the query ``Does $X$ contraindicate $Y$?'', where $X$ and $Y$ are names of drugs, by using our denotation for transitive verbs as the denotation of ``contraindicate'' and selecting the relation underlying that verb as appropriate.  This applies to all other syntactic categories as well.
 
 \section{An Extensible Natural-Language Query Interface to an Event-Based Semantic Web Triplestore}
 
@@ -216,9 +219,7 @@ how the semantics can be readily adapted to relational databases.  This paper wa
 \textbf{\Cref{chapter:webist2019journal}} contains a paper that describes how to adapt our semantics
 to relational databases.  It provides a full treatment of the application architecture of our query interface, and discusses strategies for handling both syntactic and semantic ambiguity in the returned results over both speech and text modalities.  It also describes how the semantics are memoized to improve their computational complexity and discusses that framework enables FDBRs to be precomputed and cached offline for fast retrieval.
 
-One of the key ideas behind this paper is to memoize the semantics by using the expression tree obtained from the query itself.  Each expression is uniquely named and the results cached from the triplestore, drastically reducing the number of calculations that need to be performed during a query.  The same architecture can be used to cache and generate FDBRs offline for fast retrieval later.  It addresses both the efficiency and scalability aspects of the thesis statement.
-
-%TODO: the final hurdles for scaling down AND scaling up... Linksys router
+One of the key ideas behind this paper is to memoize the semantics by using the expression tree obtained from the query itself.  Each expression is uniquely named and the results are cached from the triplestore, drastically reducing the number of evaluations that need to be performed during a query.  The same architecture can be used to cache and generate FDBRs offline for fast retrieval later.  It addresses both the efficiency and scalability aspects of the thesis statement.
 
 We were invited to submit this paper to the WEBIST Springer Journal and it has been accepted for publication.
 
@@ -228,9 +229,14 @@ We were invited to submit this paper to the WEBIST Springer Journal and it has b
 within the semantics.  This conference paper was presented at WEBIST 2020.
 The key idea behind this paper is to track cardinality throughout the semantics by introducing
 a new triplestore querying primitive to obtain the cardinality of the triplestore.  Negation
-in general only holds if the Closed World Assumption can be satisfied.  Where it cannot, the
-denotations for ``not'', ``non'', and ``no'' can be omitted, restoring the Open World Assumption
-that underlies the Semantic Web.  This allows our approach to be used in expert systems and domain-specific applications where Semantic Web technologies are in use and where the Closed World Assumption holds.
+in general only holds if the \textit{Closed World Assumption} can be satisfied.  Informally, the Closed World Assumption can be characterized by the statement:
+
+{\hfil ``\textit{The absence of evidence can be assumed as being evidence of absence}''. \hfil}
+
+For example, if a particular entity $p$ is not explicitly stated as being a member of the ``person'' set, then it can be assumed that $p$ is not a member of that set.  The \textit{Open World Assumption} on the other hand does not assume this statement to be true.  In the previous example, this would mean that $p$ cannot be assumed as not being a member of the ``person'' set unless there is an explicit statement of non-membership elsewhere in the database.
+
+RDF itself is built on the Open World Assumption, however certain domain-specific triplestores may have enough information such that the Closed World Assumption is valid for that triplestore.  Where it is not, the denotations for ``not'', ``non'', and ``no'' can be omitted, restoring the Open World Assumption
+that underlies the Semantic Web.  This flexibility allows our approach to be used in expert systems and domain-specific applications where either assumption is appropriate.
 
 \section{Notation}
 
@@ -243,13 +249,11 @@ In addition to standard Lambda Calculus and set-theory notation, the following n
     \item $\wordset{x}$ is the set of all entities that are members of $x$
     \item $\wordpred{x}$ the logical predicate associated with the word $x$
     \item $\wordfdbr{x}$ is the FDBR of all entities that are members of $x$ (a datastructure first introduced in \Cref{chapter:nliwod2018conf})
-    \item Queries are written in ``\texttt{monospaced}'' font
+    \item Queries are written in a \texttt{monospaced} font
     \item \property{property} is used to denote a property, role, or type of an event.
     \item \textit{name} is used to indicate query results and objects in the real world.
 \end{itemize}
 For example, $\entity{phobos}$ is the mathematical object representing \textit{phobos}, a moon that orbits Mars.
-
-%TODO: definitions?  perhaps get them up front
 
 %\pagebreak
 \printbibliography[heading=subbibintoc]

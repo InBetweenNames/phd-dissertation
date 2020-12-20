@@ -335,8 +335,8 @@ on the verb voice, along with the event type that corresponds to the underlying 
 
 We have integrated a Montague-like \cite{Dowty:wall} compositional semantics with our own
 version of event semantics. There has been much debate by linguists concerning the viability of integrating
-compositional and event semantics, particularly with respect to quantifier scope (see for example, Champollion
-\cite{champollion2015interaction} who argues that analysis of quantifier scope does not pose any special problems in
+compositional and event semantics, particularly with respect to quantifier scope. For example, Champollion
+\cite{champollion2015interaction} argues that analysis of quantifier scope does not pose any special problems in
 an event semantic framework and presents an implementation of a quantificational event semantics that
 combines with standard treatments of scope-taking expressions in a well-behaved way.
 The following examples in subsection \ref{ext:examplequeries}, which have been tested with our interface, suggest that our approach
@@ -356,7 +356,7 @@ function $\operatorname{f\_orbit}_{\opit{subject} \rightarrow \opit{object}}$ fr
 denotation of ``\texttt{mars}'' is then applied by the function denoted by ``\texttt{orbit}'' to all sets of objects that are in
 the range of the function $\operatorname{f\_orbit}_{\opit{subject} \rightarrow \opit{object}}$. This returns the set of subjects that orbit Mars. Then, This set is
 intersected with the set of all moons that were discovered with a telescope (which is computed using
-the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{implements}}$).The set resulting from this intersection is then passed as the first
+the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{implements}}$). The set resulting from this intersection is then passed as the first
 argument to the denotation of ``\texttt{every}''. The second argument to $\meaningof{every}$ is the set obtained by
 evaluating the phrase ``\texttt{discovered by a person}'' which is computed by use of the function $\operatorname{f\_discover}_{\opit{object} \rightarrow \opit{subject}}$ from objects discovered to subjects who discovered them. The function that is the denotation of ``\texttt{a
 person}'' is applied by the function denoted by ``\texttt{discover}'' to all sets of subjects that are in the range of
@@ -409,8 +409,7 @@ Our approach appears to be consistent with the ``Scope Domain Principle'' descri
 quantificational noun phrases must take scope over the event argument. For example, in our semantics,
 the answer to the query ``\texttt{hall discovered every moon}'' is computed by checking to see if, for every moon
 $m$, there exists an event of type discovery, with subject Hall and object $m$. Our approach does not
-compute the answer to ``cumulative'' readings of queries such as ``\texttt{which moons were discovered by two
-telescopes(used simultaneously)}''.
+compute the answer to ``cumulative'' readings of queries such as ``\texttt{who discovered a moon with two telescopes (used simultaneously)}''.
 
 \subsection{Example Queries Illustrating the Scoping of Chained Prepositional Phrases}
 
@@ -437,7 +436,7 @@ moons, but did not discover any one moon with two telescopes (see queries g to i
 
 \item \examplequerynl{what did nicholson discover with two telescopes}{sinope lysithea carme ananke}
 
-\item \examplequery{which moon was discovered by nicholson with two telescopes}{none}
+\item \examplequerynl{which moon was discovered by nicholson with two telescopes}{none}
 
 \item \examplequerynl{which moon was discovered by nicholson with one telescope}{ananke carme lysithea sinope}
 
