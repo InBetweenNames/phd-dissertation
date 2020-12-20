@@ -43,7 +43,7 @@ This lends itself to a direct implementation of Montague-style integration of sy
 \label{icsc2020conf:prot}
 
 The pure functional programming language Haskell was used to build a prototype NL interface to a
-semantic web triplestore.  It can be accessed by via this URL: \\
+semantic web triplestore.  It can be accessed at this URL: \\
 
 {\small \url{http://speechweb2.cs.uwindsor.ca/solarman4/demo_sparql.html}} \\
 
@@ -400,7 +400,14 @@ This approach currently is only viable for databases with tens of thousands of f
 
 \subsection{Negation}
 
-The semantics described in this paper use the Open World Assumption and hence do not support negation.  Work has been done on event-based semantics that support negation \cite{champollion2010quantification} in environments where the Closed World Assumption holds. It may be possible to use similar techniques to provide a drop-in denotation for ``\texttt{not}'' and ``\texttt{no}'', supporting negation in our semantics as well.
+Negation in general only holds if the \textit{Closed World Assumption} can be satisfied.  Informally, the Closed World Assumption can be characterized by the statement:
+
+{\hfil ``\textit{The absence of evidence can be assumed as being evidence of absence}''. \hfil} \\
+The \textit{Open World Assumption} on the other hand assumes the converse of the statement above.
+For example, if a particular entity $p$ is not explicitly stated as being a member of the ``person'' set, then under the Closed World Assumption it can be assumed that $p$ is not a member of that set.  On the other hand, under the Open World Assumption, the only way to conclude $p$ is not a member of the ``person'' set is if it is explicitly stated in the database.
+
+The semantics described in this paper use the Open World Assumption and hence do not support negation.
+Work has been done on event-based semantics that support negation \cite{champollion2010quantification} in environments where the Closed World Assumption holds. It may be possible to use similar techniques to provide a drop-in denotation for ``\texttt{not}'' and ``\texttt{no}'', supporting negation in our semantics as well.
 
 %%%
 

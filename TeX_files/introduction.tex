@@ -24,7 +24,7 @@
 
     Pursuing heterogeneous computing, at the end of 2017, I obtained an OCE TalentEdge Academic Internship to develop a simulator for Additive Manufacturing processes.  I published a paper on leveraging heterogeneous computing for accelerating simulations for these applications in 2018 at CAD Conference in Paris \cite{peelar2018toolpath}.  There, I was invited to submit a full paper to the CAD and Applications Journal which was subsequently published in 2019 \cite{peelar2019real}.  The work is featured in the software APlus which is used by companies around the world for Additive Manufacturing applications.
 
-    The mathematics behind developing 3D Printing simulations and Natural Language processing are dissimilar, however, many of the techniques for accelerating computations those applications using devices such as GPUs are the same.  In particular, I learned a lot about making programs efficient at the microarchitectural level using techniques such as SIMD vectorization and using efficient data layouts. Although none of the papers in this dissertation use heterogeneous computing, notes are made in the Future Work sections of each paper presented where specialized hardware could be used to accelerate certain computations required by the semantics.  In particular, FPGAs, a form of reprogrammable hardware, could be used to accelerate the construction of the FDBR, a datastructure central to the thesis.
+    Although the mathematics behind developing 3D Printing simulations and Natural Language Processing applications are dissimilar, both benefit from the same High Performance Computing techniques for implementing and accelerating them.  In particular, I learned a lot about making programs efficient at the microarchitectural level using techniques such as SIMD vectorization and using efficient data layouts. Although none of the papers in this dissertation use heterogeneous computing, notes are made in the Future Work sections of each paper presented where specialized hardware could be used to accelerate certain computations required by the semantics.  In particular, FPGAs, a form of reprogrammable hardware, could be used to accelerate the construction of the FDBR, a datastructure central to the thesis.
 
     Using the microarchitectural-level insight I had gained from this research track, I was able to successfully get the Haskell demo from my Master's thesis running on a low power consumer network router and I realized that the work would be appropriate for Internet of Things (IoT) applications.
     As we pursued this avenue in the course of my studies, Dr. Frost and I published in both conferences and journals.  My contributions to those papers are described as follows:
@@ -41,7 +41,7 @@
     In November 2020, we presented our latest paper at WEBIST \cite{peelarfrostwebist2020}.  Our WEBIST 2020 paper describes how to accommodate negation in our semantics for applications where the Closed World Assumption holds.  Denotations for words entailing negation, such as ``not'', ``non'' and ``no'', are presented along with a denotation for transitive verbs that can handle negated expressions.  Notably, the denotations for ``no'', ``non'' and ``not'' can be omitted to restore the Open World Assumption where appropriate.
     My contributions to this paper include the modifications to the semantics to accommodate negation, including integrating negation with the architecture presented in the WEBIST Springer Journal paper, the denotation for ``not'', and the example queries given.
 
-    As of October 2020, we have successfully compiled the Haskell implementation the semantics to WebAssembly such that it can be run directly in web browsers without any intermediary servers.  The goal of this is to allow your web browser to communicate directly with Semantic Web triplestores as though they were ordinary websites served over HTTP.  Currently, a version of the query interface is available that does this with event-based triplestores.  We aim to publish our approach in a functional programming conference as we believe it to be a useful method to create Natural Language Query Interfaces directly in the web browser.
+    As of October 2020, we have successfully embedded the semantics directly within the web browser to remove the need of intermediary servers to process queries.  The goal of this is to allow your web browser to communicate directly with Semantic Web triplestores as though they were ordinary websites served over HTTP.  Currently, a version of the query interface is available that does this with event-based triplestores.  We aim to publish our approach in a functional programming conference as we believe it to be a useful method to create Natural Language Query Interfaces directly in the web browser.
 
     We have also gained industry interest in crossing the gap to non event-based triplestores using Machine Learning approaches \cite{timbr}.  Our next goal is to combine the techniques developed above to query DBPedia with our semantics by leveraging a Machine Learning approach to perform reification on the non-event based triples.  This will allow us to directly benchmark our approach against other query interfaces.
 
@@ -96,7 +96,7 @@ a Semantic Web triplestore needs to be made to satisfy it.  For domain-specific 
 where confidentiality is important, the server can be maintained entirely within that environment
 under the user's control.
 
-Our approach relies on a memoized event-based Compositional Semantics supporting complex linguistic structures such as prepositional phrases, superlatives, and negation.  It is \textit{scalable}, in that
+Our approach relies on a memoized event-based Compositional Semantics (CS) supporting complex linguistic structures such as prepositional phrases, superlatives, and negation.  It is \textit{scalable}, in that
 the architecture can scale from both small to very large triplestores.  It is \textit{efficient}, in that
 it can run on low power hardware.  It is \textit{expressive}, capable of handling queries with many complex linguistic features, and finally it is \textit{precise}, as it is based on a Compositional Semantics,
 where the answers returned are as correct as the information retrieved from the triplestore.
@@ -154,12 +154,30 @@ the following URL:
     \url{https://speechweb2.cs.uwindsor.ca/solarman-wasm/}
 \end{center}
 A list of example queries is provided on both websites and in the papers presented in this report.
-Both interfaces are speech enabled -- simply click on the microphone icon to activate it.
+
+\subsection{Speech support}
+Both interfaces are speech enabled -- simply click on the microphone icon to the left of the query box and speak a question into your microphone.  You may need to give Solarman permission to access your microphone -- if this is the case, click ``Allow'' on the prompt that appears. After speaking,
+the system will automatically perform the query and use synthesized speech to read the result aloud
+back to you.  For example, try pressing the microphone button and speaking ``\texttt{who discovered a moon that orbits mars}'' into your microphone -- you should hear back the answer ``\texttt{hall}'' from the NLQI.  Supporting web browsers include Mozilla Firefox and Google Chrome-based browsers at this time, including Microsoft Edge.  Internet Explorer is not supported.
+
+\section{Novel Contributions}
+
+We have made several novel contributions while researching the Thesis Statement.  They are outlined below:
+\begin{itemize}
+    \item A denotation for $n$-ary transitive verbs in a CS
+    \item A denotation for superlatives and comparatives such as ``most'' and ``the most''
+    \item How the FDBR datastructure can be used to accommodate queries with ``non-compositional'' features in a CS for a NLQI
+    \item A memoized query evaluation framework for efficiently evaluating NL queries to a triplestore using a CS
+    \item A mapping between event-based triplestores and relational databases, and how our event semantics can handle both types of databases
+\end{itemize}
+These contributions are described in more detail in the following chapters of this dissertation.
 
 \section{Limitations}
 
 Our approach is currently geared towards expert systems and domain-specific applications. Although it
-maintains a very wide coverage of English in queries, it is intended to be used in curated knowledge bases where there is a high degree of certainty about the correctness of the contained information.  One property of our approach is that the answer is as correct as what is contained within the databases themselves.  Our approach has not yet been formally evaluated against other NLQIs -- we provide only qualitative comparisons with other NLQIs in this dissertation.
+maintains a very wide coverage of English in queries, it is intended to be used in curated knowledge bases where there is a high degree of certainty about the correctness of the contained information.  One property of our approach is that the answer is as correct as what is contained within the databases themselves.  Our approach has not yet been formally evaluated against other NLQIs -- we provide only qualitative comparisons with other NLQIs in this dissertation. In our approach, a URI identifies an entity or an event uniquely within the universe of discourse.  In this thesis we have used URIs which identify entities uniquely within this Windsor project.
+
+Currently, numerical quantifiers such as ``one'', ``two'' depend upon the Single Role Assumption, where an event may have at most one entity fulfilling a particular role.
 
 Note that while our demonstration uses our ``Solarman'' knowledge base to answer NL queries about the solar system, the semantics as presented are highly general and could be adapted to many different types of knowledge bases.  One would need to understand the domain-specific aspects of those knowledge bases and provide a vocabulary to facilitate this.  For example, with respect to a medical knowledge base, one could answer the query ``Does $X$ contraindicate $Y$?'', where $X$ and $Y$ are names of drugs, by using our denotation for transitive verbs as the denotation of ``contraindicate'' and selecting the relation underlying that verb as appropriate.  This applies to all other syntactic categories as well.
 
@@ -231,8 +249,7 @@ The key idea behind this paper is to track cardinality throughout the semantics 
 a new triplestore querying primitive to obtain the cardinality of the triplestore.  Negation
 in general only holds if the \textit{Closed World Assumption} can be satisfied.  Informally, the Closed World Assumption can be characterized by the statement:
 
-{\hfil ``\textit{The absence of evidence can be assumed as being evidence of absence}''. \hfil}
-
+{\hfil ``\textit{The absence of evidence can be assumed as being evidence of absence}''. \hfil} \\
 For example, if a particular entity $p$ is not explicitly stated as being a member of the ``person'' set, then it can be assumed that $p$ is not a member of that set.  The \textit{Open World Assumption} on the other hand does not assume this statement to be true.  In the previous example, this would mean that $p$ cannot be assumed as not being a member of the ``person'' set unless there is an explicit statement of non-membership elsewhere in the database.
 
 RDF itself is built on the Open World Assumption, however certain domain-specific triplestores may have enough information such that the Closed World Assumption is valid for that triplestore.  Where it is not, the denotations for ``not'', ``non'', and ``no'' can be omitted, restoring the Open World Assumption
